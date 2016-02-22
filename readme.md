@@ -1,27 +1,44 @@
-# Laravel PHP Framework
+Introduction
+------------
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+LibreNMS is an autodiscovering PHP/MySQL/SNMP based network monitoring
+which includes support for a wide range of network hardware and operating
+systems including Cisco, Linux, FreeBSD, Juniper, Brocade, Foundry, HP and
+many more.  LibreNMS is a community-based fork of [Observium][9].
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+We intend LibreNMS to be a viable project and community that:
+- encourages contribution,
+- focuses on the needs of its users, and
+- offers a welcoming, friendly environment for everyone.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+The [Debian Social Contract][10] will be the basis of our priority system,
+and mutual respect is the basis of our behaviour towards others.  For more
+about the culture we're trying to build, please read the [Freenode
+philosophy][13], including [guidelines for running an IRC channel][6] and
+[being a community catalyst][7].
 
-## Official Documentation
+License
+-------
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+Copyright (C) 2013-2016 by individual LibreNMS contributors
 
-## Contributing
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-## Security Vulnerabilities
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+[LICENSE][14] contains a copy of the full GPLv3 licensing conditions.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+[6]: http://freenode.net/channel_guidelines.shtml "Freenode channel guidelines"
+[7]: http://freenode.net/catalysts.shtml "Freenode community catalysts"
+[10]: http://www.debian.org/social_contract "Debian project social contract"
+[13]: http://freenode.net/philosophy.shtml "Freenode philosophy"
+[14]: https://github.com/librenms/librenmsv2/tree/master/LICENSE
