@@ -1,5 +1,5 @@
 install:
-   - composer update
+  - travis_retry composer install --no-interaction --prefer-source
 
 language: php
 php:
@@ -7,7 +7,13 @@ php:
   - '5.6'
   - '7.0'
   - hhvm
-  - nightly
+
+matrix:
+  allow_failures:
+    - php: 7.0
 
 services:
   - mysql
+
+before_script:
+  - git reset --hard HEAD
