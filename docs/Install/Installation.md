@@ -35,52 +35,10 @@ Now you will need to create your web server config.
 
 | Distro  | Web Server  | Config  |
 |---|---|---|
-| CentOS / RHEL | Apache 2.2.17 or lower  | <VirtualHost *:80>
-  DocumentRoot /opt/librenms/html/
-  ServerName  librenms.example.com
-  CustomLog /opt/librenms/logs/access_log combined
-  ErrorLog /opt/librenms/logs/error_log
-  AllowEncodedSlashes On
-  <Directory "/opt/librenms/html/">
-    AllowOverride All
-    Options FollowSymLinks MultiViews
-  </Directory>
-</VirtualHost>  |
-| CentOS / RHEL | Apache 2.2.18 or later  | <VirtualHost *:80>
-  DocumentRoot /opt/librenms/html/
-  ServerName  librenms.example.com
-  CustomLog /opt/librenms/logs/access_log combined
-  ErrorLog /opt/librenms/logs/error_log
-  AllowEncodedSlashes NoDecode
-  <Directory "/opt/librenms/html/">
-    AllowOverride All
-    Options FollowSymLinks MultiViews
-    Require all granted
-  </Directory>
-</VirtualHost>  |
-| Ubuntu / Debian | Apache 2.2.17 or lower  | <VirtualHost *:80>
-  DocumentRoot /opt/librenms/html/
-  ServerName  librenms.example.com
-  CustomLog /opt/librenms/logs/access_log combined
-  ErrorLog /opt/librenms/logs/error_log
-  AllowEncodedSlashes On
-  <Directory "/opt/librenms/html/">
-    AllowOverride All
-    Options FollowSymLinks MultiViews
-  </Directory>
-</VirtualHost>  |
-| Ubuntu / Debian | Apache 2.2.18 or later  | <VirtualHost *:80>
-  DocumentRoot /opt/librenms/html/
-  ServerName  librenms.example.com
-  CustomLog /opt/librenms/logs/access_log combined
-  ErrorLog /opt/librenms/logs/error_log
-  AllowEncodedSlashes NoDecode
-  <Directory "/opt/librenms/html/">
-    AllowOverride All
-    Options FollowSymLinks MultiViews
-    Require all granted
-  </Directory>
-</VirtualHost>  |
+| CentOS / RHEL | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2217.txt)  |
+| CentOS / RHEL | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2218.txt)  |
+| Ubuntu / Debian | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2217.txt)   |
+| Ubuntu / Debian | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2218.txt)   |
 
 Now restart the web server.
 
