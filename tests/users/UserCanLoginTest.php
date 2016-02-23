@@ -22,4 +22,10 @@ class UserCanLoginTest extends TestCase
              ->visit('/')
              ->see('Dashboard');
     }
+
+    public function testLoggingOut()
+    {
+        $this->click('Logout')
+             ->seePageIs('/logout');
+    }
 }
