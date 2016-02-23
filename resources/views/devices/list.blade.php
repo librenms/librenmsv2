@@ -26,7 +26,13 @@
             <tbody>
                 @foreach ($devices as $device)
                 <tr>
-                    <td>{!! $device->visual_status !!}</td>
+                    <td>
+                    @if ($device->status === 0)
+                        <span class="label label-danger">{{ $device->status_reason }}</span>
+                    @else
+                        <span class="label label-success">up</span>
+                    @endif
+                    </td>
                     <td>{{ $device->hostname }}</td>
                     <td>{{ $device->os }}</td>
                     <td>{{ $device->status }}</td>
