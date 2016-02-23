@@ -20,4 +20,4 @@ before_script:
   - git reset --hard HEAD
   - cp .env.example .env
   - php artisan key:generate
-  - php artisan migrate:install --no-interaction -vvv
+  - php artisan migrate:install --env=testing --no-interaction -vvv
