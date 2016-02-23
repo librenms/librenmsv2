@@ -9,6 +9,9 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
+        <testsuite name="Initial Setup">
+            <directory>./tests/</directory>
+        </testsuite>
         <testsuite name="Users tests">
             <directory>./tests/users/</directory>
         </testsuite>
