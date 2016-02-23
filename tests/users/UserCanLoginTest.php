@@ -12,21 +12,45 @@ class UserCanLoginTest extends TestCase
      *
      * @return void
      */
+
+
     public function testLoggingInAsUser()
     {
-
-        $user = factory(User::class)->create(['username' => 'johndoe']);
-
+        $user = factory(User::class)->create();
         $this->actingAs($user)
-             ->withSession(['foo' => 'bar'])
              ->visit('/')
              ->see('Dashboard');
     }
 
     public function testLoggingOut()
     {
-        $this->visit('/')
+        $user = factory(User::class)->create();
+        $this->actingAs($user)
+             ->visit('/')
              ->click('Logout')
-             ->seePageIs('/logout');
+             ->seePageIs('/login');
     }
+
+    public function testLoginFormFail()
+    {
+        // Try logging in with no credentials
+        $this->visit('/login')
+             ->press('submit')
+             ->see('has-error');
+    }
+
+    public function testManualLogin()
+    {
+        $password = str_random(10);
+        $user = factory(User::class)->create([
+            'password' => bcrypt($password),
+        ]);
+        $this->visit('/login')
+             ->type($user->username,'username')
+             ->type($password,'password')
+             ->check('remember')
+             ->press('submit')
+             ->seePageIs('/');
+    }
+
 }
