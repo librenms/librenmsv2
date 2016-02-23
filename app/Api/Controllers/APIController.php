@@ -26,6 +26,7 @@ class ApiController extends Controller
                 ->get();
         }
 
+        $devices = array();
         foreach ($tmp_devices as $device) {
             if ($device->status == 0) {
                 $visual_status = 'danger';

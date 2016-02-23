@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/librenms/librenmsv2.svg?branch=develop)](https://travis-ci.org/librenms/librenmsv2)
 [![Build Status](https://travis-ci.org/librenms/librenmsv2.svg?branch=master)](https://travis-ci.org/librenms/librenmsv2)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/librenms/librenmsv2/badges/quality-score.png)](https://scrutinizer-ci.com/g/librenms/librenmsv2/badges/quality-score.png)
 
 Introduction
 ------------
