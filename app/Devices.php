@@ -18,7 +18,9 @@ class Devices extends Model
 
     public function getIpAttribute( $ip )
     {
-        return inet_ntop( $ip );
+        if (!empty($ip)){
+            return inet_ntop( $ip );
+        }
     }
 
     public function setIpAttribute( $ip )
@@ -35,4 +37,3 @@ class Devices extends Model
         return $this->belongsToMany('App\User', 'devices_perms', 'device_id', 'user_id');
     }
 }
-
