@@ -16,4 +16,5 @@ services:
   - mysql
 
 before_script:
+  - mysql -e 'create database phpunit_librenms;'
   - git reset --hard HEAD
