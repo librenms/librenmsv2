@@ -35,10 +35,10 @@ Now you will need to create your web server config.
 
 | Distro  | Web Server  | Config  |
 |---|---|---|
-| CentOS / RHEL | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2217.txt)  |
-| CentOS / RHEL | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2218.txt)  |
-| Ubuntu / Debian | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2217.txt)   |
-| Ubuntu / Debian | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/laf/librenmsv2/develop/docs/_configs/apache_2218.txt)   |
+| CentOS / RHEL | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2217.txt)  |
+| CentOS / RHEL | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2218.txt)  |
+| Ubuntu / Debian | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2217.txt)   |
+| Ubuntu / Debian | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2218.txt)   |
 
 Now restart the web server.
 
