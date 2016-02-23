@@ -25,7 +25,8 @@ class UserCanLoginTest extends TestCase
 
     public function testLoggingOut()
     {
-        $this->click('Logout')
+        $this->visit('/')
+             ->click('Logout')
              ->seePageIs('/logout');
     }
 }
