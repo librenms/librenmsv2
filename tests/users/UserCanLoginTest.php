@@ -23,6 +23,6 @@ class UserCanLoginTest extends TestCase
         $this->actingAs($user)
              ->withSession(['foo' => 'bar'])
              ->visit('/')
-             ->see('Dashboardd');
+             ->see('Dashboard');
     }
 }
