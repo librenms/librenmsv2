@@ -18,7 +18,7 @@ class Devices extends Model
 
     public function getIpAttribute($ip)
     {
-        if (!empty($ip)){
+        if (!empty($ip)) {
             return inet_ntop($ip);
         }
     }
