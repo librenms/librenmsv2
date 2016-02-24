@@ -30,136 +30,322 @@
                 <header class="main-header">
                     <!-- Logo -->
                     <a href="{{ url('/') }}" class="logo">
-                      <!-- mini logo for sidebar mini 50x50 pixels -->
-                      <span class="logo-mini"><i class="fa fa-home"></i></span>
-                      <!-- logo for regular state and mobile devices -->
-                      <span class="logo-lg"><b>Libre</b>NMS</span>
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                        <span class="logo-mini"><i class="fa fa-home"></i></span>
+                        <!-- logo for regular state and mobile devices -->
+                        <span class="logo-lg"><b>Libre</b>NMS</span>
                     </a>
                     <!-- Header Navbar: style can be found in header.less -->
                     <nav class="navbar navbar-static-top" role="navigation">
-                      <!-- Sidebar toggle button-->
-                      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </a>
-
-                      <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                          <!-- Notifications: style can be found in dropdown.less -->
-                          <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                              <i class="fa fa-bell-o"></i>
-                              <span class="label label-warning">10</span>
-                            </a>
-                            <ul class="dropdown-menu">
+                        <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <!-- Notifications: style can be found in dropdown.less -->
+                                <li class="dropdown notifications-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-user"></i>
+                                        <span class="label label-warning">10</span>
+                                    </a>
+                                </li>
+                                <!-- User Account: style can be found in dropdown.less -->
+                                <li class="dropdown user user-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                      <span class="hidden-xs">{{ Auth::user()->username }}</span> <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" class="btn btn-cog btn-flat">My Settings</a></li>
+                                        <li><a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Logout</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                      <i class="icon fa fa-gears"></i> <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <!-- if admin -->
+                                        <li><a href="#"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
+                                        <li><a href="#"><i class="icon fa fa-user-plus"></i> Add user</a></li>
+                                        <li><a href="#"><i class="icon fa fa-user-times"></i> Remove user</a></li>
+                                        <li><a href="#"><i class="icon fa fa-user-secret"></i> Edit user</a></li>
+                                        <li><a href="#"><i class="icon fa fa-key"></i> Authlog</a></li>
+                                        <li><a href="#"><i class="icon fa fa-list-alt"></i> Pollers log</a></li>
+                                        <li><a href="#"><i class="icon fa fa-clock-o"></i> Pollers</a></li>
+                                        <!-- if distributed poller -->
+                                        <li><a href="#"><i class="icon fa fa-gears"></i> Poller groups</a></li>
+                                        <!-- /.if distributed poller -->
+                                        <li><a href="#"><i class="icon fa fa-wrench"></i> API tokens</a></li>
+                                        <li><a href="#"><i class="icon fa fa-book"></i> API Docs</a></li>
+                                        <!-- /.if admin -->
+                                        <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> About LibreNMS</a></li>
+                                    </ul>
+                                </li>
                             </ul>
-                          </li>
-                          <!-- User Account: style can be found in dropdown.less -->
-                          <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                              <span class="hidden-xs">{{ Auth::user()->username }}</span> <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                              <!-- Menu Footer-->
-                              <li class="user-footer">
-                                <div class="pull-right">
-                                  <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Logout</a>
-                                </div>
-                              </li>
-                            </ul>
-                          </li>
-                          <!-- Control Sidebar Toggle Button -->
-                          <li>
-                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                          </li>
-                        </ul>
-                      </div>
+                        </div>
                     </nav>
                 </header>
                 <!-- Left side column. contains the logo and sidebar -->
                 <aside class="main-sidebar">
-                  <!-- sidebar: style can be found in sidebar.less -->
-                  <section class="sidebar">
-                    <!-- search form -->
-                    <form action="#" method="get" class="sidebar-form">
-                      <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                              </button>
-                            </span>
-                      </div>
-                    </form>
-                    <!-- /.search form -->
-                    <!-- sidebar menu: : style can be found in sidebar.less -->
-                    <ul class="sidebar-menu">
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-list"></i> <span>Devices</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="icon fa fa-server"></i>All Devices
-                                    <i class="fa fa-angle-left pull-right"></i></a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="{{ url('/devices') }}"><i class="icon fa fa-server"></i> Devices</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                  </section>
-                  <!-- /.sidebar -->
+                    <!-- sidebar: style can be found in sidebar.less -->
+                    <section class="sidebar">
+                        <!-- search form -->
+                        <form action="#" method="get" class="sidebar-form">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                        <!-- /.search form -->
+                        <!-- sidebar menu: : style can be found in sidebar.less -->
+                        <!-- Overview sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-lightbulb-o"></i> <span>Overview</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="{{ url('/') }}"><i class="icon fa fa-lightbulb-o"></i> Overview</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="icon fa fa-exclamation-circle"></i> Alerts
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="#"><i class="icon fa fa-bell"></i> Notifications</a></li>
+                                            <li><a href="#"><i class="icon fa fa-th-list"></i> Historical log</a></li>
+                                            <li><a href="#"><i class="icon fa fa-bar-chart"></i> Statistics</a></li>
+                                            <!-- Admin only -->
+                                            <li><a href="#"><i class="icon fa fa-tasks"></i> Rules</a></li>
+                                            <li><a href="#"><i class="icon fa fa-calendar"></i> Maintenance window</a></li>
+                                            <li><a href="#"><i class="icon fa fa-link"></i> Rule mapping</a></li>
+                                            <li><a href="#"><i class="icon fa fa-sitemap"></i> Templates</a></li>
+                                            <!-- /.admin only -->
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="icon fa fa-sitemap"></i> Maps
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="#"><i class="icon fa fa-arrow-circle-up"></i> Availability</a></li>
+                                            <li><a href="#"><i class="icon fa fa-desktop"></i> Network</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="icon fa fa-wrench"></i> Tools
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="#"><i class="icon fa fa-arrow-circle-up"></i> RIPE NCC API</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#"><i class="icon fa fa-book"></i> Eventlog</a></li>
+                                    <!-- only if enabled -->
+                                    <li><a href="#"><i class="icon fa fa-book"></i> Syslog</a></li>
+                                    <li><a href="#"><i class="icon fa fa-book"></i> Graylog</a></li>
+                                    <!-- /.only if enabled -->
+                                    <li><a href="#"><i class="icon fa fa-cube"></i> Inventory</a></li>
+                                    <!-- If data exists -->
+                                    <li><a href="#"><i class="icon fa fa-archive"></i> Packages</a></li>
+                                    <!-- /.if data exists -->
+                                    <li>Search</i>
+                                    <li><a href="#"><i class="icon fa fa-search"></i> IPv4 Search</a></li>
+                                    <li><a href="#"><i class="icon fa fa-search"></i> IPv6 Search</a></li>
+                                    <li><a href="#"><i class="icon fa fa-search"></i> MAC Search</a></li>
+                                    <li><a href="#"><i class="icon fa fa-search"></i> ARP Tables</a></li>
+                                    <!-- only if enabled -->
+                                    <li><a href="#"><i class="icon fa fa-file-text-o"></i> MIB definitions</a></li>
+                                    <!-- /.only if enabled -->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.overview sub-menu -->
+                        <!-- Devices sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-list"></i> <span>Devices</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="#"><i class="icon fa fa-server"></i> All Devices
+                                        <i class="fa fa-angle-left pull-right"></i></a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="{{ url('/devices') }}"><i class="icon fa fa-server"></i> Devices</a></li>
+                                            <!-- Loop through all device types -->
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="icon fa fa-th"></i> Device Groups
+                                        <i class="fa fa-angle-left pull-right"></i></a>
+                                        <ul class="treeview-menu">
+                                            <!-- Loop through all device groups -->
+                                        </ul>
+                                    </li>
+                                    <!-- if enabled -->
+                                    <li>
+                                        <a href="#"><i class="icon fa fa-map-marker"></i> Locations
+                                        <i class="fa fa-angle-left pull-right"></i></a>
+                                        <ul class="treeview-menu">
+                                            <!-- Loop through all device locations -->
+                                        </ul>
+                                    </li>
+                                    <!-- /.if enabled -->
+                                    <!-- if enabled -->
+                                    <li><a href="#"><i class="icon fa fa-file-text-o"></i> MIB associations</a></li>
+                                    <!-- /.if enabled -->
+                                    <!-- if admin -->
+                                    <li><a href="#"><i class="icon fa fa-th"></i> Manage groups</a></li>
+                                    <!-- /.if admin -->
+                                    <li><a href="#"><i class="icon fa fa-plus text-green"></i> Add device</a></li>
+                                    <li><a href="#"><i class="icon fa fa-trash text-aqua"></i> Delete device</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.devices sub-memu -->
+                        <!-- services sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-cogs"></i> <span>Services</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="#"><i class="icon fa fa-cogs"></i> All services</a></li>
+                                    <!-- if enabled -->
+                                    <li><a href="#"><i class="icon fa fa-bell-o"></i> Alerts</a></li>
+                                    <!-- /.if enabled -->
+                                    <!-- if admin -->
+                                    <li><a href="#"><i class="icon fa fa-bell-o text-green"></i> Add service</a></li>
+                                    <li><a href="#"><i class="icon fa fa-bell-o text-aqua"></i> Edit service</a></li>
+                                    <li><a href="#"><i class="icon fa fa-bell-o text-red"></i> Delete service</a></li>
+                                    <!-- /.if admin -->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.services sub-menu -->
+                        <!-- ports sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-link"></i> <span>Ports</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="#"><i class="icon fa fa-link"></i> All ports</a></li>
+                                    <!-- if data -->
+                                    <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> Errored</a></li>
+                                    <li><a href="#"><i class="icon fa fa-question-circle"></i> Ignored</a></li>
+                                    <!-- /.if data -->
+                                    <!-- if enabled -->
+                                    <li><a href="#"><i class="icon fa fa-money"></i> Traffic bills</a></li>
+                                    <li><a href="#"><i class="icon fa fa-arrows-alt"></i> Pseudowires</a></li>
+                                    <!-- /.if enabled -->
+                                    <!-- if admin/read and enabled -->
+                                    <li><a href="#"><i class="icon fa fa-users"></i> Customers</a></li>
+                                    <li><a href="#"><i class="icon fa fa-link"></i> L2TP</a></li>
+                                    <li><a href="#"><i class="icon fa fa-truck"></i> Transit</a></li>
+                                    <li><a href="#"><i class="icon fa fa-user-plus"></i> Peering</a></li>
+                                    <li><a href="#"><i class="icon fa fa-user-secret"></i> Transit + Peering</a></li>
+                                    <li><a href="#"><i class="icon fa fa-anchor"></i> Core</a></li>
+                                    <!-- loop through custom ports -->
+                                    <!-- /.if admin/read and enabled-->
+                                    <!-- if data -->
+                                    <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> Alerts</a></li>
+                                    <!-- /.if data -->
+                                    <li><a href="#"><i class="icon fa fa-exclamation-triangle text-red"></i> Down</a></li>
+                                    <li><a href="#"><i class="icon fa fa-pause text-blue"></i> Disabled</a></li>
+                                    <!-- if data -->
+                                    <li><a href="#"><i class="icon fa fa-minus-circle text-aqua"></i> Deleted</a></li>
+                                    <!-- /.if data -->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.ports sub-menu -->
+                        <!-- health sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-heartbeat"></i> <span>Health</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="#"><i class="icon fa fa-gears"></i> Memory</a></li>
+                                    <li><a href="#"><i class="icon fa fa-desktop"></i> Processor</a></li>
+                                    <li><a href="#"><i class="icon fa fa-database"></i> Storage</a></li>
+                                    <!-- Loop through other health sensors -->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.health sub-menu -->
+                        <!-- apps sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-tasks"></i> <span>Apps</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <!-- Loop through app types-->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.apps sub-menu -->
+                        <!-- routing sub-menu -->
+                        <!-- if admin/read -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-arrows"></i> <span>Routing</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <!-- if data -->
+                                    <li><a href="#"><i class="icon fa fa-arrows-alt"></i> VRFs</a></li>
+                                    <li><a href="#"><i class="icon fa fa-circle-o-notch"></i> OSPF</a></li>
+                                    <li><a href="#"><i class="icon fa fa-exchange"></i> Cisco OTV</a></li>
+                                    <li><a href="#"><i class="icon fa fa-link"></i> BGP All sessions</a></li>
+                                    <li><a href="#"><i class="icon fa fa-external-link"></i> BGP External</a></li>
+                                    <li><a href="#"><i class="icon fa fa-external-link"></i> BGP Internal</a></li>
+                                    <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> Alerted BGP</a></li>
+                                    <!-- /.if data -->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.if admin/read -->
+                        <!-- /.routing sub-menu -->
+                    </section>
+                    <!-- /.sidebar -->
                 </aside>
-
                 <!-- Content Wrapper. Contains page content -->
                 <div class="content-wrapper">
-                  <!-- Content Header (Page header) -->
-                  <section class="content-header">
-                      @yield('content-header')
-                  </section>
-
-                  <!-- Main content -->
-                  <section class="content">
-                      @yield('content')
-                  </section>
-                  <!-- /.content -->
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        @yield('content-header')
+                    </section>
+                    <!-- Main content -->
+                    <section class="content">
+                        @yield('content')
+                    </section>
+                    <!-- /.content -->
                 </div>
                 <!-- /.content-wrapper -->
                 <footer class="main-footer">
-                  <div class="pull-right hidden-xs">
-                    <b>Version</b> x.x.x
-                  </div>
-                  <strong>Copyright &copy; 2016 <a href="http://www.librenms.org">LibreNMS</a>.</strong> All rights
-                  reserved.
+                    <div class="pull-right hidden-xs">
+                        <b>Version</b> x.x.x
+                    </div>
+                    <strong>Copyright &copy; 2016 <a href="http://www.librenms.org">LibreNMS</a>.</strong> All rights reserved.
                 </footer>
-
-                <!-- Control Sidebar -->
-                <aside class="control-sidebar control-sidebar-dark">
-                  <!-- Create the tabs -->
-                  <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-                    <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-                    <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-                  </ul>
-                  <!-- Tab panes -->
-                  <div class="tab-content">
-                    <!-- Home tab content -->
-                    <div class="tab-pane" id="control-sidebar-home-tab">
-
-                    </div>
-                    <!-- /.tab-pane -->
-                    <!-- Settings tab content -->
-                    <div class="tab-pane" id="control-sidebar-settings-tab">
-                    </div>
-                    <!-- /.tab-pane -->
-                  </div>
-                </aside>
-                <!-- /.control-sidebar -->
-                <!-- Add the sidebar's background. This div must be placed
-                     immediately after the control sidebar -->
-                <div class="control-sidebar-bg"></div>
             <div>
         @endif
 
