@@ -24,7 +24,7 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
           <![endif]-->
     </head>
-    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
+    <body class="hold-transition skin-blue-light sidebar-collapse sidebar-mini">
         @if (Auth::check())
             <div class="wrapper">
                 <header class="main-header">
