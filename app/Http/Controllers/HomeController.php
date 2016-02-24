@@ -20,9 +20,4 @@ class HomeController extends Controller
     public function index() {
         return view('home');
     }
-
-    public function devices() {
-        $devices = $this->api->be(auth()->user())->get('/api/devices');
-        return view('devices.list', ['devices'=>$devices]);
-    }
 }
