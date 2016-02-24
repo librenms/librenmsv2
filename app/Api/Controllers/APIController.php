@@ -4,8 +4,6 @@ namespace App\Api\Controllers;
 
 use App\Devices;
 use App\User;
-
-use App\Http\Requests;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
