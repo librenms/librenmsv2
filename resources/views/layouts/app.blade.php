@@ -24,7 +24,7 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
           <![endif]-->
     </head>
-    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
+    <body class="hold-transition skin-blue-light sidebar-collapse sidebar-mini">
         @if (Auth::check())
             <div class="wrapper">
                 <header class="main-header">
@@ -137,7 +137,7 @@
                 </footer>
 
                 <!-- Control Sidebar -->
-                <aside class="control-sidebar control-sidebar-dark">
+                <aside class="control-sidebar control-sidebar-light">
                   <!-- Create the tabs -->
                   <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
                     <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
