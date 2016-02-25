@@ -42,7 +42,6 @@ class ApiController extends Controller
     * Get info about the install
     */
     public function get_info() {
-        $schema = DB::select('SELECT `version` FROM `dbSchema` LIMIT 1');
         $versions['git'] = `git rev-parse --short HEAD`;
         $versions['db_schema'] = DB::select('SELECT `version` FROM `dbSchema` LIMIT 1')[0]->version;
         return $versions;
