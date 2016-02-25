@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@include('includes.datatables')
+@include('includes.datatables', ['datatables' => ['ports-table']])
 
 @section('title', 'Ports')
 
@@ -35,13 +35,4 @@
         </table>
     </div>
 </div>
-@endsection
-
-
-@section('scripts')
-<script>
-  $(function () {
-    $('#ports-table').DataTable();
-  });
-</script>
 @endsection

@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
-        @yield('dtcss')
+        @yield('datatablescss')
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -361,7 +361,7 @@
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
-        @yield('dtjs')
+        @yield('datatablesjs')
         <!-- FastClick -->
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
         <!-- AdminLTE App -->
