@@ -33,4 +33,11 @@ class User extends Authenticatable
     public function devices() {
         return $this->belongsToMany('App\Devices', 'devices_perms', 'user_id', 'device_id');
     }
+
+    /**
+     * Returns a list of ports this user has access to
+     */
+    public function ports() {
+        return $this->belongsToMany('App\Ports', 'ports_perms', 'user_id', 'port_id');
+    }
 }

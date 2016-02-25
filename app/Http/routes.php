@@ -11,17 +11,23 @@
 |
 */
 
+// ---- Web Routes ----
+
 Route::group(['middleware' => ['web']], function() {
     Route::auth();
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
     Route::resource('devices', 'DeviceController');
+    Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
 });
+
+// ---- API Routes ----
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function($api) {
     $api->post('auth', 'App\Api\Controllers\APIAuthController@authenticate');
     $api->group(['middleware' => 'api.auth'], function($api) {
         $api->get('devices', 'App\Api\Controllers\APIController@list_devices');
+        $api->get('ports', 'App\Api\Controllers\APIController@list_ports');
     });
 });
