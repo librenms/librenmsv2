@@ -16,6 +16,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
     Route::get('/devices', 'HomeController@devices');
+    Route::get('/about', 'HomeController@about');
 });
 
 $api = app('Dingo\Api\Routing\Router');
@@ -23,5 +24,6 @@ $api->version('v1', function($api) {
     $api->post('auth', 'App\Api\Controllers\APIAuthController@authenticate');
     $api->group(['middleware' => 'api.auth'], function($api) {
         $api->get('devices', 'App\Api\Controllers\APIController@list_devices');
+        $api->get('info', 'App\Api\Controllers\APIController@get_info');
     });
 });

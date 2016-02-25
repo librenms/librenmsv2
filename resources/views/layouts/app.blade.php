@@ -7,16 +7,16 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
         <!-- Ionicons -->
-        <link rel="stylesheet" href="css/ionicons.min.css">
+        <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
         <!-- Theme style -->
-        <link rel="stylesheet" href="css/AdminLTE.min.css">
+        <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
           <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
           <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
           <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
           <![endif]-->
     </head>
-    <body class="hold-transition skin-blue-light sidebar-collapse sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
         @if (Auth::check())
             <div class="wrapper">
                 <header class="main-header">
@@ -82,7 +82,7 @@
                                         <li><a href="#"><i class="icon fa fa-wrench"></i> API tokens</a></li>
                                         <li><a href="#"><i class="icon fa fa-book"></i> API Docs</a></li>
                                         <!-- /.if admin -->
-                                        <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> About LibreNMS</a></li>
+                                        <li><a href="{{ url('/about') }}"><i class="icon fa fa-exclamation-circle"></i> About LibreNMS</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -355,12 +355,12 @@
 
         <!-- Javascript Libs -->
         <!-- jQuery 2.1.4 -->
-        <script src="js/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
-        <script src="js/bootstrap.min.js"></script>
+        <script src="{{ url('js/bootstrap.min.js') }}"></script>
         <!-- FastClick -->
-        <script src="js/plugins/fastclick/fastclick.js"></script>
+        <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
         <!-- AdminLTE App -->
-        <script src="js/app.min.js"></script>
+        <script src="{{ url('/js/app.min.js') }}"></script>
     </body>
 </html>
