@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
+@include('includes.datatables')
+
 @section('title', 'Devices')
 
 @section('content')
-
 <div class="card">
     <div class="card-body">
-        <table id="devices" class="datatable table table-striped">
+        <table id="devices-table" class="table table-striped">
             <thead>
                 <tr>
                     <th>Status</th>
@@ -42,4 +43,12 @@
         </table>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+  $(function () {
+    $('#devices-table').DataTable();
+  });
+</script>
 @endsection
