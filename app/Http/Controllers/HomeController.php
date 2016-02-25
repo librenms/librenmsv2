@@ -18,14 +18,8 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function devices() {
-        $devices = $this->api->be(auth()->user())->get('/api/devices');
-        return view('devices.list', ['devices'=>$devices]);
-    }
-
     public function about() {
         $versions = $this->api->be(auth()->user())->get('/api/info');
-        $versions['git'] = `git rev-parse --short HEAD`;
         return view('general.about', ['versions'=>$versions]);
     }
 }

@@ -3,7 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Page</title>
+        <title>
+        @yield('title')
+        </title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
@@ -12,6 +14,7 @@
         <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
+        @yield('datatablescss')
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -207,7 +210,7 @@
                                     <!-- if admin -->
                                     <li><a href="#"><i class="icon fa fa-th"></i> Manage groups</a></li>
                                     <!-- /.if admin -->
-                                    <li><a href="#"><i class="icon fa fa-plus text-green"></i> Add device</a></li>
+                                    <li><a href="{{ route('devices.create') }}"><i class="icon fa fa-plus text-green"></i> Add device</a></li>
                                     <li><a href="#"><i class="icon fa fa-trash text-aqua"></i> Delete device</a></li>
                                 </ul>
                             </li>
@@ -242,7 +245,7 @@
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="#"><i class="icon fa fa-link"></i> All ports</a></li>
+                                    <li><a href="{{ url('/ports') }}"><i class="icon fa fa-link"></i> All ports</a></li>
                                     <!-- if data -->
                                     <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> Errored</a></li>
                                     <li><a href="#"><i class="icon fa fa-question-circle"></i> Ignored</a></li>
@@ -358,9 +361,12 @@
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
+        @yield('datatablesjs')
         <!-- FastClick -->
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ url('/js/app.min.js') }}"></script>
+        <!-- page script -->
+        @yield('scripts')
     </body>
 </html>
