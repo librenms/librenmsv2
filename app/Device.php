@@ -16,16 +16,16 @@ class Device extends Model
      */
     public $timestamps = false;
 
-    public function getIpAttribute( $ip )
+    public function getIpAttribute($ip)
     {
-        if (!empty($ip)){
-            return inet_ntop( $ip );
+        if (!empty($ip)) {
+            return inet_ntop($ip);
         }
     }
 
-    public function setIpAttribute( $ip )
+    public function setIpAttribute($ip)
     {
-        $this->attributes['ip'] = inet_pton( $ip );
+        $this->attributes['ip'] = inet_pton($ip);
     }
 
     // -- Define Reletionships --
