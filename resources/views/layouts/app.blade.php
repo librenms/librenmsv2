@@ -85,7 +85,7 @@
                                         <li><a href="#"><i class="icon fa fa-wrench"></i> API tokens</a></li>
                                         <li><a href="#"><i class="icon fa fa-book"></i> API Docs</a></li>
                                         <!-- /.if admin -->
-                                        <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> About LibreNMS</a></li>
+                                        <li><a href="{{ url('/about') }}"><i class="icon fa fa-exclamation-circle"></i> About LibreNMS</a></li>
                                     </ul>
                                 </li>
                             </ul>

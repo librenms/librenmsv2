@@ -17,4 +17,9 @@ class HomeController extends Controller
     public function index() {
         return view('home');
     }
+
+    public function about() {
+        $versions = $this->api->be(auth()->user())->get('/api/info');
+        return view('general.about', ['versions'=>$versions]);
+    }
 }
