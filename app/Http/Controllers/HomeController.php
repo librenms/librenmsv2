@@ -20,6 +20,7 @@ class HomeController extends Controller
 
     public function about() {
         $versions = $this->api->be(auth()->user())->get('/api/info');
-        return view('general.about', ['versions'=>$versions]);
+        $stats    = $this->api->be(auth()->user())->get('/api/stats');
+        return view('general.about', ['versions'=>$versions, 'stats'=>$stats]);
     }
 }

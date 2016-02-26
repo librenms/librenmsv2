@@ -2,6 +2,16 @@
 
 class AddDefaultDataTest extends TestCase
 {
+
+    /**
+     * Add a dbSchema version
+    **/
+    public function testAdddbSchemaVersion()
+    {
+        $data = ['version' => 100];
+        DB::table('dbSchema')->insert($data);
+    }
+
     /**
     * Add a device entry to the DB
     **/
