@@ -31,5 +31,6 @@ $api->version('v1', function($api) {
         $api->resource('devices', 'App\Api\Controllers\DeviceController');
         $api->resource('ports', 'App\Api\Controllers\PortController', ['except' => ['create', 'store', 'destroy']]);
         $api->get('info', 'App\Api\Controllers\APIController@get_info');
+        $api->get('stats', 'App\Api\Controllers\APIController@get_stats');
     });
 });
