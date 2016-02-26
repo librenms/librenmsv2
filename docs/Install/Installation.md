@@ -13,7 +13,7 @@ Requirements
 ------------
 
  - PHP 5.5.9 or newer
- - Web server such as Apache.
+ - Web server such as Apache or Nginx
 
 ```bash
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer
@@ -39,12 +39,13 @@ Now you will need to create your web server config.
 | CentOS / RHEL | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2218.txt)  |
 | Ubuntu / Debian | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2217.txt)   |
 | Ubuntu / Debian | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2218.txt)   |
-
+| All | Nginx | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/nginx.txt)   |
 Now restart the web server.
 
 | Distro  | Web Server  | Command  |
 |---|---|---|
 | CentOS / RHEL | Apache | sudo service httpd restart |
-| Ubuntu / Debiab | Apache | sudo service httpd restart |
+| Ubuntu / Debian | Apache | sudo service httpd restart |
+| systemd based | Nginx | systemctl restart nginx.service |
 
 You should now be able to login with your normal credentials.
