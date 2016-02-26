@@ -19,10 +19,6 @@ class ApiController extends Controller
         $versions['db_schema'] = DB::select('SELECT `version` FROM `dbSchema` LIMIT 1')[0]->version;
         $versions['php'] = phpversion();
         $versions['mysql'] = DB::select('SELECT version() AS version')[0]->version;
-        if (empty($_SERVER['SERVER_SOFTWARE'])) {
-            $_SERVER['SERVER_SOFTWARE'] = "";
-        }
-        $versions['apache'] = str_replace('Apache/', '', $_SERVER['SERVER_SOFTWARE']);
         return $versions;
     }
 
@@ -31,6 +27,7 @@ class ApiController extends Controller
     **/
     public function get_stats()
     {
+        $stats               = array();
         $stats['devices']    = Device::all()->count();
         $stats['ports']      = Port::all()->count();
         $stats['syslog']     = DB::select('SELECT COUNT(seq) AS `total` FROM `syslog`')[0]->total;

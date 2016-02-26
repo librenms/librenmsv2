@@ -20,10 +20,6 @@
                     <dd>{{ $versions['db_schema'] }}</a></dd>
                 </dl>
                 <dl class="dl-horizontal">
-                    <dt>Apache</dt>
-                    <dd>{{ $versions['apache'] }}</a></dd>
-                </dl>
-                <dl class="dl-horizontal">
                     <dt>PHP</dt>
                     <dd>{{ $versions['php'] }}</a></dd>
                 </dl>
