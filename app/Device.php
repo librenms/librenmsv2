@@ -27,6 +27,9 @@ class Device extends Model
      */
     public $timestamps = false;
 
+
+    // ---- Accessors/Mutators ----
+
     public function getIpAttribute($ip)
     {
         if (!empty($ip)) {
@@ -38,6 +41,7 @@ class Device extends Model
     {
         $this->attributes['ip'] = inet_pton($ip);
     }
+
 
     // ---- Define Reletionships ----
 
@@ -54,5 +58,4 @@ class Device extends Model
     public function ports() {
         return $this->hasMany('App\Port', 'device_id', 'device_id');
     }
-
 }

@@ -27,7 +27,8 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices = $this->api->be(auth()->user())->get('/api/devices');
+        $api = $this->api->be(auth()->user());
+        $devices = $api->with(['returnFormat'=> 'pretty'])->get('/api/devices');
         return view('devices.list', ['devices'=>$devices]);
     }
 

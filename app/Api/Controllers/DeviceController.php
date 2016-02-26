@@ -20,12 +20,18 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
+        // fetch devices from the database
         if ($request->user()->level >= 10 || $request->user()->level == 5) {
-            return Device::all();
+            $devices = Device::all();
         }
         else {
-            return User::find($request->user()->user_id)->devices()->get();
+            $devices = User::find($request->user()->user_id)->devices()->get();
         }
+        // morph the data as required
+        if ($request->query('displayFormat') == 'human') {
+        }
+
+       return $devices;
     }
 
     /**
@@ -55,9 +61,15 @@ class DeviceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        if ($request->user()->level >= 10 || $request->user()->level == 5) {
+            return Device::find($id);
+        }
+        else {
+            $user = User::find($request->user()->user_id);
+            return $user->devices()->find($id);
+        }
     }
 
     /**
@@ -93,4 +105,5 @@ class DeviceController extends Controller
     {
         //
     }
+
 }

@@ -54,9 +54,15 @@ class PortController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        if ($request->user()->level >= 10 || $request->user()->level == 5) {
+            return Port::find($id);
+        }
+        else {
+            $user = User::find($request->user()->user_id);
+            return $user->ports()->find($id);
+        }
     }
 
     /**
