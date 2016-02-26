@@ -53,7 +53,7 @@ class Port extends Model
 
         $bits /= pow($base, $pow);
 
-        return round($bits, $precision). ' '.$units[$pow];
+        return round($bits, $precision).' '.$units[$pow];
     }
 
     // ---- Define Reletionships ----
