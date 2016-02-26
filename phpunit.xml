@@ -30,14 +30,5 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_DEFAULT" value="testing"/>
-        <env name="API_STANDARDS_TREE" value="vnd"/>
-        <env name="API_SUBTYPE" value="librenms"/>
-        <env name="API_PREFIX" value="api"/>
-        <env name="API_VERSION" value="v1"/>
-        <env name="API_NAME" value="LibreNMS"/>
-        <env name="API_STRICT" value="false"/>
-        <env name="API_DEFAULT_FORMAT" value="json"/>
-        <env name="API_DEBUG" value="true"/>
-        <env name="API_THROTTLE" value="false"/>
     </php>
 </phpunit>
