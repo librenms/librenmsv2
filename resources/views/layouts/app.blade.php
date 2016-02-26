@@ -364,7 +364,13 @@
         @yield('datatablesjs')
         <!-- FastClick -->
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
-        <!-- AdminLTE App -->
+        <!-- AdminLTE Options and App -->
+        <script>
+            var AdminLTEOptions = {
+                // set the treview slide speed
+                animationSpeed: 150,
+            }
+        </script>
         <script src="{{ url('/js/app.min.js') }}"></script>
         <!-- page script -->
         @yield('scripts')
