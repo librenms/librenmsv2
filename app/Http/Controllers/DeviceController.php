@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Dingo\Api\Http;
-use Dingo\Api\Routing\Router;
 use Dingo\Api\Routing\Helpers;
-use App\Http\Requests;
 use Illuminate\Http\Request;
 
 class DeviceController extends Controller
