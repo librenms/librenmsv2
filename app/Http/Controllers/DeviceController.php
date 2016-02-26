@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Router;
 use Dingo\Api\Routing\Helpers;
-use Illuminate\Routing\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use JWTAuth;
 
 class DeviceController extends Controller
 {
