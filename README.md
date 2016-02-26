@@ -23,7 +23,7 @@ philosophy][13], including [guidelines for running an IRC channel][6] and
 
 Installation
 -------------
-Follow the [Instalation Documentation](https://github.com/librenms/librenmsv2/blob/develop/docs/Install/Installation.md)
+Follow the [Installation Documentation](https://github.com/librenms/librenmsv2/blob/develop/docs/Install/Installation.md)
 
 License
 -------
