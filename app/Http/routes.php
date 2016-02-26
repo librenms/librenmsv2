@@ -28,8 +28,8 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function($api) {
     $api->post('auth', 'App\Api\Controllers\APIAuthController@authenticate');
     $api->group(['middleware' => 'api.auth'], function($api) {
-        $api->get('devices', 'App\Api\Controllers\APIController@list_devices');
-        $api->get('ports', 'App\Api\Controllers\APIController@list_ports');
+        $api->resource('devices', 'App\Api\Controllers\DeviceController');
+        $api->resource('ports', 'App\Api\Controllers\PortController', ['except' => ['create', 'store', 'destroy']]);
         $api->get('info', 'App\Api\Controllers\APIController@get_info');
     });
 });

@@ -7,6 +7,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
+        @if (count($devices))
         <table id="devices-table" class="table table-striped">
             <thead>
                 <tr>
@@ -41,6 +42,11 @@
                 @endforeach
             </tbody>
         </table>
+       @else
+       <h2>No Devices</h2>
+       <a href="{{ url('/devices/create') }}">Add one</a>
+       @endif
+
     </div>
 </div>
 @endsection

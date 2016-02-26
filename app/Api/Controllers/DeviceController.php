@@ -1,35 +1,37 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\Controllers;
 
-use Dingo\Api\Http;
-use Dingo\Api\Routing\Router;
-use Dingo\Api\Routing\Helpers;
-use App\Http\Requests;
+use App\User;
+use App\Device;
+use App\Port;
 use Illuminate\Http\Request;
-use JWTAuth;
 
 class DeviceController extends Controller
 {
-    use Helpers;
+    public function __construct() {
 
-    /**
-     * Constructor
-     */
-    public function __construct(Request $request) {
-        $this->middleware('auth');
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of all authorized devices
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $api = $this->api->be(auth()->user());
-        $devices = $api->with(['returnFormat'=> 'pretty'])->get('/api/devices');
-        return view('devices.list', ['devices'=>$devices]);
+        // fetch devices from the database
+        if ($request->user()->level >= 10 || $request->user()->level == 5) {
+            $devices = Device::all();
+        }
+        else {
+            $devices = User::find($request->user()->user_id)->devices()->get();
+        }
+        // morph the data as required
+        if ($request->query('displayFormat') == 'human') {
+        }
+
+       return $devices;
     }
 
     /**
@@ -39,8 +41,7 @@ class DeviceController extends Controller
      */
     public function create()
     {
-        // add new device form
-        return view('devices.create');
+        //
     }
 
     /**
@@ -51,8 +52,7 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-        // save device
-        return redirect()->route('devices.index');
+        //
     }
 
     /**
@@ -61,9 +61,15 @@ class DeviceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        // show a single device
+        if ($request->user()->level >= 10 || $request->user()->level == 5) {
+            return Device::find($id);
+        }
+        else {
+            $user = User::find($request->user()->user_id);
+            return $user->devices()->find($id);
+        }
     }
 
     /**
@@ -74,7 +80,7 @@ class DeviceController extends Controller
      */
     public function edit($id)
     {
-        //edit device form??
+        //
     }
 
     /**
@@ -86,7 +92,7 @@ class DeviceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //process device modify
+        //
     }
 
     /**
@@ -97,6 +103,7 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        // delete device
+        //
     }
+
 }
