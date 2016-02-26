@@ -21,6 +21,10 @@ about the culture we're trying to build, please read the [Freenode
 philosophy][13], including [guidelines for running an IRC channel][6] and
 [being a community catalyst][7].
 
+Installation
+-------------
+Follow the [Instalation Documentation](https://github.com/librenms/librenmsv2/blob/develop/docs/Install/Installation.md)
+
 License
 -------
 
