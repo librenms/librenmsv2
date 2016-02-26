@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Router;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Routing\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use JWTAuth;
@@ -25,10 +26,9 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $api = $this->api->be(auth()->user());
-        $devices = $api->with(['returnFormat'=> 'pretty'])->get('/api/devices');
+        $devices = $this->api->be(auth()->user())->get('/api/devices');
         return view('devices.list', ['devices'=>$devices]);
     }
 
@@ -47,7 +47,7 @@ class DeviceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
