@@ -19,16 +19,27 @@ Requirements
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer
 cd /opt/
 sudo git clone https://github.com/librenms/librenmsv2 librenmsv2
-sudo chown -R librenms:librenms /opt/librenmsv2/ -R
 cd librenmsv2
+sudo mkdir logs
+sudo chown -R librenms:librenms /opt/librenmsv2/ -R
 cp .env.example .env
 ```
 
 Please now edit the .env file and set your options.
 
 ```bash
+replace Travis DB configuration with the one used by Librenms (have a look at the config.php file in /opt/librenms directory)
+
+DB_HOST=127.0.0.1
+DB_DATABASE=librenms
+DB_USERNAME=username
+DB_PASSWORD=password
+```
+
+```bash
 composer install
 php artisan key:generate
+sudo chmod -R 777 storage
 ```
 
 Now you will need to create your web server config.
