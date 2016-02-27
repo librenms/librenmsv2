@@ -28,14 +28,14 @@ class Port extends Model
     public $timestamps = false;
 
     // TODO: transform DB to be snake case?
-    public static $snakeAttributes = false;
+//    public static $snakeAttributes = false;
 
     // ---- Accessors/Mutators ----
 
     //TODO this is the wrong place for this as it messes up sorting
-    public function getifSpeedAttribute($ifSpeed) {
-        return $this->getifSpeedHumanAttribute($ifSpeed);
-    }
+//    public function getifSpeedAttribute($ifSpeed) {
+//        return $this->getifSpeedHumanAttribute($ifSpeed);
+//    }
 
     public function getifSpeedHumanAttribute($ifSpeed) {
         return $this->formatBps($ifSpeed);
@@ -55,6 +55,7 @@ class Port extends Model
 
         return round($bits, $precision) . ' ' . $units[$pow];
     }
+
 
     // ---- Define Reletionships ----
 
