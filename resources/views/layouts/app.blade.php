@@ -216,27 +216,6 @@
                             </li>
                         </ul>
                         <!-- /.devices sub-memu -->
-                        <!-- services sub-menu -->
-                        <ul class="sidebar-menu">
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-cogs"></i> <span>Services</span>
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="#"><i class="icon fa fa-cogs"></i> All services</a></li>
-                                    <!-- if enabled -->
-                                    <li><a href="#"><i class="icon fa fa-bell-o"></i> Alerts</a></li>
-                                    <!-- /.if enabled -->
-                                    <!-- if admin -->
-                                    <li><a href="#"><i class="icon fa fa-bell-o text-green"></i> Add service</a></li>
-                                    <li><a href="#"><i class="icon fa fa-bell-o text-aqua"></i> Edit service</a></li>
-                                    <li><a href="#"><i class="icon fa fa-bell-o text-red"></i> Delete service</a></li>
-                                    <!-- /.if admin -->
-                                </ul>
-                            </li>
-                        </ul>
-                        <!-- /.services sub-menu -->
                         <!-- ports sub-menu -->
                         <ul class="sidebar-menu">
                             <li class="treeview">
@@ -275,6 +254,27 @@
                             </li>
                         </ul>
                         <!-- /.ports sub-menu -->
+                        <!-- services sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-cogs"></i> <span>Services</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="#"><i class="icon fa fa-cogs"></i> All services</a></li>
+                                    <!-- if enabled -->
+                                    <li><a href="#"><i class="icon fa fa-bell-o"></i> Alerts</a></li>
+                                    <!-- /.if enabled -->
+                                    <!-- if admin -->
+                                    <li><a href="#"><i class="icon fa fa-bell-o text-green"></i> Add service</a></li>
+                                    <li><a href="#"><i class="icon fa fa-bell-o text-aqua"></i> Edit service</a></li>
+                                    <li><a href="#"><i class="icon fa fa-bell-o text-red"></i> Delete service</a></li>
+                                    <!-- /.if admin -->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.services sub-menu -->
                         <!-- health sub-menu -->
                         <ul class="sidebar-menu">
                             <li class="treeview">
