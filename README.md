@@ -25,6 +25,11 @@ Installation
 -------------
 Follow the [Installation Documentation](https://github.com/librenms/librenmsv2/blob/develop/docs/Install/Installation.md)
 
+Devolper Guide
+--------------
+[Developer Documentation](https://github.com/librenms/librenmsv2/blob/develop/docs/Developing/Developing.md) - An overview to help you get started contributing
+
+
 License
 -------
 
