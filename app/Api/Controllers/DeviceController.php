@@ -20,7 +20,7 @@ class DeviceController extends Controller
     public function index(Request $request)
     {
         // fetch devices from the database
-        if ($request->user()->level >= 10 || $request->user()->level == 5) {
+        if ($request->user()->hasGlobalRead()) {
             $devices = Device::all();
         }
         else {
@@ -62,13 +62,19 @@ class DeviceController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if ($request->user()->level >= 10 || $request->user()->level == 5) {
-            return Device::find($id);
+        if ($request->user()->hasGlobalRead()) {
+            $device = Device::find($id);
         }
         else {
             $user = User::find($request->user()->user_id);
-            return $user->devices()->find($id);
+            $device =  $user->devices()->find($id);
         }
+        // morph the data as required
+        if ($request->query('displayFormat') == 'link') {
+            return '<a href="'.url('/devices/').$device->deviceId.'">'.$device->hostname.'</a>';
+        }
+
+        return $device;
     }
 
     /**

@@ -19,8 +19,10 @@ class PortController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->level >= 10 || $request->user()->level == 5) {
-            return Port::all();
+        if ($request->user()->hasGlobalRead()) {
+            return Port::with(array('device'=>function($query){
+                $query->select('device_id', 'hostname');
+                }))->get();
         }
         else {
             return User::find($request->user()->user_id)->ports()->get();
@@ -56,7 +58,7 @@ class PortController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if ($request->user()->level >= 10 || $request->user()->level == 5) {
+        if ($request->user()->hasGlobalRead()) {
             return Port::find($id);
         }
         else {

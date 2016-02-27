@@ -24,7 +24,9 @@ class PortController extends Controller
      */
     public function index()
     {
-        $ports = $this->api->be(auth()->user())->get('/api/ports');
+        $api = $this->api->be(auth()->user());
+        $ports = $api->get('/api/ports');
+
         return view('ports.list', ['ports'=>$ports]);
     }
 

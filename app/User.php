@@ -25,6 +25,31 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    // ---- Define Convience Functions ----
+
+    /**
+     * Test if the User is an admin or demo.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function isAdmin()
+    {
+        return $this->level >= 10;
+    }
+
+    /**
+     * Test if this user has global read access
+     * these users have a level of 5, 10 or 11 (demo).
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function hasGlobalRead()
+    {
+        return $this->isAdmin() || $this->level == 5;
+    }
+
+
     // ---- Define Reletionships ----
 
     /**
