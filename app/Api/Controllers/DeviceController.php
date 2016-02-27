@@ -4,7 +4,6 @@ namespace App\Api\Controllers;
 
 use App\User;
 use App\Device;
-use App\Port;
 use Illuminate\Http\Request;
 
 class DeviceController extends Controller
@@ -31,7 +30,7 @@ class DeviceController extends Controller
         if ($request->query('displayFormat') == 'human') {
         }
 
-       return $devices;
+        return $devices;
     }
 
     /**

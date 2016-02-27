@@ -9,14 +9,14 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Initial Setup">
-            <directory>./tests/</directory>
-        </testsuite>
         <testsuite name="Data entry">
             <directory>./tests/db/</directory>
         </testsuite>
         <testsuite name="Users tests">
             <directory>./tests/users/</directory>
+        </testsuite>
+        <testsuite name="General tests">
+            <directory>./tests/general/</directory>
         </testsuite>
     </testsuites>
     <filter>

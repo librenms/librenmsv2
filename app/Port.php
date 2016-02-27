@@ -44,16 +44,16 @@ class Port extends Model
 
     // TODO: move to a common file
     // base = 1024 for bits, 1000 for mibibits
-    function formatBps($bits, $precision = 2, $base=1000) {
-       $units = array('bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps');
+    function formatBps($bits, $precision = 2, $base = 1000) {
+        $units = array('bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps');
 
-       $bits = max($bits, 0);
-       $pow = floor(($bits ? log($bits) : 0) / log($base));
-       $pow = min($pow, count($units) - 1);
+        $bits = max($bits, 0);
+        $pow = floor(($bits ? log($bits) : 0) / log($base));
+        $pow = min($pow, count($units) - 1);
 
-       $bits /= pow($base, $pow);
+        $bits /= pow($base, $pow);
 
-        return round($bits, $precision) . ' ' . $units[$pow];
+        return round($bits, $precision).' '.$units[$pow];
     }
 
 
