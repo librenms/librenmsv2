@@ -26,7 +26,7 @@
                 <tr>
                     <td>{{ $port->port_id }}</td>
                     <td>{{ $port->device_id }}</td>
-                    <td>{{ $port->device_name }}</td>
+                    <td>{{ $port->device->hostname }}</td>
                     <td>{{ $port->ifAlias }}</td>
                     <td>{{ $port->ifSpeed }}</td>
                     <td>{{ $port->ifOutUcastPkts_delta }}</td>

@@ -28,30 +28,8 @@ class Port extends Model
     public $timestamps = false;
 
 
-    /**
-     * Selects what fields will be included when serializing this model
-     *
-     * @var array
-     */
-    protected $visible = ['device_id', 'device_name', 'ifAlias', 'ifSpeed', 'ifOutUcastPkts_delta', 'ifInUcastPkts_delta', 'ifType', 'ifDescr'];
-
-    /**
-     * Allows us to insert fields into the result when serializing
-     *
-     * @var array
-     */
-    protected $appends = ['device_name'];
-
-
     // ---- Accessors/Mutators ----
 
-    /**
-     * returns the name of the device this belongs to
-     */
-    public function getDeviceNameAttribute()
-    {
-        return $this->device()->first()->hostname;
-    }
 
     // ---- Define Reletionships ----
 

@@ -2,12 +2,19 @@
 
 namespace App\Api\Controllers;
 
+use Auth;
 use App\User;
 use App\Port;
+use App\Api\Transformers\PortTransformer;
+
 use Illuminate\Http\Request;
+use Dingo\Api\Routing\Helpers;
+use Illuminate\Support\Facades\Input;
 
 class PortController extends Controller
 {
+    use Helpers;
+
     public function __construct() {
 
     }
@@ -19,11 +26,19 @@ class PortController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->hasGlobalRead()) {
-            return Port::all();
+        if (Auth::user()->hasGlobalRead()) {
+            $includes = explode(',', Input::get('include'));
+            if (in_array('device', $includes)) {
+                $ports = Port::with('device')->get();
+            }
+            else {
+                $ports = Port::all();
+            }
+            return $this->response->collection($ports, new PortTransformer);
+            return $ports;
         }
         else {
-            return User::find($request->user()->user_id)->ports()->get();
+            return Auth::user()->ports()->get();
         }
     }
 
