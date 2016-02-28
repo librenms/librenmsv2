@@ -20,9 +20,7 @@ class PortController extends Controller
     public function index(Request $request)
     {
         if ($request->user()->hasGlobalRead()) {
-            return Port::with(array('device'=>function($query){
-                $query->select('device_id', 'hostname');
-                }))->get();
+            return Port::all();
         }
         else {
             return User::find($request->user()->user_id)->ports()->get();
