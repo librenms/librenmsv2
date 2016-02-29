@@ -10,7 +10,7 @@ class PortTransformer extends Fractal\TransformerAbstract
     {
         return [
             'id'                        => (int) $port->port_id,
-            'devic_id'                  => (int) $port->device_id,
+            'device_id'                  => (int) $port->device_id,
             'device_name'               => $port->device->hostname,
             'alias'                     => $port->ifAlias,
             'speed'                     => (int) $port->ifSpeed,
