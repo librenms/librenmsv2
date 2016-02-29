@@ -27,19 +27,19 @@ class PortController extends Controller
     public function index(Request $request)
     {
         if (Auth::user()->hasGlobalRead()) {
-            $includes = explode(',', Input::get('include'));
-            if (in_array('device', $includes)) {
-                $ports = Port::with('device')->get();
-            }
-            else {
-                $ports = Port::all();
-            }
-            return $this->response->collection($ports, new PortTransformer);
-            return $ports;
+            $ports = Port::all();
         }
         else {
-            return Auth::user()->ports()->get();
+            $ports =  Auth::user()->ports()->get();
         }
+
+        $includes = explode(',', Input::get('include'));
+        if (in_array('device', $includes)) {
+            $ports->load('device');
+        }
+
+        return $this->response->collection($ports, new PortTransformer);
+        return $ports;
     }
 
     /**
