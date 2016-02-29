@@ -39,7 +39,7 @@ DB_PASSWORD=password
 ```bash
 composer install
 php artisan key:generate
-sudo chmod -R 777 storage
+sudo chown -R www-data:www-data storage
 ```
 
 Now you will need to create your web server config.
