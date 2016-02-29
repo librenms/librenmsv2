@@ -22,6 +22,9 @@ sudo git clone https://github.com/librenms/librenmsv2 librenmsv2
 cd librenmsv2
 sudo mkdir logs
 sudo chown -R librenms:librenms /opt/librenmsv2/ -R
+```
+
+```bash
 cp .env.example .env
 ```
 
@@ -39,6 +42,11 @@ DB_PASSWORD=password
 ```bash
 composer install
 php artisan key:generate
+```
+
+Make sure webserver can write logs in storage directory
+
+```bash
 sudo chown -R www-data:www-data storage
 ```
 
