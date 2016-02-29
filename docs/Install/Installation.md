@@ -21,7 +21,7 @@ cd /opt/
 sudo git clone https://github.com/librenms/librenmsv2 librenmsv2
 cd librenmsv2
 sudo mkdir logs
-sudo chown -R librenms:librenms /opt/librenmsv2/ -R
+sudo chown -R librenms:librenms /opt/librenmsv2
 ```
 
 ```bash
@@ -44,10 +44,11 @@ composer install
 php artisan key:generate
 ```
 
-Make sure webserver can write logs in storage directory
+Make sure librenms user is part of webserver Group and can write logs in storage directory
 
 ```bash
-sudo chown -R www-data:www-data storage
+usermod -a -G librenms www-data
+chmod -R g+w storage logs
 ```
 
 Now you will need to create your web server config.
