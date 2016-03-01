@@ -19,11 +19,13 @@ class SetViewVariable
         $this->auth = $auth;
     }
 
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        //$user = $this->auth->user();
-        $notifications = $this->api->be(auth()->user())->get('/api/notifications');
-        view()->share('notifications', $notifications);
+        if ($request->user())
+        {
+            $notifications = $this->api->be(auth()->user())->get('/api/notifications');
+            view()->share('notifications', $notifications);
+        }
         return $next($request);
     }
 

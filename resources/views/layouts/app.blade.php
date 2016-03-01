@@ -55,7 +55,7 @@
                                 <!-- Notifications: style can be found in dropdown.less -->
                                 <li class="dropdown notifications-menu">
                                     <a href="{{ url('/notifications') }}">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-user fa-lg"></i>
                                         <span class="label label-warning">{{ count($notifications) }}</span>
                                     </a>
                                 </li>
@@ -65,30 +65,15 @@
                                       <span class="hidden-xs">{{ Auth::user()->username }}</span> <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#" class="btn btn-cog btn-flat">My Settings</a></li>
-                                        <li><a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Logout</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                      <i class="icon fa fa-gears"></i> <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <!-- if admin -->
-                                        <li><a href="#"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
-                                        <li><a href="#"><i class="icon fa fa-user-plus"></i> Add user</a></li>
-                                        <li><a href="#"><i class="icon fa fa-user-times"></i> Remove user</a></li>
-                                        <li><a href="#"><i class="icon fa fa-user-secret"></i> Edit user</a></li>
-                                        <li><a href="#"><i class="icon fa fa-key"></i> Authlog</a></li>
-                                        <li><a href="#"><i class="icon fa fa-list-alt"></i> Pollers log</a></li>
-                                        <li><a href="#"><i class="icon fa fa-clock-o"></i> Pollers</a></li>
-                                        <!-- if distributed poller -->
-                                        <li><a href="#"><i class="icon fa fa-gears"></i> Poller groups</a></li>
-                                        <!-- /.if distributed poller -->
-                                        <li><a href="#"><i class="icon fa fa-wrench"></i> API tokens</a></li>
-                                        <li><a href="#"><i class="icon fa fa-book"></i> API Docs</a></li>
-                                        <!-- /.if admin -->
-                                        <li><a href="{{ url('/about') }}"><i class="icon fa fa-exclamation-circle"></i> About LibreNMS</a></li>
+                                        <li class="user-header">
+                                            <p>{{ Auth::user()->realname }} ({{ Auth::user()->username }})</p>
+                                            <p><small>Email: {{ Auth::user()->email }}</small></p>
+                                            <p><small>Userlevel: {{ Auth::user()->level }}</small></p>
+                                        </li>
+                                        <li class="user-footer">
+                                            <div class="pull-left"><a href="#" class="btn btn-default btn-flat"><i class="fa fa-cog"></i> My Settings</a></div>
+                                            <div class="pull-right"><a href="{{ url('/logout') }}" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Logout</a></div>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -154,20 +139,23 @@
                                             <li><a href="#"><i class="icon fa fa-arrow-circle-up"></i> RIPE NCC API</a></li>
                                         </ul>
                                     </li>
+                                    <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-book"></i> Eventlog</a></li>
                                     <!-- only if enabled -->
                                     <li><a href="#"><i class="icon fa fa-book"></i> Syslog</a></li>
                                     <li><a href="#"><i class="icon fa fa-book"></i> Graylog</a></li>
                                     <!-- /.only if enabled -->
+                                    <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-cube"></i> Inventory</a></li>
                                     <!-- If data exists -->
                                     <li><a href="#"><i class="icon fa fa-archive"></i> Packages</a></li>
                                     <!-- /.if data exists -->
-                                    <li>Search</i>
+                                    <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-search"></i> IPv4 Search</a></li>
                                     <li><a href="#"><i class="icon fa fa-search"></i> IPv6 Search</a></li>
                                     <li><a href="#"><i class="icon fa fa-search"></i> MAC Search</a></li>
                                     <li><a href="#"><i class="icon fa fa-search"></i> ARP Tables</a></li>
+                                    <li><hr></li>
                                     <!-- only if enabled -->
                                     <li><a href="#"><i class="icon fa fa-file-text-o"></i> MIB definitions</a></li>
                                     <!-- /.only if enabled -->
@@ -191,6 +179,7 @@
                                             <!-- Loop through all device types -->
                                         </ul>
                                     </li>
+                                    <li><hr></li>
                                     <li>
                                         <a href="#"><i class="icon fa fa-th"></i> Device Groups
                                         <i class="fa fa-angle-left pull-right"></i></a>
@@ -198,6 +187,10 @@
                                             <!-- Loop through all device groups -->
                                         </ul>
                                     </li>
+                                    <!-- if admin -->
+                                    <li><a href="#"><i class="icon fa fa-th"></i> Manage groups</a></li>
+                                    <!-- /.if admin -->
+                                    <li><hr></li>
                                     <!-- if enabled -->
                                     <li>
                                         <a href="#"><i class="icon fa fa-map-marker"></i> Locations
@@ -206,13 +199,12 @@
                                             <!-- Loop through all device locations -->
                                         </ul>
                                     </li>
+                                    <li><hr></li>
                                     <!-- /.if enabled -->
                                     <!-- if enabled -->
                                     <li><a href="#"><i class="icon fa fa-file-text-o"></i> MIB associations</a></li>
                                     <!-- /.if enabled -->
-                                    <!-- if admin -->
-                                    <li><a href="#"><i class="icon fa fa-th"></i> Manage groups</a></li>
-                                    <!-- /.if admin -->
+                                    <li><hr></li>
                                     <li><a href="{{ route('devices.create') }}"><i class="icon fa fa-plus text-green"></i> Add device</a></li>
                                     <li><a href="#"><i class="icon fa fa-trash text-aqua"></i> Delete device</a></li>
                                 </ul>
@@ -228,14 +220,18 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <li><a href="{{ url('/ports') }}"><i class="icon fa fa-link"></i> All ports</a></li>
+                                    <li><hr></li>
                                     <!-- if data -->
                                     <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> Errored</a></li>
                                     <li><a href="#"><i class="icon fa fa-question-circle"></i> Ignored</a></li>
                                     <!-- /.if data -->
+                                    <li><hr></li>
                                     <!-- if enabled -->
                                     <li><a href="#"><i class="icon fa fa-money"></i> Traffic bills</a></li>
+                                    <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-arrows-alt"></i> Pseudowires</a></li>
                                     <!-- /.if enabled -->
+                                    <li><hr></li>
                                     <!-- if admin/read and enabled -->
                                     <li><a href="#"><i class="icon fa fa-users"></i> Customers</a></li>
                                     <li><a href="#"><i class="icon fa fa-link"></i> L2TP</a></li>
@@ -245,6 +241,7 @@
                                     <li><a href="#"><i class="icon fa fa-anchor"></i> Core</a></li>
                                     <!-- loop through custom ports -->
                                     <!-- /.if admin/read and enabled-->
+                                    <li><hr></li>
                                     <!-- if data -->
                                     <li><a href="#"><i class="icon fa fa-exclamation-circle"></i> Alerts</a></li>
                                     <!-- /.if data -->
@@ -269,6 +266,7 @@
                                     <!-- if enabled -->
                                     <li><a href="#"><i class="icon fa fa-bell-o"></i> Alerts</a></li>
                                     <!-- /.if enabled -->
+                                    <li><hr></li>
                                     <!-- if admin -->
                                     <li><a href="#"><i class="icon fa fa-bell-o text-green"></i> Add service</a></li>
                                     <li><a href="#"><i class="icon fa fa-bell-o text-aqua"></i> Edit service</a></li>
@@ -320,6 +318,7 @@
                                     <li><a href="#"><i class="icon fa fa-arrows-alt"></i> VRFs</a></li>
                                     <li><a href="#"><i class="icon fa fa-circle-o-notch"></i> OSPF</a></li>
                                     <li><a href="#"><i class="icon fa fa-exchange"></i> Cisco OTV</a></li>
+                                    <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-link"></i> BGP All sessions</a></li>
                                     <li><a href="#"><i class="icon fa fa-external-link"></i> BGP External</a></li>
                                     <li><a href="#"><i class="icon fa fa-external-link"></i> BGP Internal</a></li>
@@ -330,6 +329,38 @@
                         </ul>
                         <!-- /.if admin/read -->
                         <!-- /.routing sub-menu -->
+                        <!-- settings sub-menu -->
+                        <ul class="sidebar-menu">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-gears"></i> <span>Settings</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <!-- if admin -->
+                                    <li><a href="#"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
+                                    <li><hr></li>
+                                    <li><a href="#"><i class="icon fa fa-user-plus"></i> Add user</a></li>
+                                    <li><a href="#"><i class="icon fa fa-user-times"></i> Remove user</a></li>
+                                    <li><a href="#"><i class="icon fa fa-user-secret"></i> Edit user</a></li>
+                                    <li><hr></li>
+                                    <li><a href="#"><i class="icon fa fa-key"></i> Authlog</a></li>
+                                    <li><hr></li>
+                                    <li><a href="#"><i class="icon fa fa-list-alt"></i> Pollers log</a></li>
+                                    <li><a href="#"><i class="icon fa fa-clock-o"></i> Pollers</a></li>
+                                    <!-- if distributed poller -->
+                                    <li><a href="#"><i class="icon fa fa-gears"></i> Poller groups</a></li>
+                                    <li><hr></li>
+                                    <!-- /.if distributed poller -->
+                                    <li><a href="#"><i class="icon fa fa-wrench"></i> API tokens</a></li>
+                                    <li><a href="#"><i class="icon fa fa-book"></i> API Docs</a></li>
+                                    <!-- /.if admin -->
+                                    <li><hr></li>
+                                    <li><a href="{{ url('/about') }}"><i class="icon fa fa-exclamation-circle"></i> About LibreNMS</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- /.settings sub-menu -->
                     </section>
                     <!-- /.sidebar -->
                 </aside>

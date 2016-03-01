@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ffc641000052c036afa0c114dc6125a7",
-    "content-hash": "5dfe8e7f3e52d2ba18916adea5ce4942",
+    "hash": "0221d925770cd3c2132e1961b44d61aa",
+    "content-hash": "e606aaa398dcde80e9459429300b79c8",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -939,50 +939,6 @@
                 "tokenizer"
             ],
             "time": "2015-12-05 17:17:57"
-        },
-        {
-            "name": "laracasts/utilities",
-            "version": "2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer.git",
-                "reference": "4402a0ed774f8eb36ea7ba169341d9d5b6049378"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/4402a0ed774f8eb36ea7ba169341d9d5b6049378",
-                "reference": "4402a0ed774f8eb36ea7ba169341d9d5b6049378",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laracasts\\Utilities\\JavaScript\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeffrey Way",
-                    "email": "jeffrey@laracasts.com"
-                }
-            ],
-            "description": "Transform your PHP to JavaScript",
-            "keywords": [
-                "javascript",
-                "laravel"
-            ],
-            "time": "2015-10-01 05:16:28"
         },
         {
             "name": "laravel/framework",
