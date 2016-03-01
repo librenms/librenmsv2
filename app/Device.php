@@ -58,4 +58,18 @@ class Device extends Model
     public function ports() {
         return $this->hasMany('App\Port', 'device_id', 'device_id');
     }
+
+    /**
+     * Returns a list of the Syslog entries this device has.
+     */
+    public function syslogs() {
+        return $this->hasMany('App\Syslog', 'device_id', 'device_id');
+    }
+
+    /**
+     * Returns a list of the Eventlog entries this device has.
+     */
+    public function eventlogs() {
+        return $this->hasMany('App\Eventlog', 'device_id', 'device_id');
+    }
 }
