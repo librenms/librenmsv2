@@ -33,13 +33,12 @@ class PortController extends Controller
             $ports =  Auth::user()->ports()->get();
         }
 
-        $includes = explode(',', Input::get('include'));
-        if (in_array('device', $includes)) {
-            $ports->load('device');
-        }
+//        $includes = explode(',', Input::get('include'));
+//        if (in_array('device', $includes)) {
+//            $ports->load('device');
+//        }
 
         return $this->response->collection($ports, new PortTransformer);
-        return $ports;
     }
 
     /**
