@@ -26,10 +26,12 @@ class NotificationController extends Controller
     {
         if ($type === 'archive')
         {
-            $notifications = Notification::read([$request->user()->user_id])->limit()->get();
+            //$notifications = Notification::read([$request->user()->user_id])->limit()->get();
+            $notifications = Notification::select('notifications.*','key')->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->where('user_id', $user_id)->where(['key'=>'read', 'value'=> 1]);
         }
         else {
-            $notifications = Notification::unread()->limit()->get();
+            //$notifications = Notification::unread()->limit()->get();
+            $notifications = Notification::select('notifications.*','key')->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->whereNull('user_id')->orWhere(['key'=>'sticky', 'value'=> 1])->get();
         }
 
         if ($request->query('displayFormat') == 'human') {
