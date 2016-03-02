@@ -4,7 +4,6 @@ namespace App\Api\Controllers;
 
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
-use App\User;
 use App\Notification;
 use App\NotificationAttrib;
 use Illuminate\Http\Request;
@@ -26,15 +25,10 @@ class NotificationController extends Controller
     {
         if ($type === 'archive')
         {
-            //$notifications = Notification::read([$request->user()->user_id])->limit()->get();
-            $notifications = Notification::select('notifications.*','key')->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->where('user_id', $user_id)->where(['key'=>'read', 'value'=> 1]);
+            $notifications = Notification::read($request)->get();
         }
         else {
-            //$notifications = Notification::unread()->limit()->get();
-            $notifications = Notification::select('notifications.*','key')->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->whereNull('user_id')->orWhere(['key'=>'sticky', 'value'=> 1])->get();
-        }
-
-        if ($request->query('displayFormat') == 'human') {
+            $notifications = Notification::unread()->get();
         }
         return $notifications;
     }
