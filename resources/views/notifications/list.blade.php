@@ -5,7 +5,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <a class="btn btn-primary margin-bottom" href="{{ url('notifications/'.$page) }}">Show {{ $button }}</a>
+        <a class="btn btn-primary margin-bottom" href="{{ url('notifications/'.$page) }}">Show{{ $button }}</a>
     </div>
 </div>
 <div class="row">
@@ -40,7 +40,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <a class="btn btn-primary margin-bottom" href="{{ url('notifications/'.$page) }}">Show {{ $button }}</a>
+        <a class="btn btn-primary margin-bottom" href="{{ url('notifications/'.$page) }}">Show{{ $button }}</a>
     </div>
 </div>
 @endsection
