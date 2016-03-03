@@ -35,33 +35,25 @@ class NotificationController extends Controller
 
     public function update(Request $request, $id, $action)
     {
-        if ($action === 'read' || $action === 'sticky')
-        {
-            if (NotificationAttrib::where('notifications_id', $id)->delete() >= 0)
-            {
-                $read = new NotificationAttrib;
-                $read->notifications_id = $id;
-                $read->user_id          = $request->user()->user_id;
-                $read->key              = $action;
-                $read->value            = 1;
-                if ($read->save())
-                {
-                    return $this->response->array(array('statusText'=>'OK'));
-                }
-                else {
-                    return $this->response->errorInternal();
-                }
-            }
+
+        $notification = Notification::find($id);
+        $enable = strpos($action, 'un') === false;
+        if(!$enable) {
+            $action = substr($action, 2);
         }
-        elseif ($action === 'unread' || $action === 'unsticky')
-        {
-            if (NotificationAttrib::where('notifications_id', $id)->delete() >= 0)
-            {
-                return $this->response->array(array('statusText'=>'OK'));
-            }
-            else {
-                return $this->response->errorInternal();
-            }
+
+        if ($action == 'read') {
+           $result = $notification->markRead($enable);
+        }
+        elseif ($action == 'sticky') {
+           $result = $notification->markSticky(false);
+        }
+
+        if ($result === false) {
+            return $this->response->errorInternal();
+        }
+        else {
+            return $this->response->array(array('statusText'=>'OK'));
         }
     }
 

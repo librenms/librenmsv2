@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
         <!-- Toastr style -->
         <link href="{{ url('css/toastr.min.css') }}" rel="stylesheet"/>
+        <!-- LibreNMS stylesheet -->
+        <link href="{{ url('css/librenms.css') }}" rel="stylesheet"/>
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
