@@ -28,12 +28,12 @@ class Notification extends Model
      */
     public $timestamps = false;
 
-    public function scopeUnread($query)
+    public function scopeIsUnread($query)
     {
         return $query->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->whereNull('user_id')->orWhere(['key'=>'sticky', 'value'=> 1])->limit();
     }
 
-    public function scopeRead($query, $request)
+    public function scopeIsArchived($query, $request)
     {
         $user_id = $request->user()->user_id;
         return $query->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->where('user_id', $user_id)->where(['key'=>'read', 'value'=> 1])->limit();

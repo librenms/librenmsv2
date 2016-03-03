@@ -25,10 +25,10 @@ class NotificationController extends Controller
     {
         if ($type === 'archive')
         {
-            $notifications = Notification::read($request)->get();
+            $notifications = Notification::isarchived($request)->get();
         }
         else {
-            $notifications = Notification::unread()->get();
+            $notifications = Notification::isunread()->get();
         }
         return $notifications;
     }

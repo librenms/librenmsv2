@@ -70,6 +70,14 @@ $.Util.markNotification = function(url) {
                     else {
                         window.location.href="";
                     }
+                    if (action === 'unread')
+                    {
+                        $('#notification-count > span').text(parseInt($("#notification-count").text()) + 1);
+                    }
+                    else if (action === 'read')
+                    {
+                        $('#notification-count > span').text(parseInt($("#notification-count").text()) - 1);
+                    }
                 }
                 else {
                     $(this).attr("disabled", false);

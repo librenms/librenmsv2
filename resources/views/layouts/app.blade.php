@@ -56,7 +56,7 @@
                                 <li class="dropdown notifications-menu">
                                     <a href="{{ url('/notifications') }}">
                                         <i class="fa fa-user fa-lg"></i>
-                                        <span class="label label-warning">{{ count($notifications) }}</span>
+                                        <span class="label label-warning" id="notification-count"><span>{{ count($notifications_count) }}</span></span>
                                     </a>
                                 </li>
                                 <!-- User Account: style can be found in dropdown.less -->
