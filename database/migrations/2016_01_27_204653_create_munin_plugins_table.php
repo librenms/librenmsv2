@@ -15,7 +15,7 @@ class CreateMuninPluginsTable extends Migration {
 		Schema::create('munin_plugins', function(Blueprint $table)
 		{
 			$table->integer('mplug_id', true);
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 			$table->string('mplug_type');
 			$table->string('mplug_instance', 128)->nullable();
 			$table->string('mplug_category', 32)->nullable();
@@ -25,7 +25,7 @@ class CreateMuninPluginsTable extends Migration {
 			$table->string('mplug_args', 512)->nullable();
 			$table->binary('mplug_total', 1)->default('');
 			$table->binary('mplug_graph', 1)->default('');
-			$table->unique(['device_id','mplug_type'], 'UNIQUE');
+			$table->unique(['device_id','mplug_type']);
 		});
 	}
 

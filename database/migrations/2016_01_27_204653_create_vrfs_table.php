@@ -19,7 +19,7 @@ class CreateVrfsTable extends Migration {
 			$table->string('vrf_name', 128)->nullable();
 			$table->string('mplsVpnVrfRouteDistinguisher', 128)->nullable();
 			$table->text('mplsVpnVrfDescription', 65535);
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 		});
 	}
 

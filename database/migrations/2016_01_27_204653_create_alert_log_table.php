@@ -15,11 +15,11 @@ class CreateAlertLogTable extends Migration {
 		Schema::create('alert_log', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('rule_id')->index('rule_id');
-			$table->integer('device_id')->index('device_id');
+			$table->integer('rule_id')->index();
+			$table->integer('device_id')->index();
 			$table->integer('state');
 			$table->binary('details');
-			$table->timestamp('time_logged')->default(DB::raw('CURRENT_TIMESTAMP'))->index('time_logged');
+			$table->timestamp('time_logged')->default(DB::raw('CURRENT_TIMESTAMP'))->index();
 		});
 	}
 

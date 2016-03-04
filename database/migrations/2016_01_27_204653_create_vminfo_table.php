@@ -15,9 +15,9 @@ class CreateVminfoTable extends Migration {
 		Schema::create('vminfo', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('device_id')->index('device_id');
-			$table->string('vm_type', 16)->default('vmware');
-			$table->integer('vmwVmVMID')->index('vmwVmVMID');
+			$table->integer('device_id')->index();
+			$table->string('vm_type', 16)->default();
+			$table->integer('vmwVmVMID')->index();
 			$table->string('vmwVmDisplayName', 128);
 			$table->string('vmwVmGuestOS', 128);
 			$table->integer('vmwVmMemSize');

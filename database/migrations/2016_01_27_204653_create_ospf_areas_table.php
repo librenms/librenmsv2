@@ -25,7 +25,7 @@ class CreateOspfAreasTable extends Migration {
 			$table->integer('ospfAreaLsaCksumSum');
 			$table->string('ospfAreaSummary', 64);
 			$table->string('ospfAreaStatus', 64);
-			$table->unique(['device_id','ospfAreaId'], 'device_area');
+			$table->unique(['device_id','ospfAreaId']);
 		});
 	}
 

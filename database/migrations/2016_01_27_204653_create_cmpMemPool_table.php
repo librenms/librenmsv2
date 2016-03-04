@@ -18,7 +18,7 @@ class CreateCmpMemPoolTable extends Migration {
 			$table->string('Index', 8);
 			$table->string('cmpName', 32);
 			$table->string('cmpValid', 8);
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 			$table->integer('cmpUsed');
 			$table->integer('cmpFree');
 			$table->integer('cmpLargestFree');

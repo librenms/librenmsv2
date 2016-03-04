@@ -15,7 +15,7 @@ class CreateFrequencyTable extends Migration {
 		Schema::create('frequency', function(Blueprint $table)
 		{
 			$table->integer('freq_id', true);
-			$table->integer('device_id')->default(0)->index('freq_host');
+			$table->integer('device_id')->default(0)->index();
 			$table->string('freq_oid', 64);
 			$table->string('freq_index', 8);
 			$table->string('freq_type', 32);

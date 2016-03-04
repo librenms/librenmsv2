@@ -25,7 +25,7 @@ class CreateUsersWidgetsTable extends Migration {
 			$table->boolean('refresh')->default(60);
 			$table->text('settings', 65535);
 			$table->integer('dashboard_id');
-			$table->index(['user_id','widget_id'], 'user_id');
+			$table->index(['user_id','widget_id']);
 		});
 	}
 

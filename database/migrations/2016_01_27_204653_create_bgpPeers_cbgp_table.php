@@ -26,8 +26,8 @@ class CreateBgpPeersCbgpTable extends Migration {
 			$table->integer('AdvertisedPrefixes');
 			$table->integer('SuppressedPrefixes');
 			$table->integer('WithdrawnPrefixes');
-			$table->unique(['device_id','bgpPeerIdentifier','afi','safi'], 'unique_index');
-			$table->index(['device_id','bgpPeerIdentifier'], 'device_id');
+			$table->unique(['device_id','bgpPeerIdentifier','afi','safi']);
+			$table->index(['device_id','bgpPeerIdentifier']);
 		});
 	}
 

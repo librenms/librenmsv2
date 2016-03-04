@@ -30,7 +30,7 @@ class CreateOspfInstancesTable extends Migration {
 			$table->integer('ospfMulticastExtensions')->nullable();
 			$table->integer('ospfExitOverflowInterval')->nullable();
 			$table->string('ospfDemandExtensions', 32)->nullable();
-			$table->unique(['device_id','ospf_instance_id'], 'device_id');
+			$table->unique(['device_id','ospf_instance_id']);
 		});
 	}
 

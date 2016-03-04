@@ -15,7 +15,7 @@ class CreateUcdDiskioTable extends Migration {
 		Schema::create('ucd_diskio', function(Blueprint $table)
 		{
 			$table->integer('diskio_id', true);
-			$table->integer('device_id')->index('device_id_2');
+			$table->integer('device_id')->index();
 			$table->integer('diskio_index');
 			$table->string('diskio_descr', 32);
 		});

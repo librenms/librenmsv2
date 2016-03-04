@@ -15,7 +15,7 @@ class CreateDeviceGroupsTable extends Migration {
 		Schema::create('device_groups', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('name')->default('')->unique('name');
+			$table->string('name')->default('')->unique();
 			$table->string('desc')->default('');
 			$table->text('pattern', 65535)->nullable();
 		});

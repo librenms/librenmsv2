@@ -21,7 +21,7 @@ class CreateVlansTable extends Migration {
 			$table->string('vlan_name', 32)->nullable();
 			$table->string('vlan_type', 16)->nullable();
 			$table->integer('vlan_mtu')->nullable();
-			$table->index(['device_id','vlan_vlan'], 'device_id');
+			$table->index(['device_id','vlan_vlan']);
 		});
 	}
 

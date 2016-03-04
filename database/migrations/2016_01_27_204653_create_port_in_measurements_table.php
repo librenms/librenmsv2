@@ -14,7 +14,7 @@ class CreatePortInMeasurementsTable extends Migration {
 	{
 		Schema::create('port_in_measurements', function(Blueprint $table)
 		{
-			$table->integer('port_id')->index('port_id');
+			$table->integer('port_id')->index();
 			$table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->bigInteger('counter');
 			$table->bigInteger('delta');

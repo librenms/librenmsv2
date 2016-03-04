@@ -15,7 +15,7 @@ class CreateComponentPrefsTable extends Migration {
 		Schema::create('component_prefs', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('component')->unsigned()->index('component');
+			$table->integer('component')->unsigned()->index();
 			$table->string('attribute');
 			$table->string('value');
 		});

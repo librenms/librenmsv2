@@ -15,8 +15,8 @@ class CreateAlertsTable extends Migration {
 		Schema::create('alerts', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('device_id')->index('device_id');
-			$table->integer('rule_id')->index('rule_id');
+			$table->integer('device_id')->index();
+			$table->integer('rule_id')->index();
 			$table->integer('state');
 			$table->integer('alerted');
 			$table->integer('open');

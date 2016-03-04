@@ -17,7 +17,7 @@ class CreateLoadbalancerVserversTable extends Migration {
 			$table->integer('classmap_id');
 			$table->string('classmap', 128);
 			$table->string('serverstate', 64);
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 		});
 	}
 

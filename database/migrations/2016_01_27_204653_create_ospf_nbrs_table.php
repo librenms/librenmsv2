@@ -28,7 +28,7 @@ class CreateOspfNbrsTable extends Migration {
 			$table->string('ospfNbmaNbrStatus', 32);
 			$table->string('ospfNbmaNbrPermanence', 32);
 			$table->string('ospfNbrHelloSuppressed', 32);
-			$table->unique(['device_id','ospf_nbr_id'], 'device_id');
+			$table->unique(['device_id','ospf_nbr_id']);
 		});
 	}
 

@@ -15,7 +15,7 @@ class CreateHrDeviceTable extends Migration {
 		Schema::create('hrDevice', function(Blueprint $table)
 		{
 			$table->integer('hrDevice_id', true);
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 			$table->integer('hrDeviceIndex');
 			$table->text('hrDeviceDescr', 65535);
 			$table->text('hrDeviceType', 65535);

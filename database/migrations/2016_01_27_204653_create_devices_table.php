@@ -15,8 +15,8 @@ class CreateDevicesTable extends Migration {
 		Schema::create('devices', function(Blueprint $table)
 		{
 			$table->integer('device_id', true);
-			$table->string('hostname', 128)->index('hostname');
-			$table->string('sysName', 128)->nullable()->index('sysName');
+			$table->string('hostname', 128)->index();
+			$table->string('sysName', 128)->nullable()->index();
 			$table->binary('ip', 16);
 			$table->string('community')->nullable();
 			$table->enum('authlevel', array('noAuthNoPriv','authNoPriv','authPriv'))->nullable();
@@ -38,15 +38,15 @@ class CreateDevicesTable extends Migration {
 			$table->text('hardware', 65535)->nullable();
 			$table->text('features', 65535)->nullable();
 			$table->text('location', 65535)->nullable();
-			$table->string('os', 32)->nullable()->index('os');
-			$table->boolean('status')->default(0)->index('status');
+			$table->string('os', 32)->nullable()->index();
+			$table->boolean('status')->default(0)->index();
 			$table->string('status_reason', 50);
 			$table->boolean('ignore')->default(0);
 			$table->boolean('disabled')->default(0);
 			$table->bigInteger('uptime')->nullable();
 			$table->integer('agent_uptime')->default(0);
-			$table->dateTime('last_polled')->nullable()->index('last_polled');
-			$table->dateTime('last_poll_attempted')->nullable()->index('last_poll_attempted');
+			$table->dateTime('last_polled')->nullable()->index();
+			$table->dateTime('last_poll_attempted')->nullable()->index();
 			$table->float('last_polled_timetaken', 5)->nullable();
 			$table->float('last_discovered_timetaken', 5)->nullable();
 			$table->dateTime('last_discovered')->nullable();

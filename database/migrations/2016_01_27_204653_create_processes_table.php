@@ -14,7 +14,7 @@ class CreateProcessesTable extends Migration {
 	{
 		Schema::create('processes', function(Blueprint $table)
 		{
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 			$table->integer('pid');
 			$table->integer('vsz');
 			$table->integer('rss');
