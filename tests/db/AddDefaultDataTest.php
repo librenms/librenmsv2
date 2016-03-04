@@ -18,8 +18,8 @@ class AddDefaultDataTest extends TestCase
     public function testaddDeviceData()
     {
         $data_array = [
-                ['hostname' => 'localhost', 'sysName' => 'mysystem', 'version' => '1.1', 'hardware' => 'Intel x64', 'location' => 'Some place in the world', 'status' => 1, 'status_reason' => ''],
-                ['hostname' => 'remotehost', 'sysName' => 'someonessystem', 'version' => '2.2', 'hardware' => 'AMD x64', 'location' => 'Some other place in the world', 'status' => 0, 'status_reason' => 'icmp'],
+                ['hostname' => 'localhost', 'ip' => '127.0.0.1', 'sysName' => 'mysystem', 'version' => '1.1', 'hardware' => 'Intel x64', 'location' => 'Some place in the world', 'status' => 1, 'status_reason' => ''],
+                ['hostname' => 'remotehost', 'ip' => '127.0.0.2', 'sysName' => 'someonessystem', 'version' => '2.2', 'hardware' => 'AMD x64', 'location' => 'Some other place in the world', 'status' => 0, 'status_reason' => 'icmp'],
         ];
         foreach ($data_array as $data) {
             DB::table('devices')->insert($data);
