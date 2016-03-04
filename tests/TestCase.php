@@ -29,4 +29,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         Artisan::call('db:seed');
     }
 
+    public function tearDown()
+    {
+        Artisan::call('migrate:reset');
+        parent::tearDown();
+    }
+
 }
