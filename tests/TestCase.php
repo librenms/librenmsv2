@@ -28,9 +28,4 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         Artisan::call('migrate');
     }
 
-    public function tearDown()
-    {
-        Artisan::call('migrate:reset');
-        parent::tearDown();
-    }
 }
