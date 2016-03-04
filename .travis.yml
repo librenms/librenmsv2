@@ -16,8 +16,8 @@ services:
   - mysql
 
 before_script:
-  - mysql -e 'create database phpunit_librenms;'
+#  - mysql -e 'create database phpunit_librenms;'
   - git reset --hard HEAD
   - cp .env.example .env
   - php artisan key:generate
-  - php artisan migrate --no-interaction -vvv
+#  - php artisan migrate --no-interaction -vvv
