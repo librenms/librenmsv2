@@ -5,7 +5,7 @@ class AddDefaultDataTest extends TestCase
 
     /**
      * Add a dbSchema version
-    **/
+     */
     public function testAdddbSchemaVersion()
     {
         $data = ['version' => 100];
@@ -13,8 +13,8 @@ class AddDefaultDataTest extends TestCase
     }
 
     /**
-    * Add a device entry to the DB
-    **/
+     * Add a device entry to the DB
+     */
     public function testaddDeviceData()
     {
         $data_array = [
@@ -27,8 +27,8 @@ class AddDefaultDataTest extends TestCase
     }
 
     /**
-    * Add port entries for devices
-    **/
+     * Add port entries for devices
+     */
     public function testaddPortData()
     {
         $devices = DB::select('SELECT `device_id` FROM `devices`');
@@ -38,4 +38,5 @@ class AddDefaultDataTest extends TestCase
             DB::table('ports')->insert($data);
         }
     }
+
 }

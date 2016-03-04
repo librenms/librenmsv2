@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>
         @yield('title')
         </title>
@@ -17,6 +18,10 @@
         @yield('datatablescss')
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
+        <!-- Toastr style -->
+        <link href="{{ url('css/toastr.min.css') }}" rel="stylesheet"/>
+        <!-- LibreNMS stylesheet -->
+        <link href="{{ url('css/librenms.css') }}" rel="stylesheet"/>
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
@@ -51,9 +56,9 @@
                             <ul class="nav navbar-nav">
                                 <!-- Notifications: style can be found in dropdown.less -->
                                 <li class="dropdown notifications-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <i class="fa fa-user"></i>
-                                        <span class="label label-warning">10</span>
+                                    <a href="{{ url('/notifications') }}">
+                                        <i class="fa fa-user fa-lg"></i>
+                                        <span class="label label-warning" id="notification-count"><span>{{ count($notifications_count) }}</span></span>
                                     </a>
                                 </li>
                                 <!-- User Account: style can be found in dropdown.less -->
@@ -378,7 +383,7 @@
                     <div class="pull-right hidden-xs">
                         <b>Version</b> x.x.x
                     </div>
-                    <strong>Copyright &copy; 2016 <a href="http://www.librenms.org">LibreNMS</a>.</strong> All rights reserved.
+                    <strong>Copyright &copy; {{ date("Y") }} <a href="http://www.librenms.org">LibreNMS</a>.</strong> All rights reserved.
                 </footer>
             <div>
         @endif
@@ -395,6 +400,8 @@
         @yield('datatablesjs')
         <!-- FastClick -->
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
+        <!-- Toastr -->
+        <script src="{{ url('js/plugins/toastr/toastr.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script>
             var AdminLTEOptions = {

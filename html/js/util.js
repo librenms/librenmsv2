@@ -38,3 +38,56 @@ $.Util.formatDataUnits = function(units,decimals,display,base) {
    var i = Math.floor(Math.log(units) / Math.log(base));
    return parseFloat((units / Math.pow(base, i)).toFixed(dm)) + display[i];
 }
+
+/* markNotificationRead()
+ * ======
+ * Using an ajax request it will mark the particular notification as read
+ *
+ * @type Function
+ * @Usage: $.Util.markNotificationRead(url)
+ */
+$.Util.markNotification = function(url) {
+    $(document).on("click", ".notification", function() {
+        $(this).attr("disabled", true);
+        var id     = $(this).data('id');
+        var action = $(this).data('action');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'PATCH',
+            url: url+'/'+id+'/'+action,
+            dataType: "json",
+            success: function (data) {
+                if( data.statusText === "OK" ) {
+                    toastr.info('Notification has been marked as '+action);
+                    if (action !== 'sticky' && action !== 'unsticky')
+                    {
+                        $("#"+id).fadeOut();
+                    }
+                    else {
+                        window.location.href="";
+                    }
+                    if (action === 'unread')
+                    {
+                        $('#notification-count > span').text(parseInt($("#notification-count").text()) + 1);
+                    }
+                    else if (action === 'read')
+                    {
+                        $('#notification-count > span').text(parseInt($("#notification-count").text()) - 1);
+                    }
+                }
+                else {
+                    $(this).attr("disabled", false);
+                    toastr.info('We had a problem marking this notification as '+action)
+                }
+            },
+            error: function(err,msg) {
+                $(this).attr("disabled", false);
+                toastr.error("Couldn't mark this notification as "+action);
+            }
+        });
+    });
+}
