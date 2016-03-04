@@ -6,12 +6,23 @@ use League\Fractal;
 
 class PortTransformer extends Fractal\TransformerAbstract
 {
+
+    /**
+     * List of resources possible to include
+     *
+     * @var array
+     */
+    protected $availableIncludes = ['device'];
+
+    /**
+     * Turn this item object into a generic array
+     *
+     * @return array
+     */
     public function transform(Port $port)
     {
         return [
             'id'                        => (int) $port->port_id,
-            'device_id'                  => (int) $port->device_id,
-            'device_name'               => $port->device->hostname,
             'alias'                     => $port->ifAlias,
             'speed'                     => (int) $port->ifSpeed,
             'out_unicast_pkts_delta'    => (int) $port->ifOutUcastPkts_delta,
@@ -19,5 +30,16 @@ class PortTransformer extends Fractal\TransformerAbstract
             'type'                      => $port->ifType,
             'description'               => $port->ifDescr,
         ];
+    }
+
+    /**
+     * Include Device
+     *
+     * @return League\Fractal\ItemResource
+     */
+    public function includeDevice(Port $port)
+    {
+        $device = $port->device;
+        return $this->item($device, new DeviceTransformer);
     }
 }
