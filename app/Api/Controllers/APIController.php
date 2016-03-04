@@ -17,7 +17,13 @@ class ApiController extends Controller
         $versions['git']       = `git rev-parse --short HEAD`;
         $versions['db_schema'] = DB::select('SELECT `version` FROM `dbSchema` LIMIT 1')[0]->version;
         $versions['php']       = phpversion();
-        $versions['mysql']     = DB::select('SELECT version() AS version')[0]->version;
+        if (!DB::connection()->getDatabaseName() === ':memory:')
+        {
+            $versions['mysql'] = DB::select('SELECT version() AS version')[0]->version;
+        }
+        else {
+            $versions['mysql'] = 'SQLite3';
+        }
         return $versions;
     }
 

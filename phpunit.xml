@@ -9,8 +9,8 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Data entry">
-            <directory>./tests/db/</directory>
+        <testsuite name="Device tests">
+            <directory>./tests/devices/</directory>
         </testsuite>
         <testsuite name="Users tests">
             <directory>./tests/users/</directory>
