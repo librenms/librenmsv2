@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Device;
+use App\Port;
 
 class InsertPortsTableSeeder extends Seeder
 {
@@ -11,11 +13,10 @@ class InsertPortsTableSeeder extends Seeder
      */
     public function run()
     {
-        $devices = DB::select('SELECT `device_id` FROM `devices`');
+        $devices = Device::all();
         foreach ($devices as $device) {
-            $device_id = $device->device_id;
-            $data = ['device_id' => $device_id, 'ifIndex' => $device_id, 'ifDescr' => 'eth0', 'ifName' => 'eth0', 'ifSpeed' => 1000000, 'ifOperStatus' => 'up', 'ifAdminStatus' => 'up', 'ifType' => 'ethernetCsmacd', 'ifAlias' => 'eth0'];
-            DB::table('ports')->insert($data);
+            $data  = ['ifIndex' => 1, 'ifDescr' => 'eth0', 'ifName' => 'eth0', 'ifSpeed' => 1000000, 'ifOperStatus' => 'up', 'ifAdminStatus' => 'up', 'ifType' => 'ethernetCsmacd', 'ifAlias' => 'eth0'];
+            $device->ports()->create($data);
         }
     }
 }
