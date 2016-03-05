@@ -30,7 +30,7 @@ class PortController extends Controller
             $ports = Port::all();
         }
         else {
-            $ports =  Auth::user()->ports()->get();
+            $ports = Auth::user()->ports()->get();
         }
 
 //        $includes = explode(',', Input::get('include'));

@@ -1,7 +1,7 @@
 Installation
 ------------
 
-> At present this is put together from my notes on setting up the branch in the first place. It may not be 100%!
+> This install guide has been tested but may not be yet 100% valid! Please feel free to open an issue or contribute on the guide  if needed.
 
 This branch at present requires you to already have a fully working LibreNMS install. It doesn't require to be installed on the same server, this branch purely needs access to the MySQL instance to work.
 
@@ -19,16 +19,36 @@ Requirements
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer
 cd /opt/
 sudo git clone https://github.com/librenms/librenmsv2 librenmsv2
-sudo chown -R librenms:librenms /opt/librenmsv2/ -R
 cd librenmsv2
+sudo mkdir logs
+sudo chown -R librenms:librenms /opt/librenmsv2
+```
+
+```bash
 cp .env.example .env
 ```
 
 Please now edit the .env file and set your options.
 
+Replace the database configuration with the one used by Librenms (have a look at the config.php file in /opt/librenms directory)
+
+```bash
+DB_HOST=127.0.0.1
+DB_DATABASE=librenms
+DB_USERNAME=username
+DB_PASSWORD=password
+```
+
 ```bash
 composer install
 php artisan key:generate
+```
+
+Make sure librenms user is part of webserver Group and can write logs in storage directory
+
+```bash
+usermod -a -G librenms www-data
+chmod -R g+w storage logs
 ```
 
 Now you will need to create your web server config.
