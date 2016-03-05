@@ -13,7 +13,6 @@ class ListDeviceTest extends TestCase
 
     public function testListingDevices()
     {
-        $this->seed();
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
