@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,7 +12,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(dbSchemaTableSeeder::class);
-        $this->call(insertDevicesTableSeeder::class);
+        // allow all values to be inserted
+        Model::unguard();
+
+        $this->call(DbSchemaTableSeeder::class);
+        $this->call(InsertDevicesTableSeeder::class);
+        $this->call(InsertPortsTableSeeder::class);
+
+
+        Model::reguard();
     }
 }

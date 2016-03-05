@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 
-class dbSchemaTableSeeder extends Seeder
+class DbSchemaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class insertPortsTableSeeder extends Seeder
+class InsertPortsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
