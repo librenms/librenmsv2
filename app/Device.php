@@ -72,4 +72,15 @@ class Device extends Model
     public function eventlogs() {
         return $this->hasMany('App\Eventlog', 'device_id', 'device_id');
     }
+
+    /**
+     * Return URI to logo picture
+     */
+    public function logo() {
+        $os = DeviceOS::load($this);
+        if( isset($os->icon) ){
+            return asset('images/os/'.$os->icon.'.png');
+        }
+        return asset('images/os/generic.png');
+    }
 }
