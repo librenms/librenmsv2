@@ -11,6 +11,7 @@ class AboutPageTest extends TestCase
 
     public function testAboutPage()
     {
+        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('/about')

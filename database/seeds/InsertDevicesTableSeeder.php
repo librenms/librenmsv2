@@ -15,6 +15,8 @@ class InsertDevicesTableSeeder extends Seeder
         $data_array = [
             ['hostname' => 'myhost', 'ip' => '127.0.0.1', 'sysName' => 'mysystem', 'version' => '1.1', 'hardware' => 'Intel x64', 'location' => 'Some place in the world', 'status' => 1, 'status_reason' => ''],
             ['hostname' => 'remotehost', 'ip' => '::1', 'sysName' => 'someonessystem', 'version' => '2.2', 'hardware' => 'AMD x64', 'location' => 'Some other place in the world', 'status' => 0, 'status_reason' => 'icmp'],
+            ['hostname' => 'restrictedhost', 'ip' => '127.0.0.2', 'sysName' => 'mysystem', 'version' => '1.1', 'hardware' => 'Intel x64', 'location' => 'Some place in the world', 'status' => 1, 'status_reason' => ''],
+
         ];
         foreach ($data_array as $data) {
             Device::create($data);
