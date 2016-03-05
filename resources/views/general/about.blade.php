@@ -24,8 +24,8 @@
                     <dd>{{ $versions['php'] }}</a></dd>
                 </dl>
                 <dl class="dl-horizontal">
-                    <dt>MySQL</dt>
-                    <dd>{{ $versions['mysql'] }}</a></dd>
+                    <dt>{{ $versions['db_driver'] }}</dt>
+                    <dd>{{ $versions['db_version'] }}</a></dd>
                 </dl>
             </div>
         </div>
