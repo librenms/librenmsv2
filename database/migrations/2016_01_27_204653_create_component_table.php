@@ -15,8 +15,8 @@ class CreateComponentTable extends Migration {
 		Schema::create('component', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('device_id')->unsigned()->index('device');
-			$table->string('type', 50)->index('type');
+			$table->integer('device_id')->unsigned()->index();
+			$table->string('type', 50)->index();
 			$table->string('label')->nullable();
 			$table->boolean('status')->default(1);
 			$table->boolean('disabled')->default(0);

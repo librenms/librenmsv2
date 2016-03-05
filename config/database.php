@@ -46,7 +46,13 @@ return [
 
     'connections' => [
 
-        'testing' => [
+        'testing_sqlite' => [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ],
+
+        'testing_mysql' => [
             'driver'   => 'mysql',
             'host'      => env('PHPUNIT_DB_HOST', '127.0.0.1'),
             'database'  => env('PHPUNIT_DB_DATABASE', 'phpunit_librenms'),

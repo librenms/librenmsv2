@@ -18,7 +18,7 @@ class CreateNotificationsTable extends Migration {
 			$table->string('title')->default('');
 			$table->text('body', 65535);
 			$table->string('source')->default('');
-			$table->string('checksum', 128)->unique('checksum');
+			$table->string('checksum', 128)->unique();
 			$table->timestamp('datetime')->default(DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}

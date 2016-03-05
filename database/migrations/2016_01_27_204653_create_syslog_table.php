@@ -14,13 +14,13 @@ class CreateSyslogTable extends Migration {
 	{
 		Schema::create('syslog', function(Blueprint $table)
 		{
-			$table->integer('device_id')->nullable()->index('device_id');
+			$table->integer('device_id')->nullable()->index();
 			$table->string('facility', 10)->nullable();
 			$table->string('priority', 10)->nullable();
 			$table->string('level', 10)->nullable();
 			$table->string('tag', 10)->nullable();
-			$table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP'))->index('datetime');
-			$table->string('program', 32)->nullable()->index('program');
+			$table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP'))->index();
+			$table->string('program', 32)->nullable()->index();
 			$table->text('msg', 65535)->nullable();
 			$table->bigInteger('seq', true)->unsigned();
 		});

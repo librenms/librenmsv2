@@ -15,12 +15,12 @@ class CreateAlertRulesTable extends Migration {
 		Schema::create('alert_rules', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('device_id')->default('')->index('device_id');
+			$table->string('device_id')->default('')->index();
 			$table->text('rule', 65535);
 			$table->enum('severity', array('ok','warning','critical'));
 			$table->string('extra');
 			$table->boolean('disabled');
-			$table->string('name')->unique('name');
+			$table->string('name')->unique();
 		});
 	}
 

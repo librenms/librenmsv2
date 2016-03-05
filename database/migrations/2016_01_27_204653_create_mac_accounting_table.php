@@ -15,7 +15,7 @@ class CreateMacAccountingTable extends Migration {
 		Schema::create('mac_accounting', function(Blueprint $table)
 		{
 			$table->integer('ma_id', true);
-			$table->integer('port_id')->index('interface_id_2');
+			$table->integer('port_id')->index();
 			$table->string('mac', 32);
 			$table->string('in_oid', 128);
 			$table->string('out_oid', 128);

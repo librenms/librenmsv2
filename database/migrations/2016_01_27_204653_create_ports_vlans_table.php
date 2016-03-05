@@ -22,7 +22,7 @@ class CreatePortsVlansTable extends Migration {
 			$table->bigInteger('priority');
 			$table->string('state', 16);
 			$table->integer('cost');
-			$table->unique(['device_id','port_id','vlan'], 'unique');
+			$table->unique(['device_id','port_id','vlan']);
 		});
 	}
 

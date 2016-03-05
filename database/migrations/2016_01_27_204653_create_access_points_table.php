@@ -20,7 +20,7 @@ class CreateAccessPointsTable extends Migration {
 			$table->boolean('radio_number')->nullable();
 			$table->string('type', 16);
 			$table->string('mac_addr', 24);
-			$table->boolean('deleted')->default(0)->index('deleted');
+			$table->boolean('deleted')->default(0)->index();
 			$table->boolean('channel')->default(0);
 			$table->boolean('txpow')->default(0);
 			$table->boolean('radioutil')->default(0);
@@ -29,7 +29,7 @@ class CreateAccessPointsTable extends Migration {
 			$table->boolean('numactbssid')->default(0);
 			$table->boolean('nummonbssid')->default(0);
 			$table->boolean('interference');
-			$table->index(['name','radio_number'], 'name');
+			$table->index(['name','radio_number']);
 		});
 	}
 

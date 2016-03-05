@@ -15,7 +15,7 @@ class CreateJuniAtmVpTable extends Migration {
 		Schema::create('juniAtmVp', function(Blueprint $table)
 		{
 			$table->integer('juniAtmVp_id');
-			$table->integer('port_id')->index('port_id');
+			$table->integer('port_id')->index();
 			$table->integer('vp_id');
 			$table->string('vp_descr', 32);
 		});

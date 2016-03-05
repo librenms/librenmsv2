@@ -16,7 +16,7 @@ class CreateWidgetsTable extends Migration {
 		{
 			$table->integer('widget_id', true);
 			$table->string('widget_title');
-			$table->string('widget')->unique('widget');
+			$table->string('widget')->unique();
 			$table->string('base_dimensions', 10);
 		});
 	}

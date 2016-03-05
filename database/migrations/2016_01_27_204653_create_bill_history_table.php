@@ -15,7 +15,7 @@ class CreateBillHistoryTable extends Migration {
 		Schema::create('bill_history', function(Blueprint $table)
 		{
 			$table->integer('bill_hist_id', true);
-			$table->integer('bill_id')->index('bill_id');
+			$table->integer('bill_id')->index();
 			$table->timestamp('updated')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->dateTime('bill_datefrom');
 			$table->dateTime('bill_dateto');
@@ -35,7 +35,7 @@ class CreateBillHistoryTable extends Migration {
 			$table->bigInteger('traf_out');
 			$table->bigInteger('traf_total');
 			$table->binary('pdf')->nullable();
-			$table->unique(['bill_id','bill_datefrom','bill_dateto'], 'unique_index');
+			$table->unique(['bill_id','bill_datefrom','bill_dateto']);
 		});
 	}
 

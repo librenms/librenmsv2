@@ -18,7 +18,7 @@ class CreatePortsStackTable extends Migration {
 			$table->integer('port_id_high');
 			$table->integer('port_id_low');
 			$table->string('ifStackStatus', 32);
-			$table->unique(['device_id','port_id_high','port_id_low'], 'device_id');
+			$table->unique(['device_id','port_id_high','port_id_low']);
 		});
 	}
 

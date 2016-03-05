@@ -15,7 +15,7 @@ class CreateAlertScheduleItemsTable extends Migration {
 		Schema::create('alert_schedule_items', function(Blueprint $table)
 		{
 			$table->integer('item_id', true);
-			$table->integer('schedule_id')->index('schedule_id');
+			$table->integer('schedule_id')->index();
 			$table->string('target');
 		});
 	}

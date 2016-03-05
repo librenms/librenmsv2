@@ -32,7 +32,7 @@ class CreateMuninPluginsDsTable extends Migration {
 			$table->text('ds_sum', 65535);
 			$table->text('ds_stack', 65535);
 			$table->string('ds_line', 64);
-			$table->unique(['mplug_id','ds_name'], 'splug_id');
+			$table->unique(['mplug_id','ds_name']);
 		});
 	}
 

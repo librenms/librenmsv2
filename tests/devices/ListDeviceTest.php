@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Device;
 
 class ListDeviceTest extends TestCase
 {
@@ -12,27 +13,26 @@ class ListDeviceTest extends TestCase
 
     public function testListingDevices()
     {
+        $this->seed();
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
         $this->actingAs($user)
              ->visit('/devices')
-             ->see('localhost')
+             ->see('myhost')
              ->see('remotehost');
 
         $user = factory(User::class)->create([
             'level' => 1,
         ]);
 
-        $data = ['hostname' => 'restrictedhost', 'sysName' => 'mysystem', 'version' => '1.1', 'hardware' => 'Intel x64', 'location' => 'Some place in the world', 'status' => 1, 'status_reason' => ''];
-        $device_id = DB::table('devices')->insertGetId($data);
-
-        $data = ['user_id' => $user->user_id, 'device_id' => $device_id, 'access_level' => 0];
-        DB::table('devices_perms')->insert($data);
+        $device = Device::where('hostname', 'restrictedhost')->first();
+        $user->devices()->attach($device);
 
         $this->actingAs($user)
              ->visit('/devices')
-             ->see('restrictedhost');
+             ->see('restrictedhost')
+             ->dontSee('remotehost');
     }
 
 }

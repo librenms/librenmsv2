@@ -15,7 +15,7 @@ class CreateFanspeedTable extends Migration {
 		Schema::create('fanspeed', function(Blueprint $table)
 		{
 			$table->integer('fan_id', true);
-			$table->integer('fan_host')->default(0)->index('fan_host');
+			$table->integer('fan_host')->default(0)->index();
 			$table->string('fan_oid', 64);
 			$table->string('fan_descr', 32)->default('');
 			$table->integer('fan_precision')->default(1);

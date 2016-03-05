@@ -15,7 +15,7 @@ class CreateVoltageTable extends Migration {
 		Schema::create('voltage', function(Blueprint $table)
 		{
 			$table->integer('volt_id', true);
-			$table->integer('volt_host')->default(0)->index('volt_host');
+			$table->integer('volt_host')->default(0)->index();
 			$table->string('volt_oid', 64);
 			$table->string('volt_descr', 32)->default('');
 			$table->integer('volt_precision')->default(1);

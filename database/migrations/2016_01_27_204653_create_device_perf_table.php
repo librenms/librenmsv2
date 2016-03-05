@@ -15,7 +15,7 @@ class CreateDevicePerfTable extends Migration {
 		Schema::create('device_perf', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 			$table->dateTime('timestamp');
 			$table->float('xmt', 10, 0);
 			$table->float('rcv', 10, 0);

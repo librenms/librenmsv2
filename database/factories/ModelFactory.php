@@ -16,6 +16,16 @@ use App\User;
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->username,
+        'realname' => $faker->name,
+        'email'    => $faker->email,
         'password' => bcrypt(str_random(10)),
+    ];
+});
+
+
+$factory->define(Device::class, function (Faker\Generator $faker) {
+    return [
+        'hostname' => $faker->domainWord.'.'.$faker->domainName,
+        'ip'       => $faker->localIpv4,
     ];
 });

@@ -15,8 +15,8 @@ class CreateEventlogTable extends Migration {
 		Schema::create('eventlog', function(Blueprint $table)
 		{
 			$table->integer('event_id', true);
-			$table->integer('host')->default(0)->index('host');
-			$table->dateTime('datetime')->default('0000-00-00 00:00:00')->index('datetime');
+			$table->integer('host')->default(0)->index();
+			$table->dateTime('datetime')->default('0000-00-00 00:00:00')->index();
 			$table->text('message', 65535)->nullable();
 			$table->string('type', 64)->nullable();
 			$table->string('reference', 64);

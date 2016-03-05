@@ -15,7 +15,7 @@ class CreateServicesTable extends Migration {
 		Schema::create('services', function(Blueprint $table)
 		{
 			$table->integer('service_id', true);
-			$table->integer('device_id')->index('service_host');
+			$table->integer('device_id')->index();
 			$table->text('service_ip', 65535);
 			$table->string('service_type', 16);
 			$table->text('service_desc', 65535);

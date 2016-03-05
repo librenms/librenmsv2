@@ -14,7 +14,7 @@ class CreateBillDataTable extends Migration {
 	{
 		Schema::create('bill_data', function(Blueprint $table)
 		{
-			$table->integer('bill_id')->index('bill_id');
+			$table->integer('bill_id')->index();
 			$table->dateTime('timestamp');
 			$table->integer('period');
 			$table->bigInteger('delta');

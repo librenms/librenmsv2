@@ -14,7 +14,7 @@ class CreateDeviceGraphsTable extends Migration {
 	{
 		Schema::create('device_graphs', function(Blueprint $table)
 		{
-			$table->integer('device_id')->index('device_id');
+			$table->integer('device_id')->index();
 			$table->string('graph')->nullable();
 		});
 	}

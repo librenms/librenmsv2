@@ -15,7 +15,7 @@ class CreateCurrentTable extends Migration {
 		Schema::create('current', function(Blueprint $table)
 		{
 			$table->integer('current_id', true);
-			$table->integer('device_id')->default(0)->index('current_host');
+			$table->integer('device_id')->default(0)->index();
 			$table->string('current_oid', 64);
 			$table->string('current_index', 8);
 			$table->string('current_type', 32);

@@ -14,8 +14,8 @@ class CreateIpv4MacTable extends Migration {
 	{
 		Schema::create('ipv4_mac', function(Blueprint $table)
 		{
-			$table->integer('port_id')->index('port_id');
-			$table->string('mac_address', 32)->index('mac_address');
+			$table->integer('port_id')->index();
+			$table->string('mac_address', 32)->index();
 			$table->string('ipv4_address', 32);
 		});
 	}

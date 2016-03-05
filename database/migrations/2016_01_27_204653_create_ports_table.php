@@ -21,7 +21,7 @@ class CreatePortsTable extends Migration {
 			$table->string('port_descr_circuit')->nullable();
 			$table->string('port_descr_speed', 32)->nullable();
 			$table->string('port_descr_notes')->nullable();
-			$table->string('ifDescr')->nullable()->index('if_2');
+			$table->string('ifDescr')->nullable()->index();
 			$table->string('ifName', 64)->nullable();
 			$table->string('portName', 128)->nullable();
 			$table->integer('ifIndex')->nullable()->default(0);
@@ -84,7 +84,7 @@ class CreatePortsTable extends Migration {
 			$table->integer('poll_time')->nullable();
 			$table->integer('poll_prev')->nullable();
 			$table->integer('poll_period')->nullable();
-			$table->unique(['device_id','ifIndex'], 'device_ifIndex');
+			$table->unique(['device_id','ifIndex']);
 		});
 	}
 

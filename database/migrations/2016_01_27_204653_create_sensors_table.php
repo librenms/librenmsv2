@@ -16,12 +16,12 @@ class CreateSensorsTable extends Migration {
 		{
 			$table->integer('sensor_id', true);
 			$table->boolean('sensor_deleted')->default(0);
-			$table->string('sensor_class', 64)->index('sensor_class');
-			$table->integer('device_id')->default(0)->index('sensor_host');
+			$table->string('sensor_class', 64)->index();
+			$table->integer('device_id')->default(0)->index();
 			$table->string('poller_type', 16)->default('snmp');
 			$table->string('sensor_oid');
 			$table->string('sensor_index', 64)->nullable();
-			$table->string('sensor_type')->index('sensor_type');
+			$table->string('sensor_type')->index();
 			$table->string('sensor_descr')->nullable();
 			$table->integer('sensor_divisor')->default(1);
 			$table->integer('sensor_multiplier')->default(1);
