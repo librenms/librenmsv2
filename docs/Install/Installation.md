@@ -60,6 +60,12 @@ Now you will need to create your web server config.
 | Ubuntu / Debian | Apache 2.2.17 or lower  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2217.txt)   |
 | Ubuntu / Debian | Apache 2.2.18 or later  | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/apache_2218.txt)   |
 | All | Nginx | [Config](https://raw.githubusercontent.com/librenms/librenmsv2/develop/docs/_configs/nginx.txt)   |
+
+If you want to run this on the same server as your current LibreNMS install on another port then just modify the beginning of your apache config file (it may vary for nginx):
+```bash
+Listen 81
+<VirtualHost *:81>
+```
 Now restart the web server.
 
 | Distro  | Web Server  | Command  |
