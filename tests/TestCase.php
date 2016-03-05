@@ -16,7 +16,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function createApplication()
     {
-        putenv('DB_DEFAULT=sqlite_testing');
+        putenv('DB_DEFAULT=testing_sqlite');
         $app = require __DIR__.'/../bootstrap/app.php';
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
         return $app;
@@ -31,7 +31,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function tearDown()
     {
-        Artisan::call('migrate:reset');
+        if (DB::connection()->getDatabaseName() !== ':memory:') {
+            Artisan::call('migrate:reset');
+        }
         parent::tearDown();
     }
 
