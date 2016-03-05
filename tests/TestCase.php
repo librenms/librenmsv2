@@ -26,12 +26,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
         return $app;
     }
+
     public function setUp()
     {
         parent::setUp();
         Artisan::call('migrate');
         Artisan::call('db:seed');
     }
+
     public function tearDown()
     {
         Artisan::call('migrate:reset');
