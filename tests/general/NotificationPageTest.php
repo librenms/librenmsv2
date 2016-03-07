@@ -22,12 +22,12 @@ class NotificationPageTest extends TestCase
 
         $this->actingAs($user)
              ->visit('/notifications')
-             ->see('Show archive')
+             ->see('Archive')
              ->see('Test unread notification');
 
         $this->actingAs($user)
              ->visit('/notifications/archive')
-             ->see('Show notifications')
+             ->see('Notifications')
              ->see('Test read notification');
     }
 }
