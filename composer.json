@@ -7,9 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "tymon/jwt-auth": "dev-master",
-        "irazasyed/jwt-auth-guard": "dev-master",
-        "dingo/api": "1.0.*@dev",
+        "tymon/jwt-auth": "0.5.*",
+        "irazasyed/jwt-auth-guard": "1.0.*",
+        "dingo/api": "dev-master#3062aac74327d589e0fed92d276225ee7aaab377",
         "doctrine/dbal": "2.5.4",
         "almasaeed2010/adminlte": "~2.0"
     },
