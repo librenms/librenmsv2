@@ -4,6 +4,7 @@ namespace App\Api\Controllers;
 
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
+use App\User;
 use App\Notification;
 use App\NotificationAttrib;
 use Illuminate\Http\Request;
@@ -53,7 +54,28 @@ class NotificationController extends Controller
             return $this->response->errorInternal();
         }
         else {
-            return $this->response->array(array('statusText'=>'OK'));
+            return $this->response->array(array('statusText' => 'OK'));
+        }
+    }
+
+    /**
+     * Create a new notification
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $notification = new Notification;
+        $notification->title    = $request->title;
+        $notification->body     = $request->body;
+        $notification->checksum = hash('sha512',$request->user()->user_id.'.LOCAL.'.$request->title);
+        $notification->source   = $request->user()->user_id;
+        if ($notification->save())
+        {
+            return $this->response->array(array('statusText' => 'OK'));
+        }
+        else {
+            return $this->response->errorInternal();
         }
     }
 

@@ -29,22 +29,41 @@ class NotificationController extends Controller
         if ($type === 'archive')
         {
             $page   = '';
-            $button = ' notifications';
+            $button = 'Notifications';
             $bg     = 'maroon';
         }
         else {
             $page   = 'archive';
-            $button = ' archive';
+            $button = 'Archive';
             $bg     = 'blue';
         }
 
         return view('notifications.list', ['notifications' => $notifications, 'page' => $page, 'button' => $button, 'bg' => $bg, "type" => $type]);
     }
 
+    /**
+     * Update a notifications status.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function update($id, $action)
     {
 
         return response()->json($this->api->be(auth()->user())->patch('/api/notifications/'.$id.'/'.$action));
+    }
+
+    /**
+     * Create a new notification
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required|unique:notifications|max:255',
+            'body' => 'required',
+        ]);
+        return response()->json($this->api->be(auth()->user())->put('/api/notifications', ['title' => $request->title, 'body' => $request->body]));
     }
 
 }
