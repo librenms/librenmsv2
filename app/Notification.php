@@ -78,10 +78,6 @@ class Notification extends Model
         return $query->leftJoin('users', 'notifications.source', '=', 'users.user_id');
     }
 
-    public function users() {
-        return $this->belongsToMany('App\User')->withPivot('notifications_id','user_id');
-    }
-
     public function attribs() {
         return $this->hasMany('App\NotificationAttrib', 'notifications_id', 'notifications_id');
     }
