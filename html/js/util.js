@@ -61,7 +61,7 @@ $.Util.markNotification = function(url) {
             url: url+'/'+id+'/'+action,
             dataType: "json",
             success: function (data) {
-                if( data.statusText === "OK" ) {
+                if (data.statusText === "OK" ) {
                     toastr.info('Notification has been marked as '+action);
                     if (action !== 'sticky' && action !== 'unsticky')
                     {
@@ -81,7 +81,7 @@ $.Util.markNotification = function(url) {
                 }
                 else {
                     $(this).attr("disabled", false);
-                    toastr.info('We had a problem marking this notification as '+action)
+                    toastr.error('We had a problem marking this notification as '+action)
                 }
             },
             error: function(err,msg) {
@@ -89,5 +89,85 @@ $.Util.markNotification = function(url) {
                 toastr.error("Couldn't mark this notification as "+action);
             }
         });
+    });
+}
+
+/* newNotification()
+ * ======
+ * Process the new notification form
+ *
+ * @type Function
+ * @Usage: $.Util.newNotification()
+ */
+$.Util.newNotification = function(form) {
+    $('#notification-form').fadeOut(0);
+    $("#show-notification").on("click", function() {
+        $('#notification-form').fadeToggle();
+    });
+    $("#create-notification").on("click", function(event) {
+        $('.form-error').each(function()
+        {
+            $(this).html('');
+        });
+        $.Util.ajaxSetup();
+        event.preventDefault();
+        $.Util.ajaxCall('PUT','/notifications', form)
+            .done(function(data) {
+                if (data.statusText === "OK" ) {
+                    toastr.info('Notification has been created');
+                    setTimeout(function() {
+                        location.reload(1);
+                    }, 1000);
+                }
+                else {
+                    console.log(data);
+                    toastr.error('We had a problem creating your notification');
+                }
+            })
+            .fail(function(err,msg) {
+                if (err.status === 422)
+                {
+                    response = jQuery.parseJSON(err.responseText);
+                    jQuery.each(response, function(field, message)
+                    {
+                        $(form + ' [name=' + field + ']').next('.form-error').html(message);
+                    });
+                }
+                else {
+                    toastr.error("Couldn't create this notification");
+                }
+            });
+    });
+}
+
+/* ajaxSetup()
+ * ======
+ * Initial ajax setup call
+ *
+ * @type Function
+ * @Usage: $.Util.ajaxSetup()
+ */
+$.Util.ajaxSetup = function() {
+    return $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+}
+
+/* ajaxCall()
+ * ======
+ * Ajax call
+ *
+ * @type Function
+ * @Usage: $.Util.ajaxCall()
+ */
+$.Util.ajaxCall = function(type, url, form) {
+    var form = $(form);
+    return $.ajax({
+        type: type,
+        url: url,
+        data: form.serialize(),
+        dataType: "json"
     });
 }

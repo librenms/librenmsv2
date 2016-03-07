@@ -21,6 +21,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
     Route::get('/notifications/{type?}', 'NotificationController@index');
     Route::patch('/notifications/{id}/{action}', 'NotificationController@update');
+    Route::put('/notifications', 'NotificationController@create');
     Route::get('/about', 'HomeController@about');
 });
 
@@ -34,6 +35,7 @@ $api->version('v1', function($api) {
         $api->resource('ports', 'App\Api\Controllers\PortController', ['except' => ['create', 'store', 'destroy']]);
         $api->get('notifications/{type?}', 'App\Api\Controllers\NotificationController@index');
         $api->patch('notifications/{id}/{action}', ['as' => 'api.notifications.update', 'uses' => 'App\Api\Controllers\NotificationController@update']);
+        $api->put('notifications', ['as' => 'api.notifications.create', 'uses' => 'App\Api\Controllers\NotificationController@create']);
         $api->get('info', 'App\Api\Controllers\APIController@get_info');
         $api->get('stats', 'App\Api\Controllers\APIController@get_stats');
     });
