@@ -74,3 +74,12 @@ For data that is just a single entity (non-tabular).
 Use javascript to make simple data human readable such as bits per second
 [Datatables](https://www.datatables.net/manual/index) can be used to hide raw data, yet make it searchable/sortable and apply JS formatting.
 
+
+
+PHP Storm
+---------
+
+* Follow the [PhpStorm Documentation](https://confluence.jetbrains.com/display/PhpStorm/Laravel+Development+using+PhpStorm) to install the laravel plugin and configure command window completion for composer and artisan.
+* Set APP_ENV=development in your .env file. If you need to have separate settings, you can use .env.development.
+* Run `php artisan ide-helper` to set up autocomplete. [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
+* Edit the Copyright and PHP header templates to include your copyright
