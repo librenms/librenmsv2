@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <settings default="LibreNMS">
+    <module2copyright>
+      <element module="Project Files" copyright="LibreNMS" />
+    </module2copyright>
+  </settings>
+</component>
