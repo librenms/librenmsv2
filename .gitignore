@@ -7,11 +7,6 @@ logs/
 composer.lock
 
 # IntelliJ
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+**/.idea
 /_ide_helper.php
 /_ide_helper_models.php
-
-# May be edited with user specific content
-/.idea/copyright/LibreNMS.xml
-/.idea/fileTemplates/includes/PHP File Header.php
