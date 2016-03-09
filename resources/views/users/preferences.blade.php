@@ -33,12 +33,12 @@
                     <strong class='text-light-blue'>Global Administrative Access</strong>
                 @elseif (Auth::user()->hasGlobalRead())
                     <strong class='text-green'>Global Viewing Access</strong>
-                @elseif (count($devices) || count($ports))
+                @elseif (isset($devices) || isset($ports))
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="small-box bg-aqua">
                                 <div class="inner">
-                                    <h3>{{ count($devices) }}</h3>
+                                    <h3>{{ $devices }}</h3>
                                     <p>Devices</p>
                                 </div>
                                 <div class="icon">
@@ -52,7 +52,7 @@
                         <div class="col-sm-6">
                             <div class="small-box bg-green">
                                 <div class="inner">
-                                    <h3>{{ count($ports) }}</h3>
+                                    <h3>{{ $ports }}</h3>
                                     <p>Ports</p>
                                 </div>
                                 <div class="icon">

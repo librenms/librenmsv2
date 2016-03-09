@@ -28,8 +28,8 @@ class UserController extends Controller
             $ports   = [];
         }
         else {
-            $devices = User::find($request->user()->user_id)->devices()->get();
-            $ports   = User::find($request->user()->user_id)->ports()->get();
+            $devices = User::find($request->user()->user_id)->devices()->count();
+            $ports   = User::find($request->user()->user_id)->ports()->count();
         }
 
         if ($method === "POST")
