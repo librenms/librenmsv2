@@ -73,7 +73,7 @@
                                             <p><small>Userlevel: {{ Auth::user()->level }}</small></p>
                                         </li>
                                         <li class="user-footer">
-                                            <div class="pull-left"><a href="#" class="btn btn-default btn-flat"><i class="fa fa-cog"></i> My Settings</a></div>
+                                            <div class="pull-left"><a href="{{ url('/preferences') }}" class="btn btn-default btn-flat"><i class="fa fa-cog"></i> My Settings</a></div>
                                             <div class="pull-right"><a href="{{ url('/logout') }}" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Logout</a></div>
                                         </li>
                                     </ul>
