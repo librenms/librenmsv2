@@ -23,6 +23,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::patch('/notifications/{id}/{action}', 'NotificationController@update');
     Route::put('/notifications', 'NotificationController@create');
     Route::get('/about', 'HomeController@about');
+    Route::match(['get', 'post'], '/preferences', 'UserController@preferences');
 });
 
 // ---- API Routes ----

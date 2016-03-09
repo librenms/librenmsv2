@@ -171,3 +171,11 @@ $.Util.ajaxCall = function(type, url, form) {
         dataType: "json"
     });
 }
+
+/* toastr()
+ * ========
+ * toastr call
+ */
+$.Util.toastr = function(type, message) {
+    toastr.type(message);
+}
