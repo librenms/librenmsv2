@@ -26,17 +26,45 @@
         <div class="box box-primary">
             <div class="box-header">
                 <i class="fa fa-lock"></i>
-                <h3 class="box-title">Device permissions</h3>
+                <h3 class="box-title">Device / Port permissions</h3>
             </div>
             <div class="box-body">
                 @if (Auth::user()->isAdmin())
                     <strong class='text-light-blue'>Global Administrative Access</strong>
                 @elseif (Auth::user()->hasGlobalRead())
                     <strong class='text-green'>Global Viewing Access</strong>
-                @elseif (count($devices))
-                    @foreach ($devices as $device)
-                        <a href="{{ url('/device/'.$device->device_id) }}">{{ $device->hostname }}</a><br />
-                    @endforeach
+                @elseif (count($devices) || count($ports))
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>{{ count($devices) }}</h3>
+                                    <p>Devices</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-server"></i>
+                                </div>
+                                <a href="{{ url('/devices') }}" class="small-box-footer">
+                                    Show devices <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="small-box bg-green">
+                                <div class="inner">
+                                    <h3>{{ count($ports) }}</h3>
+                                    <p>Ports</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-link"></i>
+                                </div>
+                                <a href="{{ url('/ports') }}" class="small-box-footer">
+                                    Show ports <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @else
                     <strong class='text-red'>No access!</strong>
                 @endif

@@ -25,9 +25,11 @@ class UserController extends Controller
         if ($request->user()->hasGlobalRead() === true)
         {
             $devices = [];
+            $ports   = [];
         }
         else {
             $devices = User::find($request->user()->user_id)->devices()->get();
+            $ports   = User::find($request->user()->user_id)->ports()->get();
         }
 
         if ($method === "POST")
@@ -48,6 +50,6 @@ class UserController extends Controller
                 $updated = true;
             }
         }
-        return view('users.preferences', ['updated' => $updated, 'devices' => $devices]);
+        return view('users.preferences', ['updated' => $updated, 'devices' => $devices, 'ports' => $ports]);
     }
 }

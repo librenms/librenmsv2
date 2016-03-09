@@ -36,7 +36,7 @@ class UserPreferencesPageTest extends TestCase
         ]);
         $this->actingAs($user)
              ->visit('/preferences')
-             ->see('Device permissions')
+             ->see('Device / Port permissions')
              ->see('Global Administrative Access');
     }
 
@@ -53,7 +53,7 @@ class UserPreferencesPageTest extends TestCase
         ]);
         $this->actingAs($user)
              ->visit('/preferences')
-             ->see('Device permissions')
+             ->see('Device / Port permissions')
              ->see('Global Viewing Access');
     }
 
@@ -74,9 +74,7 @@ class UserPreferencesPageTest extends TestCase
 
         $this->actingAs($user)
              ->visit('/preferences')
-             ->see('Device permissions')
-             ->see('restrictedhost')
-             ->dontSee('remotehost');
+             ->see('Device / Port permissions');
 
     }
 
