@@ -1,7 +1,7 @@
 <?php
 namespace App\Api\Transformers;
 
-use App\Device;
+use App\Models\Device;
 use League\Fractal;
 
 class DeviceTransformer extends Fractal\TransformerAbstract

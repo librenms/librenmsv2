@@ -2,11 +2,11 @@
 
 namespace App\Api\Controllers;
 
+use App\Models\Notification;
+use App\Models\NotificationAttrib;
+use App\Models\User;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
-use App\User;
-use App\Notification;
-use App\NotificationAttrib;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller

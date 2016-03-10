@@ -1,9 +1,7 @@
 <?php
 
-use App\User;
-use App\Device;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Device;
+use App\Models\User;
 
 class UserPreferencesPageTest extends TestCase
 {

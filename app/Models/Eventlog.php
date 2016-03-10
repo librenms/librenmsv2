@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Syslog extends Model
+class Eventlog extends Model
 {
     /**
      * The table associated with the model.
@@ -18,14 +18,7 @@ class Syslog extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'null';
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
+    protected $primaryKey = 'event_id';
 
     /**
      * Indicates if the model should be timestamped.
@@ -44,7 +37,6 @@ class Syslog extends Model
      * Returns the device this entry belongs to.
      */
     public function device() {
-        return $this->belongsToOne('App\Device', 'device_id', 'device_id');
+        return $this->belongsToOne('App\Models\Device', 'device_id', 'host');
     }
-
 }

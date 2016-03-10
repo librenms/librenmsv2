@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,27 +49,27 @@ class Device extends Model
      * Returns a list of users that can access this device.
      */
     public function users() {
-        return $this->belongsToMany('App\User', 'devices_perms', 'device_id', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
     }
 
     /**
      * Returns a list of the ports this device has.
      */
     public function ports() {
-        return $this->hasMany('App\Port', 'device_id', 'device_id');
+        return $this->hasMany('App\Models\Port', 'device_id', 'device_id');
     }
 
     /**
      * Returns a list of the Syslog entries this device has.
      */
     public function syslogs() {
-        return $this->hasMany('App\Syslog', 'device_id', 'device_id');
+        return $this->hasMany('App\Models\Syslog', 'device_id', 'device_id');
     }
 
     /**
      * Returns a list of the Eventlog entries this device has.
      */
     public function eventlogs() {
-        return $this->hasMany('App\Eventlog', 'device_id', 'device_id');
+        return $this->hasMany('App\Models\Eventlog', 'device_id', 'device_id');
     }
 }

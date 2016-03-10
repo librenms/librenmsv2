@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Device;
 use Illuminate\Database\Seeder;
-use App\Device;
 
 class InsertDevicesTableSeeder extends Seeder
 {
