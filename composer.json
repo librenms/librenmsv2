@@ -11,7 +11,8 @@
         "irazasyed/jwt-auth-guard": "1.0.*",
         "dingo/api": "dev-master#3062aac74327d589e0fed92d276225ee7aaab377",
         "doctrine/dbal": "2.5.4",
-        "almasaeed2010/adminlte": "~2.0"
+        "almasaeed2010/adminlte": "~2.0",
+        "laravelcollective/html": "5.2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
