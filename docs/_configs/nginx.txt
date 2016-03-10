@@ -1,7 +1,7 @@
 server {
  listen      80;
  server_name librenms.example.com;
- root        /opt/librenmsv2/html;
+ root        /opt/librenmsv2/public;
  index       index.php;
  access_log  /opt/librenmsv2/logs/access_log;
  error_log   /opt/librenmsv2/logs/error_log;
