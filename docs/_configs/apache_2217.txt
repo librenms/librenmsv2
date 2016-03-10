@@ -1,10 +1,10 @@
 <VirtualHost *:80>
-  DocumentRoot /opt/librenms/html/
+  DocumentRoot /opt/librenmsv2/public/
   ServerName  librenms.example.com
-  CustomLog /opt/librenms/logs/access_log combined
-  ErrorLog /opt/librenms/logs/error_log
+  CustomLog /opt/librenmsv2/logs/access_log combined
+  ErrorLog /opt/librenmsv2/logs/error_log
   AllowEncodedSlashes On
-  <Directory "/opt/librenms/html/">
+  <Directory "/opt/librenmsv2/public/">
     AllowOverride All
     Options FollowSymLinks MultiViews
   </Directory>
