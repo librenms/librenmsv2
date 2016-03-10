@@ -25,6 +25,8 @@
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
+        <!-- Gridstack style -->
+        <link href="{{ url('css/gridstack.min.css') }}" rel="stylesheet"/>
           <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
           <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
           <!--[if lt IE 9]>
@@ -392,6 +394,7 @@
         <!-- Javascript Libs -->
         <!-- jQuery 2.1.4 -->
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+        <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
         @yield('datatablesjs')
@@ -399,6 +402,10 @@
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
         <!-- Toastr -->
         <script src="{{ url('js/plugins/toastr/toastr.min.js') }}"></script>
+        <!-- Lodash -->
+        <script src="{{ url('js/lodash.min.js') }}"></script>
+        <!-- Gridstack -->
+        <script src="{{ url('js/gridstack.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script>
             var AdminLTEOptions = {
@@ -409,5 +416,20 @@
         <script src="{{ url('/js/app.min.js') }}"></script>
         <!-- page script -->
         @yield('scripts')
+        <script type="text/javascript">
+        $(function () {
+            var options = {
+                cellHeight: 80,
+                verticalMargin: 10,
+                draggable: {
+                    handle: '.draggable',
+                    scroll: true,
+                    appendTo: 'body'
+                },
+                animate: true
+            };
+            $('.grid-stack').gridstack(options);
+        });
+        </script>
     </body>
 </html>

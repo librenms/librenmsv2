@@ -1,3 +1,8 @@
 #toast-container {
     margin-top: 50px;
 }
+
+.grid-stack-item-content {
+    color: #2c3e50;
+    text-align: center;
+}
