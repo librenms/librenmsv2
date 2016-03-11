@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Route;
 use Hash;
-use App\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {

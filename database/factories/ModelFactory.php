@@ -11,7 +11,8 @@
 |
 */
 
-use App\User;
+use App\Models\Device;
+use App\Models\User;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [

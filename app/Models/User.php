@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -56,13 +56,13 @@ class User extends Authenticatable
      * Returns a list of devices this user has access to
      */
     public function devices() {
-        return $this->belongsToMany('App\Device', 'devices_perms', 'user_id', 'device_id');
+        return $this->belongsToMany('App\Models\Device', 'devices_perms', 'user_id', 'device_id');
     }
 
     /**
      * Returns a list of ports this user has access to
      */
     public function ports() {
-        return $this->belongsToMany('App\Port', 'ports_perms', 'user_id', 'port_id');
+        return $this->belongsToMany('App\Models\Port', 'ports_perms', 'user_id', 'port_id');
     }
 }

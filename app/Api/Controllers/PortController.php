@@ -2,14 +2,12 @@
 
 namespace App\Api\Controllers;
 
-use Auth;
-use App\User;
-use App\Port;
 use App\Api\Transformers\PortTransformer;
-
-use Illuminate\Http\Request;
+use App\Models\Port;
+use App\Models\User;
+use Auth;
 use Dingo\Api\Routing\Helpers;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
 
 class PortController extends Controller
 {

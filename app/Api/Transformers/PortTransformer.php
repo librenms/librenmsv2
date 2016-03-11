@@ -1,7 +1,7 @@
 <?php
 namespace App\Api\Transformers;
 
-use App\Port;
+use App\Models\Port;
 use League\Fractal;
 
 class PortTransformer extends Fractal\TransformerAbstract

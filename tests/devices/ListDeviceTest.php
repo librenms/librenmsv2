@@ -1,7 +1,7 @@
 <?php
 
-use App\User;
-use App\Device;
+use App\Models\Device;
+use App\Models\User;
 
 class ListDeviceTest extends TestCase
 {

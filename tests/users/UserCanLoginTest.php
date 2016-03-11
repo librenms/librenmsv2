@@ -1,8 +1,6 @@
 <?php
 
-use App\User;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\User;
 
 class UserCanLoginTest extends TestCase
 {
