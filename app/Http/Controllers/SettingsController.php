@@ -20,10 +20,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Config;
 use Illuminate\Http\Request;
-use Krucas\Settings\Facades\Settings;
+use Settings;
 
 class SettingsController extends Controller
 {
+    /**
+     * Constructor
+     */
+    public function __construct(Request $request) {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,18 +40,23 @@ class SettingsController extends Controller
     {
 //        return view('settings.list', ['settings' => Config::all()]);
 
-        $settings[] = config('config.snmp.v3.0');
-        Config::set('config.snmp.v3.0.authlevel', 'changed');
-        $settings[] = config()->get('config.snmp.v3.0.authlevel');
-        config()->set('config.snmp.v3.0', ['authlevel' => 'changed2', 'authname' => config('config.snmp.v3.0.authname'), 'authpass' => 'changed2', 'authalgo' => 'changed2', 'cryptopass' => 'changed2', 'cryptoalgo' => 'changed2']);
-        $settings[] = config('config.snmp.v3');
-        $settings[] = Config::get('config.snmp.v3.0.authlevel');
-//        $settings[] = settings()->get('email_backend');
-//        $settings[] = settings()->get('config.snmp.v3.0.authlevel');
-//        $settings[] = Settings::get(null);
-//        $settings[] = Settings::set('custom', 'something');
-//        $settings[] = Settings::get('custom');
+//        $settings[] = config('config.snmp.v3.0');
+//        Config::set('config.snmp.v3.0.authlevel', 'changed');
+//        $settings[] = config()->get('config.snmp.v3.0.authlevel');
+//        config()->set('config.snmp.v3.0', ['authlevel' => 'changed2', 'authname' => config('config.snmp.v3.0.authname'), 'authpass' => 'changed2', 'authalgo' => 'changed2', 'cryptopass' => 'changed2', 'cryptoalgo' => 'changed2']);
+//        $settings[] = config('config.snmp.v3');
+//        $settings[] = Config::get('config.snmp.v3.0.authlevel');
+
+//        $set = new Settings(); // until I get the facade set up
+//        $settings[] = Settings::get('email_backend');
+//        $settings[] = Settings::get('snmp.v3.0.authlevel');
+        $settings[] = Settings::get('alert');
+        $settings[] = Settings::get('snmp');
+//        $settings[] = $set->get(null);  // same as all, but only gets db settings...
+//        $set->set('custom', 'something');
+//        $settings[] = $set->get('custom');
 //        dd(settings());
+//        $settings = $set->all();
 
         return view('settings.list', ['settings' => $settings]);
     }
