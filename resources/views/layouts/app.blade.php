@@ -342,7 +342,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <!-- if admin -->
-                                    <li><a href="{{ url('/settings') }}"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
+                                    <li><a href="#"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
                                     <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-user-plus"></i> Add user</a></li>
                                     <li><a href="#"><i class="icon fa fa-user-times"></i> Remove user</a></li>
