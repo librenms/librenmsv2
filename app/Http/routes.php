@@ -24,7 +24,6 @@ Route::group(['middleware' => ['web']], function() {
     Route::put('/notifications', 'NotificationController@create');
     Route::get('/about', 'HomeController@about');
     Route::match(['get', 'post'], '/preferences', 'UserController@preferences');
-    Route::resource('/settings', 'SettingsController');
 });
 
 // ---- API Routes ----
