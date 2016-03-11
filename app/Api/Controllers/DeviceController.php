@@ -2,8 +2,8 @@
 
 namespace App\Api\Controllers;
 
-use App\User;
-use App\Device;
+use App\Models\Device;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DeviceController extends Controller

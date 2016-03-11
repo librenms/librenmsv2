@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Device;
+use App\Models\Port;
 use Illuminate\Database\Seeder;
-use App\Device;
-use App\Port;
 
 class InsertPortsTableSeeder extends Seeder
 {

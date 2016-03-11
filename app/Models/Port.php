@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,14 +38,14 @@ class Port extends Model
      *
      */
     public function device() {
-        return $this->belongsTo('App\Device', 'device_id', 'device_id');
+        return $this->belongsTo('App\Models\Device', 'device_id', 'device_id');
     }
 
     /**
      * Returns a list of users that can access this port.
      */
     public function users() {
-        return $this->belongsToMany('App\User', 'ports_perms', 'port_id', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'ports_perms', 'port_id', 'user_id');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -79,7 +79,7 @@ class Notification extends Model
     }
 
     public function attribs() {
-        return $this->hasMany('App\NotificationAttrib', 'notifications_id', 'notifications_id');
+        return $this->hasMany('App\Models\NotificationAttrib', 'notifications_id', 'notifications_id');
     }
 
 }
