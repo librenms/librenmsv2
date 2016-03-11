@@ -53,7 +53,7 @@ class Settings
         if (is_null($value)) {
             $value = $this->database->get($key, $default);
             if (is_array($value)) {
-                $value = self::pathToArray($value);
+                $value = self::pathToArray($value, $key);
             }
             if (empty($value)) {
                 $value = Config::get('config.' . $key);
@@ -86,11 +86,15 @@ class Settings
         return array_replace_recursive($config_settings, $db_settings);
     }
 
-    protected static function pathToArray($data)
+    protected static function pathToArray($data, $prefix="")
     {
         $tree = array();
         foreach ($data as $key => $value) {
-            $parts = explode('.', $key);
+            if (substr($key, 0, strlen($prefix)) == $prefix) {
+                $key = substr($key, strlen($prefix));
+            }
+            $parts = explode('.', trim($key, '.'));
+
             $temp = &$tree;
             foreach ($parts as $part) {
                 $temp = &$temp[$part];
@@ -101,21 +105,24 @@ class Settings
         return $tree;
     }
 
-    protected static function arrayToPath($array)
+    protected static function arrayToPath($array, $prefix="")
     {
-        return self::recursive_keys($array);
+        return self::recursive_keys($array, $prefix);
     }
 
-    private static function recursive_keys(array $array, array $path = array())
+    private static function recursive_keys(array $array, $prefix="", array $path = array())
     {
+        if($prefix != ""){
+            $prefix = trim($prefix, '.') . '.';
+        }
         $result = array();
         foreach ($array as $key => $val) {
             $currentPath = array_merge($path, array($key));
             if (is_array($val)) {
-                $result = array_merge($result, self::recursive_keys($val, $currentPath));
+                $result = array_merge($result, self::recursive_keys($val, $prefix, $currentPath));
             }
             else {
-                $result[join('.', $currentPath)] = $val;
+                $result[$prefix . join('.', $currentPath)] = $val;
             }
         }
         return $result;
