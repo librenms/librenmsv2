@@ -36,14 +36,23 @@ class Settings
 
     public function __construct()
     {
-        $this->database = new DatabaseRepository(DB::connection(), 'settings');
+        $this->database = new DatabaseRepository(DB::connection(), 'config');
 
     }
 
     public function set($key, $value = null)
     {
-        $this->database->set($key, $value);
-        Cache::put($key, $value);
+        if (is_array($value)) {
+            $value = self::arrayToPath($value, $key);
+            foreach ($value as $k => $v) {
+                $this->database->set($k, $v);
+//            Cache::put($key, $v);
+            }
+        }
+        else {
+            $this->database->set($key, $value);
+        }
+//            Cache::put($key, $v);
         return $value;
     }
 
@@ -54,11 +63,17 @@ class Settings
             $value = $this->database->get($key, $default);
             if (is_array($value)) {
                 $value = self::pathToArray($value, $key);
+                $config = Config::get('config.' . $key, $default);
+                if (!is_null($config)) {
+                    $value = array_replace_recursive($config, $value);
+                }
             }
-            if (empty($value)) {
+            elseif (is_null($value)) {
                 $value = Config::get('config.' . $key);
             }
-//FIXME            if (!is_null($value)) {
+
+//FIXME: insert cache
+//            if (!is_null($value)) {
 //                Cache::put($key, $value);
 //            }
         }
@@ -66,7 +81,6 @@ class Settings
     }
 
     public function has($key)
-
     {
         return (Cache::has($key) || Config::has($key) || $this->database->has($key));
     }
@@ -75,7 +89,7 @@ class Settings
     {
         $this->database->forget($key);
         Cache::forget($key);
-//        Config::set($key);  // config can't forget?
+//        Config::forget($key);  // config can't forget?
     }
 
     public function all()
@@ -112,7 +126,7 @@ class Settings
 
     private static function recursive_keys(array $array, $prefix="", array $path = array())
     {
-        if($prefix != ""){
+        if ($prefix != "") {
             $prefix = trim($prefix, '.') . '.';
         }
         $result = array();

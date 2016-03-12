@@ -25,72 +25,79 @@
 namespace App\Settings;
 
 
-use Exception;
-use Illuminate\Database\Connection;
+use App\Models\DbConfig;
+use App\Models\Notification;
 
 class DatabaseRepository
 {
-    private $connection;
-    private $table;
-
-    public function __construct(Connection $connection, $table)
-    {
-        $this->connection = $connection;
-        $this->table = $table;
-    }
-
+    // 'config_name', 'config_value'
 
     public function has($key)
     {
-        return $this->table()->where('key', '=', $key)->count() > 0 ? true : false;
+        return DbConfig::exactKey($key)->exists();
     }
 
     public function get($key, $default = null)
     {
-        $results = $this->table()->where('key', 'LIKE', $key . '%')->get(['key', 'value']);
-        if (is_array($results))
-        {
-            return $this->objsToArray($results);
-        } else {
-            $value = $results->value;
+        $results = DbConfig::key($key)->get(['config_name', 'config_value']);
+        if (count($results) > 1) {
+            return $this->collectionToArray($results);
+        }
+        elseif (count($results) == 1) {
+            $entry = $results->first();
+            if($entry->config_name != $key) { //FIXME: better test
+                // trim the prefix
+                $local_key = substr($entry->config_name, strlen($key) + 1);
+                return [$local_key => $entry->config_value];
+            }
+
+            $value = $entry->config_value;
             return is_null($value) ? $default : $value;
+        }
+        else {
+            return $default;
         }
     }
 
     public function set($key, $value = null)
     {
-        //handle array value
-        if (is_array($value)) {
-            foreach ($value as $subkey => $subval) {
-                $this->set($key . '.' . $subkey, $subval);
-                return;
-            }
-        }
-        //insert or update
-        try {
-            $this->table()->insert(compact('key', 'value'));
-        } catch (Exception $e) {
-            $this->table()->where('key', '=', $key)->update(compact('value'));
-        }
+        $config = new DbConfig;
+        $config->config_name = $key;
+        //FIXME: serialize data
+        $config->config_value = $value;
+        //FIXME: dummy data
+        $config->config_default = "";
+        $config->config_descr = "";
+        $config->config_group = "";
+        $config->config_group_order = "";
+        $config->config_sub_group = "";
+        $config->config_sub_group_order = "";
+
+        $config->save();
     }
 
     public function forget($key)
     {
-        $this->table()->where('key', $key)->delete();
+        DbConfig::key($key)->delete();
     }
 
     public function all()
     {
-        $settings = $this->table()->get();
+        $settings = DbConfig::all();
         return $this->objsToArray($settings);
     }
 
-    private function table()
+    private function collectionToArray($collection)
     {
-        return $this->connection->table($this->table);
+        $ret = array();
+        foreach ($collection as $item) {
+            $ret[$item->config_name] = $item->config_value;
+        }
+        return $ret;
     }
 
-    private function objsToArray($objs) {
+    private function objsToArray($objs)
+    {
         $ret = array();
         foreach ($objs as $obj) {
             $ret[$obj->key] = $obj->value;
