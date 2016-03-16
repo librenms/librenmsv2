@@ -18,7 +18,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use Config;
+use App\Models\DbConfig;
 use Illuminate\Http\Request;
 use Settings;
 
@@ -27,7 +27,8 @@ class SettingsController extends Controller
     /**
      * Constructor
      */
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         $this->middleware('auth');
     }
 
@@ -47,16 +48,14 @@ class SettingsController extends Controller
 //        $settings[] = config('config.snmp.v3');
 //        $settings[] = Config::get('config.snmp.v3.0.authlevel');
 
-//        $set = new Settings(); // until I get the facade set up
 //        $settings[] = Settings::get('email_backend');
-//        $settings[] = Settings::get('snmp.v3.0.authlevel');
-        $settings[] = Settings::get('alert');
-        $settings[] = Settings::get('snmp');
-//        $settings[] = $set->get(null);  // same as all, but only gets db settings...
-//        $set->set('custom', 'something');
-//        $settings[] = $set->get('custom');
-//        dd(settings());
-//        $settings = $set->all();
+        $settings = Settings::get('snmp');
+//        $settings[] = Settings::get('alert');
+//        $settings[] = Settings::get('snmp');
+//        $settings[] = Settings::get(null);  // same as all, but only gets db settings...
+//        Settings::set('custom', 'something');
+//        $settings[] = Settings::get('custom');
+//        $settings = Settings::all();
 
         return view('settings.list', ['settings' => $settings]);
     }

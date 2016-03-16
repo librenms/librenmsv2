@@ -63,7 +63,6 @@ class DatabaseRepository
     {
         $config = new DbConfig;
         $config->config_name = $key;
-        //FIXME: serialize data
         $config->config_value = $value;
         //FIXME: dummy data
         $config->config_default = "";
@@ -74,6 +73,11 @@ class DatabaseRepository
         $config->config_sub_group_order = "";
 
         $config->save();
+    }
+
+    public function reset($key)
+    {
+        DbConfig::key($key)->update(['config_value' => null]);
     }
 
     public function forget($key)

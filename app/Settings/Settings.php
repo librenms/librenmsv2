@@ -28,8 +28,9 @@ namespace App\Settings;
 use Cache;
 use Config;
 use DB;
+use Illuminate\Contracts\Config\Repository as ConfigContract;
 
-class Settings
+class Settings implements ConfigContract
 {
 
     private $database;
@@ -142,4 +143,27 @@ class Settings
         return $result;
     }
 
+    /**
+     * Prepend a value onto an array configuration value.
+     *
+     * @param  string $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function prepend($key, $value)
+    {
+        // TODO: Implement prepend() method.S
+    }
+
+    /**
+     * Push a value onto an array configuration value.
+     *
+     * @param  string $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function push($key, $value)
+    {
+        // TODO: Implement push() method.
+    }
 }

@@ -29,11 +29,11 @@ $config_source = $install_dir . '/config.php';
 $config = array();
 
 if (file_exists($config_defaults)) {
-    include $config_defaults;
+    include_once($config_defaults);
 }
 
 if (file_exists($config_source)) {
-    include $config_source;
+    include_once($config_source);
 }
 
 return $config;

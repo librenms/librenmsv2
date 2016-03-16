@@ -3,9 +3,12 @@
 @section('title', 'Settings')
 
 @section('content')
+
+    @include('settings.sections.snmp')
+
     <div class="container">
         <pre>
-{{ print_r($settings) }}
+{{ print_r($settings, 1) }}
         </pre>
     </div>
 @endsection
