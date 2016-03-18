@@ -59,6 +59,15 @@ class DatabaseRepository
         }
     }
 
+    private function collectionToArray($collection)
+    {
+        $ret = array();
+        foreach ($collection as $item) {
+            $ret[$item->config_name] = $item->config_value;
+        }
+        return $ret;
+    }
+
     public function set($key, $value = null)
     {
         $config = new DbConfig;
@@ -77,27 +86,19 @@ class DatabaseRepository
 
     public function reset($key)
     {
-        DbConfig::key($key)->update(['config_value' => null]);
+        DbConfig::key($key)->delete();
     }
 
     public function forget($key)
     {
-        DbConfig::key($key)->delete();
+        // set to null to prevent falling back to Config
+        DbConfig::key($key)->update(['config_value' => null]);
     }
 
     public function all()
     {
         $settings = DbConfig::all();
         return $this->objsToArray($settings);
-    }
-
-    private function collectionToArray($collection)
-    {
-        $ret = array();
-        foreach ($collection as $item) {
-            $ret[$item->config_name] = $item->config_value;
-        }
-        return $ret;
     }
 
     private function objsToArray($objs)

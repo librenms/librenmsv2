@@ -32,13 +32,13 @@ use Illuminate\Contracts\Config\Repository as ConfigContract;
 
 class Settings implements ConfigContract
 {
-
+    private $cache_time;
     private $database;
 
     public function __construct()
     {
         $this->database = new DatabaseRepository(DB::connection(), 'config');
-
+        $this->cache_time = env('CACHE_LIFETIME', 60);
     }
 
     public function set($key, $value = null)
@@ -47,21 +47,43 @@ class Settings implements ConfigContract
             $value = self::arrayToPath($value, $key);
             foreach ($value as $k => $v) {
                 $this->database->set($k, $v);
-//            Cache::put($key, $v);
             }
         }
         else {
             $this->database->set($key, $value);
         }
-//            Cache::put($key, $v);
         return $value;
+    }
+
+    protected static function arrayToPath($array, $prefix = "")
+    {
+        return self::recursive_keys($array, $prefix);
+    }
+
+    private static function recursive_keys(array $array, $prefix = "", array $path = array())
+    {
+        if ($prefix != "") {
+            $prefix = trim($prefix, '.') . '.';
+        }
+        $result = array();
+        foreach ($array as $key => $val) {
+            $currentPath = array_merge($path, array($key));
+            if (is_array($val)) {
+                $result = array_merge($result, self::recursive_keys($val, $prefix, $currentPath));
+            }
+            else {
+                $result[$prefix . join('.', $currentPath)] = $val;
+            }
+        }
+        return $result;
     }
 
     public function get($key, $default = null)
     {
-        $value = Cache::get($key);
-        if (is_null($value)) {
+        // return value from cache or fetch it and return it
+        return Cache::remember($key, $this->cache_time, function () use ($key, $default) {
             $value = $this->database->get($key, $default);
+
             if (is_array($value)) {
                 $value = self::pathToArray($value, $key);
                 $config = Config::get('config.' . $key, $default);
@@ -70,38 +92,14 @@ class Settings implements ConfigContract
                 }
             }
             elseif (is_null($value)) {
-                $value = Config::get('config.' . $key);
+                return Config::get('config.' . $key);
             }
 
-//FIXME: insert cache
-//            if (!is_null($value)) {
-//                Cache::put($key, $value);
-//            }
-        }
-        return $value;
+            return $value;
+        });
     }
 
-    public function has($key)
-    {
-        return (Cache::has($key) || Config::has($key) || $this->database->has($key));
-    }
-
-    public function forget($key)
-    {
-        $this->database->forget($key);
-        Cache::forget($key);
-//        Config::forget($key);  // config can't forget?
-    }
-
-    public function all()
-    {
-        // no caching :(
-        $config_settings = Config::all()['config'];
-        $db_settings = self::pathToArray($this->database->all());
-        return array_replace_recursive($config_settings, $db_settings);
-    }
-
-    protected static function pathToArray($data, $prefix="")
+    protected static function pathToArray($data, $prefix = "")
     {
         $tree = array();
         foreach ($data as $key => $value) {
@@ -120,27 +118,23 @@ class Settings implements ConfigContract
         return $tree;
     }
 
-    protected static function arrayToPath($array, $prefix="")
+    public function has($key)
     {
-        return self::recursive_keys($array, $prefix);
+        return (Cache::has($key) || Config::has($key) || $this->database->has($key));
     }
 
-    private static function recursive_keys(array $array, $prefix="", array $path = array())
+    public function forget($key)
     {
-        if ($prefix != "") {
-            $prefix = trim($prefix, '.') . '.';
-        }
-        $result = array();
-        foreach ($array as $key => $val) {
-            $currentPath = array_merge($path, array($key));
-            if (is_array($val)) {
-                $result = array_merge($result, self::recursive_keys($val, $prefix, $currentPath));
-            }
-            else {
-                $result[$prefix . join('.', $currentPath)] = $val;
-            }
-        }
-        return $result;
+        $this->database->forget($key);
+        Cache::forget($key);
+    }
+
+    public function all()
+    {
+        // no caching :(
+        $config_settings = Config::all()['config'];
+        $db_settings = self::pathToArray($this->database->all());
+        return array_replace_recursive($config_settings, $db_settings);
     }
 
     /**

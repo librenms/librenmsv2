@@ -103,4 +103,23 @@ class SettingsTest extends TestCase
         $this->assertEquals(['with' => ['period' => 'value']], $result);
     }
 
+    public function testCacheFill()
+    {
+        // set some values
+        Settings::set('test.cache.one', 'value1');
+        Settings::set('test.cachetwo', 'value2');
+
+        // load the values into cache
+        $value1 = Settings::get('test.cache.one');
+        $value2 = Settings::get('test.cachetwo');
+        $this->assertEquals('value1', $value1);
+        $this->assertEquals('value2', $value2);
+
+        // check the cache
+        $cache1 = Cache::get('test.cache.one');
+        $cache2 = Cache::get('test.cachetwo');
+        $this->assertEquals('value1', $cache1);
+        $this->assertEquals('value2', $cache2);
+    }
+
 }
