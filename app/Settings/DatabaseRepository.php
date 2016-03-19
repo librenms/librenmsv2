@@ -45,7 +45,7 @@ class DatabaseRepository
         }
         elseif (count($results) == 1) {
             $entry = $results->first();
-            if($entry->config_name != $key) { //FIXME: better test
+            if ($entry->config_name != $key) { //FIXME: better test
                 // trim the prefix
                 $local_key = substr($entry->config_name, strlen($key) + 1);
                 return [$local_key => $entry->config_value];
@@ -70,18 +70,7 @@ class DatabaseRepository
 
     public function set($key, $value = null)
     {
-        $config = new DbConfig;
-        $config->config_name = $key;
-        $config->config_value = $value;
-        //FIXME: dummy data
-        $config->config_default = "";
-        $config->config_descr = "";
-        $config->config_group = "";
-        $config->config_group_order = "";
-        $config->config_sub_group = "";
-        $config->config_sub_group_order = "";
-
-        $config->save();
+        DbConfig::updateOrCreate(['config_name' => "$key"], ['config_value' => $value]);
     }
 
     public function reset($key)

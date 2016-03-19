@@ -53,7 +53,6 @@ class SettingsTest extends TestCase
     public function testRecursiveSetting()
     {
         $data = ['key1' => 'data1', 'key2' => ['key3' => 'data3']];
-
         Settings::set('test.recursive', $data);
         $result = Settings::get('test.recursive');
 
@@ -120,6 +119,17 @@ class SettingsTest extends TestCase
         $cache2 = Cache::get('test.cachetwo');
         $this->assertEquals('value1', $cache1);
         $this->assertEquals('value2', $cache2);
+    }
+
+    public function testMultipleSet()
+    {
+        Settings::set('test.m', 'one');
+        Settings::set('test.m', 'two');
+        Settings::get('test.m');
+        Settings::set('test.m', 'three');
+        $result = Settings::get('test.m');
+
+        $this->assertEquals('three', $result);
     }
 
 }

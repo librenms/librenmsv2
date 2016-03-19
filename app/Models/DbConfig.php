@@ -47,6 +47,13 @@ class DbConfig extends Model
      */
     protected $primaryKey = 'config_id';
 
+    /**
+     * Define fillable fields
+     *
+     * @var array
+     */
+    protected $fillable = ['config_name', 'config_value'];
+
     public function scopeKey($query, $key)
     {
         return $query->where('config_name', 'LIKE', $key . '%');

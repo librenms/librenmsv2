@@ -25,10 +25,11 @@
 namespace App\Settings;
 
 
+use App\Models\DbConfig;
 use Cache;
 use Config;
 use DB;
-use Illuminate\Contracts\Config\Repository as ConfigContract;
+use Illuminate\Contracts\Config\Repository as ConfigContract;  // adds the possibility to replace the default Config facade
 
 class Settings implements ConfigContract
 {
@@ -47,36 +48,16 @@ class Settings implements ConfigContract
             $value = self::arrayToPath($value, $key);
             foreach ($value as $k => $v) {
                 $this->database->set($k, $v);
+                Cache::put($k, $v, $this->cache_time);
             }
         }
         else {
             $this->database->set($key, $value);
+            Cache::put($key, $value, $this->cache_time);
         }
         return $value;
     }
 
-    protected static function arrayToPath($array, $prefix = "")
-    {
-        return self::recursive_keys($array, $prefix);
-    }
-
-    private static function recursive_keys(array $array, $prefix = "", array $path = array())
-    {
-        if ($prefix != "") {
-            $prefix = trim($prefix, '.') . '.';
-        }
-        $result = array();
-        foreach ($array as $key => $val) {
-            $currentPath = array_merge($path, array($key));
-            if (is_array($val)) {
-                $result = array_merge($result, self::recursive_keys($val, $prefix, $currentPath));
-            }
-            else {
-                $result[$prefix . join('.', $currentPath)] = $val;
-            }
-        }
-        return $result;
-    }
 
     public function get($key, $default = null)
     {
@@ -160,4 +141,28 @@ class Settings implements ConfigContract
     {
         // TODO: Implement push() method.
     }
+
+    protected static function arrayToPath($array, $prefix = "")
+    {
+        return self::recursive_keys($array, $prefix);
+    }
+
+    private static function recursive_keys(array $array, $prefix = "", array $path = array())
+    {
+        if ($prefix != "") {
+            $prefix = trim($prefix, '.') . '.';
+        }
+        $result = array();
+        foreach ($array as $key => $val) {
+            $currentPath = array_merge($path, array($key));
+            if (is_array($val)) {
+                $result = array_merge($result, self::recursive_keys($val, $prefix, $currentPath));
+            }
+            else {
+                $result[$prefix . join('.', $currentPath)] = $val;
+            }
+        }
+        return $result;
+    }
+
 }
