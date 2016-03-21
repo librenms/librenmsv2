@@ -25,7 +25,7 @@ class SettingsServiceProvider extends ServiceProvider
     {
         \App::bind('settings', function()
         {
-            return new \App\Settings\Settings;
+            return new \App\Settings;
         });
     }
 
