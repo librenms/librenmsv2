@@ -102,6 +102,14 @@ class SettingsTest extends TestCase
         $this->assertEquals(['with' => ['period' => 'value']], $result);
     }
 
+    public function testDeeperKey()
+    {
+        Settings::set('test.mix', ['with.period' => 'value']);
+        $result = Settings::get('test.mix.with.period');
+
+        $this->assertEquals('value', $result);
+    }
+
     public function testCacheFill()
     {
         // set some values
@@ -132,4 +140,17 @@ class SettingsTest extends TestCase
         $this->assertEquals('three', $result);
     }
 
+    public function testGetAll() {
+        $data = ['key1' => 'data1', 'key2' => ['key3' => 'data3']];
+
+        Settings::set("", $data);
+        $result = Settings::all();
+
+        $this->assertEquals($data, $result);
+    }
+
+    public function testDefault()  {
+        $result = Settings::get('test.default.madeup', 'value');
+        $this->assertEquals('value', $result);
+    }
 }

@@ -29,16 +29,16 @@ use App\Models\DbConfig;
 use Cache;
 use Config;
 use DB;
-use Illuminate\Contracts\Config\Repository as ConfigContract;  // adds the possibility to replace the default Config facade
+use Illuminate\Contracts\Config\Repository as ConfigContract;
+
+// adds the possibility to replace the default Config facade
 
 class Settings implements ConfigContract
 {
     private $cache_time;
-    private $database;
 
     public function __construct()
     {
-        $this->database = new DatabaseRepository(DB::connection(), 'config');
         $this->cache_time = env('CACHE_LIFETIME', 60);
     }
 
@@ -47,12 +47,12 @@ class Settings implements ConfigContract
         if (is_array($value)) {
             $value = self::arrayToPath($value, $key);
             foreach ($value as $k => $v) {
-                $this->database->set($k, $v);
+                DbConfig::updateOrCreate(['config_name' => $k], ['config_value' => $v]);
                 Cache::put($k, $v, $this->cache_time);
             }
         }
         else {
-            $this->database->set($key, $value);
+            DbConfig::updateOrCreate(['config_name' => $key], ['config_value' => $value]);
             Cache::put($key, $value, $this->cache_time);
         }
         return $value;
@@ -63,50 +63,37 @@ class Settings implements ConfigContract
     {
         // return value from cache or fetch it and return it
         return Cache::remember($key, $this->cache_time, function () use ($key, $default) {
-            $value = $this->database->get($key, $default);
+            $db_data = DbConfig::key($key)->get(['config_name', 'config_value']);
 
-            if (is_array($value)) {
-                $value = self::pathToArray($value, $key);
+            if (count($db_data) == 1 && $db_data->first()->config_name == $key) {
+                // return a bare value if we are getting one item
+                return $db_data->first()->config_value;
+            }
+            elseif (count($db_data) >= 1) {
+                $result = self::collectionToArray($db_data, $key);
                 $config = Config::get('config.' . $key, $default);
                 if (!is_null($config)) {
-                    $value = array_replace_recursive($config, $value);
+                    $result = array_replace_recursive($config, $result);
                 }
+                return $result;
             }
-            elseif (is_null($value)) {
-                return Config::get('config.' . $key);
+            else {
+                return Config::get('config.' . $key, $default);
             }
 
-            return $value;
         });
     }
 
-    protected static function pathToArray($data, $prefix = "")
-    {
-        $tree = array();
-        foreach ($data as $key => $value) {
-            if (substr($key, 0, strlen($prefix)) == $prefix) {
-                $key = substr($key, strlen($prefix));
-            }
-            $parts = explode('.', trim($key, '.'));
-
-            $temp = &$tree;
-            foreach ($parts as $part) {
-                $temp = &$temp[$part];
-            }
-            $temp = $value;
-            unset($temp);
-        }
-        return $tree;
-    }
 
     public function has($key)
     {
-        return (Cache::has($key) || Config::has($key) || $this->database->has($key));
+        return (Cache::has($key) || Config::has($key) || DbConfig::exactKey($key)->exists());
     }
 
     public function forget($key)
     {
-        $this->database->forget($key);
+        // set to null to prevent falling back to Config
+        DbConfig::key($key)->update(['config_value' => null]);
         Cache::forget($key);
     }
 
@@ -114,7 +101,7 @@ class Settings implements ConfigContract
     {
         // no caching :(
         $config_settings = Config::all()['config'];
-        $db_settings = self::pathToArray($this->database->all());
+        $db_settings = self::collectionToArray(DbConfig::all());
         return array_replace_recursive($config_settings, $db_settings);
     }
 
@@ -127,7 +114,7 @@ class Settings implements ConfigContract
      */
     public function prepend($key, $value)
     {
-        // TODO: Implement prepend() method.S
+        // TODO: Implement prepend() method.
     }
 
     /**
@@ -142,7 +129,29 @@ class Settings implements ConfigContract
         // TODO: Implement push() method.
     }
 
-    protected static function arrayToPath($array, $prefix = "")
+    // ---- Local Utility functions ----
+
+    private static function collectionToArray($data, $prefix = "")
+    {
+        $tree = array();
+        foreach ($data as $item) {
+            $key = $item->config_name;
+            if (substr($key, 0, strlen($prefix)) == $prefix) {
+                $key = substr($key, strlen($prefix));
+            }
+            $parts = explode('.', trim($key, '.'));
+
+            $temp = &$tree;
+            foreach ($parts as $part) {
+                $temp = &$temp[$part];
+            }
+            $temp = $item->config_value;
+            unset($temp);
+        }
+        return $tree;
+    }
+
+    private static function arrayToPath($array, $prefix = "")
     {
         return self::recursive_keys($array, $prefix);
     }
@@ -164,5 +173,4 @@ class Settings implements ConfigContract
         }
         return $result;
     }
-
 }
