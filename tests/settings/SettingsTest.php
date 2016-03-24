@@ -1,15 +1,30 @@
 <?php
-
+/*
+ * Copyright (C) 2016 Tony Murray <murraytony@gmail.com>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
+ * SettingsTest.php
+ *
+ * @package    LibreNMS
+ * @author     Tony Murray <murraytony@gmail.com>
+ * @copyright  2016 Tony Murray
+ * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
+ */
 
 class SettingsTest extends TestCase
 {
-
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
-
     public function testSetGet()
     {
         Settings::set('test.setget', 'setget');
@@ -21,6 +36,13 @@ class SettingsTest extends TestCase
     public function testNonExistent()
     {
         $this->assertNull(Settings::get('non.existant.key'));
+    }
+
+    public function testDefault()
+    {
+        $result = Settings::get('test.default', 'default');
+
+        $this->assertEquals('default', $result);
     }
 
     public function testConfigOnly()
@@ -73,7 +95,15 @@ class SettingsTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testConfigDbMerging()
+    public function testConfigMergeSimple() {
+        Config::set('config.test.merge.simple', 'configvalue');
+        Settings::set('test.merge.simple', 'value');
+        $result = Settings::get('test.merge.simple');
+
+        $this->assertEquals('value', $result);
+    }
+
+    public function testConfigMergeComplex()
     {
         $expected = [
             'config'   => 'c1',
@@ -93,6 +123,15 @@ class SettingsTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testConfigMergeMismatch() {
+        $data = ['value1', 'value2'];
+
+        Config::set('config.test.mismatch', 'value');
+        Settings::set('test.mismatch', $data);
+        $result = Settings::get('test.mismatch');
+
+        $this->assertEquals($data, $result);
+    }
 
     public function testMixKeyArray() //TODO: more tests in this area, is this valid or invalid behaviour?
     {
@@ -140,17 +179,25 @@ class SettingsTest extends TestCase
         $this->assertEquals('three', $result);
     }
 
-    public function testGetAll() {
+    public function testParentCache() {
+        $predata = ['two', 'three', 'one'];
+        $data = ['one', 'two', 'three'];
+
+        Settings::set('test.order', $predata);
+        Settings::get('test.order'); // fill cache
+        Settings::set('test.order', $data);
+        $result = Settings::get('test.order');
+
+        $this->assertEquals($data, $result);
+    }
+
+    public function testGetAll()
+    {
         $data = ['key1' => 'data1', 'key2' => ['key3' => 'data3']];
 
         Settings::set("", $data);
         $result = Settings::all();
 
         $this->assertEquals($data, $result);
-    }
-
-    public function testDefault()  {
-        $result = Settings::get('test.default.madeup', 'value');
-        $this->assertEquals('value', $result);
     }
 }

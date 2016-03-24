@@ -28,22 +28,38 @@ namespace App;
 use App\Models\DbConfig;
 use Cache;
 use Config;
-use DB;
-use Illuminate\Contracts\Config\Repository as ConfigContract;
-
-// adds the possibility to replace the default Config facade
+use Illuminate\Contracts\Config\Repository as ConfigContract;  // adds the possibility to replace the default Config facade
 
 class Settings implements ConfigContract
 {
+    /**
+     * @var
+     */
     private $cache_time;
 
+    /**
+     * Settings constructor.
+     */
     public function __construct()
     {
         $this->cache_time = env('CACHE_LIFETIME', 60);
     }
 
+    /**
+     * Set a key value pair into the Settings store.
+     * 
+     * @param string $key A . separated path to this setting
+     * @param array|null $value A value or an array. If value is an array it will be converted to a . separate path(s) concatinated onto the given key
+     */
     public function set($key, $value = null)
     {
+        // Clear caches that may contain this value
+        $path = [];
+        foreach (explode('.', $key) as $item) {
+            $path[] = $item;
+            Cache::forget(join('.', $path));
+        }
+
         if (is_array($value)) {
             $value = self::arrayToPath($value, $key);
             foreach ($value as $k => $v) {
@@ -55,10 +71,17 @@ class Settings implements ConfigContract
             DbConfig::updateOrCreate(['config_name' => $key], ['config_value' => $value]);
             Cache::put($key, $value, $this->cache_time);
         }
-        return $value;
+
     }
 
 
+    /**
+     * Get a value from the Settings store.
+     * 
+     * @param string $key A full or partial . separated key.
+     * @param null $default If the key isn't found, return this value. By default undefined keys return null.
+     * @return mixed If the $key is a full path, a bare value will be returned.  If it is a partial path, a nested array will be retuned.
+     */
     public function get($key, $default = null)
     {
         // return value from cache or fetch it and return it
@@ -70,14 +93,16 @@ class Settings implements ConfigContract
                 return $db_data->first()->config_value;
             }
             elseif (count($db_data) >= 1) {
+                // convert collection to an array and merge with the config fallback
                 $result = self::collectionToArray($db_data, $key);
                 $config = Config::get('config.' . $key, $default);
-                if (!is_null($config)) {
+                if (!is_null($config) && is_array($config)) {
                     $result = array_replace_recursive($config, $result);
                 }
                 return $result;
             }
             else {
+                // fallback to the config or return the default value
                 return Config::get('config.' . $key, $default);
             }
 
@@ -85,11 +110,21 @@ class Settings implements ConfigContract
     }
 
 
+    /**
+     * Check if the key is defined in the Settings store.
+     * 
+     * @param string $key Only full paths will return true.
+     * @return bool 
+     */
     public function has($key)
     {
         return (Cache::has($key) || Config::has($key) || DbConfig::exactKey($key)->exists());
     }
 
+    /**
+     * Forget a key.  Gets to forgotten keys will return null instead of the default.
+     * @param $key string Only works for full paths.
+     */
     public function forget($key)
     {
         // set to null to prevent falling back to Config
@@ -97,6 +132,11 @@ class Settings implements ConfigContract
         Cache::forget($key);
     }
 
+    /**
+     * Get all settings defined in the Settings store.
+     * 
+     * @return array A nested array of all settings.
+     */
     public function all()
     {
         // no caching :(
@@ -131,6 +171,13 @@ class Settings implements ConfigContract
 
     // ---- Local Utility functions ----
 
+    /**
+     * Convert an Eloquent Collection into a nested array
+     *
+     * @param $data \Illuminate\Database\Eloquent\Collection The Collection.
+     * @param string $prefix Path to prepend. Do not include trailing .
+     * @return array The resulting nested array.
+     */
     private static function collectionToArray($data, $prefix = "")
     {
         $tree = array();
@@ -151,11 +198,17 @@ class Settings implements ConfigContract
         return $tree;
     }
 
+    /**
+     * Convert a nested array of values to an array of . separated paths and values.
+     *
+     * @param $array array Nested array.
+     * @param string $prefix Path to prepend to all keys.
+     * @return array An array of path/value pairs.
+     */
     private static function arrayToPath($array, $prefix = "")
     {
         return self::recursive_keys($array, $prefix);
     }
-
     private static function recursive_keys(array $array, $prefix = "", array $path = array())
     {
         if ($prefix != "") {

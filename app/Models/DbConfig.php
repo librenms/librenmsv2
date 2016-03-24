@@ -24,6 +24,7 @@
  */
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -54,12 +55,26 @@ class DbConfig extends Model
      */
     protected $fillable = ['config_name', 'config_value'];
 
-    public function scopeKey($query, $key)
+    /**
+     * Limit the query to config_names that start with $key
+     *
+     * @param $query Builder
+     * @param $key string The key (full or partial) to limit the query to.
+     * @return Builder
+     */
+    public function scopeKey(Builder $query, $key)
     {
         return $query->where('config_name', 'LIKE', $key . '%');
     }
 
-    public function scopeExactKey($query, $key)
+    /**
+     * Limit the query to the exact config_name.
+     *
+     * @param $query Builder
+     * @param $key string The full key to limit the query to.
+     * @return Builder
+     */
+    public function scopeExactKey(Builder $query, $key)
     {
         return $query->where('config_name', $key);
     }
@@ -73,6 +88,12 @@ class DbConfig extends Model
 
     // ---- Accessors/Mutators ----
 
+    /**
+     * Unserialize stored values.
+     *
+     * @param $value
+     * @return mixed
+     */
     public function getConfigValueAttribute($value)
     {
         if (!empty($value)) {
@@ -81,6 +102,11 @@ class DbConfig extends Model
         return $value;
     }
 
+    /**
+     * Serialize values before storing.
+     *
+     * @param $value
+     */
     public function setConfigValueAttribute($value)
     {
         $this->attributes['config_value'] = serialize($value);
