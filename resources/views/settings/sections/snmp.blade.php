@@ -13,17 +13,17 @@
                 {!! Form::open(['url' => 'api/settings', 'class'=>'form-horizontal', 'role'=>'form']) !!}
 
                 <div class="form-group">
-                    <label for="snmp.version" class="col-sm-3 control-label">Version</label>
+                    <label for="snmp.version" class="col-sm-3 control-label">Default Version</label>
                     <div class="col-sm-9">
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-primary {{ Settings::get('snmp.version')=='v1' ? 'active' : '' }}">
-                                {!! Form::input('radio', 'snmp.version', 'v1') !!}
+                                {!! Form::input('radio', 'snmp.version', 'v1', ['class'=>'ajax-form-radio', 'data-value'=>'v1']) !!}
                                 v1 </label>
                             <label class="btn btn-primary {{ Settings::get('snmp.version')=='v2c' ? 'active' : '' }}">
-                                {!! Form::input('radio', 'snmp.version', 'v2c') !!}
+                                {!! Form::input('radio', 'snmp.version', 'v2c', ['class'=>'ajax-form-radio', 'data-value'=>'v2c']) !!}
                                 v2c </label>
                             <label class="btn btn-primary {{ Settings::get('snmp.version')=='v3' ? 'active' : '' }}">
-                                {!! Form::input('radio', 'snmp.version', 'v3') !!}
+                                {!! Form::input('radio', 'snmp.version', 'v3', ['class'=>'ajax-form-radio', 'data-value'=>'v3']) !!}
                                 v3 </label>
                         </div>
                     </div>
@@ -32,31 +32,24 @@
                 <div class="form-group">
                     <label for="snmp.community.0" class="col-sm-3 control-label">Community</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="snmp.community.0" placeholder="Community"
-                               value="{{ Settings::get('snmp.community.0') }}">
+                        <input type="text" class="form-control ajax-form-simple" id="snmp.community.0" placeholder="Community" value="{{ Settings::get('snmp.community.0') }}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="snmp.port" class="col-sm-3 control-label">Port</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="snmp.port" placeholder="Community"
-                               value="{{ Settings::get('snmp.port') }}">
+                        <input type="text" class="form-control ajax-form-simple" id="snmp.port" placeholder="Community" value="{{ Settings::get('snmp.port') }}">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="snmp.transport" class="col-sm-3 control-label">Transport</label>
+                    <label for="snmp.transports" class="col-sm-3 control-label">Transport</label>
                     <div class="col-sm-3">
-                        <ul id="snmp.transport-list" class="list-group" style="margin-bottom:0;">
-                            <li data-id="0" class="list-group-item"><span class="drag-handle fa fa-bars"></span> udp
-                            </li>
-                            <li data-id="1" class="list-group-item"><span class="drag-handle fa fa-bars"></span> udp6
-                            </li>
-                            <li data-id="2" class="list-group-item"><span class="drag-handle fa fa-bars"></span> tcp
-                            </li>
-                            <li data-id="3" class="list-group-item"><span class="drag-handle fa fa-bars"></span> tcp6
-                            </li>
+                        <ul id="snmp.transports" class="list-group" style="margin-bottom:0;">
+                            @foreach(Settings::get('snmp.transports') as $key => $item )
+                                <li data-id="{{ $key }}" class="list-group-item" data-value="{{ $item }}"><span class="drag-handle fa fa-bars"></span> {{ $item }}</li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -69,43 +62,37 @@
                 <div class="form-group">
                     <label for="snmp.v3.0.authlevel" class="col-sm-3 control-label">AuthLevel</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="snmp.v3.0.authlevel" placeholder="AuthLevel"
-                               value="{{ Settings::get('snmp.v3.0.authlevel') }}">
+                        <input type="text" class="form-control ajax-form-simple" id="snmp.v3.0.authlevel" placeholder="AuthLevel" value="{{ Settings::get('snmp.v3.0.authlevel') }}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="snmp.v3.0.authname" class="col-sm-3 control-label">AuthName</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="snmp.v3.0.authname" placeholder="AuthName"
-                               value="{{ Settings::get('snmp.v3.0.authname') }}">
+                        <input type="text" class="form-control ajax-form-simple" id="snmp.v3.0.authname" placeholder="AuthName" value="{{ Settings::get('snmp.v3.0.authname') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="snmp.v3.0.authalgo" class="col-sm-3 control-label">AuthAlgo</label>
+                    <label for="snmp.v3.0.authalgo" class="col-sm-3 control-label ajax-form-simple">AuthAlgo</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="snmp.v3.0.authalgo" placeholder="AuthAlgo"
-                               value="{{ Settings::get('snmp.v3.0.authalgo') }}">
+                        <input type="text" class="form-control ajax-form-simple" id="snmp.v3.0.authalgo" placeholder="AuthAlgo" value="{{ Settings::get('snmp.v3.0.authalgo') }}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="snmp.v3.0.authpass" class="col-sm-3 control-label">AuthPass</label>
                     <div class="col-sm-9">
-                        <input type="password" class="form-control" id="snmp.v3.0.authpass" placeholder="AuthPass"
-                               value="{{ Settings::get('snmp.v3.0.authpass') }}">
+                        <input type="password" class="form-control ajax-form-simple" id="snmp.v3.0.authpass" placeholder="AuthPass" value="{{ Settings::get('snmp.v3.0.authpass') }}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="snmp.v3.0.cryptopass" class="col-sm-3 control-label">CryptoAlgo</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="snmp.v3.0.crytpoalgo" placeholder="CryptoAlgo"
-                               value="{{ Settings::get('snmp.v3.0.cryptoalgo') }}">
+                        <input type="text" class="form-control ajax-form-simple" id="snmp.v3.0.crytpoalgo" placeholder="CryptoAlgo" value="{{ Settings::get('snmp.v3.0.cryptoalgo') }}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="snmp.v3.0.cryptoalgo" class="col-sm-3 control-label">CryptoPass</label>
                     <div class="col-sm-9">
-                        <input type="password" class="form-control" id="snmp.v3.0.crytpopass" placeholder="CryptoPass"
-                               value="{{ Settings::get('snmp.v3.0.cryptopass') }}">
+                        <input type="password" class="form-control ajax-form-simple" id="snmp.v3.0.crytpopass" placeholder="CryptoPass" value="{{ Settings::get('snmp.v3.0.cryptopass') }}">
                     </div>
                 </div>
                 {!! Form::close() !!}
@@ -114,15 +101,3 @@
         </div>
     </div>
 </section>
-
-
-@section('scripts')
-    <script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
-    <script>
-        var list = document.getElementById("snmp.transport-list");
-        Sortable.create(list, {
-            handle: '.drag-handle',
-            animation: 150
-        });
-    </script>
-@endsection

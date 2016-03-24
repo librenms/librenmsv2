@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Copyright (C) 2016 Tony Murray <murraytony@gmail.com>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,12 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * SettingsController.php
+ *
+ * @package    LibreNMS
+ * @author     Tony Murray <murraytony@gmail.com>
+ * @copyright  2016 Tony Murray
+ * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
+ */
 
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\DbConfig;
 use Illuminate\Http\Request;
+use Input;
 use Settings;
 
 class SettingsController extends Controller
@@ -39,23 +48,8 @@ class SettingsController extends Controller
      */
     public function index()
     {
-//        return view('settings.list', ['settings' => Config::all()]);
-
-//        $settings[] = config('config.snmp.v3.0');
-//        Config::set('config.snmp.v3.0.authlevel', 'changed');
-//        $settings[] = config()->get('config.snmp.v3.0.authlevel');
-//        config()->set('config.snmp.v3.0', ['authlevel' => 'changed2', 'authname' => config('config.snmp.v3.0.authname'), 'authpass' => 'changed2', 'authalgo' => 'changed2', 'cryptopass' => 'changed2', 'cryptoalgo' => 'changed2']);
-//        $settings[] = config('config.snmp.v3');
-//        $settings[] = Config::get('config.snmp.v3.0.authlevel');
-
-//        $settings[] = Settings::get('email_backend');
-        $settings = Settings::get('snmp');
-//        $settings[] = Settings::get('alert');
-//        $settings[] = Settings::get('snmp');
-//        $settings[] = Settings::get(null);  // same as all, but only gets db settings...
-//        Settings::set('custom', 'something');
-//        $settings[] = Settings::get('custom');
 //        $settings = Settings::all();
+        $settings = Settings::get('snmp');
 
         return view('settings.list', ['settings' => $settings]);
     }
@@ -78,7 +72,12 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $type = Input::get('type');
+        if ($type == 'settings-value' || $type == 'settings-array') {
+            Settings::set(Input::get('key'), Input::get('value'));
+            return response('OK', 200);
+        }
+        return response('Invalid Data', 422);
     }
 
     /**
@@ -89,7 +88,7 @@ class SettingsController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('settings.list', ['section' => $id]);
     }
 
     /**
@@ -100,7 +99,7 @@ class SettingsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('settings.list', ['section' => $id]);
     }
 
     /**
@@ -123,6 +122,6 @@ class SettingsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Settings::forget($id);
     }
 }
