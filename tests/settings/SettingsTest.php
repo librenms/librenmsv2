@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 /**
  * SettingsTest.php
  *
@@ -22,7 +23,6 @@
  * @copyright  2016 Tony Murray
  * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
  */
-
 class SettingsTest extends TestCase
 {
     public function testSetGet()
@@ -95,7 +95,8 @@ class SettingsTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testConfigMergeSimple() {
+    public function testConfigMergeSimple()
+    {
         Config::set('config.test.merge.simple', 'configvalue');
         Settings::set('test.merge.simple', 'value');
         $result = Settings::get('test.merge.simple');
@@ -123,7 +124,8 @@ class SettingsTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testConfigMergeMismatch() {
+    public function testConfigMergeMismatch()
+    {
         $data = ['value1', 'value2'];
 
         Config::set('config.test.mismatch', 'value');
@@ -162,10 +164,22 @@ class SettingsTest extends TestCase
         $this->assertEquals('value2', $value2);
 
         // check the cache
-        $cache1 = Cache::get('test.cache.one');
-        $cache2 = Cache::get('test.cachetwo');
+        $cache1 = Cache::tags(\App\Settings::$cache_tag)->get('test.cache.one');
+        $cache2 = Cache::tags(\App\Settings::$cache_tag)->get('test.cachetwo');
         $this->assertEquals('value1', $cache1);
         $this->assertEquals('value2', $cache2);
+    }
+
+    public function testFlushCache()
+    {
+        Settings::set('test.flush', 'value');
+        $cached = Cache::tags(\App\Settings::$cache_tag)->get('test.flush');
+        $this->assertEquals('value', $cached);
+
+        Settings::flush();
+        $flushed = Cache::tags(\App\Settings::$cache_tag)->get('test.flush');
+        $this->assertNull($flushed);
+
     }
 
     public function testMultipleSet()
@@ -179,7 +193,8 @@ class SettingsTest extends TestCase
         $this->assertEquals('three', $result);
     }
 
-    public function testParentCache() {
+    public function testParentCache()
+    {
         $predata = ['two', 'three', 'one'];
         $data = ['one', 'two', 'three'];
 
@@ -199,5 +214,16 @@ class SettingsTest extends TestCase
         $result = Settings::all();
 
         $this->assertEquals($data, $result);
+    }
+
+    public function testArrayOfPaths()
+    {
+        $data = ['test.path1' => 'value1', 'test.deep.path2' => 'value2'];
+        $expected = ['path1' => 'value1', 'deep' => ['path2' => 'value2']];
+
+        Settings::set('', $data);
+        $result = Settings::get('test');
+
+        $this->assertEquals($expected, $result);
     }
 }
