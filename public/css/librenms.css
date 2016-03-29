@@ -1,3 +1,40 @@
 #toast-container {
     margin-top: 50px;
 }
+
+.drag-handle {
+    cursor: move;
+    padding-right: 10px;
+}
+
+input + i.fa-check {
+    position: absolute;
+    right: 24px;
+    top: 10px;
+    color: green;
+}
+input + i.fa-close {
+    position: absolute;
+    right: 24px;
+    top: 10px;
+    color: red;
+}
+
+.pulsate {
+    -webkit-animation: pulsate 1s infinite alternate;
+    -moz-animation: pulsate 1s infinite alternate;
+    -animation: pulsate 1s infinite alternate;
+    text-shadow: 0 0 8px #ccc;
+}
+@-webkit-keyframes pulsate {
+    from { box-shadow: 0 0 5px #eee; }
+    to { box-shadow: 0 0 15px #444; }
+}
+@-moz-keyframes pulsate {
+    from { box-shadow: 0 0 5px #eee; }
+    to { box-shadow: 0 0 15px #444; }
+}
+@keyframes pulsate {
+    from { box-shadow: 0 0 5px #eee; }
+    to { box-shadow: 0 0 15px #444; }
+}
