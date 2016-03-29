@@ -42,6 +42,7 @@ class Settings implements ConfigContract
     public static $cache_tag = "Settings";
     /**
      * The amount of time in minutes to store values in cache
+     *
      * @var int
      */
     private $cache_time;
@@ -62,26 +63,33 @@ class Settings implements ConfigContract
      */
     public function set($key, $value = null)
     {
-        // Clear cache that may contain this value
-        $path = [];
-        foreach (explode('.', $key) as $item) {
-            $path[] = $item;
-            Cache::tags(self::$cache_tag)->forget(join('.', $path));
-        }
-
-        // save the value to the database
         if (is_array($value)) {
+            // repeat until value contains no arrays
             foreach ($value as $k => $v) {
-                if(!empty($key)) {
-                    $temp = $key.'.'.$k;
-                } else {
-                    $temp = $k;
+                if (!empty($key)) {
+                    if (is_string($k) && !str_contains($k, '.') && DbConfig::exactKey($key)->exists() && DbConfig::key($key)->count() == 1) {
+                        // check that we aren't trying to set an array onto an existing value only setting
+                        throw new \Exception("Attempting to set array value to existing non-array value at the key '" . $key . "'");
+                    }
+                    else {
+                        // we are not at the leaf yet, add this chunk to the key and recurse
+                        $this->set($key . '.' . $k, $v);
+                    }
                 }
-                // repeat until value contains no arrays
-                $this->set($temp, $v);
+                else {
+                    // a leaf, recurse one last time
+                    $this->set($k, $v);
+                }
             }
         }
         else {
+            // make sure we can save this
+            if ($this->isReadOnly($key)) {
+                throw new \Exception("The setting '" . $key . "' is read only");
+            }
+
+            // flush the cache and save the value in db and cache
+            $this->flush($key);
             DbConfig::updateOrCreate(['config_name' => $key], ['config_value' => $value]);
             Cache::tags(self::$cache_tag)->put($key, $value, $this->cache_time);
         }
@@ -89,38 +97,8 @@ class Settings implements ConfigContract
     }
 
     /**
-     * Convert a nested array of values to an array of . separated paths and values.
-     *
-     * @param $array array Nested array.
-     * @param string $prefix Path to prepend to all keys.
-     * @return array An array of path/value pairs.
-     */
-    private static function arrayToPath($array, $prefix = "")
-    {
-        return self::recursive_keys($array, $prefix);
-    }
-
-    private static function recursive_keys(array $array, $prefix = "", array $path = array())
-    {
-        if ($prefix != "") {
-            $prefix = trim($prefix, '.') . '.';
-        }
-        $result = array();
-        foreach ($array as $key => $val) {
-            $currentPath = array_merge($path, array($key));
-            if (is_array($val)) {
-                $result = array_merge($result, self::recursive_keys($val, $prefix, $currentPath));
-            }
-            else {
-                $result[$prefix . join('.', $currentPath)] = $val;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Get a value from the Settings store.
-     * 
+     *
      * @param string $key A full or partial . separated key.
      * @param null $default If the key isn't found, return this value. By default undefined keys return null.
      * @return mixed If the $key is a full path, a bare value will be returned.  If it is a partial path, a nested array will be retuned.
@@ -129,26 +107,36 @@ class Settings implements ConfigContract
     {
         // return value from cache or fetch it and return it
         return Cache::tags(self::$cache_tag)->remember($key, $this->cache_time, function () use ($key, $default) {
+            // fetch the value from config.php first
+            if (Config::has('config.' . $key)) {
+                $config_data = Config::get('config.' . $key, $default);
+                if (!is_array($config_data)) {
+                    // return the value from config.php if it is a value
+                    return $config_data;
+                }
+            }
+
+            // fetch the value from the database
             $db_data = DbConfig::key($key)->get(['config_name', 'config_value']);
 
             if (count($db_data) == 1 && $db_data->first()->config_name == $key) {
-                // return a bare value if we are getting one item
+                // return a value if we are getting one item
                 return $db_data->first()->config_value;
             }
             elseif (count($db_data) >= 1) {
-                // convert collection to an array and merge with the config fallback
+                // convert the collection to an array
                 $result = self::collectionToArray($db_data, $key);
-                $config = Config::get('config.' . $key, $default);
-                if (!is_null($config) && is_array($config)) {
-                    $result = array_replace_recursive($config, $result);
-                }
-                return $result;
-            }
-            else {
-                // fallback to the config or return the default value
-                return Config::get('config.' . $key, $default);
-            }
 
+                // if we have config_data, merge them
+                if (isset($config_data)) {
+                    return array_replace_recursive($result, $config_data);
+                }
+                else {
+                    return $result;
+                }
+            }
+            // we couldn't find the key, return the default
+            return $default;
         });
     }
 
@@ -164,7 +152,7 @@ class Settings implements ConfigContract
         $tree = array();
         foreach ($data as $item) {
             $key = $item->config_name;
-            if (substr($key, 0, strlen($prefix)) == $prefix) {
+            if (starts_with($key, $prefix)) {
                 $key = substr($key, strlen($prefix));
             }
             $parts = explode('.', trim($key, '.'));
@@ -187,11 +175,23 @@ class Settings implements ConfigContract
      */
     public function has($key)
     {
-        return (Cache::tags(self::$cache_tag)->has($key) || Config::has($key) || DbConfig::exactKey($key)->exists());
+        return (Cache::tags(self::$cache_tag)->has($key) || Config::has('config.' . $key) || DbConfig::key($key)->exists());
+    }
+
+    /**
+     * Check if the key is read only.  This is when the setting is defined in config.php.
+     *
+     * @param string $key The path to check
+     * @return bool
+     */
+    public function isReadOnly($key)
+    {
+        return Config::has('config.' . $key);
     }
 
     /**
      * Forget a key.  Gets to forgotten keys will return null instead of the default.
+     *
      * @param $key string Only works for full paths.
      */
     public function forget($key)
@@ -218,11 +218,24 @@ class Settings implements ConfigContract
 
     /**
      * Clear the settings cache.
-     * This should not be called normally, please consider filing a bug if you need this.
+     * If path is set, only clear the path and it's parents.
+     *
+     * @param null $key The path to clear.
      */
-    public function flush()
+    public function flush($key = null)
     {
-        Cache::tags(self::$cache_tag)->flush();
+        if (is_null($key)) {
+            // Clear all cache
+            Cache::tags(self::$cache_tag)->flush();
+        }
+        else {
+            // Clear specific path
+            $path = [];
+            foreach (explode('.', $key) as $element) {
+                $path[] = $element;
+                Cache::tags(self::$cache_tag)->forget(join('.', $path));
+            }
+        }
     }
 
     /**

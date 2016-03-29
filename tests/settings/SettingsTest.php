@@ -45,6 +45,12 @@ class SettingsTest extends TestCase
         $this->assertEquals('default', $result);
     }
 
+    public function testReadOnly() {
+        $this->setExpectedException('Exception');
+        Config::set('config.test.readonly', 'value');
+        Settings::set('test.readonly');
+    }
+
     public function testConfigOnly()
     {
         Config::set('config.test.key', 'value');
@@ -53,13 +59,14 @@ class SettingsTest extends TestCase
         $this->assertEquals('value', $result);
     }
 
-    public function testSettingsOverride()
+    public function testConfigOverride()
     {
-        Config::set('test', 'config');
-        Settings::set('test', 'settings');
-        $result = Settings::get('test');
+        Settings::set('test.override', 'settings');
+        Settings::flush();
+        Config::set('config.test.override', 'config');
+        $result = Settings::get('test.override');
 
-        $this->assertEquals('settings', $result);
+        $this->assertEquals('config', $result);
     }
 
     public function testSubtree()
@@ -97,8 +104,8 @@ class SettingsTest extends TestCase
 
     public function testConfigMergeSimple()
     {
-        Config::set('config.test.merge.simple', 'configvalue');
         Settings::set('test.merge.simple', 'value');
+        Config::set('config.test.merge.simple', 'configvalue');
         $result = Settings::get('test.merge.simple');
 
         $this->assertEquals('value', $result);
@@ -128,11 +135,11 @@ class SettingsTest extends TestCase
     {
         $data = ['value1', 'value2'];
 
-        Config::set('config.test.mismatch', 'value');
         Settings::set('test.mismatch', $data);
+        Config::set('config.test.mismatch', 'value');
         $result = Settings::get('test.mismatch');
 
-        $this->assertEquals($data, $result);
+        $this->assertEquals('value', $result);
     }
 
     public function testMixKeyArray() //TODO: more tests in this area, is this valid or invalid behaviour?
@@ -242,5 +249,34 @@ class SettingsTest extends TestCase
         $result = Settings::get('test');
 
         $this->assertEquals($expected, $result);
+    }
+
+    public function testArrayWithValue() {
+        $data = ['value', 'arr'=>['one'=>'one', 'two'=>'two']];
+
+        Settings::set('test.arrayval', $data);
+
+        $result1 = Settings::get('test.arrayval.arr.two');
+        $this->assertEquals('two', $result1);
+
+        $result2 = Settings::get('test.arrayval.0');
+        $this->assertEquals('value', $result2);
+    }
+
+    public function testSubpathValue() {
+        Settings::set('test.subpath', 'value');
+
+        try {
+            Settings::set('test.subpath', ['one' => 'one', 'two' => 'two']);
+            $this->fail("Unreachable line");
+        }catch (\Exception $e) {
+            $this->assertEquals("Attempting to set array value to existing non-array value at the key 'test.subpath'", $e->getMessage());
+        }
+
+        $result1 = Settings::get('test.subpath');
+        $this->assertEquals('value', $result1);
+
+        $result2 = Settings::get('test.subpath.one');
+        $this->assertNull($result2);
     }
 }
