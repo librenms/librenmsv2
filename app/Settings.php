@@ -71,10 +71,14 @@ class Settings implements ConfigContract
 
         // save the value to the database
         if (is_array($value)) {
-            $settings = self::arrayToPath($value, $key);
-            foreach ($settings as $k => $v) {
-                DbConfig::updateOrCreate(['config_name' => $k], ['config_value' => $v]);
-                Cache::tags(self::$cache_tag)->put($k, $v, $this->cache_time);
+            foreach ($value as $k => $v) {
+                if(!empty($key)) {
+                    $temp = $key.'.'.$k;
+                } else {
+                    $temp = $k;
+                }
+                // repeat until value contains no arrays
+                $this->set($temp, $v);
             }
         }
         else {

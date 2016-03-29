@@ -182,6 +182,23 @@ class SettingsTest extends TestCase
 
     }
 
+    public function testNoCache() {
+        Settings::set('test.nocache', 'value');
+        Settings::flush();
+        $result = Settings::get('test.nocache');
+
+        $this->assertEquals('value', $result);
+    }
+
+    public function testNoCacheArray() {
+        $expected = ['one'=>'value1', 'two'=>'value2'];
+        Settings::set('test.nocachearray', $expected);
+        Settings::flush();
+        $result = Settings::get('test.nocachearray');
+
+        $this->assertEquals($expected, $result);
+    }
+
     public function testMultipleSet()
     {
         Settings::set('test.m', 'one');
