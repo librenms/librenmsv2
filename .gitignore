@@ -1,5 +1,6 @@
 /vendor
 /node_modules
+/storage/database.sqlite
 Homestead.yaml
 Homestead.json
 .env
@@ -10,3 +11,4 @@ composer.lock
 **/.idea
 /_ide_helper.php
 /_ide_helper_models.php
+/.phpstorm.meta.php
