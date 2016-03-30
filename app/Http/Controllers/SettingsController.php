@@ -48,10 +48,7 @@ class SettingsController extends Controller
      */
     public function index()
     {
-//        $settings = Settings::all();
-        $settings = Settings::get('snmp');
-
-        return view('settings.list', ['settings' => $settings]);
+        return view('settings.list');
     }
 
     /**
