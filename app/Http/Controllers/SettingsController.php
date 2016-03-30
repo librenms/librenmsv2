@@ -74,7 +74,11 @@ class SettingsController extends Controller
     {
         $type = Input::get('type');
         if ($type == 'settings-value' || $type == 'settings-array') {
-            Settings::set(Input::get('key'), Input::get('value'));
+            $key = Input::get('key');
+            if(Settings::isReadOnly($key)) {
+                return response('Read only setting', 422);
+            }
+            Settings::set($key, Input::get('value'));
             return response('OK', 200);
         }
         return response('Invalid Data', 422);
