@@ -85,14 +85,15 @@
             }
         });
 
-        $('.ajax-form-simple').blur(function () {
+        $('.ajax-form-simple').bind('blur keyup', function(e) {
+            if(e.type === 'keyup' && e.keyCode !== 13) return;
             var $this = $(this);
-            var key = $this.attr('id');
-            var data = $this.val();
 
             var original = $this.data('original-value');
             if(data == original) return;
 
+            var key = $this.attr('id');
+            var data = $this.val();
             $this.after('<i class="fa fa-spin fa-spinner fa-lg"></i>');
 
             $.ajax({
