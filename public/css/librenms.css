@@ -7,18 +7,22 @@
     padding-right: 10px;
 }
 
-input + i.fa-check {
+.tooltip-disabled + .tooltip > .tooltip-inner {background-color: #ec971f;}
+.tooltip-disabled + .tooltip.bottom > .tooltip-arrow {border-bottom-color: #ec971f;}
+.tooltip-disabled + .tooltip.top > .tooltip-arrow {border-top-color: #ec971f;}
+.tooltip-disabled + .tooltip.left > .tooltip-arrow {border-left-color: #ec971f;}
+.tooltip-disabled + .tooltip.right > .tooltip-arrow {border-right-color: #ec971f;}
+.btn-group.readonly, .sortable.readonly {cursor: not-allowed;}
+.btn-group.readonly label.btn {    pointer-events: none;}
+
+input + i.fa {
     position: absolute;
     right: 24px;
     top: 10px;
-    color: green;
 }
-input + i.fa-close {
-    position: absolute;
-    right: 24px;
-    top: 10px;
-    color: red;
-}
+label + i.fa-spinner {color:black; margin: 10px;}
+input + i.fa-check {color: green;}
+input + i.fa-close { color: red; }
 
 .pulsate {
     -webkit-animation: pulsate 1s infinite alternate;
