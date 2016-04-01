@@ -97,7 +97,15 @@ class DbConfig extends Model
     public function getConfigValueAttribute($value)
     {
         if (!empty($value)) {
-            return unserialize($value);
+            try {
+                return unserialize($value);
+            } catch(\Exception $e) {
+                if(starts_with($e->getMessage(), 'unserialize():')) {
+                    return $value;
+                } else {
+                    throw $e;
+                }
+            }
         }
         return $value;
     }

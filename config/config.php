@@ -23,14 +23,9 @@
  * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
  */
 $install_dir = env('V1_INSTALL_DIR', '/opt/librenms');
-$config_defaults = $install_dir . '/includes/defaults.inc.php';
 $config_source = $install_dir . '/config.php';
 
 $config = array();
-
-if (file_exists($config_defaults)) {
-    include_once($config_defaults);
-}
 
 if (file_exists($config_source)) {
     include_once($config_source);
