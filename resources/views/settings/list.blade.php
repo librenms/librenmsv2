@@ -36,7 +36,7 @@
 
         $('.sortable').sortable({
             handle: '.drag-handle',
-            create: function(event,ui) {
+            create: function () {
                 var $this = $(this);
                 if($this.hasClass('readonly')) {
                     $this.sortable('disable');
@@ -62,7 +62,7 @@
                         value: data
                     },
                     dataType: 'html',
-                    success: function (data) {
+                    success: function () {
                         $this.sortable('enable');
                         $this.removeClass('pulsate');
 
@@ -88,12 +88,13 @@
         $('.ajax-form-simple').bind('blur keyup', function(e) {
             if(e.type === 'keyup' && e.keyCode !== 13) return;
             var $this = $(this);
+            var data = $this.val();
 
             var original = $this.data('original-value');
             if(data == original) return;
 
             var key = $this.attr('id');
-            var data = $this.val();
+
             $this.after('<i class="fa fa-spin fa-spinner fa-lg"></i>');
 
             $.ajax({
@@ -105,7 +106,7 @@
                     value: data
                 },
                 dataType: 'html',
-                success: function (adata) {
+                success: function () {
                     $this.data('original-value', data);
                     $this.closest('.form-group').addClass('has-success');
                     $this.next('i').remove();
@@ -144,7 +145,7 @@
                     value: data
                 },
                 dataType: 'html',
-                success: function (data) {
+                success: function () {
                     $this.parent().siblings('.current').removeClass('current');
                     $this.parent().addClass('current');
                     $this.closest('label').next('i').remove();
