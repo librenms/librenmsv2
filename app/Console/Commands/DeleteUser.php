@@ -39,15 +39,22 @@ class DeleteUser extends Command
      */
     public function handle()
     {
-        $headers = ['ID','username','realname','email'];
         $user = $this->argument('user');
-        $user_list = User::select('user_id','username','realname','email')->where('username', 'like', '%'.$user.'%')->orWhere('realname','like', '%'.$user.'%')->get()->toArray();
-        $this->table($headers,$user_list);
-
-        $userid = $this->ask('Enter the ID you wish to remove');
-        $remove_user = User::find($userid);
-        if ($this->confirm('Do you wish to remove '.$remove_user->realname.'? [y|N]')) {
-            $remove_user->delete();
+        $user_list = User::select('username')->where('username', 'like', '%'.$user.'%')->orWhere('realname','like', '%'.$user.'%')->get();
+        $names = [];
+        foreach ($user_list as $i) {
+            array_push($names,$i->username);
+        }
+        if (count($names) > 1) {
+            $name = $this->choice('Who would you like to remove?',$names, false);
+        }
+        else {
+            $name = $names[0];
+        }
+        if ($this->confirm('Do you wish to remove '.$name.'?')) {
+            $remove_user = User::select('user_id')->where('username', $name)->first();
+            User::find($remove_user->user_id)->delete();
+            $this->info('User deleted.');
         }
     }
 }
