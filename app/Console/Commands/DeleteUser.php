@@ -52,8 +52,7 @@ class DeleteUser extends Command
             $name = $names[0];
         }
         if ($this->confirm('Do you wish to remove '.$name.'?')) {
-            $remove_user = User::select('user_id')->where('username', $name)->first();
-            User::find($remove_user->user_id)->delete();
+            $remove_user = User::select('user_id')->where('username', $name)->delete();
             $this->info('User deleted.');
         }
     }
