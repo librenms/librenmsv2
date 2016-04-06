@@ -9,6 +9,9 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
+        <testsuite name="Command tests">
+            <directory>./tests/commands/</directory>
+        </testsuite>
         <testsuite name="Device tests">
             <directory>./tests/devices/</directory>
         </testsuite>
