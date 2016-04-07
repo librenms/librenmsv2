@@ -42,6 +42,11 @@ class DeleteUser extends Command
         $user = $this->argument('user');
         $user_list = User::select('username')->where('username', 'like', '%'.$user.'%')->orWhere('realname','like', '%'.$user.'%')->get();
         $names = [];
+
+        if (count($user_list) < 1 ) {
+            $this->info('No user found.');
+            return;
+        }
         foreach ($user_list as $i) {
             array_push($names,$i->username);
         }
