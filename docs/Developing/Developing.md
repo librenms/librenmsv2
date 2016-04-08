@@ -6,7 +6,7 @@ Developing
 
 ### Notes
 When new depencies are added, you will need to run composer to install them:
-`http://fractal.thephpleague.com/transformers/`
+
 
 Overview
 --------
@@ -80,6 +80,10 @@ This is some guidance on where might be best to perform these operations.
 * [Datatables](https://www.datatables.net/manual/index) can be used to hide raw data, yet make it searchable/sortable and apply JS formatting.
 * You can activate datatables on a blade template with `@include('includes.datatables')`  optioninally specifying a table as follows `@include('includes.datatables', $datatables=['mytable'])`
 
+
+### Web UI
+We are using the AdminLTE template.
+You can view an example of almost all the widgets available at [https://almsaeedstudio.com](https://almsaeedstudio.com/themes/AdminLTE/index2.html)
 
 PHP Storm
 ---------
