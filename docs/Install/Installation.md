@@ -53,7 +53,7 @@ composer install
 php artisan key:generate
 ```
 
-If you have issues running composer intall try: `composer install --no-scripts`
+If you have issues running composer install try: `composer install --no-scripts`
 
 
 Make sure librenms user is part of webserver Group and can write logs in storage directory
