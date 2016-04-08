@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2016 Tony Murray <murraytony@gmail.com>
+ * Copyright (C) 2016 Paul Heinrichs <pdheinrichs@gmail.com>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,7 @@
  */
 
 /**
- * SettingsTest.php
+ * UserDeleteTest.php
  *
  * @package    LibreNMS
  * @author     Paul Heinrichs <pdheinrichs@gmail.com>
@@ -37,7 +37,7 @@ class UserDeleteTest extends TestCase
 
     public function testDeleteUser()
     {
-        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org']);
+        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org', 'password' => bcrypt('the0ner1ng')]);
 
         $username = 'bilbobaggins';
 
@@ -59,11 +59,15 @@ class UserDeleteTest extends TestCase
 
         // call the handle function
         $mock->handle();
+
+        $user =  User::where('username', $username)->get();
+        $this->assertEquals(0, count($user));
+        $this->assertFalse(Auth::once(['username' => $username, 'password' => 'the0ner1ng']));
     }
     public function testDeleteUserChoice()
     {
-        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org']);
-        User::create(['username' => 'frodobaggins', 'realname' => 'Elijah Wood', 'email' => 'ringbearer@theshire.org']);
+        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org', 'password' => bcrypt('the0ner1ng')]);
+        User::create(['username' => 'frodobaggins', 'realname' => 'Elijah Wood', 'email' => 'ringbearer@theshire.org', 'password' => bcrypt('the0ner1ng')]);
         $search = 'baggins';
         $removeUser = 'bilbobaggins';
         // set up the mocks
@@ -89,5 +93,13 @@ class UserDeleteTest extends TestCase
 
         // call the handle function
         $mock->handle();
+
+        $user = User::where('username',$removeUser)->get();
+        $this->assertEquals(0, count($user));
+        $this->assertFalse(Auth::once(['username' => $removeUser, 'password' => 'the0ner1ng']));
+
+        $user = User::where('username','frodobaggins')->get();
+        $this->assertEquals(1, count($user));
+        $this->assertTrue(Auth::once(['username' => 'frodobaggins', 'password' => 'the0ner1ng']));
     }
 }
