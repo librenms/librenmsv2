@@ -1,12 +1,17 @@
-install:
-  - travis_retry composer install --no-interaction --prefer-source
-
 language: php
+
 php:
   - '5.5'
   - '5.6'
   - '7.0'
   - hhvm
+
+before_install:
+  - phpenv config-rm xdebug.ini
+
+install:
+  - travis_retry composer install --no-interaction --prefer-source
+
 
 before_script:
   - git reset --hard HEAD
