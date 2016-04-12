@@ -7,7 +7,8 @@ php:
   - hhvm
 
 before_install:
-  - phpenv config-rm xdebug.ini
+  # Disable xdebug on all except hhvm an php5.6 (used for code coverage)
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" -a "$TRAVIS_PHP_VERSION" != "5.6" ]; then phpenv config-rm xdebug.ini; fi
 
 install:
   - travis_retry composer install --no-interaction --prefer-source
@@ -17,3 +18,11 @@ before_script:
   - git reset --hard HEAD
   - cp .env.example .env
   - php artisan key:generate
+
+script:
+  phpunit --coverage-clover=coverage.clover
+
+after_script:
+  # Upload code-coverage to Scrutinizer
+  - if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
