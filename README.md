@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/librenms/librenmsv2.svg?branch=develop)](https://travis-ci.org/librenms/librenmsv2)
-[![Build Status](https://travis-ci.org/librenms/librenmsv2.svg?branch=master)](https://travis-ci.org/librenms/librenmsv2)
+[![Code Coverage](https://scrutinizer-ci.com/g/librenms/librenmsv2/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/librenms/librenmsv2/?branch=develop)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/librenms/librenmsv2/badges/quality-score.png)](https://scrutinizer-ci.com/g/librenms/librenmsv2/badges/quality-score.png)
 
 Introduction
@@ -27,7 +27,9 @@ Follow the [Installation Documentation](https://github.com/librenms/librenmsv2/b
 
 Devolper Guide
 --------------
-[Developer Documentation](https://github.com/librenms/librenmsv2/blob/develop/docs/Developing/Developing.md) - An overview to help you get started contributing
+[Guidlines for Contributing](https://github.com/librenms/librenmsv2/blob/develop/docs/General/Contributing.md)
+
+[Developer Documentation](https://github.com/librenms/librenmsv2/blob/develop/docs/Developing/Developing.md) - An outline of the development structure
 
 
 License
@@ -50,8 +52,8 @@ Copyright (C) 2013-2016 by individual LibreNMS contributors
 
 [LICENSE][14] contains a copy of the full GPLv3 licensing conditions.
 
-[6]: http://freenode.net/channel_guidelines.shtml "Freenode channel guidelines"
-[7]: http://freenode.net/catalysts.shtml "Freenode community catalysts"
+[6]: https://freenode.net/changuide "Freenode channel guidelines"
+[7]: http://freenode.net/catalysts "Freenode community catalysts"
 [10]: http://www.debian.org/social_contract "Debian project social contract"
-[13]: http://freenode.net/philosophy.shtml "Freenode philosophy"
+[13]: http://freenode.net/philosophy "Freenode philosophy"
 [14]: https://github.com/librenms/librenmsv2/tree/master/LICENSE
