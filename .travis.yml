@@ -1,5 +1,5 @@
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer install --no-dev --no-interaction --prefer-source
 
 language: php
 php:
