@@ -79,7 +79,7 @@ class UserDeleteTest extends TestCase
             ->andReturn($search);
 
         $mock->shouldReceive('choice')
-            ->with("Who would you like to remove?", array(0=>'bilbobaggins',1=>'frodobaggins'), false)
+            ->with("Who would you like to remove?", array(0=>'bilbobaggins',1=>'frodobaggins'))
             ->once()
             ->andReturn($removeUser);
 

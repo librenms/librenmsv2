@@ -16,7 +16,7 @@ class ApiController extends Controller
         $versions['db_schema'] = DB::select('SELECT `version` FROM `dbSchema` LIMIT 1')[0]->version;
         $versions['php']       = phpversion();
         $versions['db_driver'] = strtoupper(DB::connection()->getDriverName());
-	if ($versions['db_driver'] == 'SQLITE') {
+        if ($versions['db_driver'] == 'SQLITE') {
             $versions['db_version'] = DB::select('SELECT sqlite_version() AS version')[0]->version;
         }
         else {
@@ -35,7 +35,7 @@ class ApiController extends Controller
         $stats['ports']      = \App\Models\Port::all()->count();
         $stats['syslog']     = \App\Models\Syslog::all()->count();
         $stats['eventlog']   = \App\Models\Eventlog::all()->count();
-        $stats['apps']       = DB::table('applications')->count();;
+        $stats['apps']       = DB::table('applications')->count();
         $stats['services']   = DB::table('services')->count();
         $stats['storage']    = DB::table('storage')->count();
         $stats['diskio']     = DB::table('ucd_diskio')->count();

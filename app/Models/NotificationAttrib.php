@@ -4,6 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class NotificationAttrib
+ *
+ * @package App\Models
+ * @property int $user_id
+ * @property string $key
+ * @property string $value
+ */
 class NotificationAttrib extends Model
 {
 
