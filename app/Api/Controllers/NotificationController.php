@@ -3,8 +3,6 @@
 namespace App\Api\Controllers;
 
 use App\Models\Notification;
-use App\Models\NotificationAttrib;
-use App\Models\User;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -39,15 +37,15 @@ class NotificationController extends Controller
 
         $notification = Notification::find($id);
         $enable = strpos($action, 'un') === false;
-        if(!$enable) {
+        if (!$enable) {
             $action = substr($action, 2);
         }
 
         if ($action == 'read') {
-           $result = $notification->markRead($enable);
+            $result = $notification->markRead($enable);
         }
         elseif ($action == 'sticky') {
-           $result = $notification->markSticky(false);
+            $result = $notification->markSticky(false);
         }
 
         if ($result === false) {
@@ -68,7 +66,7 @@ class NotificationController extends Controller
         $notification = new Notification;
         $notification->title    = $request->title;
         $notification->body     = $request->body;
-        $notification->checksum = hash('sha512',$request->user()->user_id.'.LOCAL.'.$request->title);
+        $notification->checksum = hash('sha512', $request->user()->user_id.'.LOCAL.'.$request->title);
         $notification->source   = $request->user()->user_id;
         if ($notification->save())
         {

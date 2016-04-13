@@ -67,7 +67,7 @@ class DeviceController extends Controller
         }
         else {
             $user = User::find($request->user()->user_id);
-            $device =  $user->devices()->find($id);
+            $device = $user->devices()->find($id);
         }
         // morph the data as required
         if ($request->query('displayFormat') == 'link') {

@@ -48,8 +48,6 @@ class DeleteUser extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -64,24 +62,24 @@ class DeleteUser extends Command
     public function handle()
     {
         $user = $this->argument('user');
-        $user_list = User::select('username')->where('username', 'like', '%'.$user.'%')->orWhere('realname','like', '%'.$user.'%')->get();
+        $user_list = User::select('username')->where('username', 'like', '%' . $user . '%')->orWhere('realname', 'like', '%' . $user . '%')->get();
         $names = [];
 
-        if (count($user_list) < 1 ) {
+        if (count($user_list) < 1) {
             $this->info('No user found.');
             return;
         }
         foreach ($user_list as $i) {
-            array_push($names,$i->username);
+            array_push($names, $i->username);
         }
         if (count($names) > 1) {
-            $name = $this->choice('Who would you like to remove?',$names, false);
+            $name = $this->choice('Who would you like to remove?', $names);
         }
         else {
             $name = $names[0];
         }
-        if ($this->confirm('Do you wish to remove '.$name.'?')) {
-            $remove_user = User::select('user_id')->where('username', $name)->delete();
+        if ($this->confirm('Do you wish to remove ' . $name . '?')) {
+            User::where('username', $name)->delete();
             $this->info('User deleted.');
         }
     }

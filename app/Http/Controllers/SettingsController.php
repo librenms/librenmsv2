@@ -25,8 +25,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Models\DbConfig;
 use Illuminate\Http\Request;
 use Input;
 use Settings;
@@ -72,7 +70,7 @@ class SettingsController extends Controller
         $type = Input::get('type');
         if ($type == 'settings-value' || $type == 'settings-array') {
             $key = Input::get('key');
-            if(Settings::isReadOnly($key)) {
+            if (Settings::isReadOnly($key)) {
                 return response('Read only setting', 422);
             }
             Settings::set($key, Input::get('value'));

@@ -35,7 +35,7 @@ class PortTransformer extends Fractal\TransformerAbstract
     /**
      * Include Device
      *
-     * @return League\Fractal\ItemResource
+     * @return Fractal\Resource\Item
      */
     public function includeDevice(Port $port)
     {
