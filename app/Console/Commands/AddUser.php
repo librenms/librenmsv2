@@ -29,8 +29,6 @@ class AddUser extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -49,7 +47,7 @@ class AddUser extends Command
         // set username
         $user->username = $this->argument('username');
         if (User::where('username', $user->username)->exists()) {
-            $this->error('User ' . $user->username . ' exists.');
+            $this->error('User '.$user->username.' exists.');
             return;
         }
 
@@ -80,7 +78,7 @@ class AddUser extends Command
 
         // set password
         if ($this->argument('password')) {
-            $this->password = bcrypt($this->argument('password'));
+            $user->password = bcrypt($this->argument('password'));
         }
         else {
             $user->password = bcrypt($this->secret('Password'));
@@ -88,10 +86,10 @@ class AddUser extends Command
 
         // save user
         if ($user->save()) {
-            $this->info('User ' . $user->username . ' created.');
+            $this->info('User '.$user->username.' created.');
         }
         else {
-            $this->error('Failed to create user ' . $user->username);
+            $this->error('Failed to create user '.$user->username);
         }
     }
 }

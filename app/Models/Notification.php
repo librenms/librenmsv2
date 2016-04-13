@@ -42,6 +42,9 @@ class Notification extends Model
         $this->setAttrib('sticky', $enabled);
     }
 
+    /**
+     * @param string $name
+     */
     private function setAttrib($name, $enabled) {
         if ($enabled === true) {
             $read = new NotificationAttrib;
@@ -70,7 +73,7 @@ class Notification extends Model
 
     public function scopeLimit($query)
     {
-        return $query->select('notifications.*','key', 'users.username');
+        return $query->select('notifications.*', 'key', 'users.username');
     }
 
     public function scopeSource($query)

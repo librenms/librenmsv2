@@ -44,7 +44,7 @@ class NotificationController extends Controller
     /**
      * Update a notifications status.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update($id, $action)
     {
@@ -55,7 +55,7 @@ class NotificationController extends Controller
     /**
      * Create a new notification
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {

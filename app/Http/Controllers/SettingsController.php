@@ -25,8 +25,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Models\DbConfig;
 use Illuminate\Http\Request;
 use Input;
 use Settings;
@@ -48,10 +46,7 @@ class SettingsController extends Controller
      */
     public function index()
     {
-//        $settings = Settings::all();
-        $settings = Settings::get('snmp');
-
-        return view('settings.list', ['settings' => $settings]);
+        return view('settings.list');
     }
 
     /**
@@ -74,7 +69,11 @@ class SettingsController extends Controller
     {
         $type = Input::get('type');
         if ($type == 'settings-value' || $type == 'settings-array') {
-            Settings::set(Input::get('key'), Input::get('value'));
+            $key = Input::get('key');
+            if (Settings::isReadOnly($key)) {
+                return response('Read only setting', 422);
+            }
+            Settings::set($key, Input::get('value'));
             return response('OK', 200);
         }
         return response('Invalid Data', 422);

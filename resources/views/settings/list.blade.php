@@ -7,11 +7,12 @@
     @if( isset($section) )
         @include('settings.sections.' . $section)
     @else
+        <!-- include all sections -->
         @include('settings.sections.snmp')
 
         <div class="container">
         <pre>
-{{ print_r($settings, 1) }}
+{{ print_r(Settings::all(), 1) }}
         </pre>
         </div>
 
@@ -20,119 +21,145 @@
 
 @endsection
 
+@section('js_before_bootstrap')
+    <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
+@endsection
 
 @section('scripts')
-    <script src="http://rubaxa.github.io/Sortable/Sortable.min.js"></script>
     <script src="{{ url('js/util.js') }}"></script>
     <script type="application/javascript">
         $.Util.ajaxSetup();
 
-        Sortable.create(document.getElementById("snmp.transports"), {
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $('.sortable').sortable({
             handle: '.drag-handle',
-            animation: 150,
-            onStart: function () {
-                // Save order before sort
-                this._currentOrder = this.toArray();
-
+            create: function () {
+                var $this = $(this);
+                if($this.hasClass('readonly')) {
+                    $this.sortable('disable');
+                    $('span.drag-handle',this ).remove();
+                }
             },
-            onUpdate: function () {
-                var sort = this;
+            update: function () {
+                var $this = $(this);
                 // Disabling sorting
-                sort.option('disabled', true);
-
-                var list = $(this.el);
-                var key = list.attr('id');
-                var sel = "#" + key.replace(/(\.)/g, "\\$1") + " li";
-
-                var data = $(sel).map(function() {
-                    return $(this).data("value");
-                }).get();
-
+                $this.sortable('disable');
                 // Adding effect
-                list.addClass('pulsate');
+                $this.addClass('pulsate');
+
+                var key = $this.attr('id');
+                var data = $this.sortable('toArray', {attribute: 'data-value'});
 
                 $.ajax({
                     type: 'POST',
                     url: '{{ url('settings') }}',
                     data: {
-                        type: "settings-array",
+                        type: 'settings-array',
                         key: key,
                         value: data
                     },
-                    dataType: "html",
-                    success: function (data) {
-                        sort.option('disabled', false);
-                        list.removeClass('pulsate');
+                    dataType: 'html',
+                    success: function () {
+                        $this.sortable('enable');
+                        $this.removeClass('pulsate');
+
+                        $this.closest('.form-group').addClass('has-success');
+                        setTimeout(function () {
+                            $this.closest('.form-group').removeClass('has-success');
+                        }, 2000);
                     },
                     error: function () {
-                        sort.option('disabled', false);
-                        list.removeClass('pulsate');
-                        sort.sort(sort._currentOrder);
+                        $this.sortable('cancel');
+                        $this.sortable('enable');
+                        $this.removeClass('pulsate');
 
-                        list.closest('.form-group').addClass('has-error');
+                        $this.closest('.form-group').addClass('has-error');
                         setTimeout(function () {
-                            list.closest('.form-group').removeClass('has-error');
+                            $this.closest('.form-group').removeClass('has-error');
                         }, 2000);
                     }
                 });
             }
         });
 
-        $(".ajax-form-simple").blur(function () {
+        $('.ajax-form-simple').bind('blur keyup', function(e) {
+            if(e.type === 'keyup' && e.keyCode !== 13) return;
             var $this = $(this);
-            var key = $this.attr('id');
             var data = $this.val();
+
+            var original = $this.data('original-value');
+            if(data == original) return;
+
+            var key = $this.attr('id');
+
+            $this.after('<i class="fa fa-spin fa-spinner fa-lg"></i>');
 
             $.ajax({
                 type: 'POST',
                 url: '{{ url('settings') }}',
                 data: {
-                    type: "settings-value",
+                    type: 'settings-value',
                     key: key,
                     value: data
                 },
-                dataType: "html",
-                success: function (data) {
+                dataType: 'html',
+                success: function () {
+                    $this.data('original-value', data);
                     $this.closest('.form-group').addClass('has-success');
+                    $this.next('i').remove();
                     $this.after('<i class="fa fa-check fa-lg"></i>');
                     setTimeout(function () {
                         $this.closest('.form-group').removeClass('has-success');
-                        $this.next().remove();
+                        $this.next('i').remove();
                     }, 2000);
                 },
                 error: function () {
+                    $this.val(original);
                     $this.closest('.form-group').addClass('has-error');
+                    $this.next('i').remove();
                     $this.after('<i class="fa fa-close fa-lg"></i>');
                     setTimeout(function () {
                         $this.closest('.form-group').removeClass('has-error');
-                        $this.next().remove();
+                        $this.next('i').remove();
                     }, 2000);
                 }
             });
         });
 
-        $(".ajax-form-radio").change(function() {
-
+        $('.ajax-form-radio').change(function() {
             var $this = $(this);
             var key = $this.attr('name');
             var data = $this.data('value');
+
+            $this.closest('label').after('<i class="fa fa-spin fa-spinner fa-lg"></i>');
 
             $.ajax({
                 type: 'POST',
                 url: '{{ url('settings') }}',
                 data: {
-                    type: "settings-value",
+                    type: 'settings-value',
                     key: key,
                     value: data
                 },
-                dataType: "html",
-                success: function (data) {
+                dataType: 'html',
+                success: function () {
+                    $this.parent().siblings('.current').removeClass('current');
+                    $this.parent().addClass('current');
+                    $this.closest('label').next('i').remove();
+
                     $this.closest('.form-group').addClass('has-success');
                     setTimeout(function () {
                         $this.closest('.form-group').removeClass('has-success');
                     }, 2000);
                 },
                 error: function () {
+                    $this.parent().removeClass('active');
+                    $this.parent().siblings('.current').addClass('active');
+                    $this.closest('label').next('i').remove();
+
                     $this.closest('.form-group').addClass('has-error');
                     setTimeout(function () {
                         $this.closest('.form-group').removeClass('has-error');

@@ -395,6 +395,7 @@
         <!-- jQuery 2.1.4 -->
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
         <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
+        @yield('js_before_bootstrap')
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
         @yield('datatablesjs')
