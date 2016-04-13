@@ -27,6 +27,8 @@ class Dashboard extends Model
      */
     public $timestamps = false;
 
+    protected $fillable = ['user_id', 'dashboard_name', 'access'];
+
     public function widgets() {
         return $this->hasMany('App\Models\UsersWidgets', 'dashboard_id');
     }
