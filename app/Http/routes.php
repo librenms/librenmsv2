@@ -15,8 +15,9 @@
 
 Route::group(['middleware' => ['web']], function() {
     Route::auth();
-    Route::get('/', 'HomeController@index');
-    Route::get('/home', 'HomeController@index');
+    Route::get('/', 'HomeController@redirect')->name('home');
+    Route::resource('/dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
+    Route::resource('/widgets', 'WidgetsController');
     Route::resource('devices', 'DeviceController');
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
     Route::get('/notifications/{type?}', 'NotificationController@index');
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::put('/notifications', 'NotificationController@create');
     Route::get('/about', 'HomeController@about');
     Route::match(['get', 'post'], '/preferences', 'UserController@preferences');
+    Route::resource('/settings', 'SettingsController');
 });
 
 // ---- API Routes ----
@@ -31,7 +33,7 @@ Route::group(['middleware' => ['web']], function() {
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function($api) {
     $api->post('auth', 'App\Api\Controllers\APIAuthController@authenticate');
-    $api->group(['middleware' => 'api.auth'], function($api) {
+    $api->group(['middleware' => 'api.auth', 'providers' => ['basic', 'jwt']], function($api) {
         $api->resource('devices', 'App\Api\Controllers\DeviceController');
         $api->resource('ports', 'App\Api\Controllers\PortController', ['except' => ['create', 'store', 'destroy']]);
         $api->get('notifications/{type?}', 'App\Api\Controllers\NotificationController@index');
@@ -39,5 +41,11 @@ $api->version('v1', function($api) {
         $api->put('notifications', ['as' => 'api.notifications.create', 'uses' => 'App\Api\Controllers\NotificationController@create']);
         $api->get('info', 'App\Api\Controllers\APIController@get_info');
         $api->get('stats', 'App\Api\Controllers\APIController@get_stats');
+        $api->delete('dashboard/{dashboard_id}/clear', 'App\Api\Controllers\DashboardController@clear');
+        $api->resource('dashboard', 'App\Api\Controllers\DashboardController', ['parameters' => ['dashboard' => 'dashboard_id']]);
+        $api->resource('widget', 'App\Api\Controllers\WidgetController', ['paramaters' => ['widget' => 'widget_id']]);
+        $api->resource('dashboard-widget', 'App\Api\Controllers\DashboardWidgetController', ['paramaters' => ['dashboard-widget' => 'user_widget_id']]);
+        $api->get('dashboard-widget/{user_widget_id}/content', ['as' => 'api.dashboard-widget.get_content', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_content']);
+        $api->get('dashboard-widget/{user_widget_id}/settings', ['as' => 'api.dashboard-widget.get_settings', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_settings']);
     });
 });

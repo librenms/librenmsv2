@@ -342,7 +342,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <!-- if admin -->
-                                    <li><a href="#"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
+                                    <li><a href="{{ url('/settings') }}"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
                                     <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-user-plus"></i> Add user</a></li>
                                     <li><a href="#"><i class="icon fa fa-user-times"></i> Remove user</a></li>
@@ -416,20 +416,5 @@
         <script src="{{ url('/js/app.min.js') }}"></script>
         <!-- page script -->
         @yield('scripts')
-        <script type="text/javascript">
-        $(function () {
-            var options = {
-                cellHeight: 80,
-                verticalMargin: 10,
-                draggable: {
-                    handle: '.draggable',
-                    scroll: true,
-                    appendTo: 'body'
-                },
-                animate: true
-            };
-            $('.grid-stack').gridstack(options);
-        });
-        </script>
     </body>
 </html>

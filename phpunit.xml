@@ -15,6 +15,9 @@
         <testsuite name="Users tests">
             <directory>./tests/users/</directory>
         </testsuite>
+        <testsuite name="Settings tests">
+            <directory>./tests/settings/</directory>
+        </testsuite>
         <testsuite name="General tests">
             <directory>./tests/general/</directory>
         </testsuite>
