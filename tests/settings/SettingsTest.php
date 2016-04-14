@@ -279,4 +279,32 @@ class SettingsTest extends TestCase
         $result2 = Settings::get('test.subpath.one');
         $this->assertNull($result2);
     }
+
+    public function testHas() {
+        Settings::set('has.one', 'value');
+        $this->assertTrue(Settings::has('has.one'));
+
+        Config::set('config.has.two', 'value');
+        $this->assertTrue(Settings::has('has.two'));
+
+        Cache::tags(\App\Settings::$cache_tag)->put('has.three', 'value', 5);
+        $this->assertTrue(Settings::has('has.three'))   ;
+
+        $this->assertTrue(Settings::has('has'));
+
+        $this->assertFalse(Settings::has('nothing'));
+    }
+
+    public function testForget() {
+        Settings::set('test.forget', 'value');
+        Settings::forget('test');
+        $this->assertTrue(Settings::has('test.forget'));
+
+        Settings::forget('test.forget');
+        $this->assertFalse(Settings::has('test.forget'));
+
+        Config::set('config.test.cant.forget', 'value');
+        Settings::forget('test.cant.forget');
+        $this->assertTrue(Settings::has('test.cant.forget'));
+    }
 }

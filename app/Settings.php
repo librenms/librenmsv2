@@ -190,14 +190,16 @@ class Settings implements ConfigContract
     }
 
     /**
-     * Forget a key.  Gets to forgotten keys will return null instead of the default.
+     * Forget a key, will only forget explicit paths, not recursive.
+     * This cannot forget variables set in config.php
      *
-     * @param $key string Only works for full paths.
+     *
+     * @param $key string Explicit key to forget
      */
     public function forget($key)
     {
-        // set to null to prevent falling back to Config
-        DbConfig::key($key)->update(['config_value' => null]);
+        // Cannot remove from config
+        DbConfig::key($key)->delete();
         Cache::tags(self::$cache_tag)->forget($key);
     }
 
