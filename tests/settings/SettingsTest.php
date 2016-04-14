@@ -330,6 +330,10 @@ class SettingsTest extends TestCase
         $expected = ['three', 'two', 'one'];
         $result = Settings::get('test.prepend');
         $this->assertEquals($expected, $result);
+
+        Settings::prepend('test.prepend.new', 'value');
+        $result = Settings::get('test.prepend.new');
+        $this->assertEquals(['value'], $result);
     }
 
     public function testPush() {
@@ -343,5 +347,9 @@ class SettingsTest extends TestCase
         $expected = ['one', 'two', 'three'];
         $result = Settings::get('test.push');
         $this->assertEquals($expected, $result);
+
+        Settings::push('test.push.new', 'value');
+        $result = Settings::get('test.push.new');
+        $this->assertEquals(['value'], $result);
     }
 }

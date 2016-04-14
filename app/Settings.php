@@ -266,8 +266,13 @@ class Settings implements ConfigContract
             $this->set($key, $var);
         }
         else {
+            $arr = [$value];
+            if(!is_null($var)) {
+                $arr[] = $var;
+            }
+
             $this->forget($key);
-            $this->set($key, [$value, $var]);
+            $this->set($key, $arr);
         }
     }
 
@@ -286,8 +291,14 @@ class Settings implements ConfigContract
             $this->set($key, $var);
         }
         else {
+            $arr = array();
+            if(!is_null($var)) {
+                $arr[] = $var;
+            }
+            $arr[] = $value;
+
             $this->forget($key);
-            $this->set($key, [$var, $value]);
+            $this->set($key, $arr);
         }
     }
 }
