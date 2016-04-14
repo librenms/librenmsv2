@@ -143,7 +143,7 @@ class SettingsTest extends TestCase
         $this->assertEquals('value', $result);
     }
 
-    public function testMixKeyArray() //TODO: more tests in this area, is this valid or invalid behaviour?
+    public function testMixKeyArray()
     {
         Settings::set('test.mix', ['with.period' => 'value']);
         $result = Settings::get('test.mix');
