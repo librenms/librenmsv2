@@ -183,6 +183,18 @@ class SettingsTest extends TestCase
         $cached = Cache::tags(\App\Settings::$cache_tag)->get('test.flush');
         $this->assertEquals('value', $cached);
 
+        Settings::set('test.another.flush', 'stuff');
+        $expected = Settings::get('test');
+        $result = Cache::tags(\App\Settings::$cache_tag)->get('test');
+        $this->assertEquals($expected, $result);
+
+        Settings::flush('test.another');
+        $parent = Cache::tags(\App\Settings::$cache_tag)->get('test');
+        $this->assertNull($parent);
+
+        $child = Cache::tags(\App\Settings::$cache_tag)->get('test.another.flush');
+        $this->assertEquals('stuff',$child);
+
         Settings::flush();
         $flushed = Cache::tags(\App\Settings::$cache_tag)->get('test.flush');
         $this->assertNull($flushed);
@@ -296,15 +308,40 @@ class SettingsTest extends TestCase
     }
 
     public function testForget() {
-        Settings::set('test.forget', 'value');
-        Settings::forget('test');
-        $this->assertTrue(Settings::has('test.forget'));
-
+        Settings::set('test.forget', ['array', 'of', 'things', ['and', 'stuff']]);
+        $this->assertTrue(Settings::has('test.forget.3.1'));
         Settings::forget('test.forget');
         $this->assertFalse(Settings::has('test.forget'));
+        $this->assertFalse(Settings::has('test.forget.3.1'));
 
         Config::set('config.test.cant.forget', 'value');
         Settings::forget('test.cant.forget');
         $this->assertTrue(Settings::has('test.cant.forget'));
+    }
+
+    public function testPrepend() {
+        Settings::set('test.prepend', 'one');
+        Settings::prepend('test.prepend', 'two');
+        $expected = ['two', 'one'];
+        $result = Settings::get('test.prepend');
+        $this->assertEquals($expected, $result);
+
+        Settings::prepend('test.prepend', 'three');
+        $expected = ['three', 'two', 'one'];
+        $result = Settings::get('test.prepend');
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testPush() {
+        Settings::set('test.push', 'one');
+        Settings::push('test.push', 'two');
+        $expected = ['one', 'two'];
+        $result = Settings::get('test.push');
+        $this->assertEquals($expected, $result);
+
+        Settings::push('test.push', 'three');
+        $expected = ['one', 'two', 'three'];
+        $result = Settings::get('test.push');
+        $this->assertEquals($expected, $result);
     }
 }
