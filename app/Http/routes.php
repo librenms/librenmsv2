@@ -14,7 +14,16 @@
 // ---- Web Routes ----
 
 Route::group(['middleware' => ['web']], function() {
-    Route::auth();
+    // Authentication Routes...
+    $this->get('login', 'Auth\AuthController@showLoginForm');
+    $this->post('login', 'Auth\AuthController@login');
+    $this->get('logout', 'Auth\AuthController@logout');
+
+    // Password Reset Routes...
+    $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+    $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    $this->post('password/reset', 'Auth\PasswordController@reset');
+
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
     Route::resource('devices', 'DeviceController');
