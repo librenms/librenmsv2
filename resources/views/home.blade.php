@@ -130,24 +130,25 @@
 
 @section('scripts')
     <script src="{{ url('js/util.js') }}"></script>
+    <script src="{{ url('js/core/dashboard.js') }}"></script>
     <script>
-        grid = $.Util.setupDashboard();
+        grid = $.Dashboard.setupDashboard();
         grid.removeAll();
         @foreach ($dash_widgets as $dash_widget)
             var data = {!! $dash_widget !!}
-            $.Util.addWidget(grid, data, '{{ $token }}');
-            $.Util.refreshDashboardWidget('{{ $token }}', data,true);
+            $.Dashboard.addWidget(grid, data, '{{ $token }}');
+            $.Dashboard.refreshDashboardWidget('{{ $token }}', data,true);
         @endforeach
         $('.grid-stack').on('dragstop', function(event, ui) {
             setTimeout(function() {
-                $.Util.updateWidget(event.target, '{{ $token }}');
+                $.Dashboard.updateWidget(event.target, '{{ $token }}');
             }, 1);
         });
         $('.grid-stack').on('resizestop', function(event, ui) {
             setTimeout(function() {
-                $.Util.updateWidget(event.target, '{{ $token }}');
+                $.Dashboard.updateWidget(event.target, '{{ $token }}');
             }, 1);
         });
-        $.Util.dashboardActions('{{ $token }}', grid);
+        $.Dashboard.dashboardActions('{{ $token }}', grid);
     </script>
 @endsection
