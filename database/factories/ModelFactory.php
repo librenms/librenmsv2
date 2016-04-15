@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Copyright (C) 2016 Tony Murray <murraytony@gmail.com>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 
 use App\Models\Device;
 use App\Models\Notification;
+use App\Models\Port;
 use App\Models\User;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
@@ -31,8 +32,17 @@ $factory->define(User::class, function(Faker\Generator $faker) {
 
 $factory->define(Device::class, function(Faker\Generator $faker) {
     return [
-        'hostname' => $faker->domainWord.'.'.$faker->domainName,
-        'ip'       => $faker->localIpv4,
+        'hostname'      => $faker->domainWord.'.'.$faker->domainName,
+        'ip'            => $faker->randomElement([$faker->ipv4, $faker->ipv6]),
+        'status'        => $status = random_int(0, 1),
+        'status_reason' => $status == 0 ? $faker->randomElement(['snmp', 'icmp']) : '', // allow invalid states?
+    ];
+});
+
+
+$factory->define(Port::class, function(Faker\Generator $faker) {
+    return [
+        'ifIndex' => $faker->unique()->numberBetween(),
     ];
 });
 
