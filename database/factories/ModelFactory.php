@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Copyright (C) 2016 Tony Murray <murraytony@gmail.com>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,18 +32,27 @@ $factory->define(User::class, function(Faker\Generator $faker) {
 
 $factory->define(Device::class, function(Faker\Generator $faker) {
     return [
-        'hostname' => $faker->domainWord.'.'.$faker->domainName,
-        'ip'       => $faker->randomElement([$faker->ipv4, $faker->ipv6]),
-        'status'   => $status = random_int(0,1),
-        'status_reason' => $status==0 ? $faker->randomElement(['snmp', 'icmp']) : '', // allow invalid states?
+        'hostname'      => $faker->domainWord.'.'.$faker->domainName,
+        'ip'            => $faker->randomElement([$faker->ipv4, $faker->ipv6]),
+        'status'        => $status = random_int(0, 1),
+        'status_reason' => $status == 0 ? $faker->randomElement(['snmp', 'icmp']) : '', // allow invalid states?
     ];
 });
-
 
 
 $factory->define(Port::class, function(Faker\Generator $faker) {
     return [
         'ifIndex' => $faker->unique()->numberBetween(),
-        'ifType' => $faker->randomElement(FactoryData::$IFTYPE_VALID_VALUES),
+        'ifType'  => $faker->randomElement(FactoryData::$IFTYPE_VALID_VALUES),
+    ];
+});
+
+$factory->define(Notification::class, function(Faker\Generator $faker) {
+    return [
+        'title'    => $faker->sentence(8, true),
+        'body'     => $faker->text(1000),
+        'source'   => $faker->randomElement(['misc/notifications.rss', 'http://www.librenms.org/notifications.rss', '1']),
+        'checksum' => $faker->sha256,
+        'datetime' => $faker->dateTime->format('Y-m-d H:i:s'),
     ];
 });

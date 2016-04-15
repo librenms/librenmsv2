@@ -46,7 +46,7 @@ class Device extends Model
     {
         parent::boot();
 
-        static::deleting(function($device) {
+        static::deleting(function(Device $device) {
             // delete related data
             $device->ports()->delete();
             $device->syslogs()->delete();
