@@ -23,8 +23,8 @@ class SetViewVariable
     {
         if ($request->user())
         {
-            $notifications_count = $this->api->be(auth()->user())->get('/api/notifications');
-            view()->share('notifications_count', $notifications_count);
+            $notifications = $this->api->be(auth()->user())->get('/api/notifications');
+            view()->share('notifications', $notifications);
         }
         return $next($request);
     }
