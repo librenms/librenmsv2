@@ -27,4 +27,6 @@ class Widgets extends Model
      */
     public $timestamps = false;
 
+    protected $fillable = ['widget_title', 'widget', 'base_dimensions'];
+
 }
