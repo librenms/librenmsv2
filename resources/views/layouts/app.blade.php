@@ -30,7 +30,8 @@
           <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-          <![endif]-->
+
+        <![endif]-->
     </head>
     <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
         @if (Auth::check())
@@ -59,23 +60,22 @@
                                     <!-- Menu toggle button -->
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-bell-o"></i>
-                                        <span class="label label-warning">{{ count($notifications) }}</span>
+                                        <span class="label label-warning">{{ count($menu_notifications) }}</span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li class="header">You have {{ count($notifications) }} unread notifications</li>
-                                        @foreach($notifications->take(5) as $notification)
                                         <li>
                                             <!-- Inner Menu: contains the notifications -->
-                                            <ul class="menu">
+                                            <ul id="dropdown-notifications-list" class="menu">
+                                        @foreach($menu_notifications->take(5) as $notification)
                                                 <li><!-- start notification -->
                                                     <a href="{{ url('/notifications/'.$notification->notifications_id) }}" title="{{ $notification->body }}">
                                                         <i class="fa fa-bell text-aqua"></i> {{ $notification->title }}
                                                     </a>
                                                 </li>
+                                        @endforeach
                                                 <!-- end notification -->
                                             </ul>
                                         </li>
-                                        @endforeach
                                         <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>
                                     </ul>
                                 </li>
@@ -420,11 +420,16 @@
         <!-- Toastr -->
         <script src="{{ url('js/plugins/toastr/toastr.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
+        <script src="{{ url('js/util.js') }}"></script>
         <script>
             var AdminLTEOptions = {
                 // set the treview slide speed
                 animationSpeed: 150,
-            }
+            };
+
+            $.Util.ajaxSetup('{{ JWTAuth::fromUser(Auth::user()) }}');
+
+            setInterval($.Util.updateNotifications, {{ Settings::get('notifications.pollinterval', 60000) }});
         </script>
         <script src="{{ url('/js/app.min.js') }}"></script>
         <!-- page script -->
