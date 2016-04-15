@@ -391,7 +391,7 @@ $.Util.dashboardActions = function(token, grid) {
                     toastr.error("Couldn't delete this dashboard!");
                 });
         });
-        $('#clear-dashboard').click('', function(event) {
+        $('#clear-dashboard, #clear-dashboard-2').click('', function(event) {
             event.preventDefault;
             $this = $(this);
             $.Util.ajaxSetup(token);

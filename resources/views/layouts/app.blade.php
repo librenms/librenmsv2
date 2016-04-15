@@ -342,7 +342,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <!-- if admin -->
-                                    <li><a href="{{ url('/settings') }}"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
+                                    <li><a href="#"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
                                     <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-user-plus"></i> Add user</a></li>
                                     <li><a href="#"><i class="icon fa fa-user-times"></i> Remove user</a></li>
@@ -384,6 +384,7 @@
                 <footer class="main-footer">
                     <strong>Copyright &copy; {{ date("Y") }} <a href="http://www.librenms.org">LibreNMS</a>.</strong> All rights reserved.
                 </footer>
+                @yield('settings-menu')
             <div>
         @endif
 
@@ -395,7 +396,6 @@
         <!-- jQuery 2.1.4 -->
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
         <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
-        @yield('js_before_bootstrap')
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
         @yield('datatablesjs')

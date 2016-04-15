@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Dashboard extends Model
 {
     /**
@@ -29,8 +30,15 @@ class Dashboard extends Model
 
     protected $fillable = ['user_id', 'dashboard_name', 'access'];
 
-    public function widgets() {
+    public function widgets()
+    {
         return $this->hasMany('App\Models\UsersWidgets', 'dashboard_id');
+    }
+
+    public function scopeAllAvailable($query, $user_id)
+    {
+        return $query->where('user_id', $user_id)
+                    ->orWhere('access', '>', 0);
     }
 
 }

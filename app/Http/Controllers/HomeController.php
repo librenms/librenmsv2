@@ -23,10 +23,9 @@ class HomeController extends Controller
         if (empty($dashboard->dashboard_id))
         {
             $dashboard = new dashboard;
-            $dashboard->user_id        = $request->user()->user_id;
             $dashboard->dashboard_name = 'Default';
             $dashboard->access         = 0;
-            $dashboard->save();
+            $request->user()->dashboards()->save($dashboard);
         }
         return redirect()->route('dashboard.show', ['id' => $dashboard->dashboard_id]);
     }
@@ -46,8 +45,7 @@ class HomeController extends Controller
             $widgets = $this->api->be(auth()->user())->get('/api/widget');
         }
         else {
-            $dash    = array();
-            $widgets = array();
+            return redirect()->route('home');
         }
         return view('home', ['dashboards' => $dashboards, 'request' => $request, 'dash_widgets' => $dash['widgets'], 'token' => $token, 'dash_details' => $dash['dashboard'], 'widgets' => $widgets]);
     }

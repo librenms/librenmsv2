@@ -3,6 +3,7 @@
 namespace App\Api\Controllers;
 
 use App\Models\Widgets;
+use App\Models\Dashboard;
 use App\Models\UsersWidgets;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
@@ -45,7 +46,7 @@ class DashboardWidgetController extends Controller
      */
     public function store(Request $request)
     {
-        $row                         = UsersWidgets::where('user_id', $request->user()->user_id)->where('dashboard_id', $request->dashboard_id)->max('row')+1;
+        $row                         = Dashboard::find($request->dashboard_id)->widgets()->max('row')+1;
         $user_widget                 = new UsersWidgets;
         $user_widget->user_id        = $request->user()->user_id;
         $user_widget->widget_id      = $request->widget_id;
@@ -136,7 +137,7 @@ class DashboardWidgetController extends Controller
 
     public function get_settings($id)
     {
-        $settings[] = 'Yes we have some settings';
+        $settings = array('Yes we have some settings');
         return $this->response->array(array('statusText' => 'OK', 'content' => $settings));
     }
 

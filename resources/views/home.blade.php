@@ -4,17 +4,21 @@
 
 @section('content')
 <div class="row">
-    <div class="col-sm-3">
-        <div class="form-group">
-            {{ Form::label('name', 'Select dashboard') }}
-            <select class="form-control" id="dashboard_id" name="dashboard_id" onchange="location = this.options[this.selectedIndex].value;">
-                @foreach ($dashboards as $dashboard)
-                    <option value="{{ url('dashboard/'.$dashboard->dashboard_id) }}" @if ($dashboard->dashboard_id == $request->route('dashboard_id')) {{ 'selected' }} @endif >{{ $dashboard->dashboard_name }} @if ($dashboard->access == 1) {{ '- Shared (read)' }} @elseif ($dashboard->access == 2) {{ '- Shared (write)' }} @endif</option>
-                @endforeach
-            </select>
-        </div>
+    <div class="col-sm-4">
+        <form class="form-inline">
+            <div class="form-group">
+                <select class="form-control" id="dashboard_id" name="dashboard_id" onchange="location = this.options[this.selectedIndex].value;">
+                    @foreach ($dashboards as $dashboard)
+                        <option value="{{ url('dashboard/'.$dashboard->dashboard_id) }}" @if ($dashboard->dashboard_id == $request->route('dashboard_id')) {{ 'selected' }} @endif >{{ $dashboard->dashboard_name }} @if ($dashboard->access == 1) {{ '- Shared (read)' }} @elseif ($dashboard->access == 2) {{ '- Shared (write)' }} @endif</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <a href="#" data-toggle="control-sidebar" class="btn btn-primary"><i class="fa fa-gears"></i></a>
+            </div>
+        </form>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-8">
         <div class="pull-right">
             <div class="btn-group">
                 <button type="button" href="#show-add" data-toggle="collapse" aria-expanded="false" aria-controls="show-add" id="add-dashboard" class="btn btn-success" title="Add dashboard"><i class="fa fa-plus"></i></button>
@@ -42,7 +46,7 @@
                 <select class="form-control" id="copy_from" name="copy_from">
                     <option></option>
                     @foreach ($dashboards as $dashboard)
-                        <option value="{{ $dashboard->dashboard_id }}">{{ $dashboard->dashboard_name }}</option>
+                        <option value="{{ $dashboard->dashboard_id }}">{{ $dashboard->dashboard_name }} @if ($dashboard->access == 1) {{ '- Shared (read)' }} @elseif ($dashboard->access == 2) {{ '- Shared (write)' }} @endif</option>
                     @endforeach
                 </select>
             </div>
@@ -92,7 +96,7 @@
         <div class="pull-right">
             {!! Form::open(array('method' => 'post')) !!}
                 <div class="form-group">
-                    {{ Form::button('Clear dashboard', ['class' => 'btn btn-danger', 'id' => 'clear-dashboard', 'data-id' => $request->route('dashboard_id')]) }}
+                    {{ Form::button('Clear dashboard', ['class' => 'btn btn-danger', 'id' => 'clear-dashboard-2', 'data-id' => $request->route('dashboard_id')]) }}
                 </div>
                 <div class="form-group">
                     {{ Form::button('Delete dashboard', ['class' => 'btn btn-danger', 'id' => 'confirm-delete-dashboard', 'data-id' => $request->route('dashboard_id')]) }}
@@ -112,6 +116,30 @@
 </div>
 
 @endsection
+
+
+@section('settings-menu')
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        <li class="tab-pane active"><a href="#control-sidebar-add-tab" data-toggle="tab"><i class="fa fa-plus"></i></a></li>
+        <li><a href="#control-sidebar-edit-tab" data-toggle="tab"><i class="fa fa-pencil"></i></a></li>
+        <li><a href="#control-sidebar-delete-tab" data-toggle="tab"><i class="fa fa-trash"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="control-sidebar-add-tab">
+        </div>
+        <div class="tab-pane" id="control-sidebar-edit-tab">
+        </div>
+        <div class="tab-pane" id="control-sidebar-delete-tab">
+        </div>
+      </div>
+    </aside>
+<div class="control-sidebar-bg"></div>
+@endsection
+
+
 @section('scripts')
     <script src="{{ url('js/util.js') }}"></script>
     <script>

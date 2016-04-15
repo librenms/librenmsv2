@@ -25,11 +25,7 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $dashboards = User::find($request->user()->user_id)->dashboards()->get();
-        // morph the data as required
-        if ($request->query('displayFormat') == 'human') {
-        }
-
+        $dashboards = Dashboard::AllAvailable($request->user()->user_id)->get();
         return $dashboards;
     }
 
@@ -58,27 +54,20 @@ class DashboardController extends Controller
         if($validation->passes())
         {
             $dashboard = new dashboard;
-            $dashboard->user_id        = $request->user()->user_id;
             $dashboard->dashboard_name = $request->name;
             $dashboard->access         = $request->access;
-            if ($dashboard->save())
+            if ($request->user()->dashboards()->save($dashboard))
             {
                 if (is_numeric($request->copy_from))
                 {
                     $duplicate_widgets = Dashboard::find($request->copy_from)->widgets()->get();
-                    foreach ($duplicate_widgets as $new_widget)
+                    foreach ($duplicate_widgets as $tmp_widget)
                     {
-                        UsersWidgets::create([  'user_id'      => $request->user()->user_id,
-                                                'widget_id'    => $new_widget->widget_id,
-                                                'col'          => $new_widget->col,
-                                                'row'          => $new_widget->row,
-                                                'size_y'       => $new_widget->size_y,
-                                                'size_x'       => $new_widget->size_x,
-                                                'title'        => $new_widget->title,
-                                                'refresh'      => $new_widget->refresh,
-                                                'settings'     => $new_widget->settings,
-                                                'dashboard_id' => $dashboard->dashboard_id,
-                                            ]);
+                        $new_widget               = $tmp_widget->replicate();
+                        $new_widget->user_id      = $request->user()->user_id;
+                        $new_widget->dashboard_id = $dashboard->dashboard_id;
+                        unset($new_widget->user_widget_id);
+                        $new_widget->save();
                     }
                 }
                 return $this->response->array(array('statusText' => 'OK', 'dashboard_id' => $dashboard->dashboard_id));
@@ -102,7 +91,7 @@ class DashboardController extends Controller
     public function show(Request $request, $id)
     {
         $dashboard = Dashboard::find($id);
-        $widgets   = Dashboard::find($id)->widgets()->get();
+        $widgets   = $dashboard->widgets()->get();
         // morph the data as required
         if ($request->query('displayFormat') == 'human') {
         }
@@ -159,9 +148,9 @@ class DashboardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        if (Dashboard::destroy($id))
+        if (Dashboard::where('user_id', $request->user()->user_id)->where('dashboard_id', $id)->delete())
         {
             if (UsersWidgets::where('dashboard_id', $id)->delete() >= 0)
             {
@@ -178,7 +167,7 @@ class DashboardController extends Controller
 
     public function clear($id)
     {
-        if (UsersWidgets::where('dashboard_id', $id)->delete() >= 0)
+        if (Dashboard::find($id)->widgets()->delete() >= 0)
         {
             return $this->response->array(array('statusText' => 'OK'));
         }
