@@ -19,7 +19,6 @@ use App\Models\Device;
 use App\Models\Notification;
 use App\Models\Port;
 use App\Models\User;
-use Database\Factories\FactoryData;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
@@ -44,7 +43,6 @@ $factory->define(Device::class, function(Faker\Generator $faker) {
 $factory->define(Port::class, function(Faker\Generator $faker) {
     return [
         'ifIndex' => $faker->unique()->numberBetween(),
-        'ifType'  => $faker->randomElement(FactoryData::$IFTYPE_VALID_VALUES),
     ];
 });
 
