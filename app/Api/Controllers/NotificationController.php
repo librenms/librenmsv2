@@ -24,7 +24,7 @@ class NotificationController extends Controller
     {
         if ($type === 'archive')
         {
-            $notifications = Notification::IsArchived($request)->get();
+            $notifications = Notification::IsArchived($request->user())->get();
         }
         else {
             $notifications = Notification::IsUnread()->get();
