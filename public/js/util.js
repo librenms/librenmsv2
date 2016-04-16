@@ -136,7 +136,7 @@ $.Util.newNotification = function(form) {
             $(this).html('');
         });
         event.preventDefault();
-        $.Util.ajaxCall('PUT','/notifications', form)
+        $.Util.ajaxCall('PUT','/notifications', $(form).serialize())
             .done(function(data) {
                 if (data.statusText === "OK" ) {
                     toastr.info('Notification has been created');
@@ -172,15 +172,14 @@ $.Util.newNotification = function(form) {
  * @type Function
  * @Usage: $.Util.ajaxCall()
  */
-$.Util.ajaxCall = function(type, url, form) {
-    form = $(form);
+$.Util.ajaxCall = function(type, url, data) {
     return $.ajax({
         type: type,
         url: url,
-        data: form.serialize(),
+        data: data,
         dataType: "json"
     });
-}
+};
 
 /* apiAjaxGetCall()
  * ======
