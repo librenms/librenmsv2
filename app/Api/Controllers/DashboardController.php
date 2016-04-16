@@ -25,7 +25,7 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $dashboards = Dashboard::AllAvailable($request->user()->user_id)->get();
+        $dashboards = Dashboard::allAvailable($request->user())->get();
         return $dashboards;
     }
 
@@ -53,7 +53,7 @@ class DashboardController extends Controller
         ]);
         if($validation->passes())
         {
-            $dashboard = new dashboard;
+            $dashboard = new Dashboard;
             $dashboard->dashboard_name = $request->name;
             $dashboard->access         = $request->access;
             if ($request->user()->dashboards()->save($dashboard))
@@ -63,6 +63,7 @@ class DashboardController extends Controller
                     $duplicate_widgets = Dashboard::find($request->copy_from)->widgets()->get();
                     foreach ($duplicate_widgets as $tmp_widget)
                     {
+                        /** @var UsersWidgets $tmp_widget */
                         $new_widget               = $tmp_widget->replicate();
                         $new_widget->user_id      = $request->user()->user_id;
                         $new_widget->dashboard_id = $dashboard->dashboard_id;
