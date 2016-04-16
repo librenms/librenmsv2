@@ -81,7 +81,6 @@
                                         <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>
                                     </ul>
                                 </li>
-
                                 <!-- User Account: style can be found in dropdown.less -->
                                 <li class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -127,7 +126,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <li>
-                                        <a href="{{ url('/') }}"><i class="icon fa fa-lightbulb-o"></i> Overview</a>
+                                        <a href="{{ url('/') }}"><i class="icon fa fa-lightbulb-o"></i> Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="#"><i class="icon fa fa-exclamation-circle"></i> Alerts
