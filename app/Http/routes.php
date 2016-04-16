@@ -25,16 +25,16 @@ Route::group(['middleware' => ['web']], function() {
     $this->post('password/reset', 'Auth\PasswordController@reset');
 
     Route::get('/', 'HomeController@redirect')->name('home');
-    Route::resource('/dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
-    Route::resource('/widgets', 'WidgetsController');
+    Route::resource('dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
+    Route::resource('widgets', 'WidgetsController');
     Route::resource('devices', 'DeviceController');
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
-    Route::get('/notifications/{type?}', 'NotificationController@index');
-    Route::patch('/notifications/{id}/{action}', 'NotificationController@update');
-    Route::put('/notifications', 'NotificationController@create');
-    Route::get('/about', 'HomeController@about');
+    Route::get('notifications/{type?}', 'NotificationController@index');
+    Route::patch('notifications/{id}/{action}', 'NotificationController@update');
+    Route::put('notifications', 'NotificationController@create');
+    Route::get('about', 'HomeController@about');
     Route::match(['get', 'post'], '/preferences', 'UserController@preferences');
-    Route::resource('/settings', 'SettingsController');
+    Route::resource('settings', 'SettingsController');
 });
 
 // ---- API Routes ----
