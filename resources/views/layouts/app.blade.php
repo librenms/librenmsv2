@@ -56,13 +56,32 @@
                         </a>
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
-                                <!-- Notifications: style can be found in dropdown.less -->
+                                <!-- Notifications Menu -->
                                 <li class="dropdown notifications-menu">
-                                    <a href="{{ url('/notifications') }}">
-                                        <i class="fa fa-user fa-lg"></i>
-                                        <span class="label label-warning" id="notification-count"><span>{{ count($notifications_count) }}</span></span>
+                                    <!-- Menu toggle button -->
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-bell-o"></i>
+                                        <span class="label label-warning">{{ count($notifications) }}</span>
                                     </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="header">You have {{ count($notifications) }} unread notifications</li>
+                                        @foreach($notifications->take(5) as $notification)
+                                        <li>
+                                            <!-- Inner Menu: contains the notifications -->
+                                            <ul class="menu">
+                                                <li><!-- start notification -->
+                                                    <a href="{{ url('/notifications/'.$notification->notifications_id) }}" title="{{ $notification->body }}">
+                                                        <i class="fa fa-bell text-aqua"></i> {{ $notification->title }}
+                                                    </a>
+                                                </li>
+                                                <!-- end notification -->
+                                            </ul>
+                                        </li>
+                                        @endforeach
+                                        <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>
+                                    </ul>
                                 </li>
+
                                 <!-- User Account: style can be found in dropdown.less -->
                                 <li class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

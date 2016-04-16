@@ -45,7 +45,8 @@ class SettingsTest extends TestCase
         $this->assertEquals('default', $result);
     }
 
-    public function testReadOnly() {
+    public function testReadOnly()
+    {
         $this->setExpectedException('Exception');
         Config::set('config.test.readonly', 'value');
         Settings::set('test.readonly');
@@ -142,7 +143,7 @@ class SettingsTest extends TestCase
         $this->assertEquals('value', $result);
     }
 
-    public function testMixKeyArray() //TODO: more tests in this area, is this valid or invalid behaviour?
+    public function testMixKeyArray()
     {
         Settings::set('test.mix', ['with.period' => 'value']);
         $result = Settings::get('test.mix');
@@ -183,13 +184,26 @@ class SettingsTest extends TestCase
         $cached = Cache::tags(\App\Settings::$cache_tag)->get('test.flush');
         $this->assertEquals('value', $cached);
 
+        Settings::set('test.another.flush', 'stuff');
+        $expected = Settings::get('test');
+        $result = Cache::tags(\App\Settings::$cache_tag)->get('test');
+        $this->assertEquals($expected, $result);
+
+        Settings::flush('test.another');
+        $parent = Cache::tags(\App\Settings::$cache_tag)->get('test');
+        $this->assertNull($parent);
+
+        $child = Cache::tags(\App\Settings::$cache_tag)->get('test.another.flush');
+        $this->assertEquals('stuff', $child);
+
         Settings::flush();
         $flushed = Cache::tags(\App\Settings::$cache_tag)->get('test.flush');
         $this->assertNull($flushed);
 
     }
 
-    public function testNoCache() {
+    public function testNoCache()
+    {
         Settings::set('test.nocache', 'value');
         Settings::flush();
         $result = Settings::get('test.nocache');
@@ -197,8 +211,9 @@ class SettingsTest extends TestCase
         $this->assertEquals('value', $result);
     }
 
-    public function testNoCacheArray() {
-        $expected = ['one'=>'value1', 'two'=>'value2'];
+    public function testNoCacheArray()
+    {
+        $expected = ['one' => 'value1', 'two' => 'value2'];
         Settings::set('test.nocachearray', $expected);
         Settings::flush();
         $result = Settings::get('test.nocachearray');
@@ -251,8 +266,9 @@ class SettingsTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testArrayWithValue() {
-        $data = ['value', 'arr'=>['one'=>'one', 'two'=>'two']];
+    public function testArrayWithValue()
+    {
+        $data = ['value', 'arr' => ['one' => 'one', 'two' => 'two']];
 
         Settings::set('test.arrayval', $data);
 
@@ -263,13 +279,14 @@ class SettingsTest extends TestCase
         $this->assertEquals('value', $result2);
     }
 
-    public function testSubpathValue() {
+    public function testSubpathValue()
+    {
         Settings::set('test.subpath', 'value');
 
         try {
             Settings::set('test.subpath', ['one' => 'one', 'two' => 'two']);
             $this->fail("Unreachable line");
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->assertEquals("Attempting to set array value to existing non-array value at the key 'test.subpath'", $e->getMessage());
         }
 
@@ -278,5 +295,70 @@ class SettingsTest extends TestCase
 
         $result2 = Settings::get('test.subpath.one');
         $this->assertNull($result2);
+    }
+
+    public function testHas()
+    {
+        Settings::set('has.one', 'value');
+        $this->assertTrue(Settings::has('has.one'));
+
+        Config::set('config.has.two', 'value');
+        $this->assertTrue(Settings::has('has.two'));
+
+        Cache::tags(\App\Settings::$cache_tag)->put('has.three', 'value', 5);
+        $this->assertTrue(Settings::has('has.three'));
+
+        $this->assertTrue(Settings::has('has'));
+
+        $this->assertFalse(Settings::has('nothing'));
+    }
+
+    public function testForget()
+    {
+        Settings::set('test.forget', ['array', 'of', 'things', ['and', 'stuff']]);
+        $this->assertTrue(Settings::has('test.forget.3.1'));
+        Settings::forget('test.forget');
+        $this->assertFalse(Settings::has('test.forget'));
+        $this->assertFalse(Settings::has('test.forget.3.1'));
+
+        Config::set('config.test.cant.forget', 'value');
+        Settings::forget('test.cant.forget');
+        $this->assertTrue(Settings::has('test.cant.forget'));
+    }
+
+    public function testPrepend()
+    {
+        Settings::set('test.prepend', 'one');
+        Settings::prepend('test.prepend', 'two');
+        $expected = ['two', 'one'];
+        $result = Settings::get('test.prepend');
+        $this->assertEquals($expected, $result);
+
+        Settings::prepend('test.prepend', 'three');
+        $expected = ['three', 'two', 'one'];
+        $result = Settings::get('test.prepend');
+        $this->assertEquals($expected, $result);
+
+        Settings::prepend('test.prepend.new', 'value');
+        $result = Settings::get('test.prepend.new');
+        $this->assertEquals(['value'], $result);
+    }
+
+    public function testPush()
+    {
+        Settings::set('test.push', 'one');
+        Settings::push('test.push', 'two');
+        $expected = ['one', 'two'];
+        $result = Settings::get('test.push');
+        $this->assertEquals($expected, $result);
+
+        Settings::push('test.push', 'three');
+        $expected = ['one', 'two', 'three'];
+        $result = Settings::get('test.push');
+        $this->assertEquals($expected, $result);
+
+        Settings::push('test.push.new', 'value');
+        $result = Settings::get('test.push.new');
+        $this->assertEquals(['value'], $result);
     }
 }

@@ -57,9 +57,10 @@ class Settings implements ConfigContract
 
     /**
      * Set a key value pair into the Settings store.
-     * 
+     *
      * @param string $key A . separated path to this setting
      * @param array|null $value A value or an array. If value is an array it will be converted to a . separate path(s) concatinated onto the given key
+     * @throws \Exception
      */
     public function set($key, $value = null)
     {
@@ -169,9 +170,9 @@ class Settings implements ConfigContract
 
     /**
      * Check if the key is defined in the Settings store.
-     * 
+     *
      * @param string $key Only full paths will return true.
-     * @return bool 
+     * @return bool
      */
     public function has($key)
     {
@@ -190,20 +191,29 @@ class Settings implements ConfigContract
     }
 
     /**
-     * Forget a key.  Gets to forgotten keys will return null instead of the default.
+     * Forget a key and all children
+     * This cannot forget variables set in config.php
      *
-     * @param $key string Only works for full paths.
+     * @param string $key Explicit key to forget
      */
     public function forget($key)
     {
-        // set to null to prevent falling back to Config
-        DbConfig::key($key)->update(['config_value' => null]);
-        Cache::tags(self::$cache_tag)->forget($key);
+        // Cannot remove from config
+
+        $count = DbConfig::key($key)->count();
+        if ($count == 1) {
+            $this->flush($key);
+        }
+        else {
+            $this->flush(); // possible optimization: selective flush
+        }
+
+        DbConfig::key($key)->delete();
     }
 
     /**
      * Get all settings defined in the Settings store.
-     * 
+     *
      * @return array A nested array of all settings.
      */
     public function all()
@@ -219,6 +229,7 @@ class Settings implements ConfigContract
     /**
      * Clear the settings cache.
      * If path is set, only clear the path and it's parents.
+     * This will not clear children.
      *
      * @param string $key The path to clear.
      */
@@ -247,7 +258,22 @@ class Settings implements ConfigContract
      */
     public function prepend($key, $value)
     {
-        // TODO: Implement prepend() method.
+        $var = $this->get($key);
+
+        if (is_array($var)) {
+            $this->forget($key);
+            array_unshift($var, $value);
+            $this->set($key, $var);
+        }
+        else {
+            $arr = [$value];
+            if (!is_null($var)) {
+                $arr[] = $var;
+            }
+
+            $this->forget($key);
+            $this->set($key, $arr);
+        }
     }
 
     /**
@@ -259,6 +285,20 @@ class Settings implements ConfigContract
      */
     public function push($key, $value)
     {
-        // TODO: Implement push() method.
+        $var = $this->get($key);
+        if (is_array($var)) {
+            $var[] = $value;
+            $this->set($key, $var);
+        }
+        else {
+            $arr = array();
+            if (!is_null($var)) {
+                $arr[] = $var;
+            }
+            $arr[] = $value;
+
+            $this->forget($key);
+            $this->set($key, $arr);
+        }
     }
 }
