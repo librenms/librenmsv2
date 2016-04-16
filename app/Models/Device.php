@@ -124,9 +124,9 @@ class Device extends Model
      */
     protected $primaryKey = 'device_id';
 
-
-    // ---- Accessors/Mutators ----
-
+    /**
+     * Initialize this class
+     */
     public static function boot()
     {
         parent::boot();
@@ -137,6 +137,16 @@ class Device extends Model
             $device->syslogs()->delete();
             $device->eventlogs()->delete();
         });
+    }
+
+    // ---- Define Reletionships ----
+
+    /**
+     * Returns a list of users that can access this device.
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
     }
 
     /**
@@ -155,9 +165,6 @@ class Device extends Model
         return $this->hasMany('App\Models\Syslog', 'device_id', 'device_id');
     }
 
-
-    // ---- Define Reletionships ----
-
     /**
      * Returns a list of the Eventlog entries this device has.
      */
@@ -166,11 +173,14 @@ class Device extends Model
         return $this->hasMany('App\Models\Eventlog', 'device_id', 'device_id');
     }
 
+    // ---- Accessors/Mutators ----
+
     public function getIpAttribute($ip)
     {
         if (!empty($ip)) {
             return inet_ntop($ip);
         }
+        return null;
     }
 
     public function setIpAttribute($ip)
@@ -178,11 +188,4 @@ class Device extends Model
         $this->attributes['ip'] = inet_pton($ip);
     }
 
-    /**
-     * Returns a list of users that can access this device.
-     */
-    public function users()
-    {
-        return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
-    }
 }

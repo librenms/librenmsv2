@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\NotificationAttrib whereKey($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\NotificationAttrib whereValue($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Notification $notification
  */
 class NotificationAttrib extends Model
 {
@@ -42,4 +44,19 @@ class NotificationAttrib extends Model
      */
     protected $primaryKey = 'attrib_id';
 
+    // ---- Define Reletionships ----
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user() {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function notification() {
+        return $this->belongsTo('App\Models\Notification', 'notifications_id');
+    }
 }

@@ -37,6 +37,11 @@ class Widgets extends Model
      * @var string
      */
     protected $primaryKey = 'widget_id';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['widget_title', 'widget', 'base_dimensions'];
 
 }

@@ -48,8 +48,12 @@ class User extends Authenticatable
     protected $fillable = [
         'realname', 'username', 'password', 'email', 'level',
     ];
+    /**
+     * The primary key column name.
+     *
+     * @var string
+     */
     protected $primaryKey = 'user_id';
-
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -103,7 +107,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Returns a list of dashboards this user has access to
+     * Returns a list of dashboards this user has
      */
     public function dashboards()
     {

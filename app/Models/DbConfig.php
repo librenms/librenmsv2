@@ -84,6 +84,8 @@ class DbConfig extends Model
      */
     protected $fillable = ['config_name', 'config_value'];
 
+    // ---- Define Scopes ----
+
     /**
      * Limit the query to config_names that start with $key
      *
@@ -115,6 +117,7 @@ class DbConfig extends Model
      *
      * @param $value
      * @return mixed
+     * @throws \Exception
      */
     public function getConfigValueAttribute($value)
     {

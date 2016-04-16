@@ -30,6 +30,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereSettings($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereDashboardId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Widgets $widget
+ * @property-read \App\Models\Dashboard $dashboard
  */
 class UsersWidgets extends Model
 {
@@ -51,6 +54,37 @@ class UsersWidgets extends Model
      * @var string
      */
     protected $primaryKey = 'user_widget_id';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['user_id', 'widget_id', 'col', 'row', 'size_x', 'size_y', 'title', 'refresh', 'settings', 'dashboard_id'];
+
+    // ---- Define Relationships ----
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function widget()
+    {
+        return $this->hasOne('App\Models\Widgets', 'widget_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function dashboard()
+    {
+        return $this->belongsTo('App\Models\Dashboard', 'dashboard_id');
+    }
 
 }

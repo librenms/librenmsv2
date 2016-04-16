@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\Notification
@@ -48,6 +50,8 @@ class Notification extends Model
      */
     protected $primaryKey = 'notifications_id';
 
+    // ---- Define Convenience Functions ---
+
     /**
      * Mark this notifcation as read or unread
      *
@@ -60,6 +64,7 @@ class Notification extends Model
 
     /**
      * @param string $name
+     * @return Model
      */
     private function setAttrib($name, $enabled)
     {
@@ -86,23 +91,42 @@ class Notification extends Model
         $this->setAttrib('sticky', $enabled);
     }
 
-    public function scopeIsUnread($query)
+    // ---- Define Scopes ----
+
+    /**
+     * @param Builder $query
+     * @return mixed
+     */
+    public function scopeIsUnread(Builder $query)
     {
         return $query->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->source()->whereNull('notifications_attribs.user_id')->orWhere(['key' => 'sticky', 'value' => 1])->limit();
     }
 
-    public function scopeIsArchived($query, $request)
+    /**
+     * @param Builder $query
+     * @param User $user
+     * @return mixed
+     */
+    public function scopeIsArchived(Builder $query, User $user)
     {
-        $user_id = $request->user()->user_id;
+        $user_id = $user->user_id;
         return $query->leftJoin('notifications_attribs', 'notifications.notifications_id', '=', 'notifications_attribs.notifications_id')->source()->where('notifications_attribs.user_id', $user_id)->where(['key' => 'read', 'value' => 1])->limit();
     }
 
-    public function scopeLimit($query)
+    /**
+     * @param Builder $query
+     * @return $this
+     */
+    public function scopeLimit(Builder $query)
     {
         return $query->select('notifications.*', 'key', 'users.username');
     }
 
-    public function scopeSource($query)
+    /**
+     * @param Builder $query
+     * @return Builder|static
+     */
+    public function scopeSource(Builder $query)
     {
         return $query->leftJoin('users', 'notifications.source', '=', 'users.user_id');
     }
