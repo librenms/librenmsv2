@@ -63,16 +63,14 @@ $.Util.updateNotifications = function() {
         dataType: 'json',
         success: function (data) {
             var nItems = data.data;
-            console.log(nItems);
             var nCount = $('.notifications-menu > a > span');
             nCount.text(nItems.length);
 
             var nList = $('#dropdown-notifications-list');
             nList.empty();
-            for(var i=0;i<5&&i<nItems.length;i++) {
-                console.log(i);
+            for (var i = 0; i < 5 && i < nItems.length; i++) {
                 var item = $('<li>');
-                var link = item.append('<a href="/notifications/'+nItems[i].id+'" title="'+nItems[i].body+'"><i class="fa fa-bell text-aqua"></i> '+nItems[i].title+'</a>');
+                var link = item.append('<a href="/notifications/' + nItems[i].id + '" title="' + nItems[i].body + '"><i class="fa fa-bell text-aqua"></i> ' + nItems[i].title + '</a>');
                 nList.append(item);
             }
         }
@@ -182,7 +180,7 @@ $.Util.ajaxCall = function(type, url, form) {
         data: form.serialize(),
         dataType: "json"
     });
-};
+}
 
 /* apiAjaxGetCall()
  * ======

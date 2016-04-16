@@ -13,9 +13,6 @@ class NotificationController extends Controller
 
     use Helpers;
 
-    public function __construct() {
-    }
-
     /**
      * Display a listing of all notifications
      *
@@ -25,8 +22,7 @@ class NotificationController extends Controller
      */
     public function index(Request $request, $type = null)
     {
-        if ($type === 'archive')
-        {
+        if ($type === 'archive') {
             $notifications = Notification::isArchived($request)->get();
         }
         else {
@@ -37,14 +33,12 @@ class NotificationController extends Controller
 
     public function update(Request $request, $id, $action)
     {
-
         $notification = Notification::find($id);
-        $enable = strpos($action, 'un') !== false;
-        if ($enable) {
+        $enable = strpos($action, 'un') === false;
+        if (!$enable) {
             $action = substr($action, 2);
         }
 
-        $result = false;
         if ($action == 'read') {
             $result = $notification->markRead($enable);
         }
@@ -56,7 +50,7 @@ class NotificationController extends Controller
             return $this->response->errorInternal();
         }
         else {
-            return $this->response->array(['statusText' => 'OK']);
+            return $this->response->array(array('statusText' => 'OK'));
         }
     }
 
@@ -68,13 +62,12 @@ class NotificationController extends Controller
     public function create(Request $request)
     {
         $notification = new Notification;
-        $notification->title    = $request->title;
-        $notification->body     = $request->body;
+        $notification->title = $request->title;
+        $notification->body = $request->body;
         $notification->checksum = hash('sha512', $request->user()->user_id.'.LOCAL.'.$request->title);
-        $notification->source   = $request->user()->user_id;
-        if ($notification->save())
-        {
-            return $this->response->array(['statusText' => 'OK']);
+        $notification->source = $request->user()->user_id;
+        if ($notification->save()) {
+            return $this->response->array(array('statusText' => 'OK'));
         }
         else {
             return $this->response->errorInternal();
