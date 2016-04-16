@@ -31,23 +31,52 @@ use Illuminate\Database\Eloquent\Model;
  * Class DbConfig
  *
  * @package App\Models
+ * @property integer $config_id
+ * @property string $config_name
+ * @property string $config_hidden
+ * @property string $config_disabled
+ * @property string $config_value
+ * @property string $config_default
+ * @property string $config_descr
+ * @property string $config_group
+ * @property integer $config_group_order
+ * @property string $config_sub_group
+ * @property integer $config_sub_group_order
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigHidden($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigDisabled($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigValue($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigDefault($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigDescr($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigGroup($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigGroupOrder($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigSubGroup($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigSubGroupOrder($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig key($key)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig exactKey($key)
+ * @mixin \Eloquent
  */
 class DbConfig extends Model
 {
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'config';
-
     /**
      * The primary key column name.
      *
      * @var string
      */
     protected $primaryKey = 'config_id';
-
     /**
      * Define fillable fields
      *
@@ -78,13 +107,6 @@ class DbConfig extends Model
     {
         return $query->where('config_name', $key);
     }
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     // ---- Accessors/Mutators ----
 
