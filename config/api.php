@@ -155,6 +155,7 @@ return [
     */
 
     'auth' => [
+        'basic' => 'Dingo\Api\Auth\Provider\Basic',
         'jwt' => 'Dingo\Api\Auth\Provider\JWT'
     ],
 

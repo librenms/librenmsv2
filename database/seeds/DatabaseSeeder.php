@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DbSchemaTableSeeder::class);
         $this->call(InsertDevicesTableSeeder::class);
         $this->call(InsertPortsTableSeeder::class);
-
+        $this->call(DashboardSeeder::class);
 
         Model::reguard();
     }

@@ -120,7 +120,6 @@ $.Util.newNotification = function(form) {
                     }, 1000);
                 }
                 else {
-                    console.log(data);
                     toastr.error('We had a problem creating your notification');
                 }
             })
@@ -140,17 +139,18 @@ $.Util.newNotification = function(form) {
     });
 }
 
-/* ajaxSetup()
+/* ajaxSetup(token)
  * ======
  * Initial ajax setup call
  *
  * @type Function
  * @Usage: $.Util.ajaxSetup()
  */
-$.Util.ajaxSetup = function() {
+$.Util.ajaxSetup = function(token) {
     return $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            'Authorization': 'Bearer ' + token
         }
     });
 }
@@ -162,12 +162,57 @@ $.Util.ajaxSetup = function() {
  * @type Function
  * @Usage: $.Util.ajaxCall()
  */
-$.Util.ajaxCall = function(type, url, form) {
-    var form = $(form);
+$.Util.ajaxCall = function(type, url, data) {
     return $.ajax({
         type: type,
         url: url,
-        data: form.serialize(),
+        data: data,
+        dataType: "json"
+    });
+}
+
+/* apiAjaxGetCall()
+ * ======
+ * Api Ajax call via get
+ *
+ * @type Function
+ * @Usage: $.Util.apiAjaxGetCall()
+ */
+$.Util.apiAjaxGetCall = function(url) {
+    return $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: "json"
+    });
+}
+
+/* apiAjaxPATCHCall()
+ * ======
+ * Api Ajax call via PATCH
+ *
+ * @type Function
+ * @Usage: $.Util.apiAjaxPATCHCall()
+ */
+$.Util.apiAjaxPATCHCall = function(url, data) {
+    return $.ajax({
+        type: 'PATCH',
+        url: url,
+        data: data,
+        dataType: "json"
+    });
+}
+
+/* apiAjaxDELETECall()
+ * ======
+ * Api Ajax call via DELETE
+ *
+ * @type Function
+ * @Usage: $.Util.apiAjaxDELETECall()
+ */
+$.Util.apiAjaxDELETECall = function(url) {
+    return $.ajax({
+        type: 'DELETE',
+        url: url,
         dataType: "json"
     });
 }
