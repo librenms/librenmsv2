@@ -434,7 +434,7 @@
         @if(Auth::check())
             $.Util.ajaxSetup('{{ JWTAuth::fromUser(Auth::user()) }}');
 
-            setInterval($.Util.updateNotificationMenu('{{ url('/') }}'), {{ Settings::get('notifications.pollinterval', 500) }});
+            setInterval($.Util.updateNotificationMenu('{{ url('/') }}'), {{ Settings::get('notifications.pollinterval', 3600000) }});
         @endif
         </script>
         <script src="{{ url('js/app.min.js') }}"></script>
