@@ -2,6 +2,10 @@
     margin-top: 50px;
 }
 
+.grid-stack-item-content {
+    color: #2c3e50;
+    text-align: center;
+}
 .drag-handle {
     cursor: move;
     padding-right: 10px;
@@ -41,4 +45,10 @@ input + i.fa-close { color: red; }
 @keyframes pulsate {
     from { box-shadow: 0 0 5px #eee; }
     to { box-shadow: 0 0 15px #444; }
+}
+
+.control-sidebar-bg,
+.control-sidebar {
+    right: -330px;
+    width: 330px;
 }

@@ -72,4 +72,11 @@ class User extends Authenticatable
     public function ports() {
         return $this->belongsToMany('App\Models\Port', 'ports_perms', 'user_id', 'port_id');
     }
+
+    /**
+     * Returns a list of dashboards this user has access to
+     */
+    public function dashboards() {
+        return $this->hasMany('App\Models\Dashboard');
+    }
 }

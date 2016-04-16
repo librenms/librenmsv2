@@ -25,6 +25,8 @@
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
+        <!-- Gridstack style -->
+        <link href="{{ url('css/gridstack.min.css') }}" rel="stylesheet"/>
           <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
           <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
           <!--[if lt IE 9]>
@@ -79,7 +81,6 @@
                                         <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>
                                     </ul>
                                 </li>
-
                                 <!-- User Account: style can be found in dropdown.less -->
                                 <li class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -125,7 +126,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <li>
-                                        <a href="{{ url('/') }}"><i class="icon fa fa-lightbulb-o"></i> Overview</a>
+                                        <a href="{{ url('/') }}"><i class="icon fa fa-lightbulb-o"></i> Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="#"><i class="icon fa fa-exclamation-circle"></i> Alerts
@@ -359,7 +360,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <!-- if admin -->
-                                    <li><a href="{{ url('/settings') }}"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
+                                    <li><a href="#"><i class="icon fa fa-sitemap"></i> Global settings</a></li>
                                     <li><hr></li>
                                     <li><a href="#"><i class="icon fa fa-user-plus"></i> Add user</a></li>
                                     <li><a href="#"><i class="icon fa fa-user-times"></i> Remove user</a></li>
@@ -401,6 +402,7 @@
                 <footer class="main-footer">
                     <strong>Copyright &copy; {{ date("Y") }} <a href="http://www.librenms.org">LibreNMS</a>.</strong> All rights reserved.
                 </footer>
+                @yield('settings-menu')
             <div>
         @endif
 
@@ -411,7 +413,7 @@
         <!-- Javascript Libs -->
         <!-- jQuery 2.1.4 -->
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
-        @yield('js_before_bootstrap')
+        <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
         @yield('datatablesjs')
@@ -419,6 +421,10 @@
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
         <!-- Toastr -->
         <script src="{{ url('js/plugins/toastr/toastr.min.js') }}"></script>
+        <!-- Lodash -->
+        <script src="{{ url('js/lodash.min.js') }}"></script>
+        <!-- Gridstack -->
+        <script src="{{ url('js/gridstack.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script src="{{ url('js/util.js') }}"></script>
         <script>

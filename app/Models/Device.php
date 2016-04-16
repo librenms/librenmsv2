@@ -42,6 +42,18 @@ class Device extends Model
         $this->attributes['ip'] = inet_pton($ip);
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function(Device $device) {
+            // delete related data
+            $device->ports()->delete();
+            $device->syslogs()->delete();
+            $device->eventlogs()->delete();
+        });
+    }
+
 
     // ---- Define Reletionships ----
 

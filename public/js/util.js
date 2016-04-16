@@ -147,7 +147,6 @@ $.Util.newNotification = function(form) {
                     }, 1000);
                 }
                 else {
-                    console.log(data);
                     toastr.error('We had a problem creating your notification');
                 }
             })
@@ -181,6 +180,52 @@ $.Util.ajaxCall = function(type, url, form) {
         type: type,
         url: url,
         data: form.serialize(),
+        dataType: "json"
+    });
+};
+
+/* apiAjaxGetCall()
+ * ======
+ * Api Ajax call via get
+ *
+ * @type Function
+ * @Usage: $.Util.apiAjaxGetCall()
+ */
+$.Util.apiAjaxGetCall = function(url) {
+    return $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: "json"
+    });
+};
+
+/* apiAjaxPATCHCall()
+ * ======
+ * Api Ajax call via PATCH
+ *
+ * @type Function
+ * @Usage: $.Util.apiAjaxPATCHCall()
+ */
+$.Util.apiAjaxPATCHCall = function(url, data) {
+    return $.ajax({
+        type: 'PATCH',
+        url: url,
+        data: data,
+        dataType: "json"
+    });
+};
+
+/* apiAjaxDELETECall()
+ * ======
+ * Api Ajax call via DELETE
+ *
+ * @type Function
+ * @Usage: $.Util.apiAjaxDELETECall()
+ */
+$.Util.apiAjaxDELETECall = function(url) {
+    return $.ajax({
+        type: 'DELETE',
+        url: url,
         dataType: "json"
     });
 };
