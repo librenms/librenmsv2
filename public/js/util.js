@@ -57,9 +57,16 @@ $.Util.formatDataUnits = function(units,decimals,display,base) {
    return parseFloat((units / Math.pow(base, i)).toFixed(dm)) + display[i];
 };
 
-$.Util.updateNotifications = function() {
+/* updateNotificationMenu()
+ * ======
+ * Update the notification menu with data from the api
+ *
+ * @type Function
+ * @Usage: $.Util.updateNotificationMenu(baseurl)
+ */
+$.Util.updateNotificationMenu = function(baseurl) {
     $.ajax({
-        url: '/api/notifications',
+        url: baseurl + '/api/notifications',
         dataType: 'json',
         success: function (data) {
             var nItems = data.data;
@@ -70,7 +77,7 @@ $.Util.updateNotifications = function() {
             nList.empty();
             for (var i = 0; i < 5 && i < nItems.length; i++) {
                 var item = $('<li>');
-                var link = item.append('<a href="/notifications/' + nItems[i].id + '" title="' + nItems[i].body + '"><i class="fa fa-bell text-aqua"></i> ' + nItems[i].title + '</a>');
+                var link = item.append('<a href="' + baseurl + '/notifications/' + nItems[i].id + '" title="' + nItems[i].body + '"><i class="fa fa-bell text-aqua"></i> ' + nItems[i].title + '</a>');
                 nList.append(item);
             }
         }
@@ -82,16 +89,16 @@ $.Util.updateNotifications = function() {
  * Using an ajax request it will mark the particular notification as read
  *
  * @type Function
- * @Usage: $.Util.markNotificationRead(url)
+ * @Usage: $.Util.markNotificationRead(baseurl)
  */
-$.Util.markNotification = function(url) {
+$.Util.markNotification = function(baseurl) {
     $(document).on("click", ".notification", function() {
         $(this).attr("disabled", true);
         var id     = $(this).data('id');
         var action = $(this).data('action');
         $.ajax({
             type: 'PATCH',
-            url: url+'/'+id+'/'+action,
+            url: baseurl+'/notifications/'+id+'/'+action,
             dataType: "json",
             success: function (data) {
                 if (data.statusText === "OK" ) {
@@ -103,7 +110,7 @@ $.Util.markNotification = function(url) {
                     else {
                         window.location.href="";
                     }
-                    $.Util.updateNotifications();
+                    $.Util.updateNotificationMenu(baseurl);
                 }
                 else {
                     $(this).attr("disabled", false);

@@ -431,12 +431,13 @@
                 // set the treview slide speed
                 animationSpeed: 150,
             };
-
+        @if(Auth::check())
             $.Util.ajaxSetup('{{ JWTAuth::fromUser(Auth::user()) }}');
 
-            setInterval($.Util.updateNotifications, {{ Settings::get('notifications.pollinterval', 60000) }});
+            setInterval($.Util.updateNotificationMenu('{{ url('/') }}'), {{ Settings::get('notifications.pollinterval', 500) }});
+        @endif
         </script>
-        <script src="{{ url('/js/app.min.js') }}"></script>
+        <script src="{{ url('js/app.min.js') }}"></script>
         <!-- page script -->
         @yield('scripts')
     </body>

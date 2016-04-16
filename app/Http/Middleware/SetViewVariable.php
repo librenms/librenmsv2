@@ -13,6 +13,8 @@ class SetViewVariable
 
     use Helpers;
 
+    protected $auth;
+
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
