@@ -61,7 +61,7 @@
                                     <!-- Menu toggle button -->
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-bell-o"></i>
-                                        <span class="label label-warning">{{ count($menu_notifications) }}</span>
+                                        <span class="label label-warning" id="notification-menu-count">{{ count($menu_notifications) }}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>

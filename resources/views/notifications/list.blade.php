@@ -85,9 +85,9 @@
 </div>
 @endsection
 @section('scripts')
-    <script src="{{ url('js/util.js') }}"></script>
+    <script src="{{ url('js/pages/notifications.js') }}"></script>
     <script>
-        $.Util.markNotification('{{ url('/') }}');
-        $.Util.newNotification('#new-notification-form');
+        $.Notifications.markNotification('{{ url('/') }}');
+        $.Notifications.newNotification('#new-notification-form');
     </script>
 @endsection
