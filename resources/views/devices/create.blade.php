@@ -3,116 +3,152 @@
 @section('title', 'Add Device')
 
 @section('content')
-<form name="form1" method="post" action="{{ route('devices.store') }}" class="form-horizontal" role="form">
-{!! csrf_field() !!}
-  <div><h2>Add Device</h2></div>
-  <div class="alert alert-info">Devices will be checked for Ping and SNMP reachability before being probed. Only devices with recognised OSes will be added.</div>
-  <div class="well well-lg">
-    <div class="form-group">
-      <label for="hostname" class="col-sm-3 control-label">Hostname</label>
-      <div class="col-sm-9">
-        <input type="text" id="hostname" name="hostname" class="form-control input-sm" placeholder="Hostname">
-      </div>
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <form name="add_device" method="post" action="{{ route('devices.store') }}" class="form-horizontal" role="form">
+            {!! csrf_field() !!}
+            <h3>{{ trans('devices.text.add') }}</h3>
+            <div class="callout callout-warning"><i class="icon fa fa-warning"></i> {{ trans('devices.text.warning') }}</div>
+            <div class="well well-lg">
+                <div class="form-group">
+                    <label for="hostname" class="col-sm-3 control-label">{{ trans('devices.label.hostname') }}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="hostname" name="hostname" class="form-control input-sm" placeholder="{{ trans('devices.label.hostname') }}" value="{{ old('hostname') }}">
+                        <div class="text-red form-error"><small>{{ $errors->first('hostname') }}</small></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="snmpver" class="col-sm-3 control-label">{{ trans('devices.label.snmpver') }}</label>
+                    <div class="col-sm-3">
+                        <select name="snmpver" id="snmpver" class="form-control input-sm" onChange="changeForm();">
+                            <option value="v1" @if (old('snmpver') === "v1") selected @endif>v1</option>
+                            <option value="v2c" @if (old('snmpver') === "v2c") selected @elseif (old('snmpver') == "") selected @endif>v2c</option>
+                            <option value="v3" @if (old('snmpver') === "v3") selected @endif>v3</option>
+                        </select>
+                        <div class="text-red form-error"><small>{{ $errors->first('snmpver') }}</small></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" name="port" placeholder="{{ trans('devices.label.port') }}" class="form-control input-sm" value="{{ old('port') }}">
+                    </div>
+                    <div class="col-sm-3">
+                        <select name="transport" id="transport" class="form-control input-sm">
+                            @foreach (Settings::get('snmp.transports','') as $item)
+                                <option value="{{ $item }}" @if ($item === old('transport')) selected @endif>{{ $item }}</option>
+                            @endforeach
+                        </select>
+                        <div class="text-red form-error"><small>{{ $errors->first('transport') }}</small></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="port_association_mode" class="col-sm-3 control-label">{{ trans('devices.label.portassoc') }}</label>
+                    <div class="col-sm-3">
+                        <select name="port_assoc_mode" id="port_assoc_mode" class="form-control input-sm">
+                            <option value="ifIndex" @if (old('port_assoc_mode') === "ifIndex") selected @endif>ifIndex</option>
+                            <option value="ifName" @if (old('port_assoc_mode') === "ifName") selected @endif>ifName</option>
+                            <option value="ifDescr" @if (old('port_assoc_mode') === "ifDescr") selected @endif>ifDescr</option>
+                            <option value="ifAlias" @if (old('port_assoc_mode') === "ifAlias") selected @endif>ifAlias</option>
+                        </select>
+                        <div class="text-red form-error"><small>{{ $errors->first('port_assoc_mode') }}</small></div>
+                    </div>
+                </div>
+                <div id="snmpv1_2">
+                    <div class="form-group">
+                        <div class="col-sm-12 alert alert-success">
+                            <label class="control-label text-left input-sm">{{ trans('devices.label.v1v2c') }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="community" class="col-sm-3 control-label">{{ trans('devices.label.community') }}</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="community" id="community" placeholder="{{ trans('devices.label.community') }}" class="form-control input-sm" value="{{ old('community') }}">
+                            <div class="text-red form-error"><small>{{ $errors->first('community') }}</small></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="snmpv3">
+                    <div class="form-group">
+                        <div class="col-sm-12 alert alert-success">
+                            <label class="control-label text-left input-sm">{{ trans('devices.label.v3') }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="authlevel" class="col-sm-3 control-label">{{ trans('devices.label.authlevel') }}</label>
+                        <div class="col-sm-3">
+                            <select name="authlevel" id="authlevel" class="form-control input-sm">
+                                <option value="noAuthNoPriv" @if (old('authlevel') === "noAuthNoPriv") selected @endif>noAuthNoPriv</option>
+                                <option value="authNoPriv" @if (old('authlevel') === "authNoPriv") selected @endif>authNoPriv</option>
+                                <option value="authPriv" @if (old('authlevel') === "authPriv") selected @endif>authPriv</option>
+                            </select>
+                            <div class="text-red form-error"><small>{{ $errors->first('authlevel') }}</small></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="authname" class="col-sm-3 control-label">{{ trans('devices.label.authname') }}</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="authname" id="authname" placeholder="{{ trans('devices.label.authname') }}" class="form-control input-sm" value="{{ old('authname') }}">
+                            <div class="text-red form-error"><small>{{ $errors->first('authname') }}</small></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="authpass" class="col-sm-3 control-label">{{ trans('devices.label.authpass') }}</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="authpass" id="authpass" placeholder="{{ trans('devices.label.authpass') }}" class="form-control input-sm" value="{{ old('authpass') }}">
+                            <div class="text-red form-error"><small>{{ $errors->first('authpass') }}</small></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="authalgo" class="col-sm-3 control-label">{{ trans('devices.label.authalgo') }}</label>
+                        <div class="col-sm-9">
+                            <select name="authalgo" id="authalgo" class="form-control input-sm">
+                                <option value="MD5" @if (old('authalgo') === "MD5") selected @endif>MD5</option>
+                                <option value="SHA" @if (old('authalgo') === "SHA") selected @endif>SHA</option>
+                            </select>
+                            <div class="text-red form-error"><small>{{ $errors->first('authalgo') }}</small></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cryptopass" class="col-sm-3 control-label">{{ trans('devices.label.cryptopass') }}</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="cryptopass" id="cryptopass" placeholder="{{ trans('devices.label.cryptopass') }}" class="form-control input-sm" value="{{ old('cryptopass') }}">
+                            <div class="text-red form-error"><small>{{ $errors->first('cryptopass') }}</small></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cryptoalgo" class="col-sm-3 control-label">{{ trans('devices.label.cryptoalgo') }}</label>
+                        <div class="col-sm-9">
+                            <select name="cryptoalgo" id="cryptoalgo" class="form-control input-sm">
+                                <option value="AES" @if (old('cryptoalgo') === "AES") selected @endif>AES</option>
+                                <option value="DES" @if (old('cryptoalgo') === "DES") selected @endif>DES</option>
+                            </select>
+                            <div class="text-red form-error"><small>{{ $errors->first('cryptoalgo') }}</small></div>
+                        </div>
+                    </div>
+                </div>
+                @if (Settings::get('distributed_poller','false') === true)
+                    <div class="form-group">
+                        <label for="poller_group" class="col-sm-3 control-label">{{ trans('devices.label.pollergroup') }}</label>
+                        <div class="col-sm-3">
+                            <select name="poller_group" id="poller_group" class="form-control input-sm">
+                                <option value="0"> Default poller group</option>
+                                // Fixme
+                                // Need to query DB for poller groups
+                            </select>
+                        </div>
+                    </div>
+                @endif
+                <div class="checkbox">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <label>
+                            <input type="checkbox" name="force_add" id="force_add" @if (old('force_add') === "on") checked @endif> {{ trans('devices.text.forceadd') }}
+                        </label>
+                    </div>
+                </div>
+                <hr>
+                <center><button type="submit" class="btn btn-primary" name="Submit">{{ trans('devices.btn.add') }}</button></center>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-      <label for="snmpver" class="col-sm-3 control-label">SNMP Version</label>
-      <div class="col-sm-3">
-        <select name="snmpver" id="snmpver" class="form-control input-sm" onChange="changeForm();">
-          <option value="v1">v1</option>
-          <option value="v2c" selected>v2c</option>
-          <option value="v3">v3</option>
-        </select>
-      </div>
-      <div class="col-sm-3">
-        <input type="text" name="port" placeholder="port" class="form-control input-sm">
-      </div>
-      <div class="col-sm-3">
-        <select name="transport" id="transport" class="form-control input-sm">
-<option value='udp'>udp</option><option value='udp6'>udp6</option><option value='tcp'>tcp</option><option value='tcp6'>tcp6</option>        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="port_association_mode" class="col-sm-3 control-label">Port Association Mode</label>
-      <div class="col-sm-3">
-        <select name="port_assoc_mode" id="port_assoc_mode" class="form-control input-sm">
-          <option value="ifIndex" selected>ifIndex</option>
-          <option value="ifName" >ifName</option>
-          <option value="ifDescr" >ifDescr</option>
-          <option value="ifAlias" >ifAlias</option>
-          <option value="ifAlias" >ifAlias</option>
-        </select>
-      </div>
-    </div>
-    <div id="snmpv1_2">
-      <div class="form-group">
-        <div class="col-sm-12 alert alert-info">
-          <label class="control-label text-left input-sm">SNMPv1/2c Configuration</label>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="community" class="col-sm-3 control-label">Community</label>
-        <div class="col-sm-9">
-          <input type="text" name="community" id="community" placeholder="Community" class="form-control input-sm">
-        </div>
-      </div>
-    </div>
-    <div id="snmpv3">
-      <div class="form-group">
-        <div class="col-sm-12 alert alert-info">
-          <label class="control-label text-left input-sm">SNMPv3 Configuration</label>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="authlevel" class="col-sm-3 control-label">Auth Level</label>
-        <div class="col-sm-3">
-          <select name="authlevel" id="authlevel" class="form-control input-sm">
-            <option value="noAuthNoPriv" selected>noAuthNoPriv</option>
-            <option value="authNoPriv">authNoPriv</option>
-            <option value="authPriv">authPriv</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="authname" class="col-sm-3 control-label">Auth User Name</label>
-        <div class="col-sm-9">
-          <input type="text" name="authname" id="authname" class="form-control input-sm">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="authpass" class="col-sm-3 control-label">Auth Password</label>
-        <div class="col-sm-9">
-          <input type="text" name="authpass" id="authpass" placeholder="AuthPass" class="form-control input-sm">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="authalgo" class="col-sm-3 control-label">Auth Algorithm</label>
-        <div class="col-sm-9">
-          <select name="authalgo" id="authalgo" class="form-control input-sm">
-            <option value="MD5" selected>MD5</option>
-            <option value="SHA">SHA</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="cryptopass" class="col-sm-3 control-label">Crypto Password</label>
-        <div class="col-sm-9">
-          <input type="text" name="cryptopass" id="cryptopass" placeholder="Crypto Password" class="form-control input-sm">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="cryptoalgo" class="col-sm-3 control-label">Crypto Algorithm</label>
-        <div class="col-sm-9">
-          <select name="cryptoalgo" id="cryptoalgo" class="form-control input-sm">
-            <option value="AES" selected>AES</option>
-            <option value="DES">DES</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <hr>
-    <center><button type="submit" class="btn btn-default" name="Submit">Add Device</button></center>
-  </div>
-</form>
+</div>
 @endsection
 
 @section('scripts')
@@ -128,6 +164,17 @@
             $('#snmpv3').show();
         }
     }
-    $('#snmpv3').toggle();
+    @if (!empty(old('snmpver')))
+        if ('{{ old('snmpver') }}' ==='v3')
+        {
+            $('#snmpv1_2').toggle();
+        }
+        else
+        {
+            $('#snmpv3').toggle();
+        }
+    @else
+        $('#snmpv3').toggle();
+    @endif
 </script>
 @endsection
