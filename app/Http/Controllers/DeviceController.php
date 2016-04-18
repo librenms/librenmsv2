@@ -51,7 +51,7 @@ class DeviceController extends Controller
         // save device
 
         $this->validate($request, [
-            'hostname'        => 'required|alpha_dash|unique:devices|max:128',
+            'hostname'        => 'required|unique:devices|max:128',
             'snmpver'         => 'required|alpha_num|max:4',
             'transport'       => 'required|alpha_num|max:16',
             'port_assoc_mode' => 'required|alpha',
