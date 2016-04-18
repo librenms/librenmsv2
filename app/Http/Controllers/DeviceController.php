@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Settings;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -48,6 +49,19 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         // save device
+
+        $this->validate($request, [
+            'hostname'        => 'required|unique:devices|max:128',
+            'snmpver'         => 'required|alpha_num|max:4',
+            'transport'       => 'required|alpha_num|max:16',
+            'port_assoc_mode' => 'required|alpha',
+            'community'       => 'required_if:snmpver,v1,v2c|max:255',
+            'authlevel'       => 'required_if:snmpver,v3|alpha|max:15',
+            'authname'        => 'required_if:authlevel,authNoPriv|max:64',
+            'authalgo'        => 'required_if:authlevel,authNoPriv|in:MD5,SHA|max:3',
+            'cryptopass'      => 'required_if:authlevel,authPriv|max:64',
+            'cryptoalgo'      => 'required_if:authlevel,authPriv|in:AES,DES|max:3',
+        ]);
         return redirect()->route('devices.index');
     }
 
