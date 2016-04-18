@@ -361,4 +361,15 @@ class SettingsTest extends TestCase
         $result = Settings::get('test.push.new');
         $this->assertEquals(['value'], $result);
     }
+
+    public function testTypes() {
+        Settings::set('test.type.bool', true);
+        $this->assertTrue(Settings::get('test.type.bool'));
+
+        Settings::set('test.type.int', 5);
+        $this->assertEquals(5, Settings::get('test.type.int'));
+
+        Settings::set('test.type.string', "String Thing");
+        $this->assertEquals("String Thing", Settings::get('test.type.string'));
+    }
 }
