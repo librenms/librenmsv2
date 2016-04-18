@@ -2,6 +2,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Api\Transformers\NotificationTransformer;
 use App\Models\Notification;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
@@ -12,29 +13,27 @@ class NotificationController extends Controller
 
     use Helpers;
 
-    public function __construct() {
-    }
-
     /**
      * Display a listing of all notifications
      *
+     * @param Request $request
+     * @param null $type archive or null (all)
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $type = null)
     {
         if ($type === 'archive')
         {
-            $notifications = Notification::IsArchived($request->user())->get();
+            $notifications = Notification::isArchived($request->user())->get();
         }
         else {
-            $notifications = Notification::IsUnread()->get();
+            $notifications = Notification::isUnread()->get();
         }
-        return $notifications;
+        return $this->response->collection($notifications, NotificationTransformer::class);
     }
 
     public function update(Request $request, $id, $action)
     {
-
         $notification = Notification::find($id);
         $enable = strpos($action, 'un') === false;
         if (!$enable) {
@@ -64,12 +63,11 @@ class NotificationController extends Controller
     public function create(Request $request)
     {
         $notification = new Notification;
-        $notification->title    = $request->title;
-        $notification->body     = $request->body;
+        $notification->title = $request->title;
+        $notification->body = $request->body;
         $notification->checksum = hash('sha512', $request->user()->user_id.'.LOCAL.'.$request->title);
-        $notification->source   = $request->user()->user_id;
-        if ($notification->save())
-        {
+        $notification->source = $request->user()->user_id;
+        if ($notification->save()) {
             return $this->response->array(array('statusText' => 'OK'));
         }
         else {

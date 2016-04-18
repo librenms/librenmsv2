@@ -3,8 +3,8 @@
 namespace App\Models;
 
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Notification
@@ -53,18 +53,31 @@ class Notification extends Model
     // ---- Define Convenience Functions ---
 
     /**
-     * Mark this notifcation as read or unread
+     * Mark this notification as read or unread
      *
-     * @var bool
+     * @param bool $enabled
+     * @return bool
      */
-    public function markRead($enabled)
+    public function markRead($enabled = true)
     {
-        $this->setAttrib('read', $enabled);
+        return $this->setAttrib('read', $enabled);
     }
 
     /**
-     * @param string $name
-     * @return Model
+     * Mark this notification as sticky or unsticky
+     *
+     * @var bool $enabled
+     * @return bool
+     */
+    public function markSticky($enabled = true)
+    {
+        return $this->setAttrib('sticky', $enabled);
+    }
+
+    /**
+     * @param $name
+     * @param $enabled
+     * @return bool
      */
     private function setAttrib($name, $enabled)
     {
@@ -73,22 +86,19 @@ class Notification extends Model
             $read->user_id = \Auth::user()->user_id;
             $read->key = $name;
             $read->value = 1;
-
-            return $this->attribs()->save($read);
+            $this->attribs()->save($read);
+            return true;
         }
         else {
             return $this->attribs()->where('key', $name)->delete();
         }
     }
 
+    // ---- Define Relationships ----
+
     public function attribs()
     {
         return $this->hasMany('App\Models\NotificationAttrib', 'notifications_id', 'notifications_id');
-    }
-
-    public function markSticky($enabled)
-    {
-        $this->setAttrib('sticky', $enabled);
     }
 
     // ---- Define Scopes ----

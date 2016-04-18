@@ -1,33 +1,54 @@
 <?php
 
+use App\Models\Notification;
 use App\Models\User;
 
 class NotificationPageTest extends TestCase
 {
 
     /**
-     * Test about page
-    **/
+     * Test the notifications page
+     **/
 
     public function testNotificationPage()
     {
 
         $user = factory(User::class)->create();
-        $unread = ['title' => 'Test unread notification', 'body' => 'Testing notifications', 'source' => 'http://www.librenms.org/notifications.rss', 'checksum' => '1', 'datetime' => 'NOW()'];
-        DB::table('notifications')->insert($unread);
-        $read = ['title' => 'Test read notification', 'body' => 'Testing notifications', 'source' => 'http://www.librenms.org/notifications.rss', 'checksum' => '2', 'datetime' => 'NOW()'];
-        $id = DB::table('notifications')->insertGetId($read);
-        $read_attrib = ['notifications_id' => $id, 'user_id' => $user->user_id, 'key' => 'read', 'value' => 1];
-        DB::table('notifications_attribs')->insert($read_attrib);
+
+        /** @var Notification $unread */
+        $unread = factory(Notification::class)->create();
+
+        /** @var Notification $read */
+        $read = factory(Notification::class)->create();
+        Auth::login($user);
+        $read->markRead();
 
         $this->actingAs($user)
-             ->visit('/notifications')
-             ->see('Archive')
-             ->see('Test unread notification');
+            ->visit('/notifications')
+            ->see('Archive')
+            ->see($unread->title)
+            ->dontSee($read->title)
+            ->see('id="notification-menu-count">1')
+            ->click('show-notification')
+            ->type('New Notification Title', 'title')
+            ->type('Notification body text', 'body')
+            ->press('Create notification')
+            ->click('read');
+
 
         $this->actingAs($user)
-             ->visit('/notifications/archive')
-             ->see('Notifications')
-             ->see('Test read notification');
+            ->visit('/notifications/archive')
+            ->see('Notifications')
+            ->see($read->title)
+            ->click('Mark as unread');
+
+        Notification::each(function(Notification $notification) {
+            $notification->markRead();
+        });
+
+        $this->actingAs($user)
+            ->visit('/notifications')
+            ->see('id="notification-menu-count">0');
+
     }
 }

@@ -61,23 +61,22 @@
                                     <!-- Menu toggle button -->
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-bell-o"></i>
-                                        <span class="label label-warning">{{ count($notifications) }}</span>
+                                        <span class="label label-warning" id="notification-menu-count">{{ count($menu_notifications) }}</span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li class="header">You have {{ count($notifications) }} unread notifications</li>
-                                        @foreach($notifications->take(5) as $notification)
                                         <li>
                                             <!-- Inner Menu: contains the notifications -->
-                                            <ul class="menu">
+                                            <ul id="dropdown-notifications-list" class="menu">
+                                        @foreach($menu_notifications->take(5) as $notification)
                                                 <li><!-- start notification -->
                                                     <a href="{{ url('/notifications/'.$notification->notifications_id) }}" title="{{ $notification->body }}">
                                                         <i class="fa fa-bell text-aqua"></i> {{ $notification->title }}
                                                     </a>
                                                 </li>
+                                        @endforeach
                                                 <!-- end notification -->
                                             </ul>
                                         </li>
-                                        @endforeach
                                         <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>
                                     </ul>
                                 </li>
@@ -426,13 +425,19 @@
         <!-- Gridstack -->
         <script src="{{ url('js/gridstack.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
+        <script src="{{ url('js/util.js') }}"></script>
         <script>
             var AdminLTEOptions = {
                 // set the treview slide speed
                 animationSpeed: 150,
-            }
+            };
+        @if(Auth::check())
+            $.Util.ajaxSetup('{{ JWTAuth::fromUser(Auth::user()) }}');
+
+            setInterval($.Util.updateNotificationMenu('{{ url('/') }}'), {{ Settings::get('notifications.pollinterval', 3600000) }});
+        @endif
         </script>
-        <script src="{{ url('/js/app.min.js') }}"></script>
+        <script src="{{ url('js/app.min.js') }}"></script>
         <!-- page script -->
         @yield('scripts')
     </body>
