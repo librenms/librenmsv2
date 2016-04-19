@@ -11,6 +11,7 @@ It's worth ensuring that you are upto date:
 ```bash
 su - librenms
 git pull
+composer update --no-scripts
 composer update
 ```
 
