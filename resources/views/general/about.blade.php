@@ -8,19 +8,19 @@
         <div class="box box-primary">
             <div class="box-header">
                 <i class="fa fa-exclamation-circle"></i>
-                <h3 class="box-title">LibreNMS is an autodiscovering PHP/MySQL-based network monitoring system.</h3>
+                <h3 class="box-title">{{ trans('about.text.descr') }}</h3>
             </div>
             <div class="box-body">
                 <dl class="dl-horizontal">
-                    <dt>Version</dt>
+                    <dt>{{ trans('about.text.version') }}</dt>
                     <dd><a href="http://www.librenms.org/changelog.html" target="_blank">{{ $versions['git'] }}</a></dd>
                 </dl>
                 <dl class="dl-horizontal">
-                    <dt>DB Schema</dt>
+                    <dt>{{ trans('about.text.schema') }}</dt>
                     <dd>{{ $versions['db_schema'] }}</a></dd>
                 </dl>
                 <dl class="dl-horizontal">
-                    <dt>PHP</dt>
+                    <dt>{{ trans('about.text.php') }}</dt>
                     <dd>{{ $versions['php'] }}</a></dd>
                 </dl>
                 <dl class="dl-horizontal">
@@ -31,19 +31,19 @@
         </div>
         <div class="box box-primary">
             <div class="box-body">
-                <h3>About</h3>
-                <p>LibreNMS is a community-based project. Please feel free to join us and contribute code, documentation, and bug reports. Some important links can be found below.</p>
+                <h3>{{ trans('about.text.about') }}</h3>
+                <p>{{ trans('about.text.summary') }}</p>
                 <ol class="breadcrumb">
-                    <li><a href="http://www.librenms.org/">Web site</a></li>
-                    <li><a href="https://github.com/librenms/">GitHub</a></li>
-                    <li><a href="https://github.com/librenms/librenms/issues">Bug tracker</a></li>
-                    <li><a href="https://groups.google.com/forum/#!forum/librenms-project">Mailing list</a></li>
-                    <li><a href="http://twitter.com/librenms">Twitter</a></li>
-                    <li><a href="http://www.librenms.org/changelog.html">Changelog</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#git_log">Git log</a></li>
+                    <li><a href="http://www.librenms.org/">{{ trans('about.link.site') }}</a></li>
+                    <li><a href="https://github.com/librenms/">{{ trans('about.link.github') }}</a></li>
+                    <li><a href="https://github.com/librenms/librenms/issues">{{ trans('about.link.bugs') }}</a></li>
+                    <li><a href="https://groups.google.com/forum/#!forum/librenms-project">{{ trans('about.link.mailing') }}</a></li>
+                    <li><a href="http://twitter.com/librenms">{{ trans('about.link.twitter') }}</a></li>
+                    <li><a href="http://www.librenms.org/changelog.html">{{ trans('about.link.changelog') }}</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#git_log">{{ trans('about.link.gitlog') }}</a></li>
                 </ol>
-                <h3>Contributors</h3>
-                <p>See the <a href="https://github.com/librenms/librenms/blob/master/AUTHORS.md">list of contributors</a> on GitHub.</p>
+                <h3></h3>
+                <p>{!! trans('about.link.contributors', ['url' => 'https://github.com/librenms/librenms/blob/master/AUTHORS.md']) !!}</p>
             </div>
         </div>
     </div>
@@ -51,62 +51,62 @@
         <div class="box box-primary">
             <div class="box-header">
                 <i class="fa fa-line-chart"></i>
-                <h3 class="box-title">Statistics</h3>
+                <h3 class="box-title">{{ trans('about.text.stats') }}</h3>
             </div>
             <div class="box-body">
                 <table class="table">
                     <tr>
-                        <td><i class="fa fa-server"></i> Devices</td>
+                        <td><i class="fa fa-server"></i> {{ trans('about.statistics.devices') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['devices'] }}</span></td>
-                        <td><i class="fa fa-link"></i> Ports</td>
+                        <td><i class="fa fa-link"></i> {{ trans('about.statistics.ports') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['ports'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-envelope-o"></i> IPv4 Addresses</td>
+                        <td><i class="fa fa-envelope-o"></i> {{ trans('about.statistics.ipv4addr') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['ipv4_addr'] }}</span></td>
-                        <td><i class="fa fa-envelope-o"></i> IPv4 Networks</td>
+                        <td><i class="fa fa-envelope-o"></i> {{ trans('about.statistics.ipv4net') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['ipv4_net'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-envelope-o"></i> IPv6 Addresses</td>
+                        <td><i class="fa fa-envelope-o"></i> {{ trans('about.statistics.ipv6addr') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['ipv6_addr'] }}</span></td>
-                        <td><i class="fa fa-envelope-o"></i> IPv6 Networks</td>
+                        <td><i class="fa fa-envelope-o"></i> {{ trans('about.statistics.ipv6net') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['ipv6_net'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-cogs"></i> Services</td>
+                        <td><i class="fa fa-cogs"></i> {{ trans('about.statistics.services') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['services'] }}</span></td>
-                        <td><i class="fa fa-tasks"></i> Applications</td>
+                        <td><i class="fa fa-tasks"></i> {{ trans('about.statistics.applications') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['apps'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-desktop"></i> Processors</td>
+                        <td><i class="fa fa-desktop"></i> {{ trans('about.statistics.processors') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['processors'] }}</span></td>
-                        <td><i class="fa fa-gears"></i> Memory</td>
+                        <td><i class="fa fa-gears"></i> {{ trans('about.statistics.memory') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['memory'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-database"></i> Storage</td>
+                        <td><i class="fa fa-database"></i> {{ trans('about.statistics.storage') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['storage'] }}</span></td>
-                        <td><i class="fa fa-database"></i> Disk I/O</td>
+                        <td><i class="fa fa-database"></i> {{ trans('about.statistics.diskio') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['diskio'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-cubes"></i> HR-MIB</td>
+                        <td><i class="fa fa-cubes"></i> {{ trans('about.statistics.hrmib') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['hrmib'] }}</span></td>
-                        <td><i class="fa fa-cubes"></i> Entity-MIB</td>
+                        <td><i class="fa fa-cubes"></i> {{ trans('about.statistics.entmib') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['entmib'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-book"></i> Syslog entries</td>
+                        <td><i class="fa fa-book"></i> {{ trans('about.statistics.syslog') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['syslog'] }}</span></td>
-                        <td><i class="fa fa-book"></i> Eventlog entries</td>
+                        <td><i class="fa fa-book"></i> {{ trans('about.statistics.eventlog') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['eventlog'] }}</span></td>
                     </tr>
                     <tr>
-                        <td><i class="fa fa-tachometer"></i> Sensors</td>
+                        <td><i class="fa fa-tachometer"></i> {{ trans('about.statistics.sensors') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['sensors'] }}</span></td>
-                        <td><i class="fa fa-print"></i> Toner</td>
+                        <td><i class="fa fa-print"></i> {{ trans('about.statistics.toner') }}</td>
                         <td><span class="badge bg-blue">{{ $stats['toner'] }}</span></td>
                     </tr>
                 </table>
@@ -115,7 +115,7 @@
         <div class="box box-primary">
             <div class="box-header">
                 <i class="fa fa-file-text-o"></i>
-                <h3 class="box-title">License</h3>
+                <h3 class="box-title">{{ trans('about.text.license') }}</h3>
             </div>
             <div class="box-body">
                 <pre>
