@@ -1,0 +1,45 @@
+<?php
+
+return [
+    'text' => [
+        'descr'        => 'LibreNMS is an autodiscovering PHP/MySQL-based network monitoring system.',
+        'version'      => 'Version',
+        'schema'       => 'DB Schema',
+        'php'          => 'PHP',
+        'about'        => 'About',
+        'summary'      => 'LibreNMS is a community-based project. Please feel free to join us and contribute code, documentation, and bug reports. Some important links can be found below.',
+        'contributors' => 'Contributors',
+        'stats'        => 'Statistics',
+        'license'      => 'License',
+    ],
+    'link' => [
+        'site'         => 'Web site',
+        'github'       => 'GitHub',
+        'bugs'         => 'Bug tracker',
+        'mailing'      => 'Mailing list',
+        'twitter'      => 'Twitter',
+        'changelog'    => 'Changelog',
+        'gitlog'       => 'Git log',
+        'contributors' => 'See the <a href=":url">list of contributors</a> on GitHub.',
+    ],
+    'statistics' => [
+        'devices'      => 'Devices',
+        'ports'        => 'Ports',
+        'ipv4addr'     => 'IPv4 Addresses',
+        'ipv4net'      => 'IPv4 Networks',
+        'ipv6addr'     => 'IPv6 Addresses',
+        'ipv6net'      => 'IPv6 Networks',
+        'services'     => 'Services',
+        'applications' => 'Applications',
+        'processors'   => 'Processors',
+        'memory'       => 'Memory',
+        'storage'      => 'Storage',
+        'diskio'       => 'Disk I/O',
+        'hrmib'        => 'HR-MIB',
+        'entmib'       => 'Entity-MIB',
+        'syslog'       => 'Syslog entries',
+        'eventlog'     => 'Eventlog entries',
+        'sensors'      => 'Sensors',
+        'toner'        => 'Toner',
+    ]
+];

@@ -17,7 +17,7 @@
                         {!! csrf_field() !!}
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}"">
                             <div class="col-md-12">
-                                <input type="text" name="username" id="username" value="{{ old('username') }}" class="form-control" placeholder="Username" required autofocus />
+                                <input type="text" name="username" id="username" value="{{ old('username') }}" class="form-control" placeholder="{{ trans('user.login.text.username') }}" required autofocus />
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('username') }}</strong>
@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}"">
                             <div class="col-md-12">
-                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" />
+                                <input type="password" name="password" id="password" class="form-control" placeholder="{{ trans('user.login.text.password') }}" />
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -39,7 +39,7 @@
                             <div class="col-md-12">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember" id="remember" /> Remember me.
+                                        <input type="checkbox" name="remember" id="remember" /> {{ trans('user.login.text.remember') }}
                                     </label>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                         <div class="form-group">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary btn-block" name="submit" type="submit">
-                                    <i class="fa fa-btn fa-sign-in"></i> Login
+                                    <i class="fa fa-btn fa-sign-in"></i> {{ trans('user.login.btn.login') }}
                                 </button>
                             </div>
                         </div>
