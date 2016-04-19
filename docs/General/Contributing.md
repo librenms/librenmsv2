@@ -3,7 +3,7 @@ Contributing
 
 LibreNMS is a fully OpenSource network monitoring system, for it to succeed it relies on contributions. For the WebUI rewrite there are a few ways you can get involved and contribute - all equally as important.
 
- - Documentation. With the original fork documentation has always been written after it's needed. We'd like to ensure have excellent documentation for the rewrite.
+ - Documentation. With the original fork documentation has always been written after it's needed. We'd like to ensure we have excellent documentation for the rewrite.
 
  - Design. All of the original LibreNMS devs aren't designers by trade, we get by and with the help of the AdminLTE theme we hope this will be easier this time round. However if you are a front end developer then we can sorely use your help.
 
@@ -23,6 +23,6 @@ We happily accept pull requests :) However we won't merge unless:
 
  - You write at least the base test units for automated testing. For instance if you create a new API route, a test case needs to be written to validate it works.
 
- - You sign the contributors agreement for the main librenms/librenms repo. Whilst this is a rewrite and we aren't using code from the fork we still need to ensure that people don't contribute closed source code no matter the origin.
+ - You ensure you utilise localisation support from within Laravel. If you write text to be output to the browser, it should be wrapped around localisation support so at a later stage people can convert LibreNMS to another language.
 
- 
+ - You sign the contributors agreement for the main librenms/librenms repo. Whilst this is a rewrite and we aren't using code from the fork we still need to ensure that people don't contribute closed source code no matter the origin.
