@@ -5,7 +5,7 @@ Developing
 [Laravel Documentation](https://laravel.com/docs)
 
 ### Notes
-When new depencies are added, you will need to run composer to install them:
+When new dependencies are added, you will need to run composer to install them:
 
 
 Overview
@@ -22,7 +22,7 @@ Database -> Model -> API Controller -> Web Controller
 
 
 #### Database
-*Use the same schema as the current LibreNMS so we can co-exist.  Migrations codify the schema in _/database/migrations_.
+*Use the same schema as the current LibreNMS so we can co-exist.  Migrations modify the schema in _/database/migrations_.
 *If schema changes need to be made, they need to be made in both.
 
 #### Model
@@ -50,6 +50,11 @@ WIP / TODO
 * _devices_: device related templates
 * _ports_: port related templates
 * _includes_: generic templates that are used in other templates to save code duplication
+
+### Localisation support
+We utilise the [localisation](https://laravel.com/docs/5.2/localization) feature within Laravel. Initially only english is supported but we expect this to change.
+
+Language files are located in _/resources/lang/$language.
 
 ### Javascript
 * Shared javascript functions should be kept in _js/util.js_ .  It encapsulates all methods in a Util object to provide a namespace to avoid conflicts.

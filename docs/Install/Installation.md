@@ -18,6 +18,8 @@ Requirements
 Initial Setup
 -------------
 ```bash
+useradd librenms -d /opt/librenmsv2 -M -r
+su - librenms
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer
 cd /opt/
 sudo git clone https://github.com/librenms/librenmsv2 librenmsv2
