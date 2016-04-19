@@ -6,7 +6,7 @@ If you have simple questions it's probably easier to jump on our IRC channgel on
 
 ### Before submitting an issue
 
-It's worth ensuring that you are upto date:
+It's worth ensuring that you are up-to-date:
 
 ```bash
 su - librenms
