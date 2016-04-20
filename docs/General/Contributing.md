@@ -25,4 +25,6 @@ We happily accept pull requests :) However we won't merge unless:
 
  - You ensure you utilise localisation support from within Laravel. If you write text to be output to the browser, it should be wrapped around localisation support so at a later stage people can convert LibreNMS to another language.
 
+ - Files need to have a proper [copyright header](https://github.com/librenms/librenmsv2/blob/develop/docs/Developing/File-Header.md)
+
  - You sign the contributors agreement for the main librenms/librenms repo. Whilst this is a rewrite and we aren't using code from the fork we still need to ensure that people don't contribute closed source code no matter the origin.
