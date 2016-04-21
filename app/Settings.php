@@ -180,14 +180,24 @@ class Settings implements ConfigContract
     }
 
     /**
-     * Check if the key is read only.  This is when the setting is defined in config.php.
+     * Check if the key is read only.
+     * This is when the setting is defined in config.php
+     * Or when the user is not a global admin.
      *
      * @param string $key The path to check
-     * @return bool
+     * @return bool|string false or the source: config | auth
      */
     public function isReadOnly($key)
     {
-        return Config::has('config.'.$key);
+        if(Config::has('config.'.$key)) {
+            return 'config';
+        }
+        $user = \Auth::user();
+        if (!is_null($user) && $user->isAdmin()) {
+            return false;
+        } else {
+            return 'auth';
+        }
     }
 
     /**
