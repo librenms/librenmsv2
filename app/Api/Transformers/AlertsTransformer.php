@@ -39,12 +39,12 @@ class AlertsTransformer extends Fractal\TransformerAbstract
     public function transform(Alerts $alerts)
     {
         return [
-            'id'        => (int)$alerts->id,
-            'device_id' => (int)$alerts->device_id,
-            'rule_id'   => (int)$alerts->rule_id,
-            'state'     => (int)$alerts->state,
-            'alerted'   => (int)$alerts->alerted,
-            'open'      => (int)$alerts->open,
+            'id'        => (int) $alerts->id,
+            'device_id' => (int) $alerts->device_id,
+            'rule_id'   => (int) $alerts->rule_id,
+            'state'     => (int) $alerts->state,
+            'alerted'   => (int) $alerts->alerted,
+            'open'      => (int) $alerts->open,
             'timestamp' => $alerts->timestamp,
         ];
     }

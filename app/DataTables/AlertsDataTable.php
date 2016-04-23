@@ -30,8 +30,6 @@ use Yajra\Datatables\Services\DataTable;
 
 class AlertsDataTable extends DataTable
 {
-    // protected $printPreview  = 'path.to.print.preview.view';
-
     /**
      * Display ajax response.
      *
@@ -50,17 +48,16 @@ class AlertsDataTable extends DataTable
                                     @else
                                         <div class="label label-primary">UNKNOWN</div>
                                     @endif')
-            ->editColumn('rule.name', function ($this) {
-                return '<a href="' . url("alerting/rules/".$this['rule']['id']) . '">' . $this['rule']['name'] . '</a>';
+            ->editColumn('rule.name', function($this) {
+                return '<a href="'.url("alerting/rules/".$this['rule']['id']).'">'.$this['rule']['name'].'</a>';
             })
-            ->editColumn('device.hostname', function ($this) {
-                return '<a href="' . url("devices/".$this['device']['device_id']) . '">' . $this['device']['hostname'] . '</a>';
+            ->editColumn('device.hostname', function($this) {
+                return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
             })
-            ->addColumn('actions', function ($this) {
+            ->addColumn('actions', function() {
                 return '';
             })
             ->make(true);
-            //            ->addColumn('action', 'path.to.action.view')
     }
 
     /**
@@ -84,8 +81,6 @@ class AlertsDataTable extends DataTable
         return $this->builder()
                     ->columns($this->getColumns())
                     ->parameters($this->getBuilderParameters());
-                    //                    ->ajax('')
-                    //                    ->addAction(['width' => '80px'])
     }
 
     /**

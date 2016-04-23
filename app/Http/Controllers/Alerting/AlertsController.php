@@ -26,17 +26,15 @@
 namespace App\Http\Controllers\Alerting;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\DataTables\AlertsDataTable;
+use App\Http\Controllers\Controller;
 
 class AlertsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function index(AlertsDataTable $dataTable)
     {
@@ -46,7 +44,7 @@ class AlertsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function create()
     {
@@ -57,7 +55,7 @@ class AlertsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function store(Request $request)
     {
@@ -68,7 +66,7 @@ class AlertsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function show($id)
     {
@@ -79,7 +77,7 @@ class AlertsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function edit($id)
     {
@@ -102,7 +100,7 @@ class AlertsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function destroy($id)
     {

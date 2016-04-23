@@ -26,8 +26,6 @@
 namespace App\Models\Alerting;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-
 
 /**
  *
@@ -68,7 +66,7 @@ class Rule extends Model
      */
     public function device()
     {
-        return $this->hasMany('App\Models\DEvice', 'device_id');
+        return $this->belongsTo('App\Models\Device', 'device_id');
     }
 
 }

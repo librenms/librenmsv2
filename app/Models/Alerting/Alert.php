@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- *
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
  */
 class Alert extends Model
 {
@@ -81,8 +81,8 @@ class Alert extends Model
     /**
      *
      */
-     public function scopeActive(Builder $query)
-     {
-         return $query->where('state', '!=', '0');
-     }
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('state', '!=', '0');
+    }
 }
