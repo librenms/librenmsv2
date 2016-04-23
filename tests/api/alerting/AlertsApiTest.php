@@ -25,7 +25,7 @@
 
 use Illuminate\Http\Response;
 use JWTAuth;
-use App\Models\Alerting\Alerts;
+use App\Models\Alerting\Alert;
 use App\Models\User;
 
 class AlertsApiTest extends TestCase
@@ -37,7 +37,7 @@ class AlertsApiTest extends TestCase
 
     public function testAlertsApi()
     {
-        $alerts = factory(Alerts::class)->create();
+        $alerts = factory(Alert::class)->create();
         $user = factory(User::class)->create();
         $jwt = JWTAuth::fromUser($user);
         $this->headers = [

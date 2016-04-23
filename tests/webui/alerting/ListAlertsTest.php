@@ -23,7 +23,7 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-use App\Models\Alerting\Alerts;
+use App\Models\Alerting\Alert;
 use App\Models\User;
 
 class ListAlertsTest extends TestCase
@@ -41,7 +41,7 @@ class ListAlertsTest extends TestCase
             'level' => 10,
         ]);
         for ($x=0;$x<5;$x++) {
-            $alert = factory(Alerts::class)->create();
+            $alert = factory(Alert::class)->create();
         }
         $this->actingAs($user)
              ->visit('/alerting/alerts')

@@ -19,7 +19,7 @@ use App\Models\Device;
 use App\Models\Notification;
 use App\Models\Port;
 use App\Models\User;
-use App\Models\Alerting\Alerts;
+use App\Models\Alerting\Alert;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
@@ -57,7 +57,7 @@ $factory->define(Notification::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Alerts::class, function(Faker\Generator $faker) {
+$factory->define(Alert::class, function(Faker\Generator $faker) {
     return [
         'device_id' => $faker->randomDigitNotNull(),
         'rule_id'   => $faker->randomDigitNotNull(),
