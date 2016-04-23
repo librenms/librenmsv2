@@ -22,10 +22,10 @@ class OverviewApiTest extends TestCase
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->json('POST','/api/dashboard?token='.$jwt, array_merge($data,$this->headers))->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('POST', '/api/dashboard?token='.$jwt, array_merge($data,$this->headers))->seeStatusCode(Response::HTTP_OK)->seeJson([
             'statusText' => 'OK'
         ]);
-        $dashboards = $this->get('/api/dashboard?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('GET', '/api/dashboard?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
             'dashboard_name' => 'Test Dashboard'
         ]);
     }

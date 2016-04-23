@@ -19,6 +19,7 @@ use App\Models\Device;
 use App\Models\Notification;
 use App\Models\Port;
 use App\Models\User;
+use App\Models\Alerting\Alerts;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
@@ -53,5 +54,16 @@ $factory->define(Notification::class, function(Faker\Generator $faker) {
         'source'   => $faker->randomElement(['misc/notifications.rss', 'http://www.librenms.org/notifications.rss', '1']),
         'checksum' => $faker->sha256,
         'datetime' => $faker->dateTime->format('Y-m-d H:i:s'),
+    ];
+});
+
+$factory->define(Alerts::class, function(Faker\Generator $faker) {
+    return [
+        'device_id' => $faker->randomDigitNotNull(),
+        'rule_id'   => $faker->randomDigitNotNull(),
+        'state'     => $faker->randomElement($array = array(1,2)),
+        'alerted'   => $faker->randomElement($array = array(0,1)),
+        'open'      => $faker->randomElement($array = array(0,1)),
+        'timestamp' => $faker->dateTime->format('Y-m-d H:i:s'),
     ];
 });
