@@ -161,6 +161,7 @@ return [
         'Dingo\Api\Provider\LaravelServiceProvider',
         Collective\Html\HtmlServiceProvider::class,
         App\Providers\HtmlFormServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class
 
     ],
 

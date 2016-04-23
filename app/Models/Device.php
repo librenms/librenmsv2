@@ -173,6 +173,22 @@ class Device extends Model
         return $this->hasMany('App\Models\Eventlog', 'device_id', 'device_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function alerts()
+    {
+        return $this->hasMany('App\Models\Alerting\Alert', 'device_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function rules()
+    {
+        return $this->hasMany('App\Models\Alerting\Rule', 'device_id');
+    }
+
     // ---- Accessors/Mutators ----
 
     public function getIpAttribute($ip)

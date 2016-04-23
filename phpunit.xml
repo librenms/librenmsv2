@@ -9,20 +9,8 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Command tests">
-            <directory>./tests/commands/</directory>
-        </testsuite>
-        <testsuite name="Device tests">
-            <directory>./tests/devices/</directory>
-        </testsuite>
-        <testsuite name="Users tests">
-            <directory>./tests/users/</directory>
-        </testsuite>
-        <testsuite name="Settings tests">
-            <directory>./tests/settings/</directory>
-        </testsuite>
-        <testsuite name="General tests">
-            <directory>./tests/general/</directory>
+        <testsuite name="Full tests">
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>

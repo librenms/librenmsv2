@@ -35,6 +35,8 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('about', 'HomeController@about');
     Route::match(['get', 'post'], '/preferences', 'UserController@preferences');
     Route::resource('settings', 'SettingsController');
+    //Alerting section
+    Route::resource('alerting/alerts', 'Alerting\AlertsController');
 });
 
 // ---- API Routes ----
@@ -56,5 +58,8 @@ $api->version('v1', function($api) {
         $api->resource('dashboard-widget', 'App\Api\Controllers\DashboardWidgetController', ['paramaters' => ['dashboard-widget' => 'user_widget_id']]);
         $api->get('dashboard-widget/{user_widget_id}/content', ['as' => 'api.dashboard-widget.get_content', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_content']);
         $api->get('dashboard-widget/{user_widget_id}/settings', ['as' => 'api.dashboard-widget.get_settings', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_settings']);
+
+        //Alerting section
+        $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');
     });
 });
