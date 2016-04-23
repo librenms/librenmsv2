@@ -1,6 +1,9 @@
 <?php
-/*
- * Copyright (C) 2016 Neil Lathwood <neil@lathwood.co.uk>
+/**
+ * app/Api/Controllers/Alerting/AlertsController.php
+ *
+ * API Controller for alerts data
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,8 +16,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package    LibreNMS
+ * @link       http://librenms.org
+ * @copyright  2016 Neil Lathwood
+ * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
- 
+
 namespace App\Api\Controllers\Alerting;
 
 use App\Api\Transformers\AlertsTransformer;
@@ -22,7 +30,7 @@ use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 use App\Api\Controllers\Controller;
-use App\Models\Alerting\Alerts;
+use App\Models\Alerting\Alert;
 
 class AlertsController extends Controller
 {
@@ -38,7 +46,7 @@ class AlertsController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->per_page ?: 25;
-        return Alerts::active()->paginate($per_page);
+        return Alert::active()->paginate($per_page);
     }
 
 

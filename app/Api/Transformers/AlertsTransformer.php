@@ -1,6 +1,9 @@
 <?php
-/*
- * Copyright (C) 2016 Neil Lathwood <neil@lathwood.co.uk>
+/**
+ * app/Api/Transformers/AlertsTransformer.php
+ *
+ * Transform for alert data
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,6 +16,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package    LibreNMS
+ * @link       http://librenms.org
+ * @copyright  2016 Neil Lathwood
+ * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
 namespace App\Api\Transformers;
@@ -32,11 +40,11 @@ class AlertsTransformer extends Fractal\TransformerAbstract
     {
         return [
             'id'        => (int)$alerts->id,
-            'device_id' => $alerts->device_id,
-            'rule_id'   => $alerts->rule_id,
-            'state'     => $alerts->state,
-            'alerted'   => $alerts->alerted,
-            'open'      => $alerts->open,
+            'device_id' => (int)$alerts->device_id,
+            'rule_id'   => (int)$alerts->rule_id,
+            'state'     => (int)$alerts->state,
+            'alerted'   => (int)$alerts->alerted,
+            'open'      => (int)$alerts->open,
             'timestamp' => $alerts->timestamp,
         ];
     }

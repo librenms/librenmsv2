@@ -1,6 +1,9 @@
 <?php
-/*
- * Copyright (C) 2016 Neil Lathwood <neil@lathwood.co.uk>
+/**
+ * app/Models/Alerting/Alert.php
+ *
+ * Model for access to alerts table data
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,8 +16,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package    LibreNMS
+ * @link       http://librenms.org
+ * @copyright  2016 Neil Lathwood
+ * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
- 
+
 namespace App\Models\Alerting;
 
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +31,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  *
  */
-class Alerts extends Model
+class Alert extends Model
 {
     /**
      * Indicates if the model should be timestamped.
@@ -59,7 +67,7 @@ class Alerts extends Model
      */
     public function rule()
     {
-        return $this->belongsTo('App\Models\Alerting\Rules', 'rule_id');
+        return $this->belongsTo('App\Models\Alerting\Rule', 'rule_id');
     }
 
     /**

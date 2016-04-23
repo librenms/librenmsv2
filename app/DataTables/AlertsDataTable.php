@@ -1,6 +1,9 @@
 <?php
-/*
- * Copyright (C) 2016 Neil Lathwood <neil@lathwood.co.uk>
+/**
+ * app/DataTables/AlertsDataTable.php
+ *
+ * Datatable for alerts
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,11 +16,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package    LibreNMS
+ * @link       http://librenms.org
+ * @copyright  2016 Neil Lathwood
+ * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
- 
+
 namespace App\DataTables;
 
-use App\Models\Alerting\Alerts;
+use App\Models\Alerting\Alert;
 use Yajra\Datatables\Services\DataTable;
 
 class AlertsDataTable extends DataTable
@@ -62,7 +70,7 @@ class AlertsDataTable extends DataTable
      */
     public function query()
     {
-        $alerts = Alerts::query()->where('state', '!=', '0')->with('device')->with('user')->with('rule')->select('alerts.*');
+        $alerts = Alert::query()->where('state', '!=', '0')->with('device')->with('user')->with('rule')->select('alerts.*');
         return $this->applyScopes($alerts);
     }
 
