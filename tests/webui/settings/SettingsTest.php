@@ -25,6 +25,13 @@
  */
 class SettingsTest extends TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $user = factory(App\Models\User::class)->create(['level'=>10]);
+        Auth::login($user);
+    }
+
     public function testSetGet()
     {
         Settings::set('test.setget', 'setget');
@@ -47,9 +54,21 @@ class SettingsTest extends TestCase
 
     public function testReadOnly()
     {
+        Config::set('config.test.readonly');
+        $this->assertTrue((boolean) Settings::isReadOnly('test.readonly'));
+
+        $this->assertFalse(Settings::isReadOnly('test.writable'));
+
+        $user = factory(App\Models\User::class)->create();
+        Auth::login($user);
+        $this->assertTrue((boolean) Settings::isReadOnly('test.roauth'));
+    }
+
+    public function testReadOnlyException()
+    {
         $this->setExpectedException('Exception');
-        Config::set('config.test.readonly', 'value');
-        Settings::set('test.readonly');
+        Config::set('config.test.readonlye', 'value');
+        Settings::set('test.readonlye');
     }
 
     public function testConfigOnly()
@@ -279,8 +298,7 @@ class SettingsTest extends TestCase
         $this->assertEquals('value', $result2);
     }
 
-    public function testSubpathValue()
-    {
+    public function testSubpathValue() {
         Settings::set('test.subpath', 'value');
 
         try {
