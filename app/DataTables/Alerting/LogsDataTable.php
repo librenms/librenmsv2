@@ -1,8 +1,8 @@
 <?php
 /**
- * app/DataTables/AlertsDataTable.php
+ * app/DataTables/Alerting/LogsDataTable.php
  *
- * Datatable for alerts
+ * Datatable for alert logs
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,12 +23,13 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\DataTables;
+namespace App\DataTables\Alerting;
 
 use App\Models\Alerting\Alert;
+use App\Models\Alerting\Log;
 use Yajra\Datatables\Services\DataTable;
 
-class AlertsDataTable extends DataTable
+class LogsDataTable extends DataTable
 {
     /**
      * Display ajax response.
@@ -39,23 +40,44 @@ class AlertsDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('state', '@if ($state == 0)
-                                        <div class="label label-success">SUCCESS</div>
-                                    @elseif ($state == 1)
-                                        <div class="label label-danger">FAILED</div>
-                                    @elseif ($state == 2)
-                                        <div class="label label-warning">MUTED</div>
-                                    @else
-                                        <div class="label label-primary">UNKNOWN</div>
-                                    @endif')
-            ->editColumn('rule.name', function($this) {
-                return '<a href="'.url("alerting/rules/".$this['rule']['id']).'">'.$this['rule']['name'].'</a>';
-            })
             ->editColumn('device.hostname', function($this) {
                 return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
             })
-            ->addColumn('actions', function() {
-                return '';
+            ->editColumn('rule.name', function($this) {
+                if ($this['rule']['id']) {
+                    return '<a href="'.url("alerting/rules/".$this['rule']['id']).'">'.$this['rule']['name'].'</a>';
+                } else {
+                    return trans('alerting.general.text.invalid');
+                }
+            })
+            ->editColumn('state', function($this) {
+                $icon = '';
+                if ($this['state'] == 0) {
+                    $icon   = 'check';
+                    $colour = 'green';
+                    $text   = trans('alerting.logs.text.ok');
+                }
+                elseif ($this['state'] == 1) {
+                    $icon   = 'times';
+                    $colour = 'red';
+                    $text   = trans('alerting.logs.text.fail');
+                }
+                elseif ($this['state'] == 2) {
+                    $icon   = 'volume-off';
+                    $colour = 'lightgrey';
+                    $text   = trans('alerting.logs.text.ack');
+                }
+                elseif ($this['state'] == 3) {
+                    $icon   = 'arrow-down';
+                    $colour = 'orange';
+                    $text   = trans('alerting.logs.text.worse');
+                }
+                elseif ($this['state'] == 4) {
+                    $icon   = 'arrow-up';
+                    $colour = 'khaki';
+                    $text   = trans('alerting.logs.text.better');
+                }
+                return '<b><span class="fa fa-'.$icon.'" style="color:'.$colour.'"></span> '.$text.'</b>';
             })
             ->make(true);
     }
@@ -67,8 +89,8 @@ class AlertsDataTable extends DataTable
      */
     public function query()
     {
-        $alerts = Alert::query()->where('state', '!=', '0')->with('device')->with('user')->with('rule')->select('alerts.*');
-        return $this->applyScopes($alerts);
+        $logs = Log::query()->with('device','user','rule')->select('alert_log.*');
+        return $this->applyScopes($logs);
     }
 
     /**
@@ -91,20 +113,16 @@ class AlertsDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'state'     => [
-                'title' => trans('alerting.general.text.state'),
+            'device.hostname' => [
+                'title'       => trans('devices.label.hostname'),
             ],
             'rule.name' => [
                 'title' => trans('alerting.general.text.rule'),
             ],
-            'device.hostname' => [
-                'title'       => trans('devices.label.hostname'),
+            'state'     => [
+                'title' => trans('alerting.general.text.state'),
             ],
-            'timestamp',
-            'rule.severity' => [
-                'title'     => trans('alerting.alerts.text.severity'),
-            ],
-            'actions',
+            'time_logged',
         ];
     }
 
@@ -115,7 +133,7 @@ class AlertsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'alerts';
+        return 'logs';
     }
 
     /**

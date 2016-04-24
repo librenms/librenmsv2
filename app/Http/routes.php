@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('settings', 'SettingsController');
     //Alerting section
     Route::resource('alerting/alerts', 'Alerting\AlertsController');
+    Route::resource('alerting/logs', 'Alerting\LogsController');
 });
 
 // ---- API Routes ----
