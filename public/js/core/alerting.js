@@ -31,15 +31,9 @@ $(document).ready(function(){
         var state    = $(this).data('state');
         if (state === 1) {
             var new_state = 2;
-            var new_class = 'btn-danger';
-            var old_class = 'btn-success';
-            var new_icon  = 'volume-off';
         }
         else {
             var new_state = 1;
-            var new_class = 'btn-success';
-            var old_class = 'btn-danger';
-            var new_icon  = 'volume-up';
         }
         data         = {
             state: new_state
