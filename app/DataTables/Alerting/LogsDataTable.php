@@ -51,7 +51,9 @@ class LogsDataTable extends DataTable
                 }
             })
             ->editColumn('state', function($this) {
-                $icon = '';
+                $icon   = '';
+                $colour = '';
+                $text   = '';
                 if ($this['state'] == 0) {
                     $icon   = 'check';
                     $colour = 'green';

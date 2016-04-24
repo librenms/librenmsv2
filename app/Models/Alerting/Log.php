@@ -29,6 +29,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
+ * @property integer $id
+ * @property integer $device_id
+ * @property integer $rule_id
+ * @property integer $state
+ * @property string $details
+ * @property string $time_logged
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
  */
 class Log extends Model
