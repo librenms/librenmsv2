@@ -4,6 +4,7 @@ return [
 
     'alerts' => [
         'text' => [
+            'id'           => 'Alert ID',
             'status'       => 'Status',
             'rule'         => 'Rule',
             'hostname'     => 'Hostname',

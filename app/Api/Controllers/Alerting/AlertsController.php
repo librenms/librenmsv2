@@ -92,9 +92,17 @@ class AlertsController extends Controller
         //
     }
 
-    public function update(Request $request, $id, $action)
+    public function update(Request $request, $id)
     {
-        //
+        $alert         = Alert::find($id);
+        $alert->state  = $request->input('state');
+        if ($alert->save())
+        {
+            return $this->response->array(array('statusText' => 'OK'));
+        }
+        else {
+            return $this->response->errorInternal();
+        }
     }
 
     /**
