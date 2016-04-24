@@ -1,8 +1,8 @@
 <?php
 /**
- * app/Api/Transformers/AlertsTransformer.php
+ * app/Api/Transformers/Alerting/LogsTransformer.php
  *
- * Transform for alert data
+ * Transformer for alert log data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,29 +23,28 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\Api\Transformers;
+namespace App\Api\Transformers\Alerting;
 
-use App\Models\Alerting\Alert;
+use App\Models\Alerting\Log;
 use League\Fractal;
 
-class AlertTransformer extends Fractal\TransformerAbstract
+class LogTransformer extends Fractal\TransformerAbstract
 {
     /**
      * Turn this item object into a generic array
      *
-     * @param Notification $alerts
+     * @param Notification $logs
      * @return array
      */
-    public function transform(Alert $alerts)
+    public function transform(Log $logs)
     {
         return [
-            'id'        => (int) $alerts->id,
-            'device_id' => (int) $alerts->device_id,
-            'rule_id'   => (int) $alerts->rule_id,
-            'state'     => (int) $alerts->state,
-            'alerted'   => (int) $alerts->alerted,
-            'open'      => (int) $alerts->open,
-            'timestamp' => $alerts->timestamp,
+            'id'          => (int) $logs->id,
+            'rule_id'     => (int) $logs->rule_id,
+            'device_id'   => (int) $logs->device_id,
+            'state'       => (int) $logs->state,
+            'details'     => $logs->details,
+            'time_logged' => $logs->time_logged,
         ];
     }
 }

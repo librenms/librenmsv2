@@ -1,8 +1,8 @@
 <?php
 /**
- * app/Api/Transformers/AlertsTransformer.php
+ * tests/webui/alerting/ListLogsTest.php
  *
- * Transform for alert data
+ * Test unit for Webui alerts log page.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,29 +23,31 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\Api\Transformers;
-
 use App\Models\Alerting\Alert;
-use League\Fractal;
+use App\Models\Alerting\Log;
+use App\Models\User;
 
-class AlertTransformer extends Fractal\TransformerAbstract
+class ListLogsTest extends TestCase
 {
+
     /**
-     * Turn this item object into a generic array
+     * Make sure we see a list of alerts
      *
-     * @param Notification $alerts
-     * @return array
-     */
-    public function transform(Alert $alerts)
+    **/
+
+    public function testListingLogs()
     {
-        return [
-            'id'        => (int) $alerts->id,
-            'device_id' => (int) $alerts->device_id,
-            'rule_id'   => (int) $alerts->rule_id,
-            'state'     => (int) $alerts->state,
-            'alerted'   => (int) $alerts->alerted,
-            'open'      => (int) $alerts->open,
-            'timestamp' => $alerts->timestamp,
-        ];
+        $this->seed();
+        $user = factory(User::class)->create([
+            'level' => 10,
+        ]);
+        for ($x=0;$x<5;$x++) {
+            $log   = factory(Log::class)->create();
+        }
+        $this->actingAs($user)
+             ->visit('/alerting/logs')
+             ->see('Time Logged');
+
     }
+
 }
