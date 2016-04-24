@@ -1,4 +1,4 @@
-\Illuminate\Pagination\LengthAwarePaginator<?php
+<?php
 /**
  * app/Api/Controllers/Alerting/LogsController.php
  *
