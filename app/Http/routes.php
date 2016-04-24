@@ -62,5 +62,6 @@ $api->version('v1', function($api) {
 
         //Alerting section
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');
+        $api->resource('alerting/logs', 'App\Api\Controllers\Alerting\LogsController');
     });
 });
