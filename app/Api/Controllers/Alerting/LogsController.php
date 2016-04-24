@@ -1,4 +1,4 @@
-<?php
+\Illuminate\Pagination\LengthAwarePaginator<?php
 /**
  * app/Api/Controllers/Alerting/LogsController.php
  *
@@ -40,7 +40,7 @@ class LogsController extends Controller
      * Display a listing of all alerts
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function index(Request $request)
     {
