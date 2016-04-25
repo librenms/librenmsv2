@@ -1,8 +1,8 @@
 <?php
 /**
- * app/Api/Transformers/AlertsTransformer.php
+ * tests/api/alerting/LogsApiTest.php
  *
- * Transform for alert data
+ * Test unit for Alert log api
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,29 +23,29 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\Api\Transformers;
-
+use Illuminate\Http\Response;
+use JWTAuth;
 use App\Models\Alerting\Alert;
-use League\Fractal;
+use App\Models\Alerting\Log;
+use App\Models\User;
 
-class AlertTransformer extends Fractal\TransformerAbstract
+class LogsApiTest extends TestCase
 {
+
     /**
-     * Turn this item object into a generic array
-     *
-     * @param Notification $alerts
-     * @return array
-     */
-    public function transform(Alert $alerts)
+     * Test alerts log api
+    **/
+
+    public function testLogsApi()
     {
-        return [
-            'id'        => (int) $alerts->id,
-            'device_id' => (int) $alerts->device_id,
-            'rule_id'   => (int) $alerts->rule_id,
-            'state'     => (int) $alerts->state,
-            'alerted'   => (int) $alerts->alerted,
-            'open'      => (int) $alerts->open,
-            'timestamp' => $alerts->timestamp,
+        $logs   = factory(Log::class)->create();
+        $user   = factory(User::class)->create();
+        $jwt    = JWTAuth::fromUser($user);
+        $this->headers = [
+            'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
+        $this->json('GET', '/api/alerting/logs?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+            'total' => 1
+        ]);
     }
 }
