@@ -1,8 +1,8 @@
 <?php
 /**
- * app/Models/Alerting/Alert.php
+ * app/Models/Alerting/Log.php
  *
- * Model for access to alerts table data
+ * Model for access to alert log table data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,11 @@ use Illuminate\Database\Eloquent\Builder;
  * @property integer $device_id
  * @property integer $rule_id
  * @property integer $state
- * @property integer $alerted
- * @property integer $open
- * @property string $timestamp
+ * @property string $details
+ * @property string $time_logged
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
  */
-class Alert extends Model
+class Log extends Model
 {
     /**
      * Indicates if the model should be timestamped.
@@ -51,7 +50,7 @@ class Alert extends Model
      *
      * @var string
      */
-    protected $table = 'alerts';
+    protected $table = 'alert_log';
     /**
      * The primary key column name.
      *
@@ -85,11 +84,13 @@ class Alert extends Model
         return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
     }
 
-    /**
-     *
-     */
-    public function scopeActive(Builder $query)
+    // ---- Accessors/Mutators ----
+
+    public function getDetailsAttribute($details)
     {
-        return $query->where('state', '!=', '0');
+        if ($details) {
+            return json_decode(gzuncompress($details), true);
+        }
     }
+
 }

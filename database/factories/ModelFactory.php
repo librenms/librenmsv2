@@ -20,6 +20,7 @@ use App\Models\Notification;
 use App\Models\Port;
 use App\Models\User;
 use App\Models\Alerting\Alert;
+use App\Models\Alerting\Log;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
@@ -65,5 +66,15 @@ $factory->define(Alert::class, function(Faker\Generator $faker) {
         'alerted'   => $faker->randomElement($array = array(0,1)),
         'open'      => $faker->randomElement($array = array(0,1)),
         'timestamp' => $faker->dateTime->format('Y-m-d H:i:s'),
+    ];
+});
+
+$factory->define(Log::class, function(Faker\Generator $faker) {
+    return [
+        'rule_id'     => $faker->randomDigitNotNull(),
+        'device_id'   => $faker->randomDigitNotNull(),
+        'state'       => $faker->randomElement($array = array(1,2)),
+        'details'     => '',
+        'time_logged' => $faker->dateTime->format('Y-m-d H:i:s'),
     ];
 });

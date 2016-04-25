@@ -4,7 +4,8 @@
 Homestead.yaml
 Homestead.json
 .env
-logs/
+/logs/
+/storage/logs/
 composer.lock
 
 # IntelliJ
