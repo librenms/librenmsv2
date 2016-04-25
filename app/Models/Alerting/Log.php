@@ -93,4 +93,10 @@ class Log extends Model
         }
     }
 
+    public function getTimeLoggedAttribute($date)
+    {
+        if ($date) {
+            return strtotime($date)*1000;
+        }
+    }
 }
