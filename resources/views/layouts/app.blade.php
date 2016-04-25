@@ -132,7 +132,7 @@
                                             <i class="fa fa-angle-left pull-right"></i>
                                         </a>
                                         <ul class="treeview-menu">
-                                            <li><a href="#"><i class="icon fa fa-bell"></i> {{ trans('nav.overview.alerts.notifications')}}</a></li>
+                                            <li><a href="{{ url('alerting/alerts') }}"><i class="icon fa fa-bell"></i> {{ trans('nav.overview.alerts.notifications')}}</a></li>
                                             <li><a href="{{ url('alerting/logs') }}"><i class="icon fa fa-th-list"></i> {{ trans('nav.overview.alerts.log') }}</a></li>
                                             <li><a href="#"><i class="icon fa fa-bar-chart"></i> {{ trans('nav.overview.alerts.stats') }}</a></li>
                                             @if (Auth::user()->isAdmin())

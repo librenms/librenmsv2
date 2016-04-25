@@ -11,6 +11,7 @@ return [
     ],
     'alerts' => [
         'text' => [
+            'id'           => 'Alert ID',
             'status'       => 'Status',
             'hostname'     => 'Hostname',
             'timestamp'    => 'Timestamp',

@@ -39,6 +39,7 @@ class AlertsDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
+            ->editColumn('id', '#{{ $id }}')
             ->editColumn('state', '@if ($state == 0)
                                         <div class="label label-success">SUCCESS</div>
                                     @elseif ($state == 1)
@@ -54,8 +55,16 @@ class AlertsDataTable extends DataTable
             ->editColumn('device.hostname', function($this) {
                 return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
             })
-            ->addColumn('actions', function() {
-                return '';
+            ->addColumn('actions', function($this) {
+                if ($this['state'] == 2) {
+                    $btn  = "btn-danger";
+                    $icon = "volume-off";
+                }
+                else {
+                    $btn  = "btn-success";
+                    $icon = "volume-up";
+                }
+                return '<a id="alerts-ack" data-id="'.$this['id'].'" data-state="'.$this['state'].'" class="btn btn-xs '.$btn.'"><i class="fa fa-'.$icon.' fa-fw"></i></a>';
             })
             ->make(true);
     }
@@ -91,6 +100,9 @@ class AlertsDataTable extends DataTable
     private function getColumns()
     {
         return [
+            'id'        => [
+                'title' => trans('alerting.alerts.text.id'),
+            ],
             'state'     => [
                 'title' => trans('alerting.general.text.state'),
             ],
@@ -104,7 +116,9 @@ class AlertsDataTable extends DataTable
             'rule.severity' => [
                 'title'     => trans('alerting.alerts.text.severity'),
             ],
-            'actions',
+            'actions' => [
+                'className' =>'alerts-ack',
+            ],
         ];
     }
 
