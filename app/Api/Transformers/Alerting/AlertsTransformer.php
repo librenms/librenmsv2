@@ -1,6 +1,6 @@
 <?php
 /**
- * app/Api/Transformers/AlertsTransformer.php
+ * app/Api/Transformers/Alerting/AlertsTransformer.php
  *
  * Transform for alert data
  *
@@ -23,7 +23,7 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\Api\Transformers;
+namespace App\Api\Transformers\Alerting;
 
 use App\Models\Alerting\Alert;
 use League\Fractal;
