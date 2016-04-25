@@ -24,7 +24,7 @@
  */
 
 use Illuminate\Http\Response;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Alerting\Alert;
 use App\Models\Alerting\Log;
 use App\Models\User;
