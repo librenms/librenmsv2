@@ -81,6 +81,9 @@ class LogsDataTable extends DataTable
                 }
                 return '<b><span class="fa fa-'.$icon.'" style="color:'.$colour.'"></span> '.$text.'</b>';
             })
+            ->editColumn('time_logged', function($this) {
+                return date('Y-m-d H:i:s', $this['time_logged']/1000);
+            })
             ->make(true);
     }
 
