@@ -44,7 +44,6 @@ class StatsController extends Controller
             $output[$log->severity]['label'] = $log->severity;
             $output[$log->severity]['data'][] = [$log->time_logged, $log->total];
         }
-        //$output = json_encode($output);
         return view('alerting.stats.list', ['output' => $output]);
     }
 
