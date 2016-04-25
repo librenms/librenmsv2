@@ -1,6 +1,6 @@
 <?php
 /**
- * app/DataTables/AlertsDataTable.php
+ * app/DataTables/Alerting/AlertsDataTable.php
  *
  * Datatable for alerts
  *
@@ -23,7 +23,7 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\DataTables;
+namespace App\DataTables\Alerting;
 
 use App\Models\Alerting\Alert;
 use Yajra\Datatables\Services\DataTable;
