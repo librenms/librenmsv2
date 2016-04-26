@@ -33,7 +33,7 @@ class RIRController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response|null
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory|null
      */
     public function index()
     {
