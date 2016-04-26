@@ -29,5 +29,13 @@ return [
             'better' => 'Better',
         ],
     ],
+    'stats' => [
+        'text' => [
+            'title'    => 'Alerting statistics',
+        ],
+        'btn'  => [
+            'reset' => 'Reset',
+        ],
+    ],
 
 ];
