@@ -189,6 +189,16 @@ class Device extends Model
         return $this->hasMany('App\Models\Alerting\Rule', 'device_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function eventlog()
+    {
+        return $this->hasMany('App\Models\General\Eventlog', 'device_id');
+    }
+
+
+
     // ---- Accessors/Mutators ----
 
     public function getIpAttribute($ip)
