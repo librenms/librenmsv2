@@ -25,9 +25,9 @@
 
 namespace App\Http\Controllers\General;
 
-use Illuminate\Http\Request;
 use App\DataTables\General\EventlogDataTable;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class EventlogController extends Controller
 {
@@ -89,7 +89,7 @@ class EventlogController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function update(Request $request, $id)
     {
