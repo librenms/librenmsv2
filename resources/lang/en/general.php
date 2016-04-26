@@ -13,6 +13,7 @@ return [
         'noquery'       => 'No query entered',
         'nolookuptype'  => 'No lookup type has been selected',
         'apierror'      => 'Error accessing the API',
+        'program'   => 'Program',
     ],
     'btn' => [
         'query'   => 'Query',

@@ -132,6 +132,6 @@ class Eventlog extends Model
      */
     public function device()
     {
-        return $this->belongsToOne('App\Models\Device', 'device_id', 'host');
+        return $this->belongsTo('App\Models\Device', 'host');
     }
 }

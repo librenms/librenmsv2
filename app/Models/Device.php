@@ -54,8 +54,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $notes
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Port[] $ports
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Syslog[] $syslogs
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Eventlog[] $eventlogs
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\Syslog[] $syslogs
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\Eventlog[] $eventlogs
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereDeviceId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereHostname($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereSysName($value)
@@ -162,7 +162,7 @@ class Device extends Model
      */
     public function syslogs()
     {
-        return $this->hasMany('App\Models\Syslog', 'device_id', 'device_id');
+        return $this->hasMany('App\Models\General\Syslog', 'device_id', 'device_id');
     }
 
     /**

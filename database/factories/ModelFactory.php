@@ -21,6 +21,7 @@ use App\Models\Port;
 use App\Models\User;
 use App\Models\Alerting\Alert;
 use App\Models\Alerting\Log;
+use App\Models\General\Syslog;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
@@ -76,5 +77,18 @@ $factory->define(Log::class, function(Faker\Generator $faker) {
         'state'       => $faker->randomElement($array = array(1,2)),
         'details'     => '',
         'time_logged' => $faker->dateTime->format('Y-m-d H:i:s'),
+    ];
+});
+
+$factory->define(Syslog::class, function(Faker\Generator $faker) {
+    return [
+        'device_id' => $faker->randomDigitNotNull(),
+        'facility'  => 'syslog',
+        'priority'  => 'info',
+        'level'     => 'info',
+        'tag'       => '2e',
+        'timestamp' => $faker->dateTime->format('Y-m-d H:i:s'),
+        'program'   => 'SYSLOG',
+        'msg'       => $faker->realText(),
     ];
 });
