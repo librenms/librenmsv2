@@ -167,7 +167,7 @@
                                     <li><a href="#"><i class="icon fa fa-book"></i> {{ trans('nav.overview.graylog') }}</a></li>
                                     <!-- /.only if enabled -->
                                     <li><hr></li>
-                                    <li><a href="#"><i class="icon fa fa-cube"></i> {{ trans('nav.overview.inventory') }}</a></li>
+                                    <li><a href="{{ url('inventory') }}"><i class="icon fa fa-cube"></i> {{ trans('nav.overview.inventory') }}</a></li>
                                     <!-- If data exists -->
                                     <li><a href="#"><i class="icon fa fa-archive"></i> {{ trans('nav.overview.packages') }}</a></li>
                                     <!-- /.if data exists -->
