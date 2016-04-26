@@ -6,6 +6,7 @@ return [
         'type'      => 'Type',
         'message'   => 'Message',
         'timestamp' => 'Timestamp',
+        'program'   => 'Program',
     ]
 
 ];

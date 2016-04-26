@@ -28,6 +28,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/', 'HomeController@redirect')->name('home');
     Route::resource('dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
     Route::resource('eventlog', 'General\EventlogController');
+    Route::resource('syslog', 'General\SyslogController');
     Route::resource('widgets', 'WidgetsController');
 
     Route::resource('devices', 'DeviceController');
@@ -66,6 +67,7 @@ $api->version('v1', function($api) {
         $api->get('dashboard-widget/{user_widget_id}/content', ['as' => 'api.dashboard-widget.get_content', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_content']);
         $api->get('dashboard-widget/{user_widget_id}/settings', ['as' => 'api.dashboard-widget.get_settings', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_settings']);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
+        $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
 
         //Alerting section
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');

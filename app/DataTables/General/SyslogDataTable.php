@@ -1,8 +1,8 @@
 <?php
 /**
- * app/DataTables/General/EventlogDataTable.php
+ * app/DataTables/General/SyslogDataTable.php
  *
- * Datatable for eventlogs
+ * Datatable for syslog
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,10 +25,10 @@
 
 namespace App\DataTables\General;
 
-use App\Models\General\Eventlog;
+use App\Models\General\Syslog;
 use Yajra\Datatables\Services\DataTable;
 
-class EventlogDataTable extends DataTable
+class SyslogDataTable extends DataTable
 {
     /**
      * Display ajax response.
@@ -52,8 +52,8 @@ class EventlogDataTable extends DataTable
      */
     public function query()
     {
-        $eventlogs = Eventlog::with('device')->select('eventlog.*');
-        return $this->applyScopes($eventlogs);
+        $syslog = Syslog::with('device')->select('syslog.*');
+        return $this->applyScopes($syslog);
     }
 
     /**
@@ -79,14 +79,13 @@ class EventlogDataTable extends DataTable
             'device.hostname' => [
                 'title'       => trans('devices.label.hostname'),
             ],
-            'type'      => [
-                'title' => trans('general.text.type'),
-                'name'  => 'eventlog.type',
+            'program'      => [
+                'title' => trans('general.text.program'),
             ],
-            'message'   => [
+            'msg'   => [
                 'title' => trans('general.text.message'),
             ],
-            'datetime'  => [
+            'timestamp'  => [
                 'title' => trans('general.text.timestamp'),
             ],
         ];
@@ -99,7 +98,7 @@ class EventlogDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'eventlog';
+        return 'syslog';
     }
 
     /**
