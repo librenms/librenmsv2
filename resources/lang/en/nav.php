@@ -37,7 +37,7 @@ return [
         ],
         'tools' => [
             'main' => 'Tools',
-            'ripe' => 'RIPE NCC API',
+            'rirtools' => 'RIR Tools',
         ]
     ],
     'devices' => [

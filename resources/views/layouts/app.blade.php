@@ -157,13 +157,13 @@
                                             <i class="fa fa-angle-left pull-right"></i>
                                         </a>
                                         <ul class="treeview-menu">
-                                            <li><a href="#"><i class="icon fa fa-arrow-circle-up"></i> {{ trans('nav.overview.tools.ripe') }}</a></li>
+                                            <li><a href="{{ url('rirtools') }}"><i class="icon fa fa-arrow-circle-up"></i> {{ trans('nav.overview.tools.rirtools') }}</a></li>
                                         </ul>
                                     </li>
                                     <li><hr></li>
                                     <li><a href="{{ url('eventlog') }}"><i class="icon fa fa-book"></i> {{ trans('nav.overview.eventlog') }}</a></li>
                                     <!-- only if enabled -->
-                                    <li><a href="#"><i class="icon fa fa-book"></i> {{ trans('nav.overview.syslog') }}</a></li>
+                                    <li><a href="{{ url('syslog') }}"><i class="icon fa fa-book"></i> {{ trans('nav.overview.syslog') }}</a></li>
                                     <li><a href="#"><i class="icon fa fa-book"></i> {{ trans('nav.overview.graylog') }}</a></li>
                                     <!-- /.only if enabled -->
                                     <li><hr></li>
