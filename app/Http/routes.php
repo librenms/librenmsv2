@@ -30,6 +30,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('eventlog', 'General\EventlogController');
     Route::resource('syslog', 'General\SyslogController');
     Route::resource('widgets', 'WidgetsController');
+    Route::resource('rirtools', 'General\RIRController');
 
     Route::resource('devices', 'DeviceController');
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);

@@ -157,7 +157,7 @@
                                             <i class="fa fa-angle-left pull-right"></i>
                                         </a>
                                         <ul class="treeview-menu">
-                                            <li><a href="#"><i class="icon fa fa-arrow-circle-up"></i> {{ trans('nav.overview.tools.ripe') }}</a></li>
+                                            <li><a href="{{ url('rirtools') }}"><i class="icon fa fa-arrow-circle-up"></i> {{ trans('nav.overview.tools.rirtools') }}</a></li>
                                         </ul>
                                     </li>
                                     <li><hr></li>
