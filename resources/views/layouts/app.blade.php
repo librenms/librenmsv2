@@ -161,7 +161,7 @@
                                         </ul>
                                     </li>
                                     <li><hr></li>
-                                    <li><a href="#"><i class="icon fa fa-book"></i> {{ trans('nav.overview.eventlog') }}</a></li>
+                                    <li><a href="{{ url('eventlog') }}"><i class="icon fa fa-book"></i> {{ trans('nav.overview.eventlog') }}</a></li>
                                     <!-- only if enabled -->
                                     <li><a href="#"><i class="icon fa fa-book"></i> {{ trans('nav.overview.syslog') }}</a></li>
                                     <li><a href="#"><i class="icon fa fa-book"></i> {{ trans('nav.overview.graylog') }}</a></li>
