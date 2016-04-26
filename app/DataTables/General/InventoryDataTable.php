@@ -82,11 +82,14 @@ class InventoryDataTable extends DataTable
             'entPhysicalDescr'      => [
                 'title' => trans('general.text.description'),
             ],
-            'message'   => [
-                'title' => trans('general.text.message'),
+            'entPhysicalName'   => [
+                'title' => trans('general.text.name'),
             ],
-            'datetime'  => [
-                'title' => trans('general.text.timestamp'),
+            'entPhysicalModelName'  => [
+                'title' => trans('general.text.model'),
+            ],
+            'entPhysicalSerialNum'  => [
+                'title' => trans('general.text.serial'),
             ],
         ];
     }

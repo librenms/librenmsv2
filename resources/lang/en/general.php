@@ -3,10 +3,10 @@
 return [
 
     'text' => [
-        'type'      => 'Type',
-        'message'   => 'Message',
-        'timestamp' => 'Timestamp',
-        'description' => 'Description',
+        'type'          => 'Type',
+        'message'       => 'Message',
+        'timestamp'     => 'Timestamp',
+        'description'   => 'Description',
         'lookup'        => 'Lookup',
         'abuse-contact' => 'Abuse Contact',
         'whois'         => 'Whois',
@@ -14,7 +14,10 @@ return [
         'noquery'       => 'No query entered',
         'nolookuptype'  => 'No lookup type has been selected',
         'apierror'      => 'Error accessing the API',
-        'program'   => 'Program',
+        'program'       => 'Program',
+        'name'          => 'Name',
+        'model'         => 'Model',
+        'serial'         => 'Serial',
     ],
     'btn' => [
         'query'   => 'Query',
