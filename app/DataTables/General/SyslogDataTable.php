@@ -52,7 +52,7 @@ class SyslogDataTable extends DataTable
      */
     public function query()
     {
-        $syslog = Syslog::query()->with('device')->select('syslog.*');
+        $syslog = Syslog::with('device')->select('syslog.*');
         return $this->applyScopes($syslog);
     }
 

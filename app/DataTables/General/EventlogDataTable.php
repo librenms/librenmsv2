@@ -52,7 +52,7 @@ class EventlogDataTable extends DataTable
      */
     public function query()
     {
-        $eventlogs = Eventlog::query()->with('device')->select('eventlog.*');
+        $eventlogs = Eventlog::with('device')->select('eventlog.*');
         return $this->applyScopes($eventlogs);
     }
 
