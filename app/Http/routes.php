@@ -29,6 +29,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
     Route::resource('eventlog', 'General\EventlogController');
     Route::resource('widgets', 'WidgetsController');
+    Route::resource('rirtools', 'General\RIRController');
 
     Route::resource('devices', 'DeviceController');
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
