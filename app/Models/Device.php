@@ -170,7 +170,7 @@ class Device extends Model
      */
     public function eventlogs()
     {
-        return $this->hasMany('App\Models\Eventlog', 'device_id', 'device_id');
+        return $this->hasMany('App\Models\General\Eventlog', 'host', 'device_id');
     }
 
     /**
@@ -188,6 +188,16 @@ class Device extends Model
     {
         return $this->hasMany('App\Models\Alerting\Rule', 'device_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function eventlog()
+    {
+        return $this->hasMany('App\Models\General\Eventlog', 'device_id');
+    }
+
+
 
     // ---- Accessors/Mutators ----
 

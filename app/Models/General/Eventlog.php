@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\General;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * App\Models\Eventlog
+ * App\Models\General\Eventlog
  *
  * @property integer $device_id
  * @property string $hostname
@@ -112,7 +113,7 @@ class Eventlog extends Model
      *
      * @var string
      */
-    protected $table = 'devices';
+    protected $table = 'eventlog';
     /**
      * The primary key column name.
      *
