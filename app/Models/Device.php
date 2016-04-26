@@ -170,7 +170,7 @@ class Device extends Model
      */
     public function eventlogs()
     {
-        return $this->hasMany('App\Models\Eventlog', 'device_id', 'device_id');
+        return $this->hasMany('App\Models\General\Eventlog', 'host', 'device_id');
     }
 
     /**

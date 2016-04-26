@@ -34,7 +34,7 @@ class ApiController extends Controller
         $stats['devices']    = \App\Models\Device::all()->count();
         $stats['ports']      = \App\Models\Port::all()->count();
         $stats['syslog']     = \App\Models\Syslog::all()->count();
-        $stats['eventlog']   = \App\Models\Eventlog::all()->count();
+        $stats['eventlog']   = \App\Models\General\Eventlog::all()->count();
         $stats['apps']       = DB::table('applications')->count();
         $stats['services']   = DB::table('services')->count();
         $stats['storage']    = DB::table('storage')->count();
