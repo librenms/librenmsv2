@@ -49,14 +49,14 @@ class AlertsDataTable extends DataTable
                                     @else
                                         <div class="label label-primary">UNKNOWN</div>
                                     @endif')
-            ->editColumn('rule.name', function($this) {
-                return '<a href="'.url("alerting/rules/".$this['rule']['id']).'">'.$this['rule']['name'].'</a>';
+            ->editColumn('rule.name', function($alert) {
+                return '<a href="'.url("alerting/rules/".$alert->rule_id).'">'.$alert->rule->name.'</a>';
             })
-            ->editColumn('device.hostname', function($this) {
-                return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
+            ->editColumn('device.hostname', function($alert) {
+                return '<a href="'.url("devices/".$alert->device_id).'">'.$alert->device->hostname.'</a>';
             })
-            ->addColumn('actions', function($this) {
-                if ($this['state'] == 2) {
+            ->addColumn('actions', function($alert) {
+                if ($alert->state == 2) {
                     $btn  = "btn-danger";
                     $icon = "volume-off";
                 }
@@ -64,7 +64,7 @@ class AlertsDataTable extends DataTable
                     $btn  = "btn-success";
                     $icon = "volume-up";
                 }
-                return '<a id="alerts-ack" data-id="'.$this['id'].'" data-state="'.$this['state'].'" class="btn btn-xs '.$btn.'"><i class="fa fa-'.$icon.' fa-fw"></i></a>';
+                return '<a id="alerts-ack" data-id="'.$alert->id.'" data-state="'.$alert->state.'" class="btn btn-xs '.$btn.'"><i class="fa fa-'.$icon.' fa-fw"></i></a>';
             })
             ->make(true);
     }
@@ -76,7 +76,7 @@ class AlertsDataTable extends DataTable
      */
     public function query()
     {
-        $alerts = Alert::query()->where('state', '!=', '0')->with('device')->with('user')->with('rule')->select('alerts.*');
+        $alerts = Alert::with('device', 'rule')->active()->select('alerts.*');
         return $this->applyScopes($alerts);
     }
 
@@ -141,6 +141,7 @@ class AlertsDataTable extends DataTable
     {
         return [
             'dom' => 'Blfrtip',
+            'order' => [4, 'desc'],
             'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',

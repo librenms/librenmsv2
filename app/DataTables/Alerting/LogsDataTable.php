@@ -40,49 +40,49 @@ class LogsDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($this) {
-                return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
+            ->editColumn('device.hostname', function($log) {
+                return '<a href="'.url("devices/".$log->device_id).'">'.(is_null($log->device) ? '&lt;deleted&gt;' : $log->device->hostname).'</a>';
             })
-            ->editColumn('rule.name', function($this) {
-                if ($this['rule']['id']) {
-                    return '<a href="'.url("alerting/rules/".$this['rule']['id']).'">'.$this['rule']['name'].'</a>';
+            ->editColumn('rule.name', function($log) {
+                if ($log->rule_id) {
+                    return '<a href="'.url("alerting/rules/".$log->rule_id).'">'.$log->rule->name.'</a>';
                 } else {
                     return trans('alerting.general.text.invalid');
                 }
             })
-            ->editColumn('state', function($this) {
+            ->editColumn('state', function($log) {
                 $icon   = '';
                 $colour = '';
                 $text   = '';
-                if ($this['state'] == 0) {
+                if ($log->state == 0) {
                     $icon   = 'check';
                     $colour = 'green';
                     $text   = trans('alerting.logs.text.ok');
                 }
-                elseif ($this['state'] == 1) {
+                elseif ($log->state == 1) {
                     $icon   = 'times';
                     $colour = 'red';
                     $text   = trans('alerting.logs.text.fail');
                 }
-                elseif ($this['state'] == 2) {
+                elseif ($log->state == 2) {
                     $icon   = 'volume-off';
                     $colour = 'lightgrey';
                     $text   = trans('alerting.logs.text.ack');
                 }
-                elseif ($this['state'] == 3) {
+                elseif ($log->state == 3) {
                     $icon   = 'arrow-down';
                     $colour = 'orange';
                     $text   = trans('alerting.logs.text.worse');
                 }
-                elseif ($this['state'] == 4) {
+                elseif ($log->state == 4) {
                     $icon   = 'arrow-up';
                     $colour = 'khaki';
                     $text   = trans('alerting.logs.text.better');
                 }
                 return '<b><span class="fa fa-'.$icon.'" style="color:'.$colour.'"></span> '.$text.'</b>';
             })
-            ->editColumn('time_logged', function($this) {
-                return date('Y-m-d H:i:s', $this['time_logged']/1000);
+            ->editColumn('time_logged', function($log) {
+                return date('Y-m-d H:i:s', $log->time_logged/1000);
             })
             ->make(true);
     }
@@ -94,7 +94,7 @@ class LogsDataTable extends DataTable
      */
     public function query()
     {
-        $logs = Log::query()->with('device','user','rule')->select('alert_log.*');
+        $logs = Log::with('device','rule')->select('alert_log.*');
         return $this->applyScopes($logs);
     }
 
@@ -150,6 +150,7 @@ class LogsDataTable extends DataTable
     {
         return [
             'dom' => 'Blfrtip',
+            'order' => [3, 'desc'],
             'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
