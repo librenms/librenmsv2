@@ -31,7 +31,7 @@ class DashboardController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function create(Request $request)
     {
@@ -92,9 +92,6 @@ class DashboardController extends Controller
     {
         $dashboard = Dashboard::find($id);
         $widgets   = $dashboard->widgets()->get();
-        // morph the data as required
-        if ($request->query('displayFormat') == 'human') {
-        }
 
         return array('dashboard' => $dashboard, 'widgets' => $widgets);
     }
