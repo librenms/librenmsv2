@@ -2,7 +2,6 @@
 
 namespace App\Api\Controllers;
 
-use App\Models\User;
 use App\Models\Widgets;
 use Illuminate\Http\Request;
 

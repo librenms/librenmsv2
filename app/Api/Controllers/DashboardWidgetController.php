@@ -2,9 +2,9 @@
 
 namespace App\Api\Controllers;
 
-use App\Models\Widgets;
 use App\Models\Dashboard;
 use App\Models\UsersWidgets;
+use App\Models\Widgets;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -46,7 +46,7 @@ class DashboardWidgetController extends Controller
      */
     public function store(Request $request)
     {
-        $row                         = Dashboard::find($request->dashboard_id)->widgets()->max('row')+1;
+        $row                         = Dashboard::find($request->dashboard_id)->widgets()->max('row') + 1;
         $user_widget                 = new UsersWidgets;
         $user_widget->user_id        = $request->user()->user_id;
         $user_widget->widget_id      = $request->widget_id;
@@ -74,7 +74,7 @@ class DashboardWidgetController extends Controller
     public function show(Request $request, $id)
     {
         $widget  = Widgets::find($id);
-        $content = $this->api->be(auth()->user())->get('/api/dashboard-widget/' . $id . '/content');
+        $content = $this->api->be(auth()->user())->get('/api/dashboard-widget/'.$id.'/content');
         return array('widget' => $widget, 'content' => $content);
     }
 

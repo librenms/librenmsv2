@@ -62,7 +62,7 @@ class DeleteUser extends Command
     public function handle()
     {
         $user = $this->argument('user');
-        $user_list = User::select('username')->where('username', 'like', '%' . $user . '%')->orWhere('realname', 'like', '%' . $user . '%')->get();
+        $user_list = User::select('username')->where('username', 'like', '%'.$user.'%')->orWhere('realname', 'like', '%'.$user.'%')->get();
         $names = [];
 
         if (count($user_list) < 1) {
@@ -78,7 +78,7 @@ class DeleteUser extends Command
         else {
             $name = $names[0];
         }
-        if ($this->confirm('Do you wish to remove ' . $name . '?')) {
+        if ($this->confirm('Do you wish to remove '.$name.'?')) {
             User::where('username', $name)->delete();
             $this->info('User deleted.');
         }

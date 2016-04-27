@@ -25,9 +25,9 @@
 
 namespace App\Http\Controllers\Alerting;
 
-use Illuminate\Http\Request;
-use App\Models\Alerting\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Alerting\Log;
+use Illuminate\Http\Request;
 
 class StatsController extends Controller
 {
@@ -38,7 +38,7 @@ class StatsController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Log::join('alert_rules', 'alert_rules.id', '=', 'alert_log.rule_id')->where('state', '!=', '0')->groupBy('time_logged')->groupBy('alert_rules.severity')->select('time_logged','alert_rules.severity',\DB::raw('COUNT(alert_log.id) as total'))->get();
+        $data = Log::join('alert_rules', 'alert_rules.id', '=', 'alert_log.rule_id')->where('state', '!=', '0')->groupBy('time_logged')->groupBy('alert_rules.severity')->select('time_logged', 'alert_rules.severity', \DB::raw('COUNT(alert_log.id) as total'))->get();
         $output = array();
         foreach ($data as $log) {
             $output[$log->severity]['label'] = $log->severity;

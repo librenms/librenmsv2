@@ -64,7 +64,7 @@ class UsersWidgets extends Model
     // ---- Define Relationships ----
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
@@ -80,7 +80,7 @@ class UsersWidgets extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function dashboard()
     {

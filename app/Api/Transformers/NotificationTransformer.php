@@ -31,7 +31,7 @@ class NotificationTransformer extends Fractal\TransformerAbstract
     public function transform(Notification $notification)
     {
         return [
-            'id'       => (int)$notification->notifications_id,
+            'id'       => (int) $notification->notifications_id,
             'title'    => $notification->title,
             'body'     => $notification->body,
             'source'   => $notification->source,

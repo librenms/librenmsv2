@@ -2,7 +2,6 @@
 
 namespace App\Api\Controllers;
 
-use App\Models\User;
 use App\Models\Widgets;
 use Illuminate\Http\Request;
 
@@ -15,7 +14,7 @@ class WidgetController extends Controller
     /**
      * Display a listing of all widgets
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index(Request $request)
     {
