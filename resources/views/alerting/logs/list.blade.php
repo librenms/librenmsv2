@@ -5,7 +5,7 @@
 @section('title', 'Logs')
 
 @section('content')
-{!! $dataTable->table() !!}
+{!! $dataTable->table(['class' => 'table table-hover']) !!}
 @endsection
 
 @section('scripts')

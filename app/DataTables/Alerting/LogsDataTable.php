@@ -150,6 +150,7 @@ class LogsDataTable extends DataTable
     {
         return [
             'dom' => 'Blfrtip',
+            'order' => [3, 'desc'],
             'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',

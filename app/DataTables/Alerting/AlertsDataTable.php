@@ -76,7 +76,7 @@ class AlertsDataTable extends DataTable
      */
     public function query()
     {
-        $alerts = Alert::active()->with('device','rule')->select('alerts.*');
+        $alerts = Alert::with('device', 'rule')->active()->select('alerts.*');
         return $this->applyScopes($alerts);
     }
 
@@ -141,6 +141,7 @@ class AlertsDataTable extends DataTable
     {
         return [
             'dom' => 'Blfrtip',
+            'order' => [4, 'desc'],
             'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
