@@ -39,8 +39,8 @@ class SyslogDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($this) {
-                return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
+            ->editColumn('device.hostname', function($syslog) {
+                return '<a href="'.url("devices/".$syslog->device->device_id).'">'.$syslog->device->hostname.'</a>';
             })
             ->make(true);
     }

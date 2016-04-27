@@ -39,8 +39,8 @@ class EventlogDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($this) {
-                return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
+            ->editColumn('device.hostname', function($eventlog) {
+                return '<a href="'.url("devices/".$eventlog->device->device_id).'">'.$eventlog->device->hostname.'</a>';
             })
             ->make(true);
     }
