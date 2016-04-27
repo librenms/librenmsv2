@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'home' => 'Home',
     'mysettings' => 'My Settings',
     'logout'     => 'Logout',
     'search'     => 'Search',
@@ -22,6 +22,7 @@ return [
         'mib'        => 'MIB definitions',
         'alerts'     => [
             'main'          => 'Alerts',
+            'alerting'      => 'Alerting',
             'notifications' => 'Notifications',
             'log'           => 'Log',
             'stats'         => 'Statistics',
@@ -98,10 +99,8 @@ return [
     ],
     'settings' => [
         'main'         => 'Settings',
-        'global'       => 'Global settings',
-        'add'          => 'Add user',
-        'del'          => 'Remove user',
-        'edit'         => 'Edit user',
+        'global'       => 'Global Settings',
+        'users'        => 'Manage Users',
         'authlog'      => 'Authlog',
         'pollerlog'    => 'Pollers log',
         'pollers'      => 'Pollers',

@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', trans('nav.overview.dashboard'))
+
+@section('content-header')
+    <h1>
+        {{ $dash_details->dashboard_name }}
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</li>
+    </ol>
+@endsection
+
 
 @section('content')
 <div class="row">
@@ -18,11 +29,8 @@
             </div>
         </form>
     </div>
-</div><div class="row">
-    <div class="col-sm-12">
-        <h3 class="box-title">{{ $dash_details->dashboard_name }}</h3>
-    </div>
 </div>
+
 <div class="row">
     <div class="grid-stack">
     </div>
