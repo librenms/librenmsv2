@@ -2,12 +2,11 @@
 
 namespace App\Api\Controllers;
 
-use Validator;
-use App\Models\User;
 use App\Models\Dashboard;
 use App\Models\UsersWidgets;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
+use Validator;
 
 class DashboardController extends Controller
 {
@@ -32,7 +31,7 @@ class DashboardController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function create(Request $request)
     {
@@ -51,7 +50,7 @@ class DashboardController extends Controller
             'name' => 'required|max:255',
             'access' => 'required',
         ]);
-        if($validation->passes())
+        if ($validation->passes())
         {
             $dashboard = new Dashboard;
             $dashboard->dashboard_name = $request->name;
@@ -79,7 +78,7 @@ class DashboardController extends Controller
         }
         else {
             $errors = $validation->errors();
-            return response()->json($errors,422);
+            return response()->json($errors, 422);
         }
     }
 
@@ -93,9 +92,6 @@ class DashboardController extends Controller
     {
         $dashboard = Dashboard::find($id);
         $widgets   = $dashboard->widgets()->get();
-        // morph the data as required
-        if ($request->query('displayFormat') == 'human') {
-        }
 
         return array('dashboard' => $dashboard, 'widgets' => $widgets);
     }
@@ -124,7 +120,7 @@ class DashboardController extends Controller
             'name' => 'required|max:255',
             'access' => 'required',
         ]);
-        if($validation->passes())
+        if ($validation->passes())
         {
             $dashboard = Dashboard::find($id);
             $dashboard->dashboard_name = $request->name;
@@ -139,7 +135,7 @@ class DashboardController extends Controller
         }
         else {
             $errors = $validation->errors();
-            return response()->json($errors,422);
+            return response()->json($errors, 422);
         }
     }
 

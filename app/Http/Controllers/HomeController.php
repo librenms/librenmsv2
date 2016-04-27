@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dashboard;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
-use App\Models\Dashboard;
 use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 class HomeController extends Controller
 {

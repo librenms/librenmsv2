@@ -25,9 +25,9 @@
 
 namespace App\Http\Controllers\Alerting;
 
-use Illuminate\Http\Request;
 use App\DataTables\Alerting\AlertsDataTable;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class AlertsController extends Controller
 {

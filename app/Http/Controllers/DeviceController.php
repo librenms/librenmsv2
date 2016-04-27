@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Settings;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;

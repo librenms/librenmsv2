@@ -25,7 +25,6 @@
 
 namespace App\DataTables\Alerting;
 
-use App\Models\Alerting\Alert;
 use App\Models\Alerting\Log;
 use Yajra\Datatables\Services\DataTable;
 
@@ -46,7 +45,8 @@ class LogsDataTable extends DataTable
             ->editColumn('rule.name', function($log) {
                 if ($log->rule_id) {
                     return '<a href="'.url("alerting/rules/".$log->rule_id).'">'.$log->rule->name.'</a>';
-                } else {
+                }
+                else {
                     return trans('alerting.general.text.invalid');
                 }
             })
@@ -82,7 +82,7 @@ class LogsDataTable extends DataTable
                 return '<b><span class="fa fa-'.$icon.'" style="color:'.$colour.'"></span> '.$text.'</b>';
             })
             ->editColumn('time_logged', function($log) {
-                return date('Y-m-d H:i:s', $log->time_logged/1000);
+                return date('Y-m-d H:i:s', $log->time_logged / 1000);
             })
             ->make(true);
     }
@@ -94,7 +94,7 @@ class LogsDataTable extends DataTable
      */
     public function query()
     {
-        $logs = Log::with('device','rule')->select('alert_log.*');
+        $logs = Log::with('device', 'rule')->select('alert_log.*');
         return $this->applyScopes($logs);
     }
 

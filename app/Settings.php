@@ -185,17 +185,18 @@ class Settings implements ConfigContract
      * Or when the user is not a global admin.
      *
      * @param string $key The path to check
-     * @return bool|string false or the source: config | auth
+     * @return string|false false or the source: config | auth
      */
     public function isReadOnly($key)
     {
-        if(Config::has('config.'.$key)) {
+        if (Config::has('config.'.$key)) {
             return 'config';
         }
         $user = \Auth::user();
         if (!is_null($user) && $user->isAdmin()) {
             return false;
-        } else {
+        }
+        else {
             return 'auth';
         }
     }
