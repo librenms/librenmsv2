@@ -17,7 +17,7 @@ return [
         'program'       => 'Program',
         'name'          => 'Name',
         'model'         => 'Model',
-        'serial'         => 'Serial',
+        'serial'        => 'Serial',
     ],
     'btn' => [
         'query'   => 'Query',
