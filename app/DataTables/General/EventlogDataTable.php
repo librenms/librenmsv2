@@ -115,6 +115,7 @@ class EventlogDataTable extends DataTable
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
             ],
+            'autoWidth' => false,
         ];
     }
 
