@@ -39,8 +39,8 @@ class InventoryDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($this) {
-                return '<a href="'.url("devices/".$this['device']['device_id']).'">'.$this['device']['hostname'].'</a>';
+            ->editColumn('device.hostname', function($inventory) {
+                return '<a href="'.url("devices/".$inventory->device->device_id).'">'.$inventory->device->hostname.'</a>';
             })
             ->make(true);
     }
