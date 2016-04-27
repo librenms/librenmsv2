@@ -6,6 +6,7 @@ return [
         'add'      => 'Add Device',
         'warning'  => 'Devices will be checked for Ping and SNMP reachability before being probed. Only devices with recognised OSes will be added.',
         'forceadd' => 'Force add',
+        'deleted'  =>  '&lt;deleted&gt;',
     ],
     'label' => [
         'hostname'     => 'Hostname',

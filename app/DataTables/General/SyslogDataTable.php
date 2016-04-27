@@ -40,7 +40,8 @@ class SyslogDataTable extends DataTable
         return $this->datatables
             ->eloquent($this->query())
             ->editColumn('device.hostname', function($syslog) {
-                return '<a href="'.url("devices/".$syslog->device->device_id).'">'.$syslog->device->hostname.'</a>';
+                $hostname = is_null($syslog->device) ? trans('devices.text.deleted') : $syslog->device->hostname;
+                return '<a href="'.url("devices/".$syslog->device_id).'">'.$hostname.'</a>';
             })
             ->make(true);
     }
