@@ -22,6 +22,7 @@ use App\Models\User;
 use App\Models\Alerting\Alert;
 use App\Models\Alerting\Log;
 use App\Models\General\Syslog;
+use App\Models\General\Inventory;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
@@ -90,5 +91,20 @@ $factory->define(Syslog::class, function(Faker\Generator $faker) {
         'timestamp' => $faker->dateTime->format('Y-m-d H:i:s'),
         'program'   => 'SYSLOG',
         'msg'       => $faker->realText(),
+    ];
+});
+
+$factory->define(Inventory::class, function(Faker\Generator $faker) {
+    return [
+        'device_id'               => $faker->randomDigitNotNull(),
+        'entPhysicalIndex'        => $faker->randomDigitNotNull(),
+        'entPhysicalDescr'        => $faker->realText(),
+        'entPhysicalClass'        => 'chassis',
+        'entPhysicalName'         => 'Chassis',
+        'entPhysicalModelName'    => $faker->realText(10),
+        'entPhysicalSerialNum'    => $faker->bothify('#?#?#?#???##'),
+        'entPhysicalContainedIn'  => $faker->randomDigit(),
+        'entPhysicalParentRelPos' => $faker->randomDigit(),
+        'entPhysicalMfgName'      => $faker->company(),
     ];
 });

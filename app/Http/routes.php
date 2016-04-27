@@ -29,6 +29,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
     Route::resource('eventlog', 'General\EventlogController');
     Route::resource('syslog', 'General\SyslogController');
+    Route::resource('inventory', 'General\InventoryController');
     Route::resource('widgets', 'WidgetsController');
     Route::resource('rirtools', 'General\RIRController');
 
@@ -69,6 +70,7 @@ $api->version('v1', function($api) {
         $api->get('dashboard-widget/{user_widget_id}/settings', ['as' => 'api.dashboard-widget.get_settings', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_settings']);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
+        $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');
 
         //Alerting section
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');
