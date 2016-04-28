@@ -12,7 +12,7 @@
         @endif
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</a></li>
+        <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> {{ trans('nav.home') }}</a></li>
         <li class="active">Notifications</li>
     </ol>
 @endsection

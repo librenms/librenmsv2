@@ -8,7 +8,7 @@
         <small></small>
     </h1>
     <ol class="breadcrumb">
-        <li class="active"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</li>
+        <li class="active"><i class="fa fa-home"></i> {{ trans('nav.home') }}</li>
     </ol>
 @endsection
 
