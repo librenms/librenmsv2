@@ -50,10 +50,12 @@ class SearchDataTable extends DataTable
             return $this->datatables
                 ->eloquent($this->query())
                 ->editColumn('hostname', function($data) {
-                    return '<a href="'.url("devices/".$data->device_id).'">'.$data->hostname.'</a>';
+                    $hostname = is_null($data->device) ? trans('devices.text.deleted') : $data->device->hostname;
+                    return '<a href="'.url("devices/".$data->device_id).'">'.$hostname.'</a>';
                 })
                 ->editColumn('ifName', function($data) {
-                    return '<a href="'.url("devices/".$data->device_id."/ports/".$data->port_id).'">'.$data->ifName.'</a>';
+                    $ifName = is_null($data->ifName) ? trans('devices.text.deleted') : $data->ifName;
+                    return '<a href="'.url("devices/".$data->device_id."/ports/".$data->port_id).'">'.$ifName.'</a>';
                 })
                 ->make(true);
         }
@@ -61,10 +63,12 @@ class SearchDataTable extends DataTable
             return $this->datatables
                 ->eloquent($this->query())
                 ->editColumn('hostname', function($data) {
-                    return '<a href="'.url("devices/".$data->device_id).'">'.$data->hostname.'</a>';
+                    $hostname = is_null($data->device) ? trans('devices.text.deleted') : $data->device->hostname;
+                    return '<a href="'.url("devices/".$data->device_id).'">'.$hostname.'</a>';
                 })
                 ->editColumn('ifName', function($data) {
-                    return '<a href="'.url("devices/".$data->device_id."/ports/".$data->port_id).'">'.$data->ifName.'</a>';
+                    $ifName = is_null($data->ifName) ? trans('devices.text.deleted') : $data->ifName;
+                    return '<a href="'.url("devices/".$data->device_id."/ports/".$data->port_id).'">'.$ifName.'</a>';
                 })
                 ->addColumn('remote_device', function($data) {
                     $remote_device = IPv4::where('ipv4_addresses.ipv4_address', $data->ipv4_address)->with('port.device')->first();
