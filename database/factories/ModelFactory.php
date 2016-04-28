@@ -23,6 +23,9 @@ use App\Models\Alerting\Alert;
 use App\Models\Alerting\Log;
 use App\Models\General\Syslog;
 use App\Models\General\Inventory;
+use App\Models\General\IPv4;
+use App\Models\General\IPv6;
+use App\Models\General\IPv4Mac;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
@@ -106,5 +109,33 @@ $factory->define(Inventory::class, function(Faker\Generator $faker) {
         'entPhysicalContainedIn'  => $faker->randomDigit(),
         'entPhysicalParentRelPos' => $faker->randomDigit(),
         'entPhysicalMfgName'      => $faker->company(),
+    ];
+});
+
+$factory->define(IPv4::class, function(Faker\Generator $faker) {
+    return [
+        'ipv4_address'    => $faker->ipv4(),
+        'ipv4_prefixlen'  => $faker->randomElement($array = array ('8','16','24','32')),
+        'ipv4_network_id' => $faker->randomDigitNotNull(),
+        'port_id'         => $faker->randomDigitNotNull(),
+    ];
+});
+
+$factory->define(IPv6::class, function(Faker\Generator $faker) {
+    return [
+        'ipv6_address'    => $faker->ipv6(),
+        'ipv6_compressed' => $faker->ipv6(),
+        'ipv6_prefixlen'  => $faker->randomElement($array = array ('32','64','128')),
+        'ipv6_origin'     => 'manual',
+        'ipv6_network_id' => $faker->randomDigitNotNull(),
+        'port_id'         => $faker->randomDigitNotNull(),
+    ];
+});
+
+$factory->define(IPv4Mac::class, function(Faker\Generator $faker) {
+    return [
+        'port_id'      => $faker->randomDigitNotNull(),
+        'mac_address'  => $faker->macAddress(),
+        'ipv4_address' => $faker->ipv4(),
     ];
 });

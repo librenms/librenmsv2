@@ -36,7 +36,7 @@ class IPv4Mac extends Model
 {
 
     protected $hidden = array('ip');
-    
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -52,10 +52,15 @@ class IPv4Mac extends Model
     /**
      * The primary key column name.
      *
-     * @var string
+     * @var string|bool
      */
     protected $primaryKey = false;
-
+    /**
+     * No incrementing primary key
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
     // ---- Accessors/Mutators ----
 
