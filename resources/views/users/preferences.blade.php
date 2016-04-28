@@ -1,9 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Preferences')
+@section('title', trans('user.preferences.main'))
+
+@section('content-header')
+    <h1>
+        {{ trans('user.preferences.main') }}
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</a></li>
+        <li class="active">{{ trans('user.preferences.main') }}</li>
+    </ol>
+@endsection
 
 @section('content')
-
+<div class="container">
 <div class="row">
     <div class="col-md-6">
         <div class="box box-primary">

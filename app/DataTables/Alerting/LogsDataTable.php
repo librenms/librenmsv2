@@ -40,7 +40,8 @@ class LogsDataTable extends DataTable
         return $this->datatables
             ->eloquent($this->query())
             ->editColumn('device.hostname', function($log) {
-                return '<a href="'.url("devices/".$log->device_id).'">'.(is_null($log->device) ? '&lt;deleted&gt;' : $log->device->hostname).'</a>';
+                $hostname = is_null($log->device) ? trans('devices.text.deleted') : $log->device->hostname;
+                return '<a href="'.url("devices/".$log->device_id).'">'.$hostname.'</a>';
             })
             ->editColumn('rule.name', function($log) {
                 if ($log->rule_id) {
@@ -155,6 +156,7 @@ class LogsDataTable extends DataTable
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
             ],
+            'autoWidth' => false,
         ];
     }
 

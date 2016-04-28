@@ -3,6 +3,7 @@
 return [
 
     'preferences' => [
+        'main'        => 'User Preferences',
         'change'      => 'Change password',
         'permissions' => 'Device / Port permissions',
         'adminaccess' => 'Global Administrative Access',

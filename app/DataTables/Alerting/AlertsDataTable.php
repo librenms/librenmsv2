@@ -53,7 +53,8 @@ class AlertsDataTable extends DataTable
                 return '<a href="'.url("alerting/rules/".$alert->rule_id).'">'.$alert->rule->name.'</a>';
             })
             ->editColumn('device.hostname', function($alert) {
-                return '<a href="'.url("devices/".$alert->device_id).'">'.$alert->device->hostname.'</a>';
+                $hostname = is_null($alert->device) ? trans('devices.text.deleted') : $alert->device->hostname;
+                return '<a href="'.url("devices/".$alert->device_id).'">'.$hostname.'</a>';
             })
             ->addColumn('actions', function($alert) {
                 if ($alert->state == 2) {
@@ -146,6 +147,7 @@ class AlertsDataTable extends DataTable
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
             ],
+            'autoWidth' => false,
         ];
     }
 

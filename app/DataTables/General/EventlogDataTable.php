@@ -40,7 +40,8 @@ class EventlogDataTable extends DataTable
         return $this->datatables
             ->eloquent($this->query())
             ->editColumn('device.hostname', function($eventlog) {
-                return '<a href="'.url("devices/".$eventlog->device->device_id).'">'.$eventlog->device->hostname.'</a>';
+                $hostname = is_null($eventlog->device) ? trans('devices.text.deleted') : $eventlog->device->hostname;
+                return '<a href="'.url("devices/".$eventlog->device_id).'">'.$hostname.'</a>';
             })
             ->make(true);
     }
@@ -115,6 +116,7 @@ class EventlogDataTable extends DataTable
             'buttons' => [
                 'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
             ],
+            'autoWidth' => false,
         ];
     }
 

@@ -77,7 +77,7 @@ $.Util.updateNotificationMenu = function(baseurl) {
             nList.empty();
             for (var i = 0; i < 5 && i < nItems.length; i++) {
                 var item = $('<li>');
-                var link = item.append('<a href="' + baseurl + '/notifications/' + nItems[i].id + '" title="' + nItems[i].body + '"><i class="fa fa-bell text-aqua"></i> ' + nItems[i].title + '</a>');
+                var link = item.append('<a href="' + baseurl + '/notifications/' + nItems[i].id + '" title="' + nItems[i].body + '"><i class="fa fa-envelope text-aqua"></i> ' + nItems[i].title + '</a>');
                 nList.append(item);
             }
         }

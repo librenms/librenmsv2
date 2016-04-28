@@ -2,6 +2,21 @@
 
 @section('title', 'Notifications')
 
+@section('content-header')
+    <h1>
+        Notifications
+        @if ($type === 'archive')
+            <small>Archived</small>
+        @else
+            <small>Unread</small>
+        @endif
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</a></li>
+        <li class="active">Notifications</li>
+    </ol>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12">
