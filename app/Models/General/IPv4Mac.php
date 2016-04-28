@@ -34,6 +34,9 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class IPv4Mac extends Model
 {
+
+    protected $hidden = array('ip');
+    
     /**
      * Indicates if the model should be timestamped.
      *

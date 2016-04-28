@@ -34,11 +34,11 @@ class SearchController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
-    public function index($type, SearchDataTable $dataTable, Request $request)
+    public function index()
     {
-        return $dataTable->forType($type)->render('general.search.list');
+        //
     }
 
     /**
@@ -65,12 +65,12 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response|null
+     * @param  string  $type
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($type, SearchDataTable $dataTable)
     {
-        //
+        return $dataTable->forType($type)->render('general.search.list');
     }
 
     /**

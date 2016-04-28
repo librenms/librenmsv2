@@ -45,8 +45,7 @@ class SearchDataTable extends DataTable
      */
     public function ajax()
     {
-        $type = $this->datatables->getRequest()->type;
-        if ($type !== "arp")
+        if ($this->type !== "arp")
         {
             return $this->datatables
                 ->eloquent($this->query())

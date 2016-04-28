@@ -32,7 +32,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('inventory', 'General\InventoryController');
     Route::resource('widgets', 'WidgetsController');
     Route::resource('rirtools', 'General\RIRController');
-    Route::resource('search/{type}', 'General\SearchController');
+    Route::resource('search', 'General\SearchController');
 
     Route::resource('devices', 'DeviceController');
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
