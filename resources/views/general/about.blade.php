@@ -1,8 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'About')
+@section('title', trans('nav.settings.about'))
+
+@section('content-header')
+    <h1>
+        {{ trans('nav.settings.about') }}
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</a></li>
+        <li class="active">{{ trans('nav.settings.about') }}</li>
+    </ol>
+@endsection
 
 @section('content')
+<div class="container">
+
 <div class="row">
     <div class="col-md-6">
         <div class="box box-primary">
@@ -142,5 +155,7 @@ along with this program.  If not, see <a href="http://www.gnu.org/licenses/">htt
     </div>
     <div class="col-md-6">
     </div>
+</div>
+
 </div>
 @endsection

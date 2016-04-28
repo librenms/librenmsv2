@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'RIR Tools')
+@section('title', trans('nav.overview.tools.rirtools'))
+
+@section('content-header')
+    <h1>
+        {{ trans('nav.overview.tools.rirtools') }}
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</a></li>
+        <li><a href="{{ url('/tools') }}">{{ trans('nav.overview.tools.main') }}</a></li>
+        <li class="active">{{ trans('nav.overview.tools.rirtools') }}</li>
+    </ol>
+@endsection
 
 @section('content')
 <div class="row">

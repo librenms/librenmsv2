@@ -1,13 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'Add Device')
+@section('title', trans('nav.devices.add'))
+
+@section('content-header')
+    <h1>
+        {{ trans('nav.devices.add') }}
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</a></li>
+        <li class="active">{{ trans('nav.devices.add') }}</li>
+    </ol>
+@endsection
 
 @section('content')
 <div class="row">
     <div class="col-md-offset-2 col-md-8">
         <form name="add_device" method="post" action="{{ route('devices.store') }}" class="form-horizontal" role="form">
             {!! csrf_field() !!}
-            <h3>{{ trans('devices.text.add') }}</h3>
             <div class="callout callout-warning"><i class="icon fa fa-warning"></i> {{ trans('devices.text.warning') }}</div>
             <div class="well well-lg">
                 <div class="form-group">
@@ -32,7 +42,7 @@
                     </div>
                     <div class="col-sm-3">
                         <select name="transport" id="transport" class="form-control input-sm">
-                            @foreach (Settings::get('snmp.transports','') as $item)
+                            @foreach (Settings::get('snmp.transports', ['tcp', 'tcp6', 'udp', 'udp6']) as $item)
                                 <option value="{{ $item }}" @if ($item === old('transport')) selected @endif>{{ $item }}</option>
                             @endforeach
                         </select>

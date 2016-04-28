@@ -1,21 +1,49 @@
 @extends('layouts.app')
 
-@section('title', 'Settings')
+@section('title', trans('nav.settings.global'))
+
+@section('content-header')
+    <h1>
+        {{ trans('nav.settings.global') }}
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ trans('nav.home') }}</a></li>
+        @if( isset($section) )
+            <li><a href="{{ url('/settings') }}">{{ trans('nav.settings.main') }}</a></li>
+            <li class="active">{{ ucfirst($section) }}</li>
+        @else
+            <li class="active">{{ trans('nav.settings.main') }}</li>
+        @endif
+    </ol>
+@endsection
+
 
 @section('content')
-
+<div class="container">
     @if( isset($section) )
-        @include('settings.sections.' . $section)
+        <div class="row">
+            @include('settings.sections.' . $section)
+        </div>
     @else
-        <!-- include all sections -->
-        @include('settings.sections.snmp')
-
-        <div class="container">
-        <pre>
-{{ print_r(Settings::all(), 1) }}
-        </pre>
+        <!-- include all sections, two per row -->
+        <div class="row">
+            @include('settings.sections.snmp')
         </div>
 
+        <div class="row">
+            <div class="box col-lg-6">
+                <div class="box-header">
+                    <h3 class="box-title">All Settings</h3>
+                </div>
+                <div class="box-body">
+            <pre>
+{{ print_r(Settings::all(), 1) }}
+            </pre>
+                </div>
+            </div>
+        </div>
+</div>
     @endif
 
 

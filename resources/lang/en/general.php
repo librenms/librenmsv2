@@ -7,6 +7,7 @@ return [
         'message'       => 'Message',
         'timestamp'     => 'Timestamp',
         'description'   => 'Description',
+        'list'          => 'List',
         'lookup'        => 'Lookup',
         'abuse-contact' => 'Abuse Contact',
         'whois'         => 'Whois',

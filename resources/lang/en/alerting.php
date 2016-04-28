@@ -17,6 +17,7 @@ return [
             'timestamp'    => 'Timestamp',
             'severity'     => 'Severity',
             'acknowledged' => 'Acknowledged',
+            'current'      => 'Current Alerts',
             'noresults'    => 'No alerts - you run a tight ship :)',
         ],
     ],
