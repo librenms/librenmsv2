@@ -72,6 +72,7 @@ $api->version('v1', function($api) {
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
         $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');
+        $api->resource('resources', 'App\Api\Controllers\General\ResourceController');
 
         //Alerting section
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');
