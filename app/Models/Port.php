@@ -195,4 +195,30 @@ class Port extends Model
         return $this->belongsToMany('App\Models\User', 'ports_perms', 'port_id', 'user_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function ipv4()
+    {
+        return $this->hasMany('App\Models\General\IPv4', 'port_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function ipv6()
+    {
+        return $this->hasMany('App\Models\General\IPv6', 'port_id');
+    }
+
+    // ---- Accessors/Mutators ----
+
+    public function getIfPhysAddressAttribute($mac)
+    {
+        if (!empty($mac)) {
+            return preg_replace('/(..)(..)(..)(..)(..)(..)/', '\\1:\\2:\\3:\\4:\\5:\\6', $mac);
+        }
+        return null;
+    }
+
 }

@@ -2,17 +2,16 @@
 
 @include('includes.datatables')
 
-@section('title', trans('nav.overview.alerts.main'))
+@section('title', trans('nav.search'))
 
 @section('content-header')
     <h1>
-        {{ trans('nav.overview.alerts.main') }}
+        {{ trans('nav.search') }}
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> {{ trans('nav.home') }}</a></li>
-        <li><a href="{{ url('/alerting') }}">{{ trans('nav.overview.alerts.alerting') }}</a></li>
-        <li class="active">{{ trans('nav.overview.alerts.main') }}</li>
+        <li class="active">{{ trans('nav.search') }}</li>
     </ol>
 @endsection
 
@@ -21,6 +20,5 @@
 @endsection
 
 @section('scripts')
-    {!! $dataTable->scripts() !!}
-    <script src="{{ url('js/core/alerting.js') }}"></script>
+{!! $dataTable->scripts() !!}
 @endsection
