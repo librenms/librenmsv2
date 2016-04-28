@@ -23,18 +23,18 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
- namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\General;
 
- use App\DataTables\General\SearchDataTable;
- use App\Http\Controllers\Controller;
- use Illuminate\Http\Request;
+use App\DataTables\General\SearchDataTable;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|null
      */
     public function index()
     {

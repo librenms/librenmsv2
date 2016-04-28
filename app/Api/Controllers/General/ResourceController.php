@@ -27,9 +27,9 @@ namespace App\Api\Controllers\General;
 
 use App\Api\Controllers\Controller;
 use App\Models\General\IPv4;
+use App\Models\General\IPv4Mac;
 use App\Models\General\IPv6;
 use App\Models\Port;
-use App\Models\General\IPv4Mac;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class ResourceController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->response->array(array('statusText' => 'OK', 'resources' => ['ipv4','ipv6','arp','mac']));
+        return $this->response->array(array('statusText' => 'OK', 'resources' => ['ipv4', 'ipv6', 'arp', 'mac']));
     }
 
 
@@ -92,7 +92,7 @@ class ResourceController extends Controller
         }
         elseif ($resource === "mac")
         {
-            return Port::select('port_id','ifPhysAddress')->paginate($per_page);
+            return Port::select('port_id', 'ifPhysAddress')->paginate($per_page);
         }
         elseif ($resource === "arp")
         {

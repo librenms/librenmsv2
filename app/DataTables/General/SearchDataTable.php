@@ -26,12 +26,10 @@
 namespace App\DataTables\General;
 
 use App\Models\General\IPv4;
-use App\Models\General\IPv6;
 use App\Models\General\IPv4Mac;
-use App\Models\Device;
+use App\Models\General\IPv6;
 use App\Models\Port;
 use Yajra\Datatables\Services\DataTable;
-use Illuminate\Http\Request;
 
 class SearchDataTable extends DataTable
 {
@@ -76,7 +74,7 @@ class SearchDataTable extends DataTable
                     $remote_hostname = empty($remote_device->port->device->hostname) ? trans('devices.text.deleted') : $remote_device->port->device->hostname;
                     return '<a href="'.url("devices/".$remote_id).'">'.$remote_hostname.'</a>';
                 })
-                ->addColumn('remote_interface',function($data) {
+                ->addColumn('remote_interface', function($data) {
                     $remote_device = IPv4::where('ipv4_addresses.ipv4_address', $data->ipv4_address)->with('port.device')->first();
                     $remote_id = empty($remote_device->port->device->device_id) ? '' : $remote_device->port->device->device_id;
                     $remote_port_id = empty($remote_device->port->port_id) ? '' : $remote_device->port->port_id;
@@ -147,7 +145,7 @@ class SearchDataTable extends DataTable
         ];
         if ($this->type === "ipv4")
         {
-            $cols = array_merge($cols,[
+            $cols = array_merge($cols, [
                 'ipv4_address' => [
                     'title'    => trans('general.text.address'),
                 ],
@@ -155,7 +153,7 @@ class SearchDataTable extends DataTable
         }
         if ($this->type === "ipv6")
         {
-            $cols = array_merge($cols,[
+            $cols = array_merge($cols, [
                 'ipv6_address' => [
                     'title'    => trans('general.text.address'),
                 ],
@@ -163,7 +161,7 @@ class SearchDataTable extends DataTable
         }
         if ($this->type === "mac")
         {
-            $cols = array_merge($cols,[
+            $cols = array_merge($cols, [
                 'ifPhysAddress' => [
                     'title'    => trans('general.text.mac_address'),
                 ],
@@ -171,7 +169,7 @@ class SearchDataTable extends DataTable
         }
         if ($this->type === "arp")
         {
-            $cols = array_merge($cols,[
+            $cols = array_merge($cols, [
                 'mac_address' => [
                     'title'   => trans('general.text.mac_address'),
                 ],
@@ -188,7 +186,7 @@ class SearchDataTable extends DataTable
         }
         if ($this->type !== "arp")
         {
-            $cols = array_merge($cols,[
+            $cols = array_merge($cols, [
                 'ifDescr'   => [
                     'title' => trans('general.text.port_descr'),
                 ],
@@ -223,6 +221,10 @@ class SearchDataTable extends DataTable
         ];
     }
 
+
+    /**
+     * @param string $type
+     */
     public function forType($type)
     {
         $this->type = $type;
