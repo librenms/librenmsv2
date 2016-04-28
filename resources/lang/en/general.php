@@ -18,6 +18,10 @@ return [
         'name'          => 'Name',
         'model'         => 'Model',
         'serial'        => 'Serial',
+        'interface'     => 'Interface',
+        'address'       => 'Address',
+        'mac_address'   => 'MAC Address',
+        'port_descr'    => 'Description',
     ],
     'btn' => [
         'query'   => 'Query',

@@ -197,8 +197,6 @@ class Device extends Model
         return $this->hasMany('App\Models\General\Eventlog', 'device_id');
     }
 
-
-
     // ---- Accessors/Mutators ----
 
     public function getIpAttribute($ip)
