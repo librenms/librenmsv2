@@ -125,6 +125,13 @@ class Device extends Model
     protected $primaryKey = 'device_id';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['hostname', 'ip', 'status', 'status_reason'];
+
+    /**
      * Initialize this class
      */
     public static function boot()
@@ -206,7 +213,7 @@ class Device extends Model
     }
 
     /**
-     * @return asset
+     * @return string
      */
     public function logo()
     {
