@@ -20,16 +20,13 @@ class DeviceController extends Controller
     public function index(Request $request)
     {
         // fetch devices from the database
+        $per_page = $request->per_page ?: 25;
         if ($request->user()->hasGlobalRead()) {
-            $devices = Device::all();
+            $devices = Device::paginate($per_page);
         }
         else {
-            $devices = User::find($request->user()->user_id)->devices()->get();
+            $devices = User::find($request->user()->user_id)->devices()->paginate($per_page);
         }
-        // morph the data as required
-        if ($request->query('displayFormat') == 'human') {
-        }
-
         return $devices;
     }
 

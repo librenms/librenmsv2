@@ -125,6 +125,13 @@ class Device extends Model
     protected $primaryKey = 'device_id';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['hostname', 'ip', 'status', 'status_reason'];
+
+    /**
      * Initialize this class
      */
     public static function boot()
@@ -195,6 +202,39 @@ class Device extends Model
     public function eventlog()
     {
         return $this->hasMany('App\Models\General\Eventlog', 'device_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function sensors()
+    {
+        return $this->hasMany('App\Models\Sensor', 'device_id');
+    }
+
+    /**
+     * @return string
+     */
+    public function logo()
+    {
+        $icon = $this->icon;
+        if (isset($icon)) {
+            return asset('images/os/'.$icon.'.png');
+        }
+        else {
+            return asset('images/os/generic.png');
+        }
+    }
+
+    /**
+     * @param int $seconds
+     * @return string
+     */
+    public function formatUptime($seconds)
+    {
+        $from = new \DateTime("@0");
+        $to = new \DateTime("@$seconds");
+        return $from->diff($to)->format('%a d, %h h, %i m and %s s');
     }
 
     // ---- Accessors/Mutators ----

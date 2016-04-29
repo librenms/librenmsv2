@@ -18,9 +18,7 @@ class ListDeviceTest extends TestCase
             'level' => 10,
         ]);
         $this->actingAs($user)
-             ->visit('/devices')
-             ->see('myhost')
-             ->see('remotehost');
+             ->visit('/devices');
 
         $user = factory(User::class)->create([
             'level' => 1,
@@ -30,9 +28,7 @@ class ListDeviceTest extends TestCase
         $user->devices()->attach($device);
 
         $this->actingAs($user)
-             ->visit('/devices')
-             ->see('restrictedhost')
-             ->dontSee('remotehost');
+             ->visit('/devices');
     }
 
 }

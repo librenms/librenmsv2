@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\DeviceDataTable;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -20,12 +21,11 @@ class DeviceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(DeviceDataTable $dataTable)
     {
-        $devices = $this->api->be(auth()->user())->get('/api/devices');
-        return view('devices.list', ['devices'=>$devices]);
+        return $dataTable->render('devices.list');
     }
 
     /**

@@ -23,6 +23,7 @@ return [
         'address'       => 'Address',
         'mac_address'   => 'MAC Address',
         'port_descr'    => 'Description',
+        'status'        => 'Status',
     ],
     'btn' => [
         'query'   => 'Query',
