@@ -34,7 +34,10 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('rirtools', 'General\RIRController');
     Route::resource('search', 'General\SearchController');
 
+    // Device routes
     Route::resource('devices', 'DeviceController');
+    
+    // Port routes
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
     Route::get('notifications/{type?}', 'NotificationController@index');
     Route::patch('notifications/{id}/{action}', 'NotificationController@update');

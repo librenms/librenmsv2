@@ -3,10 +3,14 @@
 return [
 
     'text' => [
-        'add'      => 'Add Device',
-        'warning'  => 'Devices will be checked for Ping and SNMP reachability before being probed. Only devices with recognised OSes will be added.',
-        'forceadd' => 'Force add',
-        'deleted'  =>  '&lt;deleted&gt;',
+        'add'             => 'Add Device',
+        'warning'         => 'Devices will be checked for Ping and SNMP reachability before being probed. Only devices with recognised OSes will be added.',
+        'forceadd'        => 'Force add',
+        'deleted'         =>  '&lt;deleted&gt;',
+        'os'              => 'Operating system',
+        'vendor'          => 'Vendor',
+        'platform'        => 'Platform',
+        'uptime_location' => 'Uptime/Location',
     ],
     'label' => [
         'hostname'     => 'Hostname',
