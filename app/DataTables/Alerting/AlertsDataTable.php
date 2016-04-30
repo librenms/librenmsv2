@@ -25,10 +25,10 @@
 
 namespace App\DataTables\Alerting;
 
+use App\DataTables\BaseDataTable;
 use App\Models\Alerting\Alert;
-use Yajra\Datatables\Services\DataTable;
 
-class AlertsDataTable extends DataTable
+class AlertsDataTable extends BaseDataTable
 {
     /**
      * Display ajax response.
@@ -47,7 +47,7 @@ class AlertsDataTable extends DataTable
                                     @elseif ($state == 2)
                                         <div class="label label-warning">MUTED</div>
                                     @else
-                                        <div class="label label-primary">UNKNOWN</div>
+                                        <div class="label label-default">UNKNOWN</div>
                                     @endif')
             ->editColumn('rule.name', function($alert) {
                 return '<a href="'.url("alerting/rules/".$alert->rule_id).'">'.$alert->rule->name.'</a>';
@@ -82,23 +82,11 @@ class AlertsDataTable extends DataTable
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\Datatables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-                    ->columns($this->getColumns())
-                    ->parameters($this->getBuilderParameters());
-    }
-
-    /**
      * Get columns.
      *
      * @return array
      */
-    private function getColumns()
+    public function getColumns()
     {
         return [
             'id'        => [
@@ -132,25 +120,4 @@ class AlertsDataTable extends DataTable
     {
         return 'alerts';
     }
-
-    /**
-     * Get Builder Params
-     *
-     * @return array
-     */
-    protected function getBuilderParameters()
-    {
-        return [
-            'dom' => "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>".
-                "<'row'<'col-sm-12'tr>>".
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            'order' => [4, 'desc'],
-            'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
-            'buttons' => [
-                'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
-            ],
-            'autoWidth' => false,
-        ];
-    }
-
 }

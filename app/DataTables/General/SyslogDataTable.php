@@ -25,10 +25,10 @@
 
 namespace App\DataTables\General;
 
+use App\DataTables\BaseDataTable;
 use App\Models\General\Syslog;
-use Yajra\Datatables\Services\DataTable;
 
-class SyslogDataTable extends DataTable
+class SyslogDataTable extends BaseDataTable
 {
     /**
      * Display ajax response.
@@ -58,23 +58,11 @@ class SyslogDataTable extends DataTable
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\Datatables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-                    ->columns($this->getColumns())
-                    ->parameters($this->getBuilderParameters());
-    }
-
-    /**
      * Get columns.
      *
      * @return array
      */
-    private function getColumns()
+    public function getColumns()
     {
         return [
             'device.hostname' => [
@@ -101,24 +89,4 @@ class SyslogDataTable extends DataTable
     {
         return 'syslog';
     }
-
-    /**
-     * Get Builder Params
-     *
-     * @return array
-     */
-    protected function getBuilderParameters()
-    {
-        return [
-            'dom' => "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>".
-                "<'row'<'col-sm-12'tr>>".
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
-            'buttons' => [
-                'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
-            ],
-            'autoWidth' => false,
-        ];
-    }
-
 }
