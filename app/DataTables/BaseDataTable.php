@@ -23,7 +23,7 @@
  * @author     Tony Murray <murraytony@gmail.com>
  */
 
-namespace app\DataTables;
+namespace App\DataTables;
 
 
 use Yajra\Datatables\Services\DataTable;
