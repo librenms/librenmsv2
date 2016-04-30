@@ -2,16 +2,16 @@
 
 @include('includes.datatables')
 
-@section('title', trans('nav.overview.eventlog'))
+@section('title', trans('nav.ports.main'))
 
 @section('content-header')
     <h1>
-        {{ trans('nav.overview.eventlog') }}
+        {{ trans('nav.ports.main') }}
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> {{ trans('nav.home') }}</a></li>
-        <li class="active">{{ trans('nav.overview.eventlog') }}</li>
+        <li class="active">{{ trans('nav.ports.main') }}</li>
     </ol>
 @endsection
 
