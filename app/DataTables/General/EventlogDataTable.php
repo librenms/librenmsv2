@@ -25,10 +25,10 @@
 
 namespace App\DataTables\General;
 
+use App\DataTables\BaseDataTable;
 use App\Models\General\Eventlog;
-use Yajra\Datatables\Services\DataTable;
 
-class EventlogDataTable extends DataTable
+class EventlogDataTable extends BaseDataTable
 {
     /**
      * Display ajax response.
@@ -58,23 +58,11 @@ class EventlogDataTable extends DataTable
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\Datatables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-                    ->columns($this->getColumns())
-                    ->parameters($this->getBuilderParameters());
-    }
-
-    /**
      * Get columns.
      *
      * @return array
      */
-    private function getColumns()
+    public function getColumns()
     {
         return [
             'device.hostname' => [
@@ -102,22 +90,4 @@ class EventlogDataTable extends DataTable
     {
         return 'eventlog';
     }
-
-    /**
-     * Get Builder Params
-     *
-     * @return array
-     */
-    protected function getBuilderParameters()
-    {
-        return [
-            'dom' => 'Blfrtip',
-            'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
-            'buttons' => [
-                'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
-            ],
-            'autoWidth' => false,
-        ];
-    }
-
 }
