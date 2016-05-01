@@ -75,8 +75,6 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param string $resource
      * @return \Illuminate\Http\Response|null
      */
     public function show()

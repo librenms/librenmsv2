@@ -68,10 +68,9 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $type
      * @return \Illuminate\Http\Respoonse|null
      */
-    public function show($type, SearchDataTable $dataTable)
+    public function show()
     {
         //
     }
@@ -113,7 +112,6 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $type
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function ipv4(IPv4DataTable $dataTable)
@@ -124,7 +122,6 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $type
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function ipv6(IPv6DataTable $dataTable)
@@ -135,7 +132,6 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $type
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function mac(MacDataTable $dataTable)
@@ -146,7 +142,6 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $type
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function arp(ArpDataTable $dataTable)
