@@ -1,8 +1,8 @@
 <?php
 /**
- * tests/api/general/ResourceApiTest.php
+ * tests/api/general/SearchApiTest.php
  *
- * Test unit for resources api
+ * Test unit for search api
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,13 +31,13 @@ use App\Models\General\IPv4Mac;
 use Illuminate\Http\Response;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class ResourceApiTest extends TestCase
+class SearchApiTest extends TestCase
 {
 
     /**
-     * Test resources ipv4 api
+     * Test search ipv4 api
     **/
-    public function testResourceIPv4Api()
+    public function testSearchIPv4Api()
     {
         $this->seed();
         $user = factory(User::class)->create();
@@ -49,15 +49,15 @@ class ResourceApiTest extends TestCase
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->json('GET', '/api/resources/ipv4?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('GET', '/api/search/ipv4?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
             'total' => $total,
         ]);
     }
 
     /**
-     * Test resources ipv6 api
+     * Test search ipv6 api
     **/
-    public function testResourceIPv6Api()
+    public function testSearchIPv6Api()
     {
         $this->seed();
         $user = factory(User::class)->create();
@@ -69,15 +69,15 @@ class ResourceApiTest extends TestCase
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->json('GET', '/api/resources/ipv6?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('GET', '/api/search/ipv6?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
             'total' => $total,
         ]);
     }
 
     /**
-     * Test resources mac api
+     * Test search mac api
     **/
-    public function testResourceMacApi()
+    public function testSearchMacApi()
     {
         $this->seed();
         $user = factory(User::class)->create();
@@ -89,15 +89,15 @@ class ResourceApiTest extends TestCase
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->json('GET', '/api/resources/mac?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('GET', '/api/search/mac?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
             'total' => $total,
         ]);
     }
 
     /**
-     * Test resources arp api
+     * Test search arp api
     **/
-    public function testResourceArpApi()
+    public function testSearchArpApi()
     {
         $this->seed();
         $user = factory(User::class)->create();
@@ -109,7 +109,7 @@ class ResourceApiTest extends TestCase
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->json('GET', '/api/resources/arp?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('GET', '/api/search/arp?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
             'total' => $total,
         ]);
     }
