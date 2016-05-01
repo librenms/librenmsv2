@@ -32,11 +32,14 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('inventory', 'General\InventoryController');
     Route::resource('widgets', 'WidgetsController');
     Route::resource('rirtools', 'General\RIRController');
-    Route::resource('search', 'General\SearchController');
+    Route::get('search/ipv4', 'General\SearchController@ipv4');
+    Route::get('search/ipv6', 'General\SearchController@ipv6');
+    Route::get('search/mac', 'General\SearchController@mac');
+    Route::get('search/arp', 'General\SearchController@arp');
 
     // Device routes
     Route::resource('devices', 'DeviceController');
-    
+
     // Port routes
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
     Route::get('notifications/{type?}', 'NotificationController@index');
