@@ -78,7 +78,10 @@ $api->version('v1', function($api) {
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
         $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');
-        $api->resource('resources', 'App\Api\Controllers\General\ResourceController');
+        $api->get('search/ipv4', 'App\Api\Controllers\General\ResourceController@ipv4');
+        $api->get('search/ipv6', 'App\Api\Controllers\General\ResourceController@ipv6');
+        $api->get('search/mac', 'App\Api\Controllers\General\ResourceController@mac');
+        $api->get('search/arp', 'App\Api\Controllers\General\ResourceController@arp');
 
         //Alerting section
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');
