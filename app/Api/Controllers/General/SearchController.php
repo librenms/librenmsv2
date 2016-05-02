@@ -1,6 +1,6 @@
 <?php
 /**
- * app/Api/Controllers/General/ResourceController.php
+ * app/Api/Controllers/General/SearchController.php
  *
  * API Controller for resources such as IP, ARP, Mac, etc
  *
@@ -34,7 +34,7 @@ use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
-class ResourceController extends Controller
+class SearchController extends Controller
 {
 
     use Helpers;
@@ -75,32 +75,11 @@ class ResourceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param string $resource
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Http\Response|null
      */
-    public function show(Request $request, $resource)
+    public function show()
     {
-        $per_page = $request->per_page ?: 25;
-        if ($resource === "ipv4")
-        {
-            return IPv4::paginate($per_page);
-        }
-        elseif ($resource === "ipv6")
-        {
-            return IPv6::paginate($per_page);
-        }
-        elseif ($resource === "mac")
-        {
-            return Port::select('port_id', 'ifPhysAddress')->paginate($per_page);
-        }
-        elseif ($resource === "arp")
-        {
-            return IPv4Mac::paginate($per_page);
-        }
-        else {
-            return response()->json(['message' => "Resource $resource not found!"], 404);
-        }
+        //
     }
 
     /**
@@ -135,6 +114,54 @@ class ResourceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function ipv4(Request $request)
+    {
+        $per_page = $request->per_page ?: 25;
+        return IPv4::paginate($per_page);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function ipv6(Request $request)
+    {
+        $per_page = $request->per_page ?: 25;
+        return IPv6::paginate($per_page);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function mac(Request $request)
+    {
+        $per_page = $request->per_page ?: 25;
+        return Port::select('port_id', 'ifPhysAddress')->paginate($per_page);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function arp(Request $request)
+    {
+        $per_page = $request->per_page ?: 25;
+        return IPv4Mac::paginate($per_page);
     }
 
 }

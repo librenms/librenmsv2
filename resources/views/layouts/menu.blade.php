@@ -67,10 +67,10 @@
                 <li><a href="#"><i class="icon fa fa-archive"></i> {{ trans('nav.overview.packages') }}</a></li>
                 <!-- /.if data exists -->
                 <li><hr></li>
-                <li><a href="#"><i class="icon fa fa-search"></i> {{ trans('nav.overview.ipv4') }}</a></li>
-                <li><a href="#"><i class="icon fa fa-search"></i> {{ trans('nav.overview.ipv6') }}</a></li>
-                <li><a href="#"><i class="icon fa fa-search"></i> {{ trans('nav.overview.mac') }}</a></li>
-                <li><a href="#"><i class="icon fa fa-search"></i> {{ trans('nav.overview.arp') }}</a></li>
+                <li><a href="{{ url('search/ipv4') }}"><i class="icon fa fa-search"></i> {{ trans('nav.overview.ipv4') }}</a></li>
+                <li><a href="{{ url('search/ipv6') }}"><i class="icon fa fa-search"></i> {{ trans('nav.overview.ipv6') }}</a></li>
+                <li><a href="{{ url('search/mac') }}"><i class="icon fa fa-search"></i> {{ trans('nav.overview.mac') }}</a></li>
+                <li><a href="{{ url('search/arp') }}"><i class="icon fa fa-search"></i> {{ trans('nav.overview.arp') }}</a></li>
                 <li><hr></li>
                 <!-- only if enabled -->
                 <li><a href="#"><i class="icon fa fa-file-text-o"></i> {{ trans('nav.overview.mib') }}</a></li>

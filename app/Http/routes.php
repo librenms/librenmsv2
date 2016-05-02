@@ -32,11 +32,14 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('inventory', 'General\InventoryController');
     Route::resource('widgets', 'WidgetsController');
     Route::resource('rirtools', 'General\RIRController');
-    Route::resource('search', 'General\SearchController');
+    Route::get('search/ipv4', 'General\SearchController@ipv4');
+    Route::get('search/ipv6', 'General\SearchController@ipv6');
+    Route::get('search/mac', 'General\SearchController@mac');
+    Route::get('search/arp', 'General\SearchController@arp');
 
     // Device routes
     Route::resource('devices', 'DeviceController');
-    
+
     // Port routes
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
     Route::get('notifications/{type?}', 'NotificationController@index');
@@ -75,7 +78,10 @@ $api->version('v1', function($api) {
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
         $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');
-        $api->resource('resources', 'App\Api\Controllers\General\ResourceController');
+        $api->get('search/ipv4', 'App\Api\Controllers\General\SearchController@ipv4');
+        $api->get('search/ipv6', 'App\Api\Controllers\General\SearchController@ipv6');
+        $api->get('search/mac', 'App\Api\Controllers\General\SearchController@mac');
+        $api->get('search/arp', 'App\Api\Controllers\General\SearchController@arp');
 
         //Alerting section
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');

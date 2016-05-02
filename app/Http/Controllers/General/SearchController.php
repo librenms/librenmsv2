@@ -25,7 +25,10 @@
 
 namespace App\Http\Controllers\General;
 
-use App\DataTables\General\SearchDataTable;
+use App\DataTables\General\IPv4DataTable;
+use App\DataTables\General\IPv6DataTable;
+use App\DataTables\General\MacDataTable;
+use App\DataTables\General\ArpDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -65,12 +68,11 @@ class SearchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $type
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
+     * @return \Illuminate\Http\Respoonse|null
      */
-    public function show($type, SearchDataTable $dataTable)
+    public function show()
     {
-        return $dataTable->forType($type)->render('general.search.list');
+        //
     }
 
     /**
@@ -106,4 +108,45 @@ class SearchController extends Controller
     {
         //
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function ipv4(IPv4DataTable $dataTable)
+    {
+        return $dataTable->render('general.search.list');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function ipv6(IPv6DataTable $dataTable)
+    {
+        return $dataTable->render('general.search.list');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function mac(MacDataTable $dataTable)
+    {
+        return $dataTable->render('general.search.list');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function arp(ArpDataTable $dataTable)
+    {
+        return $dataTable->render('general.search.list');
+    }
+
 }
