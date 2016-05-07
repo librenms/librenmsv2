@@ -23,7 +23,7 @@
                 <h3 class="box-title">{{ trans('user.preferences.change') }}</h3>
             </div>
             <div class="box-body">
-                    {!! Form::open(array('url' => 'preferences', 'method' => 'post')) !!}
+                    {!! Form::open(array('url' => 'preferences', 'method' => 'post', 'class' => 'form-horizontal')) !!}
                     {{ Form::bsPassword('current_password', [], '' , 'col-sm-3') }}
                     {{ Form::bsPassword('new_password', [], '' , 'col-sm-3') }}
                     {{ Form::bsPassword('repeat_password', [], '' , 'col-sm-3') }}
