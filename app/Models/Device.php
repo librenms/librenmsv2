@@ -252,4 +252,46 @@ class Device extends Model
         $this->attributes['ip'] = inet_pton($ip);
     }
 
+    // ---- Query scopes ----
+
+    public function scopeDeviceUp($query)
+    {
+        return $query->where([
+            ['status',   '=', 1],
+            ['ignore',   '=', 0],
+            ['disabled', '=', 0]
+        ]);
+    }
+
+    public function scopeDeviceDown($query)
+    {
+        return $query->where([
+            ['status',   '=', 0],
+            ['ignore',   '=', 0],
+            ['disabled', '=', 0]
+        ]);
+    }
+
+    public function scopeDeviceIgnored($query)
+    {
+        return $query->where([
+            ['ignore',   '=', 1],
+            ['disabled', '=', 0]
+        ]);
+    }
+
+    public function scopeDeviceNotIgnored($query)
+    {
+        return $query->where([
+            ['ignore',   '=', 0]
+        ]);
+    }
+
+    public function scopeDeviceDisabled($query)
+    {
+        return $query->where([
+            ['disabled', '=', 1]
+        ]);
+    }
+
 }

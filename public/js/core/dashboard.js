@@ -68,13 +68,19 @@ $.Dashboard.refreshDashboardWidget = function(token, data, refresh=false)
                 new_refresh);
             }
 
-            $.get(
-                '/widget-data/'+settings.widget,
-                function (output) {
-                    $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(output);
+            $.get('/widget-data/'+settings.widget, function () {
+            })
+            .done(function(output) {
+                $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(output);
+            })
+            .fail(function(err,msg) {
+                if (err.status === 404) {
+                    $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html('This widget isn\'t currently available in this version! :(');
                 }
-            )
-
+                else {
+                    $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html('<h1>:(</h1>');
+                }
+            });
 
         })
         .fail(function(err,msg) {

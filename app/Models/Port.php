@@ -221,4 +221,49 @@ class Port extends Model
         return null;
     }
 
+    // ---- Query scopes ----
+
+    public function scopePortNotDeleted($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0]
+        ]);
+    }
+
+    public function scopePortUp($query)
+    {
+        return $query->where([
+            ['deleted',      '=', 0],
+            ['ignore',       '=', 0],
+            ['ifOperStatus', '=', 'up']
+        ]);
+    }
+
+    public function scopePortDown($query)
+    {
+        return $query->where([
+            ['deleted',       '=', 0],
+            ['ignore',        '=', 0],
+            ['ifOperStatus',  '=', 'down'],
+            ['ifAdminStatus', '=', 'up']
+        ]);
+    }
+
+    public function scopePortIgnored($query)
+    {
+        return $query->where([
+            ['deleted',       '=', 0],
+            ['ignore',        '=', 1]
+        ]);
+    }
+
+    public function scopePortDisabled($query)
+    {
+        return $query->where([
+            ['deleted',       '=', 0],
+            ['ignore',        '=', 0],
+            ['ifAdminStatus', '=', 'down']
+        ]);
+    }
+
 }

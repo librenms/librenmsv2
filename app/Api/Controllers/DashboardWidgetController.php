@@ -131,7 +131,7 @@ class DashboardWidgetController extends Controller
 
     public function get_content($id)
     {
-        $content[] = 'Yes we have some text';
+        $content[] = '<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>';
         return $this->response->array(array('statusText' => 'OK', 'content' => $content));
     }
 

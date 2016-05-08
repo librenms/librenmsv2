@@ -27,7 +27,12 @@ namespace App\Http\Controllers\Widgets;
 
 use App\DataTables\Alerting\AlertsDataTable;
 use App\DataTables\General\EventlogDataTable;
+use App\DataTables\General\SyslogDataTable;
 use App\Http\Controllers\Controller;
+use App\Settings;
+use App\Models\Device;
+use App\Models\Port;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class WidgetDataController extends Controller
@@ -35,7 +40,6 @@ class WidgetDataController extends Controller
     /**
      * Display the eventlog widget.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function eventlog(EventlogDataTable $dataTable)
@@ -43,11 +47,9 @@ class WidgetDataController extends Controller
         return $dataTable->render('general.widget');
     }
 
-
     /**
      * Display the alerts widget.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function alerts(AlertsDataTable $dataTable)
@@ -56,14 +58,102 @@ class WidgetDataController extends Controller
     }
 
     /**
+     * Display the syslog widget.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function syslog(SyslogDataTable $dataTable)
+    {
+        return $dataTable->render('general.widget');
+    }
+
+    /**
      * Display the availability-map widget.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response|null
      */
-    public function availability_map()
+    public function availability_map(Settings $settings, Request $request)
     {
-        return view('widgets.availability-map');
+        $uptime  = $settings->get('uptime_warning');
+        if ($request->user()->hasGlobalRead())
+        {
+            $devices = Device::where('ignore', '=', 0)->get();
+        }
+        else
+        {
+            $devices = User::find($request->user()->user_id)->devices()->where('ignore', '=', 0)->get();
+        }
+        $count   = ['warn' => 0, 'up' => 0, 'down' => 0];
+        foreach ($devices as $device)
+        {
+            if ($device->status == 1)
+            {
+                if (($device->uptime < $uptime) && ($device->uptime != '0'))
+                {
+                    $count['warn']++;
+                }
+                else
+                {
+                    $count['up']++;
+                }
+            }
+            else
+            {
+                $count['down']++;
+            }
+        }
+        return view('widgets.availability-map', compact(['devices', 'uptime', 'count']));
+    }
+
+    /**
+     * Display the device-summary widget.
+     *
+     * @param  string|null  $type
+     * @return \Illuminate\Http\Response|null
+     */
+    public function device_summary(Request $request)
+    {
+        $type = $request->route()->getAction()['type'];
+        if ($request->user()->hasGlobalRead())
+        {
+            $count['devices']['total']    = Device::all()->count();
+            $count['devices']['up']       = Device::deviceup()->count();
+            $count['devices']['down']     = Device::devicedown()->count();
+            $count['devices']['ignored']  = Device::deviceignored()->count();
+            $count['devices']['disabled'] = Device::devicedisabled()->count();
+
+            $count['ports']['total']      = Port::portnotdeleted()->count();
+            $count['ports']['up']         = Port::with('device')->portup()->count();
+            $count['ports']['down']       = Port::with('device')->portdown()->count();
+            $count['ports']['ignored']    = Port::with('device')->portignored()->count();
+            $count['ports']['disabled']   = Port::with('device')->portdisabled()->count();
+        }
+        else
+        {
+            $count['devices']['total']    = User::find($request->user()->user_id)->devices()->count();
+            $count['devices']['up']       = User::find($request->user()->user_id)->devices()->deviceup()->count();
+            $count['devices']['down']     = User::find($request->user()->user_id)->devices()->devicedown()->count();
+            $count['devices']['ignored']  = User::find($request->user()->user_id)->devices()->deviceignored()->count();
+            $count['devices']['disabled'] = User::find($request->user()->user_id)->devices()->devicedisabled()->count();
+
+            $count['ports']['total']      = User::find($request->user()->user_id)->ports()->with('device')->count();
+            $count['ports']['up']         = User::find($request->user()->user_id)->ports()->with('device')->portup()->count();
+            $count['ports']['down']       = User::find($request->user()->user_id)->ports()->with('device')->portdown()->count();
+            $count['ports']['ignored']    = User::find($request->user()->user_id)->ports()->with('device')->portignored()->count();
+            $count['ports']['disabled']   = User::find($request->user()->user_id)->ports()->with('device')->portdisabled()->count();
+        }
+        return view('widgets.device-summary', compact(['count', 'type']));
+    }
+
+    /**
+     * Display the Worldmap widget.
+     *
+     * @param  string|null  $type
+     * @return \Illuminate\Http\Response|null
+     */
+    public function worldmap(Request $request)
+    {
+        return view('widgets.worldmap');
     }
 
 }

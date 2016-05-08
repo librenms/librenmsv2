@@ -89,4 +89,15 @@ class SyslogDataTable extends BaseDataTable
     {
         return 'syslog';
     }
+
+    /**
+     * Get ajax url.
+     *
+     * @return string
+     */
+    public function getAjax()
+    {
+        return url('syslog');
+    }
+
 }
