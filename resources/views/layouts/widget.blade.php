@@ -1,0 +1,2 @@
+@yield('content')
+@yield('scripts')

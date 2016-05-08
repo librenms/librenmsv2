@@ -52,6 +52,12 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('alerting/alerts', 'Alerting\AlertsController');
     Route::resource('alerting/logs', 'Alerting\LogsController');
     Route::resource('alerting/stats', 'Alerting\StatsController');
+
+    // Load widgets
+    Route::get('widget-data/alerts', 'Widgets\WidgetDataController@alerts');
+    Route::get('widget-data/availability-map', 'Widgets\WidgetDataController@availability_map');
+    Route::get('widget-data/eventlog', 'Widgets\WidgetDataController@eventlog');
+
 });
 
 // ---- API Routes ----

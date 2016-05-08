@@ -120,4 +120,15 @@ class AlertsDataTable extends BaseDataTable
     {
         return 'alerts';
     }
+
+    /**
+     * Get ajax url.
+     *
+     * @return string
+     */
+    public function getAjax()
+    {
+        return url('alerting/alerts');
+    }
+
 }

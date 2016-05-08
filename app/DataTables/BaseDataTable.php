@@ -39,7 +39,8 @@ abstract class BaseDataTable extends DataTable
     {
         return $this->builder()
             ->columns($this->getColumns())
-            ->parameters($this->getBuilderParameters());
+            ->parameters($this->getBuilderParameters())
+            ->ajax($this->getAjax());
     }
 
     /**
@@ -55,7 +56,7 @@ abstract class BaseDataTable extends DataTable
      * @return \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder
      */
     abstract public function query();
-    
+
     /**
      * Get Builder Params
      *
@@ -74,4 +75,15 @@ abstract class BaseDataTable extends DataTable
             'autoWidth' => false,
         ];
     }
+
+    /**
+     * Get ajax url.
+     *
+     * @return string
+     */
+    public function getAjax()
+    {
+       return '';    
+    }
+
 }

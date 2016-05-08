@@ -53,6 +53,7 @@ $.Dashboard.refreshDashboardWidget = function(token, data, refresh=false)
         .done(function(response) {
             settings = response.widget;
             content  = response.content.content;
+
             if (refresh === false)
             {
                 el = $('<div id="'+data.user_widget_id+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool" id="edit-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.editWidget(this, \'' + token + '\')"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool" id="remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this, \'' + token + '\')"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
@@ -66,6 +67,15 @@ $.Dashboard.refreshDashboardWidget = function(token, data, refresh=false)
                 },
                 new_refresh);
             }
+
+            $.get(
+                '/widget-data/'+settings.widget,
+                function (output) {
+                    $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(output);
+                }
+            )
+
+
         })
         .fail(function(err,msg) {
             toastr.error("Couldn't create the widget " + data.title);
