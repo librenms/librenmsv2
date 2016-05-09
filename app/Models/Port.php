@@ -149,6 +149,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPeriod($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification NotDeleted()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsUp()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDown()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
  * @mixin \Eloquent
  */
 class Port extends Model
@@ -219,6 +224,51 @@ class Port extends Model
             return preg_replace('/(..)(..)(..)(..)(..)(..)/', '\\1:\\2:\\3:\\4:\\5:\\6', $mac);
         }
         return null;
+    }
+
+    // ---- Query scopes ----
+
+    public function scopeNotDeleted($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0]
+        ]);
+    }
+
+    public function scopeIsUp($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
+            ['ifOperStatus', '=', 'up']
+        ]);
+    }
+
+    public function scopeIsDown($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
+            ['ifOperStatus', '=', 'down'],
+            ['ifAdminStatus', '=', 'up']
+        ]);
+    }
+
+    public function scopeIsIgnored($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 1]
+        ]);
+    }
+
+    public function scopeIsDisabled($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
+            ['ifAdminStatus', '=', 'down']
+        ]);
     }
 
 }

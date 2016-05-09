@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('includes.datatables')
+
 @section('title', trans('nav.overview.dashboard'))
 
 @section('content-header')
@@ -30,7 +32,7 @@
         </form>
     </div>
 </div>
-
+<br />
 <div class="row">
     <div class="grid-stack">
     </div>
@@ -42,13 +44,14 @@
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-        <li class="tab-pane active"><a href="#control-sidebar-add-tab" data-toggle="tab"><i class="fa fa-plus"></i></a></li>
-        <li><a href="#control-sidebar-edit-tab" data-toggle="tab"><i class="fa fa-pencil"></i></a></li>
+        <li><a href="#control-sidebar-add-tab" data-toggle="tab"><i class="fa fa-plus"></i></a></li>
+        <li class="tab-pane active"><a href="#control-sidebar-edit-tab" data-toggle="tab"><i class="fa fa-pencil"></i></a></li>
         <li><a href="#control-sidebar-delete-tab" data-toggle="tab"><i class="fa fa-trash"></i></a></li>
+        <li><a href="#" data-toggle="control-sidebar" class="btn btn-primary"><i class="fa fa-chevron-right"></i></a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane active" id="control-sidebar-add-tab">
+        <div class="tab-pane" id="control-sidebar-add-tab">
             <div class="row">
                 <div class="col-sm-12">
                     {!! Form::open(array('method' => 'post', 'id' => 'confirm-add-dashboard')) !!}
@@ -78,7 +81,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="control-sidebar-edit-tab">
+        <div class="tab-pane active" id="control-sidebar-edit-tab">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -145,7 +148,6 @@
         @foreach ($dash_widgets as $dash_widget)
             var data = {!! $dash_widget !!}
             $.Dashboard.addWidget(grid, data, '{{ $token }}');
-            $.Dashboard.refreshDashboardWidget('{{ $token }}', data,true);
         @endforeach
         $('.grid-stack').on('dragstop', function(event, ui) {
             setTimeout(function() {

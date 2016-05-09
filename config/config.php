@@ -24,10 +24,17 @@
  */
 $install_dir = env('V1_INSTALL_DIR', '/opt/librenms');
 $config_source = $install_dir . '/config.php';
+$defaults_source = $install_dir . '/includes/defaults.inc.php';
 
 $config = array();
 
-if (file_exists($config_source)) {
+if (file_exists($defaults_source))
+{
+    include_once($defaults_source);
+}
+    
+if (file_exists($config_source))
+{
     include_once($config_source);
 }
 

@@ -101,6 +101,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device wherePollerGroup($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereOverrideSysLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereNotes($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsUp()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDown()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification NotIgnored()
  * @mixin \Eloquent
  */
 class Device extends Model
@@ -250,6 +255,48 @@ class Device extends Model
     public function setIpAttribute($ip)
     {
         $this->attributes['ip'] = inet_pton($ip);
+    }
+
+    // ---- Query scopes ----
+
+    public function scopeIsUp($query)
+    {
+        return $query->where([
+            ['status', '=', 1],
+            ['ignore', '=', 0],
+            ['disabled', '=', 0]
+        ]);
+    }
+
+    public function scopeIsDown($query)
+    {
+        return $query->where([
+            ['status', '=', 0],
+            ['ignore', '=', 0],
+            ['disabled', '=', 0]
+        ]);
+    }
+
+    public function scopeIsIgnored($query)
+    {
+        return $query->where([
+            ['ignore', '=', 1],
+            ['disabled', '=', 0]
+        ]);
+    }
+
+    public function scopeNotIgnored($query)
+    {
+        return $query->where([
+            ['ignore', '=', 0]
+        ]);
+    }
+
+    public function scopeIsDisabled($query)
+    {
+        return $query->where([
+            ['disabled', '=', 1]
+        ]);
     }
 
 }

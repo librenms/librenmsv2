@@ -52,3 +52,7 @@ input + i.fa-close { color: red; }
     right: -330px;
     width: 330px;
 }
+
+#leaflet-map {
+    height: 600px;
+}

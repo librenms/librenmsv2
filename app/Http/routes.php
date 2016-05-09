@@ -52,6 +52,16 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('alerting/alerts', 'Alerting\AlertsController');
     Route::resource('alerting/logs', 'Alerting\LogsController');
     Route::resource('alerting/stats', 'Alerting\StatsController');
+
+    // Load widgets
+    Route::get('widget-data/availability-map', 'Widgets\WidgetDataController@availabilitymap');
+    Route::get('widget-data/device-summary-horiz', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'horiz']);
+    Route::get('widget-data/device-summary-vert', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'vert']);
+    Route::get('widget-data/alerts', 'Widgets\WidgetDataController@alerts');
+    Route::get('widget-data/eventlog', 'Widgets\WidgetDataController@eventlog');
+    Route::get('widget-data/syslog', 'Widgets\WidgetDataController@syslog');
+    Route::get('widget-data/worldmap', 'Widgets\WidgetDataController@worldmap');
+
 });
 
 // ---- API Routes ----

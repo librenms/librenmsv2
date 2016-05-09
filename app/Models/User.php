@@ -103,6 +103,7 @@ class User extends Authenticatable
      */
     public function ports()
     {
+        //FIXME we should return all ports for a device if the user has been given access to the whole device.
         return $this->belongsToMany('App\Models\Port', 'ports_perms', 'user_id', 'port_id');
     }
 

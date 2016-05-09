@@ -90,4 +90,15 @@ class EventlogDataTable extends BaseDataTable
     {
         return 'eventlog';
     }
+
+    /**
+     * Get ajax url.
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getAjax()
+    {
+        return url('eventlog');
+    }
+
 }
