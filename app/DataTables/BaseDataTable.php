@@ -83,7 +83,7 @@ abstract class BaseDataTable extends DataTable
      */
     public function getAjax()
     {
-       return '';    
+        return '';    
     }
 
 }

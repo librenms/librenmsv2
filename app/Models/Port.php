@@ -149,6 +149,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPeriod($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortNotDeleted($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortUp($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDown($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortIgnored($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDisabled($request)
  * @mixin \Eloquent
  */
 class Port extends Model
@@ -233,8 +238,8 @@ class Port extends Model
     public function scopePortUp($query)
     {
         return $query->where([
-            ['deleted',      '=', 0],
-            ['ignore',       '=', 0],
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
             ['ifOperStatus', '=', 'up']
         ]);
     }
@@ -242,9 +247,9 @@ class Port extends Model
     public function scopePortDown($query)
     {
         return $query->where([
-            ['deleted',       '=', 0],
-            ['ignore',        '=', 0],
-            ['ifOperStatus',  '=', 'down'],
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
+            ['ifOperStatus', '=', 'down'],
             ['ifAdminStatus', '=', 'up']
         ]);
     }
@@ -252,16 +257,16 @@ class Port extends Model
     public function scopePortIgnored($query)
     {
         return $query->where([
-            ['deleted',       '=', 0],
-            ['ignore',        '=', 1]
+            ['deleted', '=', 0],
+            ['ignore', '=', 1]
         ]);
     }
 
     public function scopePortDisabled($query)
     {
         return $query->where([
-            ['deleted',       '=', 0],
-            ['ignore',        '=', 0],
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
             ['ifAdminStatus', '=', 'down']
         ]);
     }

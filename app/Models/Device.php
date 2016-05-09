@@ -101,6 +101,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device wherePollerGroup($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereOverrideSysLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereNotes($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceUp($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDown($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceIgnored($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDisabled($request)
  * @mixin \Eloquent
  */
 class Device extends Model
@@ -257,8 +261,8 @@ class Device extends Model
     public function scopeDeviceUp($query)
     {
         return $query->where([
-            ['status',   '=', 1],
-            ['ignore',   '=', 0],
+            ['status', '=', 1],
+            ['ignore', '=', 0],
             ['disabled', '=', 0]
         ]);
     }
@@ -266,8 +270,8 @@ class Device extends Model
     public function scopeDeviceDown($query)
     {
         return $query->where([
-            ['status',   '=', 0],
-            ['ignore',   '=', 0],
+            ['status', '=', 0],
+            ['ignore', '=', 0],
             ['disabled', '=', 0]
         ]);
     }
@@ -275,7 +279,7 @@ class Device extends Model
     public function scopeDeviceIgnored($query)
     {
         return $query->where([
-            ['ignore',   '=', 1],
+            ['ignore', '=', 1],
             ['disabled', '=', 0]
         ]);
     }
@@ -283,7 +287,7 @@ class Device extends Model
     public function scopeDeviceNotIgnored($query)
     {
         return $query->where([
-            ['ignore',   '=', 0]
+            ['ignore', '=', 0]
         ]);
     }
 
