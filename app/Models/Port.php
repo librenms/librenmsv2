@@ -228,7 +228,7 @@ class Port extends Model
 
     // ---- Query scopes ----
 
-    public function NotDeleted($query)
+    public function scopeNotDeleted($query)
     {
         return $query->where([
             ['deleted', '=', 0]
