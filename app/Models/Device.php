@@ -101,10 +101,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device wherePollerGroup($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereOverrideSysLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereNotes($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceUp()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDown()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceIgnored()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDisabled()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsUp()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDown()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification NotIgnored()
  * @mixin \Eloquent
  */
 class Device extends Model
@@ -258,7 +259,7 @@ class Device extends Model
 
     // ---- Query scopes ----
 
-    public function scopeDeviceUp($query)
+    public function scopeIsUp($query)
     {
         return $query->where([
             ['status', '=', 1],
@@ -267,7 +268,7 @@ class Device extends Model
         ]);
     }
 
-    public function scopeDeviceDown($query)
+    public function scopeIsDown($query)
     {
         return $query->where([
             ['status', '=', 0],
@@ -276,7 +277,7 @@ class Device extends Model
         ]);
     }
 
-    public function scopeDeviceIgnored($query)
+    public function scopeIsIgnored($query)
     {
         return $query->where([
             ['ignore', '=', 1],
@@ -284,14 +285,14 @@ class Device extends Model
         ]);
     }
 
-    public function scopeDeviceNotIgnored($query)
+    public function scopeNotIgnored($query)
     {
         return $query->where([
             ['ignore', '=', 0]
         ]);
     }
 
-    public function scopeDeviceDisabled($query)
+    public function scopeIsDisabled($query)
     {
         return $query->where([
             ['disabled', '=', 1]

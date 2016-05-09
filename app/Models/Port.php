@@ -149,11 +149,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortNotDeleted()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortUp()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDown()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortIgnored()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDisabled()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification NotDeleted()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsUp()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDown()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
  * @mixin \Eloquent
  */
 class Port extends Model
@@ -228,14 +228,14 @@ class Port extends Model
 
     // ---- Query scopes ----
 
-    public function scopePortNotDeleted($query)
+    public function NotDeleted($query)
     {
         return $query->where([
             ['deleted', '=', 0]
         ]);
     }
 
-    public function scopePortUp($query)
+    public function scopeIsUp($query)
     {
         return $query->where([
             ['deleted', '=', 0],
@@ -244,7 +244,7 @@ class Port extends Model
         ]);
     }
 
-    public function scopePortDown($query)
+    public function scopeIsDown($query)
     {
         return $query->where([
             ['deleted', '=', 0],
@@ -254,7 +254,7 @@ class Port extends Model
         ]);
     }
 
-    public function scopePortIgnored($query)
+    public function scopeIsIgnored($query)
     {
         return $query->where([
             ['deleted', '=', 0],
@@ -262,7 +262,7 @@ class Port extends Model
         ]);
     }
 
-    public function scopePortDisabled($query)
+    public function scopeIsDisabled($query)
     {
         return $query->where([
             ['deleted', '=', 0],

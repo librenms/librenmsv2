@@ -117,30 +117,30 @@ class WidgetDataController extends Controller
         if ($request->user()->hasGlobalRead())
         {
             $count['devices']['total']    = Device::all()->count();
-            $count['devices']['up']       = Device::deviceup()->count();
-            $count['devices']['down']     = Device::devicedown()->count();
-            $count['devices']['ignored']  = Device::deviceignored()->count();
-            $count['devices']['disabled'] = Device::devicedisabled()->count();
+            $count['devices']['up']       = Device::isup()->count();
+            $count['devices']['down']     = Device::isdown()->count();
+            $count['devices']['ignored']  = Device::isignored()->count();
+            $count['devices']['disabled'] = Device::isdisabled()->count();
 
-            $count['ports']['total']      = Port::portnotdeleted()->count();
-            $count['ports']['up']         = Port::with('device')->portup()->count();
-            $count['ports']['down']       = Port::with('device')->portdown()->count();
-            $count['ports']['ignored']    = Port::with('device')->portignored()->count();
-            $count['ports']['disabled']   = Port::with('device')->portdisabled()->count();
+            $count['ports']['total']      = Port::notdeleted()->count();
+            $count['ports']['up']         = Port::with('device')->isup()->count();
+            $count['ports']['down']       = Port::with('device')->isdown()->count();
+            $count['ports']['ignored']    = Port::with('device')->isignored()->count();
+            $count['ports']['disabled']   = Port::with('device')->isdisabled()->count();
         }
         else
         {
             $count['devices']['total']    = User::find($request->user()->user_id)->devices()->count();
-            $count['devices']['up']       = User::find($request->user()->user_id)->devices()->deviceup()->count();
-            $count['devices']['down']     = User::find($request->user()->user_id)->devices()->devicedown()->count();
-            $count['devices']['ignored']  = User::find($request->user()->user_id)->devices()->deviceignored()->count();
-            $count['devices']['disabled'] = User::find($request->user()->user_id)->devices()->devicedisabled()->count();
+            $count['devices']['up']       = User::find($request->user()->user_id)->devices()->iseup()->count();
+            $count['devices']['down']     = User::find($request->user()->user_id)->devices()->isdown()->count();
+            $count['devices']['ignored']  = User::find($request->user()->user_id)->devices()->isignored()->count();
+            $count['devices']['disabled'] = User::find($request->user()->user_id)->devices()->isdisabled()->count();
 
             $count['ports']['total']      = User::find($request->user()->user_id)->ports()->with('device')->count();
-            $count['ports']['up']         = User::find($request->user()->user_id)->ports()->with('device')->portup()->count();
-            $count['ports']['down']       = User::find($request->user()->user_id)->ports()->with('device')->portdown()->count();
-            $count['ports']['ignored']    = User::find($request->user()->user_id)->ports()->with('device')->portignored()->count();
-            $count['ports']['disabled']   = User::find($request->user()->user_id)->ports()->with('device')->portdisabled()->count();
+            $count['ports']['up']         = User::find($request->user()->user_id)->ports()->with('device')->isup()->count();
+            $count['ports']['down']       = User::find($request->user()->user_id)->ports()->with('device')->isdown()->count();
+            $count['ports']['ignored']    = User::find($request->user()->user_id)->ports()->with('device')->isignored()->count();
+            $count['ports']['disabled']   = User::find($request->user()->user_id)->ports()->with('device')->isdisabled()->count();
         }
         return view('widgets.device-summary', compact(['count', 'type']));
     }

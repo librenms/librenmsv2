@@ -28,12 +28,14 @@ $defaults_source = $install_dir . '/includes/defaults.inc.php';
 
 $config = array();
 
-if (file_exists($config_source)) {
-    include_once($config_source);
-}
-
-if (file_exists($defaults_source)) {
+if (file_exists($defaults_source))
+{
     include_once($defaults_source);
+}
+    
+if (file_exists($config_source))
+{
+    include_once($config_source);
 }
 
 return $config;
