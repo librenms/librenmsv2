@@ -70,7 +70,7 @@ class WidgetDataController extends Controller
     /**
      * Display the availability-map widget.
      *
-     * @return \Illuminate\View\View|Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function Availability_Map(Settings $settings, Request $request)
     {
@@ -83,7 +83,7 @@ class WidgetDataController extends Controller
         {
             $devices = User::find($request->user()->user_id)->devices()->where('ignore', '=', 0)->get();
         }
-        $count  = ['warn' => 0, 'up' => 0, 'down' => 0];
+        $count = ['warn' => 0, 'up' => 0, 'down' => 0];
         foreach ($devices as $device)
         {
             if ($device->status == 1)
@@ -108,7 +108,7 @@ class WidgetDataController extends Controller
     /**
      * Display the device-summary widget.
      *
-     * @return \Illuminate\View\View|Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function Device_Summary(Request $request)
     {
@@ -148,7 +148,7 @@ class WidgetDataController extends Controller
     /**
      * Display the Worldmap widget.
      *
-     * @return \Illuminate\View\View|Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function worldmap(Request $request)
     {

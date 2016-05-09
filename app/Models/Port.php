@@ -149,11 +149,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortNotDeleted($request)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortUp($request)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDown($request)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortIgnored($request)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDisabled($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortNotDeleted($query)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortUp($query)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDown($query)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortIgnored($query)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification PortDisabled($query)
  * @mixin \Eloquent
  */
 class Port extends Model
