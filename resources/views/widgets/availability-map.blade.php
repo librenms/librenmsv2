@@ -8,7 +8,7 @@
 @foreach ($devices as $device)
 
     @if ($device->status == 1)
-        @if ($device->uptime < $uptime) && ($device->uptime != '0'))
+        @if ($device->uptime < $uptime && $device->uptime != '0')
             <?php $btn = "warning"; ?>
         @else
             <?php $btn = "success"; ?>
