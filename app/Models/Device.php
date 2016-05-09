@@ -101,10 +101,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device wherePollerGroup($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereOverrideSysLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereNotes($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceUp($query)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDown($query)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceIgnored($query)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDisabled($query)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceUp()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDown()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification DeviceDisabled()
  * @mixin \Eloquent
  */
 class Device extends Model

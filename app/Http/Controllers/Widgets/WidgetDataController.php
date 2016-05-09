@@ -72,7 +72,7 @@ class WidgetDataController extends Controller
      *
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function Availability_Map(Settings $settings, Request $request)
+    public function availabilitymap(Settings $settings, Request $request)
     {
         $uptime = $settings->get('uptime_warning');
         if ($request->user()->hasGlobalRead())
@@ -110,7 +110,7 @@ class WidgetDataController extends Controller
      *
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function Device_Summary(Request $request)
+    public function devicesummary(Request $request)
     {
         $type = $request->route()->getAction()['type'];
         $count = [];
