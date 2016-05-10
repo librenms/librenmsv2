@@ -35,7 +35,6 @@ use App\Models\User;
 use App\Models\UsersWidgets;
 use App\Settings;
 use Illuminate\Http\Request;
-use JWTAuth;
 
 class WidgetDataController extends Controller
 {

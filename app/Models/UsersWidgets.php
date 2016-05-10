@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereRefresh($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereSettings($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereDashboardId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification GetSettings($request)
  * @mixin \Eloquent
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Widgets $widget
