@@ -38,7 +38,8 @@ $.Dashboard.addWidget = function(grid, data, token) {
     if (data.autoPosition == '') {
         data.autoPosition = false;
     }
-    $.Dashboard.refreshDashboardWidget(token, data);
+    data.refresh = 60;
+    $.Dashboard.refreshDashboardWidget(token, data, false);
  }
 
 /* refreshDashboardWidget()
@@ -48,44 +49,46 @@ $.Dashboard.addWidget = function(grid, data, token) {
 $.Dashboard.refreshDashboardWidget = function(token, data, refresh=false)
 {
     id = data.widget_id;
-    $.Util.ajaxSetup(token);
     $.Util.apiAjaxGetCall('/api/dashboard-widget/'+id)
         .done(function(response) {
             settings = response.widget;
             content  = response.content.content;
-
             if (refresh === false)
             {
-                el = $('<div id="'+data.user_widget_id+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool" id="edit-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.editWidget(this, \'' + token + '\')"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool" id="remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this, \'' + token + '\')"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
+                el = $('<div id="'+data.user_widget_id+'" data-widget_id="'+data.widget_id+'" data-refresh="'+data.refresh+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool" id="edit-widget" data-id="' + data.user_widget_id + '" data-widget-name="' + settings.widget + '" onClick="$.Dashboard.editWidget(this, \'' + token + '\')"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool" id="remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this, \'' + token + '\')"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
                 grid.addWidget(el, data.col, data.row, data.size_x, data.size_y, data.autoPosition, null, null, null, null, data.user_widget_id);
             }
             else {
-                new_refresh = data.refresh*1000;
-                setTimeout(function() {
-                    $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(content);
-                    $.Dashboard.refreshDashboardWidget(token,data,true);
-                },
-                new_refresh);
+                $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(content);
             }
-
-            $.get('/widget-data/'+settings.widget, function () {
-            })
-            .done(function(output) {
-                $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(output);
-            })
-            .fail(function(err,msg) {
-                if (err.status === 404) {
-                    $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html('This widget isn\'t currently available in this version! :(');
-                }
-                else {
-                    $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html('<h1>:(</h1>');
-                }
-            });
+            $.Dashboard.grabContent(data,settings);
 
         })
         .fail(function(err,msg) {
             toastr.error("Couldn't create the widget " + data.title);
         });
+}
+
+
+$.Dashboard.grabContent = function(data,settings) {
+    refresh = data.refresh*1000;
+    $.get('/widget-data/'+settings.widget+'?id='+data.user_widget_id, function () {
+    })
+    .done(function(output) {
+        $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(output);
+    })
+    .fail(function(err,msg) {
+        if (err.status === 404) {
+            $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html('This widget isn\'t currently available in this version! :(');
+        }
+        else {
+            $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html('<h1>:(</h1>');
+        }
+    });
+    setTimeout(function() {
+        $.Dashboard.grabContent(data,settings)
+    },
+    refresh);
 }
 
 /* updateWidget()
@@ -144,14 +147,21 @@ $.Dashboard.editWidget = function(data, token) {
         $this = $(data);
         //content = $this.closest('.grid-stack-item').find('.box-body').html();
         id = $this.data('id');
-        $.Util.apiAjaxGetCall('/api/dashboard-widget/'+id+'/settings')
-            .done(function(response) {
-                content = response.content;
-                $this.closest('.grid-stack-item').find('.box-body').html(content);
-            })
-            .fail(function(err,msg) {
-                toastr.error("Couldn't retrieve this widgets settings page " + data.title);
-            });
+        widget = $this.data('widget-name');
+        $this.closest('.grid-stack-item').find('.box-body').html('<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>');
+        $.get('/widget-data/'+widget+'/settings?id='+id, function () {
+        })
+        .done(function(output) {
+            $this.closest('.grid-stack-item').find('.box-body').html(output);
+        })
+        .fail(function(err,msg) {
+            if (err.status === 404) {
+                $this.closest('.grid-stack-item').find('.box-body').html('This widget isn\'t currently available in this version! :(');
+            }
+            else {
+                $this.closest('.grid-stack-item').find('.box-body').html('<h1>:(</h1>');
+            }
+        });
     });
 }
 
@@ -265,11 +275,12 @@ $.Dashboard.dashboardActions = function(token, grid) {
                     }
                 });
         });
-        $('#widget_id').on('change', function()
+        $('#add_widget_id').on('change', function(event)
         {
-            tmp_data     = $('#widget_id').val().split(",");
-            dashboard_id = $('#widget_id').data('dashboard_id');
-            if (tmp_data)
+            $(".helper-add-widgets").hide();
+            tmp_data     = $('#add_widget_id').val().split(",");
+            dashboard_id = $('#add_widget_id').data('dashboard_id');
+            if (tmp_data && dashboard_id)
             {
                 widget_id  = tmp_data[0];
                 post_data = {
@@ -282,7 +293,6 @@ $.Dashboard.dashboardActions = function(token, grid) {
                     dashboard_id: dashboard_id,
                     autoPosition: true
                 }
-                $.Util.ajaxSetup(token);
                 $.Util.ajaxCall('POST','/api/dashboard-widget', post_data)
                 .done(function(data) {
                     if (data.statusText === "OK" ) {
@@ -301,5 +311,47 @@ $.Dashboard.dashboardActions = function(token, grid) {
                 toastr.error("Fatal, Couldn't add this widget");
             }
         });
+
+        var which;
+        $('body').on('click', '#update-widget-settings', function(event) {
+            which = $(this).attr("id");
+        });
+        $('body').on('click', '#cancel-widget-settings', function(event) {
+            which = $(this).attr("id");
+        });
+        $('body').on('submit', '#widget-settings', function(event) {
+            event.preventDefault(event);
+            el = $(this).closest('.grid-stack-item');
+            user_widget_id = el.attr('id');
+            form_data = dataToJson($(this).find('[name!=_token]').serializeArray());
+            fd = $.param({ settings: form_data });
+            data = {
+                widget_id: el.data('widget_id'),
+                user_widget_id: user_widget_id,
+                refresh: el.data('refresh'),
+            }
+            if (which === 'update-widget-settings') {
+                $.Util.apiAjaxPATCHCall('/api/dashboard-widget/'+user_widget_id, fd)
+                    .done(function(content) {
+                        $.Dashboard.refreshDashboardWidget(token,data,true);
+                    })
+                    .fail(function(err,msg) {
+                        toastr.error("Couldn't update this widget!");
+                    });
+            }
+            else {
+                $.Dashboard.refreshDashboardWidget(token,data,true);
+            }
+        });
+        which = '';
+
     });
+}
+
+function dataToJson(data){
+    var json = {};
+    jQuery.each(data, function() {
+        json[this.name] = this.value || '';
+    });
+    return json;
 }

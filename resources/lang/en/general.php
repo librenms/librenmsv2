@@ -27,6 +27,7 @@ return [
     ],
     'btn' => [
         'query'   => 'Query',
+        'cancel'  => 'Cancel',
     ],
 
 ];

@@ -32,8 +32,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Device;
 use App\Models\Port;
 use App\Models\User;
+use App\Models\UsersWidgets;
 use App\Settings;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class WidgetDataController extends Controller
 {
@@ -42,9 +44,10 @@ class WidgetDataController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function eventlog(EventlogDataTable $dataTable)
+    public function eventlog(EventlogDataTable $EventlogDataTable, $action = null)
     {
-        return $dataTable->render('general.widget');
+        $tableName = ['id' => 'eventlogDT'];
+        return $EventlogDataTable->render('widgets.eventlog', compact(['tableName', 'action']));
     }
 
     /**
@@ -52,9 +55,10 @@ class WidgetDataController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function alerts(AlertsDataTable $dataTable)
+    public function alerts(AlertsDataTable $dataTable, $action = null)
     {
-        return $dataTable->render('general.widget');
+        $tableName = ['id' => 'alertlogDT'];
+        return $dataTable->render('widgets.alertlog', compact(['tableName', 'action']));
     }
 
     /**
@@ -62,17 +66,19 @@ class WidgetDataController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function syslog(SyslogDataTable $dataTable)
+    public function syslog(SyslogDataTable $dataTable, $action = null)
     {
-        return $dataTable->render('general.widget');
+        $tableName = ['id' => 'syslogDT'];
+        return $dataTable->render('widgets.syslog', compact(['tableName', 'action']));
     }
 
     /**
      * Display the availability-map widget.
      *
+     * @param string $action
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function availabilitymap(Settings $settings, Request $request)
+    public function availabilitymap(Settings $settings, Request $request, $action = null)
     {
         $uptime = $settings->get('uptime_warning');
         if ($request->user()->hasGlobalRead())
@@ -102,7 +108,8 @@ class WidgetDataController extends Controller
                 $count['down']++;
             }
         }
-        return view('widgets.availability-map', compact(['devices', 'uptime', 'count']));
+        $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
+        return view('widgets.availability-map', compact(['devices', 'uptime', 'count', 'action', 'widget_settings']));
     }
 
     /**
@@ -110,7 +117,7 @@ class WidgetDataController extends Controller
      *
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function devicesummary(Request $request)
+    public function devicesummary(Request $request, $action = null)
     {
         $type = $request->route()->getAction()['type'];
         $count = [];
@@ -142,7 +149,7 @@ class WidgetDataController extends Controller
             $count['ports']['ignored']    = User::find($request->user()->user_id)->ports()->with('device')->isignored()->count();
             $count['ports']['disabled']   = User::find($request->user()->user_id)->ports()->with('device')->isdisabled()->count();
         }
-        return view('widgets.device-summary', compact(['count', 'type']));
+        return view('widgets.device-summary', compact(['count', 'type', 'action']));
     }
 
     /**
@@ -150,9 +157,21 @@ class WidgetDataController extends Controller
      *
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function worldmap(Request $request)
+    public function worldmap(Request $request, $action = null)
     {
-        return view('widgets.worldmap');
+        return view('widgets.worldmap', compact(['action']));
+    }
+
+    /**
+     * Display the notes widget.
+     *
+     * @param string $action
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function notes(Settings $settings, Request $request, $action = null)
+    {
+        $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
+        return view('widgets.notes', compact(['action', 'widget_settings']));
     }
 
 }

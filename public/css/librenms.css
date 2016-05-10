@@ -5,7 +5,18 @@
 .grid-stack-item-content {
     color: #2c3e50;
     text-align: center;
+    left: 5px !important;
+    right: 0px !important;
 }
+
+.box.box-solid.box-primary {
+    border: 0px;
+}
+
+.box {
+    border-radius: 0px !important;
+}
+
 .drag-handle {
     cursor: move;
     padding-right: 10px;

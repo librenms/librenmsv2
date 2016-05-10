@@ -54,13 +54,14 @@ Route::group(['middleware' => ['web']], function() {
     Route::resource('alerting/stats', 'Alerting\StatsController');
 
     // Load widgets
-    Route::get('widget-data/availability-map', 'Widgets\WidgetDataController@availabilitymap');
-    Route::get('widget-data/device-summary-horiz', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'horiz']);
-    Route::get('widget-data/device-summary-vert', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'vert']);
-    Route::get('widget-data/alerts', 'Widgets\WidgetDataController@alerts');
-    Route::get('widget-data/eventlog', 'Widgets\WidgetDataController@eventlog');
-    Route::get('widget-data/syslog', 'Widgets\WidgetDataController@syslog');
-    Route::get('widget-data/worldmap', 'Widgets\WidgetDataController@worldmap');
+    Route::get('widget-data/availability-map/{action?}', 'Widgets\WidgetDataController@availabilitymap');
+    Route::get('widget-data/alerts/{action?}', 'Widgets\WidgetDataController@alerts');
+    Route::get('widget-data/device-summary-horiz/{action?}', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'horiz']);
+    Route::get('widget-data/device-summary-vert/{action?}', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'vert']);
+    Route::get('widget-data/eventlog/{action?}', 'Widgets\WidgetDataController@eventlog');
+    Route::get('widget-data/notes/{action?}', 'Widgets\WidgetDataController@notes');
+    Route::get('widget-data/syslog/{action?}', 'Widgets\WidgetDataController@syslog');
+    Route::get('widget-data/worldmap/{action?}', 'Widgets\WidgetDataController@worldmap');
 
 });
 
@@ -84,7 +85,6 @@ $api->version('v1', function($api) {
         $api->resource('widget', 'App\Api\Controllers\WidgetController', ['paramaters' => ['widget' => 'widget_id']]);
         $api->resource('dashboard-widget', 'App\Api\Controllers\DashboardWidgetController', ['paramaters' => ['dashboard-widget' => 'user_widget_id']]);
         $api->get('dashboard-widget/{user_widget_id}/content', ['as' => 'api.dashboard-widget.get_content', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_content']);
-        $api->get('dashboard-widget/{user_widget_id}/settings', ['as' => 'api.dashboard-widget.get_settings', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_settings']);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
         $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');
