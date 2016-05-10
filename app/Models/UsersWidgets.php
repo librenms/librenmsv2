@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereRefresh($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereSettings($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereDashboardId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification GetSettings($request)
  * @mixin \Eloquent
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Widgets $widget
@@ -85,6 +86,16 @@ class UsersWidgets extends Model
     public function dashboard()
     {
         return $this->belongsTo('App\Models\Dashboard', 'dashboard_id');
+    }
+
+    // ---- Query scopes ----
+
+    public function scopeGetSettings($query, $request)
+    {
+        return $query->where([
+            ['user_widget_id', '=', $request->id],
+            ['user_id', '=', $request->user()->user_id]
+        ])->select('settings');
     }
 
 }

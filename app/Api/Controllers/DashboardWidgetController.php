@@ -98,11 +98,19 @@ class DashboardWidgetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $users_widgets         = UsersWidgets::find($id);
-        $users_widgets->col    = $request->input('x');
-        $users_widgets->row    = $request->input('y');
-        $users_widgets->size_x = $request->input('width');
-        $users_widgets->size_y = $request->input('height');
+        if ($request->input('settings'))
+        {
+            $users_widgets           = UsersWidgets::find($id);
+            $users_widgets->settings = json_encode($request->input('settings'));
+        }
+        else {
+            $users_widgets         = UsersWidgets::find($id);
+            $users_widgets->col    = $request->input('x');
+            $users_widgets->row    = $request->input('y');
+            $users_widgets->size_x = $request->input('width');
+            $users_widgets->size_y = $request->input('height');
+        }
+
         if ($users_widgets->save())
         {
             return $this->response->array(array('statusText' => 'OK'));
@@ -133,12 +141,6 @@ class DashboardWidgetController extends Controller
     {
         $content[] = '<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>';
         return $this->response->array(array('statusText' => 'OK', 'content' => $content));
-    }
-
-    public function get_settings($id)
-    {
-        $settings = array('Yes we have some settings');
-        return $this->response->array(array('statusText' => 'OK', 'content' => $settings));
     }
 
 }

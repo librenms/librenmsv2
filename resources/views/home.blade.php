@@ -17,7 +17,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-12">
         <form class="form-inline">
             <div class="form-group">
                 <select class="form-control" id="dashboard_id" name="dashboard_id" onchange="location = this.options[this.selectedIndex].value;">
@@ -29,6 +29,13 @@
             <div class="form-group">
                 <a href="#" data-toggle="control-sidebar" class="btn btn-primary"><i class="fa fa-gears"></i></a>
             </div>
+            @if (count($dash_widgets) < 1)
+            <div class="form-group">
+                <a class="btn btn-block btn-social btn-google helper-add-widgets" href="#" data-toggle="control-sidebar">
+                    <i class="fa fa-long-arrow-left"></i>Add some widgets here!
+                </a>
+            </div>
+            @endif
         </form>
     </div>
 </div>
@@ -37,7 +44,6 @@
     <div class="grid-stack">
     </div>
 </div>
-
 @endsection
 
 @section('settings-menu')
@@ -86,7 +92,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         {{ Form::label('name', trans('dashboard.label.add_widget')) }}
-                        <select class="form-control" id="widget_id" name="widget_id" data-dashboard_id="{{ $request->route('dashboard_id') }}">
+                        <select class="form-control" id="add_widget_id" name="add_widget_id" data-dashboard_id="{{ $request->route('dashboard_id') }}">
                                 <option value=""></option>
                             @foreach ($widgets as $widget)
                                 <option value="{{ $widget->widget_id }},{{ $widget->base_dimensions }},{{ $widget->widget_title }}">{{ $widget->widget_title }}</option>
