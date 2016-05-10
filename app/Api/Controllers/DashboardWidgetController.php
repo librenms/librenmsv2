@@ -118,7 +118,6 @@ class DashboardWidgetController extends Controller
         else {
             return $this->response->errorInternal();
         }
-
     }
 
     /**
