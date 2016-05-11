@@ -46,8 +46,13 @@ Route::group(['middleware' => ['web']], function() {
     Route::patch('notifications/{id}/{action}', 'NotificationController@update');
     Route::put('notifications', 'NotificationController@create');
     Route::get('about', 'HomeController@about');
-    Route::match(['get', 'post'], '/preferences', 'UserController@preferences');
     Route::resource('settings', 'SettingsController');
+    
+    //User 
+    Route::resource('users', 'UserController');
+    Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
+    Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);
+
     //Alerting section
     Route::resource('alerting/alerts', 'Alerting\AlertsController');
     Route::resource('alerting/logs', 'Alerting\LogsController');
@@ -62,6 +67,10 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('widget-data/notes/{action?}', 'Widgets\WidgetDataController@notes');
     Route::get('widget-data/syslog/{action?}', 'Widgets\WidgetDataController@syslog');
     Route::get('widget-data/worldmap/{action?}', 'Widgets\WidgetDataController@worldmap');
+
+});
+
+Route::group(['middleware' => 'web'], function() {
 
 });
 

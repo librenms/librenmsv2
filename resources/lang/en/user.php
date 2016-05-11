@@ -15,6 +15,20 @@ return [
         'noaccess'    => 'No access!',
         'pwdupdated'  => 'Password has been updated',
     ],
+    'text' => [
+        'manage'   => 'Manage',
+        'users'     => 'Users',
+        'username' => 'Username',
+        'realname' => 'Real Name',
+        'level'    => 'Level',
+        'actions'  => 'Actions',
+    ],
+    'level' => [
+        1 => 'Normal User',
+        5 => 'Global Read-Only',
+        10 => 'Global Admin',
+        11 => 'Demo User',
+    ],
     'login' => [
         'text' => [
             'username' => 'Username',

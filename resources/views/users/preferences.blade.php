@@ -23,13 +23,12 @@
                 <h3 class="box-title">{{ trans('user.preferences.change') }}</h3>
             </div>
             <div class="box-body">
-                    {!! Form::open(array('url' => 'preferences', 'method' => 'post', 'class' => 'form-horizontal')) !!}
-                    {{ Form::bsPassword('current_password', [], '' , 'col-sm-3') }}
-                    {{ Form::bsPassword('new_password', [], '' , 'col-sm-3') }}
-                    {{ Form::bsPassword('repeat_password', [], '' , 'col-sm-3') }}
-                    {{ Form::bsHorizSubmit('Update password', 'btn-primary')}}
+                    {!! Form::open(['url' => 'preferences', 'method' => 'post', 'class'=>'form-horizontal']) !!}
+                    {{ Form::bsPassword('current_password') }}
+                    {{ Form::bsPassword('password') }}
+                    {{ Form::bsPassword('password_confirmation') }}
+                    {{ Form::bsSubmit('Update password', 'btn-primary')}}
                     {!! Form::close() !!}
-                </form>
             </div>
         </div>
     </div>
@@ -87,10 +86,9 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/util.js') }}"></script>
     @if ($updated === true)
         <script>
-            $.Util.toastr('info', "{{ trans('user.preferences.pwdupdated') }}");
+            toastr.info("{{ trans('user.preferences.pwdupdated') }}");
         </script>
     @endif
 @endsection

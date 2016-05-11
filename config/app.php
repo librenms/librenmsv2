@@ -154,13 +154,14 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HtmlFormServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\SettingsServiceProvider::class,
+        App\Providers\ValidationServiceProvider::class,
         'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
         'Irazasyed\JwtAuthGuard\JwtAuthGuardServiceProvider',
         'Dingo\Api\Provider\LaravelServiceProvider',
         Collective\Html\HtmlServiceProvider::class,
-        App\Providers\HtmlFormServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class
 
     ],

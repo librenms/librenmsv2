@@ -256,9 +256,7 @@
                     @if (Auth::user()->isAdmin())
                         <li><a href="{{ url('/settings') }}"><i class="icon fa fa-sitemap"></i> {{ trans('nav.settings.global') }}</a></li>
                         <li><hr></li>
-                        <li><a href="#"><i class="icon fa fa-user-plus"></i> {{ trans('nav.settings.add') }}</a></li>
-                        <li><a href="#"><i class="icon fa fa-user-times"></i> {{ trans('nav.settings.del') }}</a></li>
-                        <li><a href="#"><i class="icon fa fa-user-secret"></i> {{ trans('nav.settings.edit') }}</a></li>
+                        <li><a href="{{ url('/users') }}"><i class="icon fa fa-users"></i> {{ trans('nav.settings.users') }}</a></li>
                         <li><hr></li>
                         <li><a href="#"><i class="icon fa fa-key"></i> {{ trans('nav.settings.authlog') }}</a></li>
                         <li><hr></li>

@@ -78,10 +78,10 @@ class AddUser extends Command
 
         // set password
         if ($this->argument('password')) {
-            $user->password = bcrypt($this->argument('password'));
+            $user->password = $this->argument('password');
         }
         else {
-            $user->password = bcrypt($this->secret('Password'));
+            $user->password = $this->secret('Password');
         }
 
         // save user
