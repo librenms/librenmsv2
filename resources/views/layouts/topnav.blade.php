@@ -47,8 +47,8 @@
                         <p><small><i>{{ Auth::user()->descr }}</i></small></p>
                     </li>
                     <li class="user-footer">
-                        <div class="pull-left"><a href="{{ action('UserController@show', ['user_id' => Auth::id()]) }}" class="btn btn-default btn-flat"><i class="fa fa-cog"></i> {{ trans('nav.mysettings') }}</a></div>
-                        <div class="pull-right"><a href="{{ url('/logout') }}" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> {{ trans('nav.logout') }}</a></div>
+                        <div class="pull-left"><a href="{{ url('preferences') }}" class="btn btn-default btn-flat"><i class="fa fa-cog"></i> {{ trans('nav.mysettings') }}</a></div>
+                        <div class="pull-right"><a href="{{ url('logout') }}" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> {{ trans('nav.logout') }}</a></div>
                     </li>
                 </ul>
             </li>

@@ -32,7 +32,8 @@ use App\Models\User;
 
 class UserDeviceController extends Controller
 {
-    public function create(AdminOnlyRequest $request, $user_id) {
+    public function create(AdminOnlyRequest $request, $user_id)
+    {
         $user = User::with('devices')->find($user_id);
 
         return view('users.devices-create')->withUser($user);
@@ -48,15 +49,15 @@ class UserDeviceController extends Controller
         $user = User::find($user_id);
 
         $device_ids = $request->input('devices');
-        if(count($device_ids) == 0) {
+        if (count($device_ids) == 0) {
             return redirect()->back();
         }
-        
-        foreach($device_ids as $device_id) {
+
+        foreach ($device_ids as $device_id) {
             $device = Device::find($device_id);
             $user->devices()->attach($device);
         }
-        return redirect()->back()->with(['type' => 'success', 'message' => "Devices added."]);
+        return redirect()->back()->with(['type' => 'success', 'message' => trans('user.text.devicesadded')]);
     }
 
     /**
@@ -70,6 +71,6 @@ class UserDeviceController extends Controller
         $user = User::find($user_id);
         $device = Device::find($device_id);
         $user->devices()->detach($device);
-        return redirect()->back()->with(['type' => 'success', 'message' => "Device ".$device->hostname." removed."]);
+        return redirect()->back()->with(['type' => 'success', 'message' => trans('user.text.deviceremoved', ['hostname' => $device->hostname])]);
     }
 }

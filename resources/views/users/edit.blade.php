@@ -4,13 +4,13 @@
 
 @section('content-header')
     <h1>
-        Edit User
+        {{ trans('user.manage.edituser') }}
         <small>{{ $user->username }}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> {{ trans('nav.home') }}</a></li>
         <li><a href="{{ url('/users') }}">{{ trans('nav.settings.users') }}</a></li>
-        <li class="active">Edit</li>
+        <li class="active">{{ trans('user.manage.edituser') }}</li>
     </ol>
 @endsection
 
@@ -21,7 +21,7 @@
     <div class="col-md-6">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">User Info</h3>
+                <h3 class="box-title">{{ trans('user.manage.userinfo') }}</h3>
             </div>
             <div class="box-body">
                 {!! Form::open(['method' => 'PUT', 'route' => ['users.update', $user->user_id], 'class'=>'form-horizontal']) !!}
@@ -31,20 +31,25 @@
                 {{ Form::bsSelect('level', ['1' => trans('user.level.1'), '5' => trans('user.level.5'), '10' => trans('user.level.10')]) }}
                 {{ Form::bsText('email', $user->email) }}
                 {{ Form::bsText('descr', $user->descr) }}
-                {{ Form::bsSubmit('Save', 'btn-primary') }}
+                {{ Form::bsSubmit(trans('button.save'), 'btn-primary') }}
                 {!! Form::close() !!}
             </div>
         </div>
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Password</h3>
+                <h3 class="box-title">{{ trans('user.manage.password') }}</h3>
             </div>
             <div class="box-body">
                 {!! Form::open(['method' => 'PUT', 'route' => ['users.update', $user->user_id], 'class'=>'form-horizontal']) !!}
+                {{ Form::hidden('user_id', $user->user_id) }}
+                {{ Form::hidden('update', 'password') }}
+                @if (Auth::id() == $user->user_id)
+                    {{ Form::bsPassword('current_password') }}
+                @endif
                 {{ Form::bsPassword('password') }}
                 {{ Form::bsPassword('password_confirmation') }}
-                {{ Form::bsSubmit(' Save', 'btn-primary') }}
+                {{ Form::bsSubmit(trans('button.save'), 'btn-primary') }}
                 {!! Form::close() !!}
             </div>
         </div>
@@ -54,17 +59,18 @@
         <div class="box box-primary">
             @if($user->hasGlobalRead())
                 <div class="box-header with-border">
-                    <h3 class="box-title">Device Permissions</h3>
+                    <h3 class="box-title">{{ trans('user.manage.devicepermissions') }}</h3>
                 </div>
                 <div class="box-body">
-                    User has Access to all devices.
+                    {{ trans('user.manage.alldeviceaccess') }}
                 </div>
             @else
                 <div class="box-header with-border">
-                    <h3 class="box-title">Device Permissions</h3>
+                    <h3 class="box-title">{{ trans('user.manage.devicepermissions') }}</h3>
                     <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool showModal" data-toggle="modal" data-href="{{ route('users.devices.create', $user->user_id) }}" data-target="#generalModal" data-modal-title="Add Device">
-                            <i class="fa fa-plus"></i> Add Device
+                        <button type="button" class="btn btn-box-tool showModal" data-toggle="modal" data-href="{{ route('users.devices.create', $user->user_id) }}"
+                                data-target="#generalModal" data-modal-title="{{ trans('user.manage.adddevice') }}">
+                            <i class="fa fa-plus"></i> {{ trans('user.manage.adddevice') }}
                         </button>
                     </div>
                 </div>
@@ -88,19 +94,20 @@
         <div class="box box-primary">
         @if($user->hasGlobalRead())
             <div class="box-header with-border">
-                <h3 class="box-title">Port Permissions</h3>
-                <small>User also has access to all ports on devices</small>
+                <h3 class="box-title">{{ trans('user.manage.portpermissions') }}</h3>
+                <small>{{ trans('user.manage.portexplanation') }}</small>
             </div>
             <div class="box-body">
-                User has Access to all ports.
+                {{ trans('user.manage.allportaccess') }}
             </div>
         @else
             <div class="box-header with-border">
-                <h3 class="box-title">Port Permissions</h3>
-                <small>User also has access to all ports on devices</small>
+                <h3 class="box-title">{{ trans('user.manage.portpermissions') }}</h3>
+                <small>{{ trans('user.manage.portexplanation') }}</small>
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool showModal" data-toggle="modal" data-href="{{ route('users.ports.create', $user->user_id) }}" data-target="#generalModal" data-modal-title="Add Port">
-                        <i class="fa fa-plus"></i> Add Port
+                    <button type="button" class="btn btn-box-tool showModal" data-toggle="modal" data-href="{{ route('users.ports.create', $user->user_id) }}"
+                            data-target="#generalModal" data-modal-title="{{ trans('user.manage.addport') }}">
+                        <i class="fa fa-plus"></i> {{ trans('user.manage.addport') }}
                     </button>
                 </div>
             </div>

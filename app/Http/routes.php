@@ -47,8 +47,9 @@ Route::group(['middleware' => ['web']], function() {
     Route::put('notifications', 'NotificationController@create');
     Route::get('about', 'HomeController@about');
     Route::resource('settings', 'SettingsController');
-    
-    //User 
+
+    //User
+    Route::get('preferences', 'UserController@preferences');
     Route::resource('users', 'UserController');
     Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
     Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);

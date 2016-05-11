@@ -19,7 +19,7 @@
 
             <div class="modal-footer">
                 <div id="modalFooter">
-                    <button type="reset" class="btn btn-default modalCancel" data-dismiss="modal">Cancel</button>
+                    <button type="reset" class="btn btn-default modalCancel" data-dismiss="modal">{{ trans('button.cancel') }}</button>
                 </div>
             </div>
         </div>

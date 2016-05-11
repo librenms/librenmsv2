@@ -40,7 +40,7 @@ class UpdateUserRequest extends Request
         if (Auth::user()->isAdmin()) {
             return true;
         }
-        if ($this->user()->user_id == $this->user_id) {
+        if (Auth::id() == $this->input('user_id')) {
             return true;
         }
         return false;
@@ -53,12 +53,13 @@ class UpdateUserRequest extends Request
      */
     public function rules()
     {
-        if ($this->input('password')) {
+        if ($this->input('update') == 'password') {
+            $user_id = $this->input('user_id');
             $rules = ['password'              => 'required|min:5|max:255',
                       'password_confirmation' => 'required|same:password',
             ];
-            if (!Auth::user()->isAdmin()) {
-                $rules['current_password'] = 'required|password:user_id';
+            if (!Auth::user()->isAdmin() || Auth::id() == $user_id) {
+                $rules['current_password'] = 'required|password:'.$user_id;
             }
             return $rules;
         }

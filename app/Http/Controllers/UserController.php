@@ -35,7 +35,7 @@ class UserController extends Controller
         if (Auth::user()->isAdmin()) {
             return $dataTable->render('users.manage');
         }
-        return $this->edit(Auth::id());
+        return redirect('preferences');
     }
 
     /**
@@ -58,7 +58,7 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
 
-        return response()->json(['message' => "User ".$user->username." created."]);
+        return response()->json(['message' => trans('user.text.created', ['username' => $user->username])]);
     }
 
     /**
@@ -69,8 +69,6 @@ class UserController extends Controller
      */
     public function show($user_id)
     {
-        $user = User::with('devices', 'ports')->findOrFail($user_id);
-        return view('users.preferences', ['updated' => false])->withUser($user);
         // show read only view of user info here
     }
 
@@ -90,6 +88,21 @@ class UserController extends Controller
     }
 
     /**
+     * Show the user's preference page
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function preferences()
+    {
+        $user = Auth::user();
+
+        $device_count = $user->devices()->count();
+        $port_count = $user->ports()->count();
+
+        return view('users.preferences', compact('device_count', 'port_count'));
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param UpdateUserRequest|Request $request
@@ -102,9 +115,14 @@ class UserController extends Controller
     {
         $user = User::find($user_id);
         $user->update($request->all());
+        if ($request->input('update') == 'password') {
+            $message = trans('user.text.pwdupdated');
+        }
+        else {
+            $message = trans('user.text.updated', ['username' => $user->username]);
+        }
 
-
-        return redirect()->back()->with(['type' => 'success', 'message' => 'User '.$user->username.' updated.']);
+        return redirect()->back()->with(['type' => 'success', 'message' => $message]);
     }
 
     /**
@@ -118,6 +136,6 @@ class UserController extends Controller
         $user = User::find($user_id);
         $user->delete();
 
-        return response()->json(['message' => "User ".$user->username." deleted."]);
+        return response()->json(['message' => trans('user.text.deleted', ['username' => $user->username])]);
     }
 }

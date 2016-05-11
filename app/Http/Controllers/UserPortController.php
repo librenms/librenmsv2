@@ -54,15 +54,15 @@ class UserPortController extends Controller
         $user = User::find($user_id);
 
         $port_ids = $request->input('ports');
-        if(count($port_ids) == 0) {
+        if (count($port_ids) == 0) {
             return redirect()->back();
         }
-        
-        foreach($port_ids as $port_id) {
+
+        foreach ($port_ids as $port_id) {
             $port = Port::find($port_id);
             $user->ports()->attach($port);
         }
-        return redirect()->back()->with(['type' => 'success', 'message' => "Ports added."]);
+        return redirect()->back()->with(['type' => 'success', 'message' => trans('user.text.portsadded')]);
     }
 
     /**
@@ -76,7 +76,7 @@ class UserPortController extends Controller
         $user = User::find($user_id);
         $port = Port::find($port_id);
         $user->ports()->detach($port);
-        return redirect()->back()->with(['type' => 'success', 'message' => "Port ".$port->getLabel()." removed."]);
+        return redirect()->back()->with(['type' => 'success', 'message' => trans('user.text.portremoved', ['label' => $port->getLabel()])]);
     }
 
 }

@@ -38,12 +38,16 @@ class ValidationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('password', function($attribute, $value, $parameters, $validator) {
-            return auth()->validate([
-                'user_id'    => $parameters[0],
-                'password' => $value
-            ]);
-        });
+        Validator::extend(
+            'password',
+            function($attribute, $value, $parameters, $validator) {
+                return auth()->validate([
+                    'user_id'  => $parameters[0],
+                    'password' => $value,
+                ]);
+            },
+            trans('passwords.current_password')
+        );
     }
 
     /**

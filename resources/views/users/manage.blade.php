@@ -17,15 +17,16 @@
 
 @section('content')
     <div style="margin-bottom: 15px">
-    <button type="button" class="btn btn-primary showModal" data-href="{{ route('users.create') }}" data-toggle="modal" data-target="#generalModal" data-modal-title="Create User">
-        <i class="fa fa-user-plus"></i> Create new user
+    <button type="button" class="btn btn-primary showModal" data-href="{{ route('users.create') }}" data-toggle="modal"
+            data-target="#generalModal" data-modal-title="{{ trans('user.manage.create') }}">
+        <i class="fa fa-user-plus"></i> {{ trans('user.manage.create') }}
     </button>
     </div>
     <div class="container">
     {!! $dataTable->table(['class' => 'table table-hover']) !!}
         <!-- Modals -->
     @include('components/modals/general')
-    @include('components/modals/delete', ['title'=>'Delete User?', 'message'=>'Are you sure you want to delete this user?'])
+    @include('components/modals/delete', trans('user.manage.deleteconfirm'))])
     </div>
 @endsection
 
@@ -86,7 +87,7 @@
                     toastr.success(data.message);
                 },
                 error:function(data) {
-                    tostr.error('Failed to delete')
+                    toastr.error('{{ trans('user.manage.deletefailed') }}')
                 }
             });
 

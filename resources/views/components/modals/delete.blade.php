@@ -7,7 +7,7 @@
                     @if(isset($title))
                         {{ $title }}
                     @else
-                        Delete Confirmation
+                        {{ trans('general.delete.title') }}
                     @endif
                 </h4>
             </div>
@@ -16,13 +16,13 @@
                     @if(isset($message))
                         {{ $message }}
                     @else
-                        Are you sure you want to delete this item?
+                        {{ trans('general.delete.confirm') }}
                     @endif
                 </div>
             </div>
             <div class="modal-footer">
                 {!! Form::open(['id' => 'modalDeleteForm']) !!}
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('button.cancel') }}</button>
                 {!! Form::submit('Delete', ['class' => 'btn btn-danger modalDeleteConfirm']) !!}
                 {!! Form::close() !!}
             </div>
