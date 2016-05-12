@@ -55,7 +55,7 @@ class UpdateUserRequest extends Request
     {
         if ($this->input('update') == 'password') {
             $user_id = $this->input('user_id');
-            $rules = ['password'              => 'required|min:5|max:255',
+            $rules = ['password'              => 'required|min:6|max:255',
                       'password_confirmation' => 'required|same:password',
             ];
             if (!Auth::user()->isAdmin() || Auth::id() == $user_id) {

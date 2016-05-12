@@ -25,7 +25,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Requests\AdminOnlyRequest;
 use App\Models\Device;
 use App\Models\User;
@@ -49,7 +48,8 @@ class UserDeviceController extends Controller
         $user = User::find($user_id);
 
         $device_ids = $request->input('devices');
-        if (count($device_ids) == 0) {
+
+        if (!is_array($device_ids) || count($device_ids) == 0) {
             return redirect()->back();
         }
 

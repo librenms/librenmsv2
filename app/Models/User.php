@@ -115,14 +115,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Dashboard');
     }
 
-    
+
     // ---- Accessors/Mutators ----
 
     /**
      * Encrypt passwords before saving
+     *
      * @param $password
      */
-    public function setPasswordAttribute($password){
+    public function setPasswordAttribute($password)
+    {
         $this->attributes['password'] = bcrypt($password);
     }
 }

@@ -25,7 +25,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Requests\AdminOnlyRequest;
 use App\Models\Port;
 use App\Models\User;
@@ -54,7 +53,8 @@ class UserPortController extends Controller
         $user = User::find($user_id);
 
         $port_ids = $request->input('ports');
-        if (count($port_ids) == 0) {
+
+        if (!is_array($port_ids) || count($port_ids) == 0) {
             return redirect()->back();
         }
 

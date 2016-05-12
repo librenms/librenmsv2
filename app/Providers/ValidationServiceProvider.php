@@ -26,6 +26,7 @@
 namespace App\Providers;
 
 
+use Auth;
 use Illuminate\Support\ServiceProvider;
 use Validator;
 
@@ -41,7 +42,7 @@ class ValidationServiceProvider extends ServiceProvider
         Validator::extend(
             'password',
             function($attribute, $value, $parameters, $validator) {
-                return auth()->validate([
+                return Auth::validate([
                     'user_id'  => $parameters[0],
                     'password' => $value,
                 ]);

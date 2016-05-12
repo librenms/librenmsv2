@@ -85,6 +85,8 @@ class UserController extends Controller
         if (Auth::user()->isAdmin()) {
             return view('users.edit')->withUser($user);
         }
+
+        return redirect('preferences');
     }
 
     /**
@@ -107,8 +109,6 @@ class UserController extends Controller
      *
      * @param UpdateUserRequest|Request $request
      * @param $user_id
-     * @param $type Type of update info|password|adddevice|removedevice|addpor|removeport
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request, $user_id)
