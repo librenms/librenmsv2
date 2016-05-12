@@ -16,7 +16,7 @@ class CreatePortsPermsTable extends Migration {
 		{
 			$table->integer('user_id');
 			$table->integer('port_id');
-			$table->integer('access_level');
+			$table->integer('access_level')->default(0);
 		});
 	}
 

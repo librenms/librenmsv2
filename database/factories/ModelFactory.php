@@ -50,6 +50,7 @@ $factory->define(Device::class, function(Faker\Generator $faker) {
 $factory->define(Port::class, function(Faker\Generator $faker) {
     return [
         'ifIndex' => $faker->unique()->numberBetween(),
+        'ifName'  => $faker->text(20),
     ];
 });
 
