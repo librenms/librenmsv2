@@ -11,10 +11,10 @@ class HtmlFormServiceProvider extends ServiceProvider
 
     public function boot(Router $router)
     {
-        Form::component('bsPassword', 'components.form.horiz-password', ['name', 'attributes' => [], 'class' => null, 'label_class' => null]);
-        Form::component('bsSelect', 'components.form.horiz-select', ['name', 'values' => [], 'selected' => null]);
+        Form::component('bsPassword', 'components.form.horiz-password', ['name', 'attributes' => [], 'class' => null, 'label' => null]);
+        Form::component('bsSelect', 'components.form.horiz-select', ['name', 'values' => [], 'selected' => null, 'label' => null]);
         Form::component('bsSubmit', 'components.form.horiz-submit', ['name', 'class']);
-        Form::component('bsText', 'components.form.horiz-text', ['name', 'value', 'attributes' => [], 'class' => null, 'label_class' => null]);
+        Form::component('bsText', 'components.form.horiz-text', ['name', 'value', 'attributes' => [], 'class' => null, 'label' => null]);
 
         parent::boot($router);
     }

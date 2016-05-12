@@ -37,6 +37,7 @@ return [
         'users'         => 'Users',
         'username'      => 'Username',
         'realname'      => 'Real Name',
+        'descr'         => 'Description',
         'level'         => 'Level',
         'actions'       => 'Actions',
         'pwdupdated'    => 'Password has been updated',
@@ -56,14 +57,9 @@ return [
         11 => 'Demo User',
     ],
     'login' => [
-        'text' => [
-            'username' => 'Username',
-            'password' => 'Password',
-            'remember' => 'Remember me',
-        ],
-        'btn'  => [
-            'login' => 'Login',
-        ],
+        'username' => 'Username',
+        'password' => 'Password',
+        'remember' => 'Remember me',
     ],
 
 ];

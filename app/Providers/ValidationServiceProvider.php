@@ -2,7 +2,7 @@
 /**
  * ValidationServiceProvider.php
  *
- * -Description-
+ * Custom validation rules
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ class ValidationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // match the current password for the supplied user id
         Validator::extend(
             'password',
             function($attribute, $value, $parameters, $validator) {

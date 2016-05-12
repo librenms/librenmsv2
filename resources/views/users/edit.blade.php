@@ -30,7 +30,7 @@
                 {{ Form::bsText('username', $user->username) }}
                 {{ Form::bsSelect('level', ['1' => trans('user.level.1'), '5' => trans('user.level.5'), '10' => trans('user.level.10')]) }}
                 {{ Form::bsText('email', $user->email) }}
-                {{ Form::bsText('descr', $user->descr) }}
+                {{ Form::bsText('descr', $user->descr, [], null, trans('user.text.descr')) }}
                 {{ Form::bsSubmit(trans('button.save'), 'btn-primary') }}
                 {!! Form::close() !!}
             </div>

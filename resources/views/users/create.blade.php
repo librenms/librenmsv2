@@ -4,7 +4,7 @@
         {{ Form::bsText('realname', isset($user) ? $user->realname : '') }}
         {{ Form::bsText('username', isset($user) ? $user->username : '') }}
         {{ Form::bsText('email', isset($user) ? $user->email : '') }}
-        {{ Form::bsText('descr', isset($user) ? $user->descr : '') }}
+        {{ Form::bsText('descr', isset($user) ? $user->descr : '', [], null, trans('user.text.descr')) }}
     </div>
     <div class="col-md-6">
         {{ Form::bsSelect('level', ['1' => trans('user.level.1'), '5' => trans('user.level.5'), '10' => trans('user.level.10')]) }}
