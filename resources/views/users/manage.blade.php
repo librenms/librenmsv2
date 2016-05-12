@@ -22,12 +22,12 @@
         <i class="fa fa-user-plus"></i> {{ trans('user.manage.create') }}
     </button>
     </div>
-    <div class="container">
+
     {!! $dataTable->table(['class' => 'table table-hover']) !!}
-        <!-- Modals -->
+
+    <!-- Modals -->
     @include('components/modals/general')
-    @include('components/modals/delete', trans('user.manage.deleteconfirm'))])
-    </div>
+    @include('components/modals/delete', trans('user.manage.deleteconfirm'))
 @endsection
 
 @section('scripts')
