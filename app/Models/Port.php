@@ -177,10 +177,6 @@ class Port extends Model
      */
     protected $primaryKey = 'port_id';
 
-
-    // ---- Accessors/Mutators ----
-
-
     // ---- Define Reletionships ----
 
     /**
@@ -271,4 +267,13 @@ class Port extends Model
         ]);
     }
 
+    // ---- Define Helper Functions ----
+
+    /**
+     * Returns a human readable label for this port
+     * @return string
+     */
+    public function getLabel() {
+        return $this->ifName ?: $this->ifDescr;
+    }
 }

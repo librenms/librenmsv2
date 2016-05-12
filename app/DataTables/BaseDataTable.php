@@ -25,7 +25,6 @@
 
 namespace App\DataTables;
 
-
 use Yajra\Datatables\Services\DataTable;
 
 abstract class BaseDataTable extends DataTable

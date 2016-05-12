@@ -23,13 +23,14 @@
                 <h3 class="box-title">{{ trans('user.preferences.change') }}</h3>
             </div>
             <div class="box-body">
-                    {!! Form::open(array('url' => 'preferences', 'method' => 'post', 'class' => 'form-horizontal')) !!}
-                    {{ Form::bsPassword('current_password', [], '' , 'col-sm-3') }}
-                    {{ Form::bsPassword('new_password', [], '' , 'col-sm-3') }}
-                    {{ Form::bsPassword('repeat_password', [], '' , 'col-sm-3') }}
-                    {{ Form::bsHorizSubmit('Update password', 'btn-primary')}}
-                    {!! Form::close() !!}
-                </form>
+                    {{ Form::open(['route' => ['users.update', Auth::id()], 'method' => 'put', 'class'=>'form-horizontal']) }}
+                    {{ Form::hidden('user_id', Auth::id()) }}
+                    {{ Form::hidden('update', 'password') }}
+                    {{ Form::bsPassword('current_password') }}
+                    {{ Form::bsPassword('password') }}
+                    {{ Form::bsPassword('password_confirmation') }}
+                    {{ Form::bsSubmit('Update password', 'btn-primary')}}
+                    {{ Form::close() }}
             </div>
         </div>
     </div>
@@ -44,12 +45,12 @@
                     <strong class='text-light-blue'>{{ trans('user.preferences.adminaccess') }}</strong>
                 @elseif (Auth::user()->hasGlobalRead())
                     <strong class='text-green'>{{ trans('user.preferences.viewaccess') }}</strong>
-                @elseif (isset($devices) || isset($ports))
+                @elseif ($device_count > 0 || $port_count >0)
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="small-box bg-aqua">
                                 <div class="inner">
-                                    <h3>{{ $devices }}</h3>
+                                    <h3>{{ $device_count }}</h3>
                                     <p>{{ trans('user.preferences.devices') }}</p>
                                 </div>
                                 <div class="icon">
@@ -63,7 +64,7 @@
                         <div class="col-sm-6">
                             <div class="small-box bg-green">
                                 <div class="inner">
-                                    <h3>{{ $ports }}</h3>
+                                    <h3>{{ $port_count }}</h3>
                                     <p>{{ trans('user.preferences.ports')}}</p>
                                 </div>
                                 <div class="icon">
@@ -87,10 +88,11 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/util.js') }}"></script>
-    @if ($updated === true)
+    @if(Session::has('message'))
         <script>
-            $.Util.toastr('info', "{{ trans('user.preferences.pwdupdated') }}");
+            $(document).ready(function() {
+                toastr['{{ Session::get('type') }}']('{{ Session::get('message') }}');
+            });
         </script>
     @endif
 @endsection

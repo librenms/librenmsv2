@@ -16,9 +16,9 @@ class UserPreferencesPageTest extends TestCase
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('/preferences')
-             ->see('Current password')
-             ->see('New password')
-             ->see('Repeat password');
+             ->see('Current Password')
+             ->see('Password')
+             ->see('Password Confirmation');
     }
 
     /**
@@ -72,7 +72,8 @@ class UserPreferencesPageTest extends TestCase
 
         $this->actingAs($user)
              ->visit('/preferences')
-             ->see('Device / Port permissions');
+             ->see('Device / Port permissions')
+             ->see('Show devices');
 
     }
 

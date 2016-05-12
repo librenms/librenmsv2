@@ -46,7 +46,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'realname', 'username', 'password', 'email', 'level',
+        'realname', 'username', 'password', 'email', 'level', 'descr',
     ];
     /**
      * The primary key column name.
@@ -64,7 +64,7 @@ class User extends Authenticatable
     ];
 
 
-    // ---- Define Convience Functions ----
+    // ---- Define Helper Functions ----
 
     /**
      * Test if this user has global read access
@@ -113,5 +113,18 @@ class User extends Authenticatable
     public function dashboards()
     {
         return $this->hasMany('App\Models\Dashboard');
+    }
+
+
+    // ---- Accessors/Mutators ----
+
+    /**
+     * Encrypt passwords before saving
+     *
+     * @param $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 }

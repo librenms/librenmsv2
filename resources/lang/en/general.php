@@ -24,10 +24,9 @@ return [
         'mac_address'   => 'MAC Address',
         'port_descr'    => 'Description',
         'status'        => 'Status',
+        'delete'        => [
+            'title'   => 'Confirm Delete',
+            'confirm' => 'Are you sure you want to delete this item?',
+        ],
     ],
-    'btn' => [
-        'query'   => 'Query',
-        'cancel'  => 'Cancel',
-    ],
-
 ];

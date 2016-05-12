@@ -145,11 +145,3 @@ $.Util.apiAjaxDELETECall = function(url) {
         dataType: "json"
     });
 };
-
-/* toastr()
- * ========
- * toastr call
- */
-$.Util.toastr = function(type, message) {
-    toastr.type(message);
-};

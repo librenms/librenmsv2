@@ -37,7 +37,7 @@ class UserDeleteTest extends TestCase
 
     public function testDeleteUser()
     {
-        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org', 'password' => bcrypt('the0ner1ng')]);
+        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org', 'password' => 'the0ner1ng']);
 
         $username = 'bilbobaggins';
 
@@ -66,8 +66,8 @@ class UserDeleteTest extends TestCase
     }
     public function testDeleteUserChoice()
     {
-        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org', 'password' => bcrypt('the0ner1ng')]);
-        User::create(['username' => 'frodobaggins', 'realname' => 'Elijah Wood', 'email' => 'ringbearer@theshire.org', 'password' => bcrypt('the0ner1ng')]);
+        User::create(['username' => 'bilbobaggins', 'realname' => 'Billy Boyd', 'email' => 'baggins@theshire.org', 'password' => 'the0ner1ng']);
+        User::create(['username' => 'frodobaggins', 'realname' => 'Elijah Wood', 'email' => 'ringbearer@theshire.org', 'password' => 'the0ner1ng']);
         $search = 'baggins';
         $removeUser = 'bilbobaggins';
         // set up the mocks

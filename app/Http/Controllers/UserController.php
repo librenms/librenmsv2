@@ -2,52 +2,140 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\General\UserDataTable;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\DeleteUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Auth;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
-use Hash;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     use Helpers;
 
-    public function __construct(Request $request) {
+    /**
+     * Constructor
+     */
+    public function __construct(Request $request)
+    {
         $this->middleware('auth');
     }
 
-    public function preferences(Request $request) {
+    /**
+     * Display a listing of the resource.
+     *
+     * @param UserDataTable $dataTable
+     * @return \Illuminate\Http\Response
+     */
+    public function index(UserDataTable $dataTable)
+    {
+        if (Auth::user()->isAdmin()) {
+            return $dataTable->render('users.manage');
+        }
+        return redirect('preferences');
+    }
 
-        $method = $request->method();
-        $updated = false;
-        if ($request->user()->hasGlobalRead() === true)
-        {
-            $devices = [];
-            $ports   = [];
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('users.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param CreateUserRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateUserRequest $request)
+    {
+        $user = User::create($request->all());
+
+        return response()->json(['message' => trans('user.text.created', ['username' => $user->username])]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($user_id)
+    {
+        // show read only view of user info here
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($user_id)
+    {
+        $user = User::with('devices', 'ports')->findOrFail($user_id);
+
+        if (Auth::user()->isAdmin()) {
+            return view('users.edit')->withUser($user);
+        }
+
+        return redirect('preferences');
+    }
+
+    /**
+     * Show the user's preference page
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function preferences()
+    {
+        $user = Auth::user();
+
+        $device_count = $user->devices()->count();
+        $port_count = $user->ports()->count();
+
+        return view('users.preferences', compact('device_count', 'port_count'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateUserRequest|Request $request
+     * @param $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateUserRequest $request, $user_id)
+    {
+        $user = User::find($user_id);
+        $user->update($request->all());
+        if ($request->input('update') == 'password') {
+            $message = trans('user.text.pwdupdated');
         }
         else {
-            $devices = User::find($request->user()->user_id)->devices()->count();
-            $ports   = User::find($request->user()->user_id)->ports()->count();
+            $message = trans('user.text.updated', ['username' => $user->username]);
         }
 
-        if ($method === "POST")
-        {
-            $this->validate($request, [
-                'current_password' => 'required|max:255',
-                'new_password' => 'required|min:8|max:255',
-                'repeat_password' => 'required|same:new_password|min:8|max:255',
-            ]);
-            if (!Hash::check($request->current_password, $request->user()->password))
-            {
-                return back()->withInput()->withErrors(['current_password'=>'Current password is incorrect']);
-            }
-            $user = User::where('user_id', $request->user()->user_id)->first();
-            $user->password = Hash::make($request->new_password);
-            if ($user->save())
-            {
-                $updated = true;
-            }
-        }
-        return view('users.preferences', ['updated' => $updated, 'devices' => $devices, 'ports' => $ports]);
+        return redirect()->back()->with(['type' => 'success', 'message' => $message]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(DeleteUserRequest $request, $user_id)
+    {
+        $user = User::find($user_id);
+        $user->delete();
+
+        return response()->json(['message' => trans('user.text.deleted', ['username' => $user->username])]);
     }
 }

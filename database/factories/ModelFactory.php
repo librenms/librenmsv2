@@ -32,7 +32,7 @@ $factory->define(User::class, function(Faker\Generator $faker) {
         'username' => $faker->username,
         'realname' => $faker->name,
         'email'    => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'password' => str_random(10),
     ];
 });
 
@@ -50,6 +50,7 @@ $factory->define(Device::class, function(Faker\Generator $faker) {
 $factory->define(Port::class, function(Faker\Generator $faker) {
     return [
         'ifIndex' => $faker->unique()->numberBetween(),
+        'ifName'  => $faker->text(20),
     ];
 });
 

@@ -33,7 +33,7 @@
             <div class="input-group">
                 {{ Form::text('query', '', ['class' => 'form-control', 'placeholder' => 'IP, ASN, etc']) }}
                 <span class="input-group-btn">
-                    {{ Form::submit(trans('general.btn.query'), ['class' => 'btn btn-primary', 'name' => 'rir-submit', 'id' => 'rir-submit']) }}
+                    {{ Form::submit(trans('button.query'), ['class' => 'btn btn-primary', 'name' => 'rir-submit', 'id' => 'rir-submit']) }}
                 </span>
             </div>
         {!! Form::close() !!}
