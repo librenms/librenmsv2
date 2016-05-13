@@ -25,7 +25,7 @@ $.Dashboard.setupDashboard = function() {
         animate: true
     };
     return $('.grid-stack').gridstack(options).data('gridstack');
-}
+};
 
 /* addWidget(grid, data)
  * ========
@@ -40,7 +40,7 @@ $.Dashboard.addWidget = function(grid, data, token) {
     }
     data.refresh = 60;
     $.Dashboard.refreshDashboardWidget(token, data, false);
- }
+ };
 
 /* refreshDashboardWidget()
  * ========
@@ -48,14 +48,14 @@ $.Dashboard.addWidget = function(grid, data, token) {
  */
 $.Dashboard.refreshDashboardWidget = function(token, data, refresh=false)
 {
-    id = data.widget_id;
+    var id = data.widget_id;
     $.Util.apiAjaxGetCall('/api/dashboard-widget/'+id)
         .done(function(response) {
-            settings = response.widget;
-            content  = response.content.content;
+            var settings = response.widget;
+            var content  = response.content.content;
             if (refresh === false)
             {
-                el = $('<div id="'+data.user_widget_id+'" data-widget_id="'+data.widget_id+'" data-refresh="'+data.refresh+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool" id="edit-widget" data-id="' + data.user_widget_id + '" data-widget-name="' + settings.widget + '" onClick="$.Dashboard.editWidget(this, \'' + token + '\')"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool" id="remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this, \'' + token + '\')"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
+                var el = $('<div id="'+data.user_widget_id+'" data-widget_id="'+data.widget_id+'" data-refresh="'+data.refresh+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool" id="edit-widget" data-id="' + data.user_widget_id + '" data-widget-name="' + settings.widget + '" onClick="$.Dashboard.editWidget(this, \'' + token + '\')"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool" id="remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this, \'' + token + '\')"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
                 grid.addWidget(el, data.col, data.row, data.size_x, data.size_y, data.autoPosition, null, null, null, null, data.user_widget_id);
             }
             else {
@@ -67,11 +67,11 @@ $.Dashboard.refreshDashboardWidget = function(token, data, refresh=false)
         .fail(function(err,msg) {
             toastr.error("Couldn't create the widget " + data.title);
         });
-}
+};
 
 
 $.Dashboard.grabContent = function(data,settings) {
-    refresh = data.refresh*1000;
+    var refresh = data.refresh*1000;
     $.get('/widget-data/'+settings.widget+'?id='+data.user_widget_id, function () {
     })
     .done(function(output) {
@@ -89,7 +89,7 @@ $.Dashboard.grabContent = function(data,settings) {
         $.Dashboard.grabContent(data,settings)
     },
     refresh);
-}
+};
 
 /* updateWidget()
  * ======
@@ -97,13 +97,13 @@ $.Dashboard.grabContent = function(data,settings) {
  */
 $.Dashboard.updateWidget = function(target, token)
 {
-    data = {
+    var data = {
         id:     target.getAttribute('data-gs-id'),
         x:      target.getAttribute('data-gs-x'),
         y:      target.getAttribute('data-gs-y'),
         width:  target.getAttribute('data-gs-width'),
         height: target.getAttribute('data-gs-height')
-    }
+    };
     $.Util.ajaxSetup(token);
     $.Util.apiAjaxPATCHCall('/api/dashboard-widget/'+data['id'], data)
         .done(function(content) {
@@ -111,7 +111,7 @@ $.Dashboard.updateWidget = function(target, token)
         .fail(function(err,msg) {
             toastr.error("Couldn't update this widget!");
         });
-}
+};
 
 /* removeWidget()
  * ======
@@ -122,8 +122,8 @@ $.Dashboard.updateWidget = function(target, token)
  */
 $.Dashboard.removeWidget = function(data, token) {
     $(document).ready(function(){
-            $this = $(data);
-            el = $this.closest('.grid-stack-item');
+            var $this = $(data);
+            var el = $this.closest('.grid-stack-item');
             $.Util.ajaxSetup(token);
             $.Util.apiAjaxDELETECall('/api/dashboard-widget/'+$this.data('id'))
                 .done(function(content) {
@@ -133,7 +133,7 @@ $.Dashboard.removeWidget = function(data, token) {
                     toastr.error("Couldn't remove this widget!");
                 });
     });
-}
+};
 
 /* editWidget()
  * ======
@@ -144,10 +144,10 @@ $.Dashboard.removeWidget = function(data, token) {
  */
 $.Dashboard.editWidget = function(data, token) {
     $(document).ready(function(){
-        $this = $(data);
+        var $this = $(data);
         //content = $this.closest('.grid-stack-item').find('.box-body').html();
-        id = $this.data('id');
-        widget = $this.data('widget-name');
+        var id = $this.data('id');
+        var widget = $this.data('widget-name');
         $this.closest('.grid-stack-item').find('.box-body').html('<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>');
         $.get('/widget-data/'+widget+'/settings?id='+id, function () {
         })
@@ -163,31 +163,31 @@ $.Dashboard.editWidget = function(data, token) {
             }
         });
     });
-}
+};
 
 $.Dashboard.dashboardActions = function(token, grid) {
     $(document).ready(function(){
         $('#add-dashboard').click('', function(event) {
-            event.preventDefault;
+            event.preventDefault();
             $('#show-edit').collapse('hide');
             $('#show-delete').collapse('hide');
             $('#show-add').collapse('toggle');
         });
         $('#edit-dashboard').click('', function(event) {
-            event.preventDefault;
+            event.preventDefault();
             $('#show-add').collapse('hide');
             $('#show-delete').collapse('hide');
             $('#show-edit').collapse('toggle');
         });
         $('#delete-dashboard').click('', function(event) {
-            event.preventDefault;
+            event.preventDefault();
             $('#show-add').collapse('hide');
             $('#show-edit').collapse('hide');
             $('#show-delete').collapse('toggle');
         });
         $('#confirm-delete-dashboard').click('', function(event) {
-            event.preventDefault;
-            $this = $(this);
+            event.preventDefault();
+            var $this = $(this);
             $.Util.ajaxSetup(token);
             $.Util.apiAjaxDELETECall('/api/dashboard/'+$this.data('id'))
                 .done(function(content) {
@@ -202,8 +202,8 @@ $.Dashboard.dashboardActions = function(token, grid) {
                 });
         });
         $('#clear-dashboard, #clear-dashboard-2').click('', function(event) {
-            event.preventDefault;
-            $this = $(this);
+            event.preventDefault();
+            var $this = $(this);
             $.Util.ajaxSetup(token);
             $.Util.apiAjaxDELETECall('/api/dashboard/'+$this.data('id')+'/clear')
             .done(function(content) {
@@ -217,7 +217,7 @@ $.Dashboard.dashboardActions = function(token, grid) {
         $('#confirm-add-dashboard').submit(function(event) {
             event.preventDefault(event);
             $.Util.ajaxSetup(token);
-            data = $("#confirm-add-dashboard").serialize();
+            var data = $("#confirm-add-dashboard").serialize();
             $.Util.ajaxCall('POST','/api/dashboard', data)
                 .done(function(data) {
                     if (data.statusText === "OK" ) {
@@ -230,7 +230,7 @@ $.Dashboard.dashboardActions = function(token, grid) {
                 .fail(function(err,msg) {
                     if (err.status === 422)
                     {
-                        response = jQuery.parseJSON(err.responseText);
+                        var response = jQuery.parseJSON(err.responseText);
                         jQuery.each(response, function(field, message)
                         {
                             $(form + ' [name=' + field + ']').next('.form-error').html(message);
@@ -244,14 +244,14 @@ $.Dashboard.dashboardActions = function(token, grid) {
         $('#confirm-edit-dashboard').submit(function(event) {
             event.preventDefault(event);
             $.Util.ajaxSetup(token);
-            form         = $("#confirm-edit-dashboard");
-            dashboard_id = form.data('dashboard_id');
-            name         = $("#confirm-edit-dashboard input[name=name]").val();
-            access       = $("#confirm-edit-dashboard select[name=access]").val()
-            data = {
+            var form         = $("#confirm-edit-dashboard");
+            var dashboard_id = form.data('dashboard_id');
+            var name         = form.find("input[name=name]").val();
+            var access       = form.find("select[name=access]").val();
+            var data = {
                 name:   name,
                 access: access
-            }
+            };
             $.Util.apiAjaxPATCHCall('/api/dashboard/'+dashboard_id, data)
                 .done(function(data) {
                     if (data.statusText === "OK" ) {
@@ -264,7 +264,7 @@ $.Dashboard.dashboardActions = function(token, grid) {
                 .fail(function(err,msg) {
                     if (err.status === 422)
                     {
-                        response = jQuery.parseJSON(err.responseText);
+                        var response = jQuery.parseJSON(err.responseText);
                         jQuery.each(response, function(field, message)
                         {
                             $("#confirm-edit-dashboard" + ' [name=' + field + ']').next('.form-error').html(message);
@@ -278,12 +278,12 @@ $.Dashboard.dashboardActions = function(token, grid) {
         $('#add_widget_id').on('change', function(event)
         {
             $(".helper-add-widgets").hide();
-            tmp_data     = $('#add_widget_id').val().split(",");
-            dashboard_id = $('#add_widget_id').data('dashboard_id');
+            var tmp_data     = $('#add_widget_id').val().split(",");
+            var dashboard_id = $('#add_widget_id').data('dashboard_id');
             if (tmp_data && dashboard_id)
             {
-                widget_id  = tmp_data[0];
-                post_data = {
+                var widget_id  = tmp_data[0];
+                var post_data = {
                     col: '',
                     row: '',
                     size_x: tmp_data[1],
@@ -292,7 +292,7 @@ $.Dashboard.dashboardActions = function(token, grid) {
                     title: tmp_data[3],
                     dashboard_id: dashboard_id,
                     autoPosition: true
-                }
+                };
                 $.Util.ajaxCall('POST','/api/dashboard-widget', post_data)
                 .done(function(data) {
                     if (data.statusText === "OK" ) {
@@ -321,15 +321,15 @@ $.Dashboard.dashboardActions = function(token, grid) {
         });
         $('body').on('submit', '#widget-settings', function(event) {
             event.preventDefault(event);
-            el = $(this).closest('.grid-stack-item');
-            user_widget_id = el.attr('id');
-            form_data = dataToJson($(this).find('[name!=_token]').serializeArray());
-            fd = $.param({ settings: form_data });
-            data = {
+            var el = $(this).closest('.grid-stack-item');
+            var user_widget_id = el.attr('id');
+            var form_data = dataToJson($(this).find('[name!=_token]').serializeArray());
+            var fd = $.param({ settings: form_data });
+            var data = {
                 widget_id: el.data('widget_id'),
                 user_widget_id: user_widget_id,
-                refresh: el.data('refresh'),
-            }
+                refresh: el.data('refresh')
+            };
             if (which === 'update-widget-settings') {
                 $.Util.apiAjaxPATCHCall('/api/dashboard-widget/'+user_widget_id, fd)
                     .done(function(content) {
@@ -346,7 +346,7 @@ $.Dashboard.dashboardActions = function(token, grid) {
         which = '';
 
     });
-}
+};
 
 function dataToJson(data){
     var json = {};
