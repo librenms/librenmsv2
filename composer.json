@@ -1,27 +1,26 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "name": "librenms/librenmsv2",
+    "description": "LibreNMS, a fully featured network monitoring system",
+    "keywords": ["network", "monitoring", "snmp", "laravel"],
+    "license": "GPL",
     "type": "project",
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "tymon/jwt-auth": "0.5.*",
         "irazasyed/jwt-auth-guard": "1.0.*",
-        "dingo/api": "dev-master#3062aac74327d589e0fed92d276225ee7aaab377",
-        "doctrine/dbal": "2.5.4",
-        "almasaeed2010/adminlte": "~2.0",
+        "dingo/api": "1.0.x-dev",
+        "almasaeed2010/adminlte": "~2.3",
         "laravelcollective/html": "5.2.*",
         "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
+        "fzaninotto/faker": "~1.5",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
-        "barryvdh/laravel-ide-helper": "^2.1"
+        "barryvdh/laravel-ide-helper": "~2.1"
     },
     "autoload": {
         "classmap": [
