@@ -115,12 +115,15 @@ class SettingsTest extends TestCase
 
     public function testConfigOverride()
     {
-        Settings::set('test.override', 'settings');
-        Settings::flush();
         Config::set('config.test.override', 'config');
+        Settings::flush();
+        Settings::set('test.override', 'settings');
         $result = Settings::get('test.override');
 
         $this->assertEquals('settings', $result);
+
+        Settings::set('test.override', null);
+        $this->assertNull(Settings::get('test.override'));
     }
 
     public function testConfigMergeSimple()
