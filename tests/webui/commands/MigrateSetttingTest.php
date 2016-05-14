@@ -39,7 +39,7 @@ class MigrateSettingsTest extends TestCase
 
         Artisan::call('librenms:migrate-settings', ['--dry-run' => true]);
 
-        $this->assertEquals("Migrating setting: 'setting' from 'settings' to 'config'\n", Artisan::output());
+        $this->assertEquals("Migrating setting: 'setting' from 'settings' to 'config'\n--dry-run enabled: No changes were made.\n", Artisan::output());
     }
 
     public function testMigration()
