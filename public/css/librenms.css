@@ -26,10 +26,6 @@ div.remove-target:hover i.remove-icon {
     border: 0px;
 }
 
-.box {
-    border-radius: 0px !important;
-}
-
 .drag-handle {
     cursor: move;
     padding-right: 10px;
