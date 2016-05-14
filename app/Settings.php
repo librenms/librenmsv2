@@ -108,20 +108,15 @@ class Settings implements ConfigContract
     {
         // return value from cache or fetch it and return it
         return Cache::tags(self::$cache_tag)->remember($key, $this->cache_time, function() use ($key, $default) {
-            // fetch the value from config.php first
+
+            // fetch the values from storage
             if (Config::has('config.'.$key)) {
                 $config_data = Config::get('config.'.$key, $default);
-                if (!is_array($config_data)) {
-                    // return the value from config.php if it is a value
-                    return $config_data;
-                }
             }
-
-            // fetch the value from the database
             $db_data = DbConfig::key($key)->get(['config_name', 'config_value']);
 
             if (count($db_data) == 1 && $db_data->first()->config_name == $key) {
-                // return a value if we are getting one item
+                // return a value if we are getting one item and it is the requested item (not recursing)
                 return $db_data->first()->config_value;
             }
             elseif (count($db_data) >= 1) {
@@ -130,12 +125,20 @@ class Settings implements ConfigContract
 
                 // if we have config_data, merge them
                 if (isset($config_data)) {
-                    return array_replace_recursive($result, $config_data);
+                    return array_replace_recursive($config_data, $result);
                 }
                 else {
                     return $result;
                 }
             }
+
+            // fall back to config.php/defaults.php
+            if (isset($config_data) && !is_array($config_data)) {
+                // return the value from config.php if it is a value
+                return $config_data;
+            }
+
+
             // we couldn't find the key, return the default
             return $default;
         });
@@ -181,24 +184,16 @@ class Settings implements ConfigContract
 
     /**
      * Check if the key is read only.
-     * This is when the setting is defined in config.php
-     * Or when the user is not a global admin.
+     * When the user is not a global admin.
+     * Currently, $key is unused
      *
      * @param string $key The path to check
      * @return string|false false or the source: config | auth
      */
     public function isReadOnly($key)
     {
-        if (Config::has('config.'.$key)) {
-            return 'config';
-        }
         $user = \Auth::user();
-        if (!is_null($user) && $user->isAdmin()) {
-            return false;
-        }
-        else {
-            return 'auth';
-        }
+        return (is_null($user) || !$user->isAdmin());
     }
 
     /**

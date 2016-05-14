@@ -1,8 +1,9 @@
 <?php
 /**
- * config.php
+ * _config.php
  *
- * Fetch $config from v1 config.php merged with defaults.inc.php
+ * Only return config.php $config variable.  Do not include defaults.inc.php
+ * This is only used by the migration script
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,17 +23,12 @@
  * @copyright  2016 Tony Murray
  * @author     Tony Murray <murraytony@gmail.com>
  */
+
 $install_dir = env('V1_INSTALL_DIR', '/opt/librenms');
 $config_source = $install_dir . '/config.php';
-$defaults_source = $install_dir . '/includes/defaults.inc.php';
 
 unset($config);
 
-if (file_exists($defaults_source))
-{
-    include_once($defaults_source);
-}
-    
 if (file_exists($config_source))
 {
     include_once($config_source);

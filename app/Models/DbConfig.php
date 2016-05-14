@@ -95,7 +95,7 @@ class DbConfig extends Model
      */
     public function scopeKey(Builder $query, $key)
     {
-        return $query->where('config_name', 'LIKE', $key.'%');
+        return $query->where('config_name', $key)->orWhere('config_name', 'LIKE', $key.'.%');
     }
 
     /**
@@ -125,7 +125,7 @@ class DbConfig extends Model
             try {
                 return unserialize($value);
             } catch (\Exception $e) {
-                if (starts_with($e->getMessage(), 'unserialize():')) {
+                if (str_contains($e->getMessage(), 'unserialize():')) {
                     return $value;
                 }
                 else {
@@ -137,6 +137,19 @@ class DbConfig extends Model
     }
 
     /**
+     * Unserialize default values.
+     *
+     * @param $value
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getConfigDefault($value)
+    {
+        // uses the same code as values
+        return $this->getConfigValueAttribute($value);
+    }
+
+    /**
      * Serialize values before storing.
      *
      * @param $value
@@ -144,5 +157,15 @@ class DbConfig extends Model
     public function setConfigValueAttribute($value)
     {
         $this->attributes['config_value'] = serialize($value);
+    }
+
+    /**
+     * Serialize defaults before storing.
+     *
+     * @param $value
+     */
+    public function setConfigDefaultAttribute($value)
+    {
+        $this->attributes['config_default'] = serialize($value);
     }
 }
