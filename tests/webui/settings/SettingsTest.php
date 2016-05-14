@@ -28,7 +28,7 @@ class SettingsTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $user = factory(App\Models\User::class)->create(['level'=>10]);
+        $user = factory(App\Models\User::class)->create(['level' => 10]);
         Auth::login($user);
     }
 
@@ -54,39 +54,22 @@ class SettingsTest extends TestCase
 
     public function testReadOnly()
     {
-        Config::set('config.test.readonly');
-        $this->assertTrue((boolean) Settings::isReadOnly('test.readonly'));
-
         $this->assertFalse(Settings::isReadOnly('test.writable'));
 
         $user = factory(App\Models\User::class)->create();
         Auth::login($user);
-        $this->assertTrue((boolean) Settings::isReadOnly('test.roauth'));
+
+        $this->assertTrue(Settings::isReadOnly('test.roauth'));
     }
 
     public function testReadOnlyException()
     {
         $this->setExpectedException('Exception');
-        Config::set('config.test.readonlye', 'value');
-        Settings::set('test.readonlye');
-    }
 
-    public function testConfigOnly()
-    {
-        Config::set('config.test.key', 'value');
-        $result = Settings::get('test.key');
+        $user = factory(App\Models\User::class)->create();
+        Auth::login($user);
 
-        $this->assertEquals('value', $result);
-    }
-
-    public function testConfigOverride()
-    {
-        Settings::set('test.override', 'settings');
-        Settings::flush();
-        Config::set('config.test.override', 'config');
-        $result = Settings::get('test.override');
-
-        $this->assertEquals('config', $result);
+        Settings::set('test.readonly');
     }
 
     public function testSubtree()
@@ -122,6 +105,24 @@ class SettingsTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testConfigOnly()
+    {
+        Config::set('config.test.key', 'value');
+        $result = Settings::get('test.key');
+
+        $this->assertEquals('value', $result);
+    }
+
+    public function testConfigOverride()
+    {
+        Settings::set('test.override', 'settings');
+        Settings::flush();
+        Config::set('config.test.override', 'config');
+        $result = Settings::get('test.override');
+
+        $this->assertEquals('settings', $result);
+    }
+
     public function testConfigMergeSimple()
     {
         Settings::set('test.merge.simple', 'value');
@@ -129,6 +130,31 @@ class SettingsTest extends TestCase
         $result = Settings::get('test.merge.simple');
 
         $this->assertEquals('value', $result);
+    }
+
+    public function testConfigMergeMismatch()
+    {
+        $data = ['value1', 'value2'];
+
+        Settings::set('test.mismatch', 'value');
+        Config::set('config.test.mismatch', $data);
+        $result = Settings::get('test.mismatch');
+
+        $this->assertEquals('value', $result);
+    }
+
+    public function testConfigMergeMultiple()
+    {
+        $expected = [
+            'one'   => 'config1',
+            'two'   => 'settings2',
+            'three' => 'settings3',
+        ];
+        Config::set('config.mm', ['one' => 'config1', 'two' => 'config2']);
+        Settings::set('mm', ['two' => 'settings2', 'three' => 'settings3']);
+        $result = Settings::get('mm');
+
+        $this->assertEquals($expected, $result);
     }
 
     public function testConfigMergeComplex()
@@ -149,17 +175,6 @@ class SettingsTest extends TestCase
         $result = Settings::get('test');
 
         $this->assertEquals($expected, $result);
-    }
-
-    public function testConfigMergeMismatch()
-    {
-        $data = ['value1', 'value2'];
-
-        Settings::set('test.mismatch', $data);
-        Config::set('config.test.mismatch', 'value');
-        $result = Settings::get('test.mismatch');
-
-        $this->assertEquals('value', $result);
     }
 
     public function testMixKeyArray()
@@ -298,7 +313,8 @@ class SettingsTest extends TestCase
         $this->assertEquals('value', $result2);
     }
 
-    public function testSubpathValue() {
+    public function testSubpathValue()
+    {
         Settings::set('test.subpath', 'value');
 
         try {
@@ -380,7 +396,8 @@ class SettingsTest extends TestCase
         $this->assertEquals(['value'], $result);
     }
 
-    public function testTypes() {
+    public function testTypes()
+    {
         Settings::set('test.type.bool', true);
         $this->assertTrue(Settings::get('test.type.bool'));
 
