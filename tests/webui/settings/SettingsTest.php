@@ -334,6 +334,16 @@ class SettingsTest extends TestCase
         $this->assertNull($result2);
     }
 
+    public function testSubkey()
+    {
+        Settings::set('key', 'value');
+        Settings::set('keysub', 'value');
+        $this->assertEquals('value', Settings::get('key'));
+
+        Settings::flush();
+        $this->assertEquals('value', Settings::get('key'));
+    }
+
     public function testHas()
     {
         Settings::set('has.one', 'value');

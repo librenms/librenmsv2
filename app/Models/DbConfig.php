@@ -95,7 +95,7 @@ class DbConfig extends Model
      */
     public function scopeKey(Builder $query, $key)
     {
-        return $query->where('config_name', 'LIKE', $key.'%');
+        return $query->where('config_name', $key)->orWhere('config_name', 'LIKE', $key.'.%');
     }
 
     /**
