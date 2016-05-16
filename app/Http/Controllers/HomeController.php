@@ -54,4 +54,8 @@ class HomeController extends Controller
         $stats    = $this->api->be(auth()->user())->get('/api/stats');
         return view('general.about', ['versions' => $versions, 'stats' => $stats]);
     }
+
+    public function graph() {
+        return view('general.graph');
+    }
 }

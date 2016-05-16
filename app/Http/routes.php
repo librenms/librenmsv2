@@ -46,6 +46,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::patch('notifications/{id}/{action}', 'NotificationController@update');
     Route::put('notifications', 'NotificationController@create');
     Route::get('about', 'HomeController@about');
+    Route::get('graph', 'HomeController@graph');
     Route::resource('settings', 'SettingsController');
 
     //User
@@ -106,5 +107,8 @@ $api->version('v1', function($api) {
         //Alerting section
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');
         $api->resource('alerting/logs', 'App\Api\Controllers\Alerting\LogsController');
+
+
+        $api->resource('rrd', 'App\Api\Controllers\RRDController');
     });
 });
