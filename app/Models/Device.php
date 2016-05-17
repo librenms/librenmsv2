@@ -52,10 +52,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $poller_group
  * @property boolean $override_sysLocation
  * @property string $notes
+ * @property integer $port_association_mode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Port[] $ports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\Syslog[] $syslogs
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\Eventlog[] $eventlogs
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Alert[] $alerts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Rule[] $rules
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\Eventlog[] $eventlog
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sensor[] $sensors
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereDeviceId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereHostname($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereSysName($value)
@@ -101,23 +106,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device wherePollerGroup($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereOverrideSysLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device whereNotes($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsUp()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDown()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsIgnored()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification NotIgnored()
- * @mixin \Eloquent
- * @property integer $port_association_mode
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Alert[] $alerts
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Rule[] $rules
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\Eventlog[] $eventlog
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sensor[] $sensors
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device wherePortAssociationMode($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isUp()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDown()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isIgnored()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device notIgnored()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDisabled()
+ * @mixin \Eloquent
  */
 class Device extends Model
 {

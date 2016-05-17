@@ -38,7 +38,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @property integer $alerted
  * @property integer $open
  * @property string $timestamp
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
  * @property-read \App\Models\Device $device
  * @property-read \App\Models\Alerting\Rule $rule
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $user
@@ -49,6 +48,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereAlerted($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereOpen($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereTimestamp($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
  * @mixin \Eloquent
  */
 class Alert extends Model
