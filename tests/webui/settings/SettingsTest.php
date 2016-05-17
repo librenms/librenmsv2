@@ -188,6 +188,18 @@ class SettingsTest extends TestCase
         $this->assertEquals(['with' => ['period' => 'value']], $result);
     }
 
+    public function testNumericArray()
+    {
+        $expected = ['zero', 'one', 'two'];
+        Settings::set('test.array.0', 'zero');
+        Settings::set('test.array.2', 'two');
+        Settings::set('test.array.1', 'one');
+
+        $result = Settings::get('test.array');
+
+        $this->assertEquals($expected, $result);
+    }
+
     public function testDeeperKey()
     {
         Settings::set('test.mix', ['with.period' => 'value']);
