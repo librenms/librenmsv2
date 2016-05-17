@@ -23,7 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $ifPromiscuousMode
  * @property integer $ifHighSpeed
  * @property string $ifOperStatus
+ * @property string $ifOperStatus_prev
  * @property string $ifAdminStatus
+ * @property string $ifAdminStatus_prev
  * @property string $ifDuplex
  * @property integer $ifMtu
  * @property string $ifType
@@ -79,6 +81,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $poll_period
  * @property-read \App\Models\Device $device
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\IPv4[] $ipv4
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\IPv6[] $ipv6
+ * @property-read mixed $if_phys_address
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePortId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereDeviceId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePortDescrType($value)
@@ -95,7 +100,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfPromiscuousMode($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfHighSpeed($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfOperStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfOperStatusPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfAdminStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfAdminStatusPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfDuplex($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfMtu($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfType($value)
@@ -149,24 +156,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port wherePollPeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification NotDeleted()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsUp()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDown()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsIgnored()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
- * @mixin \Eloquent
- * @property string $ifOperStatus_prev
- * @property string $ifAdminStatus_prev
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\IPv4[] $ipv4
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\IPv6[] $ipv6
- * @property-read mixed $if_phys_address
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfOperStatusPrev($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfAdminStatusPrev($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port notDeleted()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isUp()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isDown()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isIgnored()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isDisabled()
+ * @mixin \Eloquent
  */
 class Port extends Model
 {

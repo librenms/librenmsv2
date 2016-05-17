@@ -32,12 +32,11 @@ use Illuminate\Database\Eloquent\Builder;
  * App\Models\Alerting\Log
  *
  * @property integer $id
- * @property integer $device_id
  * @property integer $rule_id
+ * @property integer $device_id
  * @property integer $state
- * @property string $details
+ * @property mixed $details
  * @property string $time_logged
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
  * @property-read \App\Models\Device $device
  * @property-read \App\Models\Alerting\Rule $rule
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $user

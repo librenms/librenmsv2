@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * App\Models\General\SearchIPv4
+ * App\Models\General\IPv4Mac
  *
  * @property integer $port_id
  * @property string $mac_address
