@@ -27,11 +27,6 @@
         <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
         <!-- Gridstack style -->
         <link href="{{ url('css/gridstack.min.css') }}" rel="stylesheet"/>
-        <link type="text/css" rel="stylesheet" href="{{ url('css/rickshaw.css') }}">
-        <link type="text/css" rel="stylesheet" href="{{ url('css/graph.css') }}">
-    	<link type="text/css" rel="stylesheet" href="{{ url('css/detail.css') }}">
-    	<link type="text/css" rel="stylesheet" href="{{ url('css/legend.css') }}">
-        <link type="text/css" rel="stylesheet" href="{{ url('css/extensions.css?v=2') }}">
           <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
           <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
           <!--[if lt IE 9]>
@@ -106,35 +101,8 @@
         <script src="{{ url('js/gridstack.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script src="{{ url('js/util.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Class.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Compat.ClassList.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Ajax.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Renderer.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Renderer.Area.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Renderer.Line.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Renderer.Bar.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Renderer.ScatterPlot.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Renderer.Stack.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.RangeSlider.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.RangeSlider.Preview.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.HoverDetail.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Annotate.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Legend.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Axis.Time.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Behavior.Series.Toggle.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Behavior.Series.Order.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Behavior.Series.Highlight.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Smoother.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Fixtures.Time.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Fixtures.Time.Local.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Fixtures.Number.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Fixtures.RandomData.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Fixtures.Color.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Color.Palette.js') }}"></script>
-        <script src="{{ url('js/plugins/rickshaw/Rickshaw.Graph.Axis.Y.js') }}"></script>
-        <script src="{{ url('js/extensions.js') }}"></script>
+        <script src="{{ url('js/Chart.bundle.min.js') }}"></script>
+        <script src="{{ url('js/Chart.Zoom.min.js') }}"></script>
         <script>
             var AdminLTEOptions = {
                 // set the treview slide speed

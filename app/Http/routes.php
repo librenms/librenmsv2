@@ -66,6 +66,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('widget-data/device-summary-horiz/{action?}', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'horiz']);
     Route::get('widget-data/device-summary-vert/{action?}', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'vert']);
     Route::get('widget-data/eventlog/{action?}', 'Widgets\WidgetDataController@eventlog');
+    Route::get('widget-data/generic-graph/{action?}', 'Widgets\WidgetDataController@graph');
     Route::get('widget-data/notes/{action?}', 'Widgets\WidgetDataController@notes');
     Route::get('widget-data/syslog/{action?}', 'Widgets\WidgetDataController@syslog');
     Route::get('widget-data/worldmap/{action?}', 'Widgets\WidgetDataController@worldmap');
@@ -108,7 +109,8 @@ $api->version('v1', function($api) {
         $api->resource('alerting/alerts', 'App\Api\Controllers\Alerting\AlertsController');
         $api->resource('alerting/logs', 'App\Api\Controllers\Alerting\LogsController');
 
-
-        $api->resource('rrd', 'App\Api\Controllers\RRDController');
+        //Graphing section
+        $api->get('graph-data/{type}/png', 'App\Api\Controllers\GraphController@png');
+        $api->get('graph-data/{type}/json', 'App\Api\Controllers\GraphController@json');
     });
 });

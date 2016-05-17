@@ -173,4 +173,17 @@ class WidgetDataController extends Controller
         return view('widgets.notes', compact(['action', 'widget_settings']));
     }
 
+    /**
+     * Display the graph widget.
+     *
+     * @param string $action
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function graph(Settings $settings, Request $request, $action = null)
+    {
+        $request->params = '{"content-type": "js", "data-source": "rrd-json"}';
+        $params = json_decode($request->params);
+        return view('widgets.graph', compact(['action', 'params']));
+    }
+
 }
