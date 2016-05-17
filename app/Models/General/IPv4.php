@@ -31,6 +31,21 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * App\Models\General\IPv4
  *
+ * @property integer $ipv4_address_id
+ * @property string $ipv4_address
+ * @property integer $ipv4_prefixlen
+ * @property string $ipv4_network_id
+ * @property integer $port_id
+ * @property string $context_name
+ * @property-read \App\Models\Port $port
+ * @property-read \App\Models\Device $device
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4 whereIpv4AddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4 whereIpv4Address($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4 whereIpv4Prefixlen($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4 whereIpv4NetworkId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4 wherePortId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4 whereContextName($value)
+ * @mixin \Eloquent
  */
 class IPv4 extends Model
 {

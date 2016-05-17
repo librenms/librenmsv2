@@ -99,6 +99,23 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereOverrideSysLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereNotes($value)
  * @mixin \Eloquent
+ * @property string $facility
+ * @property string $priority
+ * @property string $level
+ * @property string $tag
+ * @property string $timestamp
+ * @property string $program
+ * @property string $msg
+ * @property integer $seq
+ * @property-read \App\Models\Device $device
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereFacility($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog wherePriority($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereLevel($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereTag($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereTimestamp($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereProgram($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereMsg($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Syslog whereSeq($value)
  */
 class Syslog extends Model
 {

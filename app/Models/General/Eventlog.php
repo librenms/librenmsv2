@@ -99,6 +99,17 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Eventlog whereOverrideSysLocation($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Eventlog whereNotes($value)
  * @mixin \Eloquent
+ * @property integer $event_id
+ * @property integer $host
+ * @property string $datetime
+ * @property string $message
+ * @property string $reference
+ * @property-read \App\Models\Device $device
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereEventId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereHost($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereDatetime($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereMessage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereReference($value)
  */
 class Eventlog extends Model
 {

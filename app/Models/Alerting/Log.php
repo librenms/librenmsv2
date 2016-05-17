@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
+ * App\Models\Alerting\Log
+ *
  * @property integer $id
  * @property integer $device_id
  * @property integer $rule_id
@@ -36,6 +38,16 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string $details
  * @property string $time_logged
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
+ * @property-read \App\Models\Device $device
+ * @property-read \App\Models\Alerting\Rule $rule
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $user
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Log whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Log whereRuleId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Log whereDeviceId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Log whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Log whereDetails($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Log whereTimeLogged($value)
+ * @mixin \Eloquent
  */
 class Log extends Model
 {

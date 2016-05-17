@@ -155,6 +155,18 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsIgnored()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
  * @mixin \Eloquent
+ * @property string $ifOperStatus_prev
+ * @property string $ifAdminStatus_prev
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\IPv4[] $ipv4
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\IPv6[] $ipv6
+ * @property-read mixed $if_phys_address
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfOperStatusPrev($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port whereIfAdminStatusPrev($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port notDeleted()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isUp()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isDown()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Port isDisabled()
  */
 class Port extends Model
 {
