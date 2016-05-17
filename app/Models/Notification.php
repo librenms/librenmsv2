@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification whereChecksum($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification whereDatetime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification isUnread()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification isArchived($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification isArchived($user)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification limit()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification source()
  * @mixin \Eloquent

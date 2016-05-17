@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property integer $user_id
  * @property string $dashboard_name
  * @property integer $access
+ * @property-read \App\Models\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UsersWidgets[] $widgets
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Dashboard whereDashboardId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Dashboard whereUserId($value)
@@ -19,7 +20,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Dashboard whereAccess($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Dashboard allAvailable($user)
  * @mixin \Eloquent
- * @property-read \App\Models\User $user
  */
 class Dashboard extends Model
 {

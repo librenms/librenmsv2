@@ -29,8 +29,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * App\Models\General\SearchIPv4
+ * App\Models\General\IPv4Mac
  *
+ * @property integer $port_id
+ * @property string $mac_address
+ * @property string $ipv4_address
+ * @property string $context_name
+ * @property-read \App\Models\Port $port
+ * @property-read \App\Models\Device $device
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4Mac wherePortId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4Mac whereMacAddress($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4Mac whereIpv4Address($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv4Mac whereContextName($value)
+ * @mixin \Eloquent
  */
 class IPv4Mac extends Model
 {

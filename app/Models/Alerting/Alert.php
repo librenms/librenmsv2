@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
+ * App\Models\Alerting\Alert
+ *
  * @property integer $id
  * @property integer $device_id
  * @property integer $rule_id
@@ -36,7 +38,18 @@ use Illuminate\Database\Eloquent\Builder;
  * @property integer $alerted
  * @property integer $open
  * @property string $timestamp
+ * @property-read \App\Models\Device $device
+ * @property-read \App\Models\Alerting\Rule $rule
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $user
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereDeviceId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereRuleId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereState($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereAlerted($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereOpen($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert whereTimestamp($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Alert active()
+ * @mixin \Eloquent
  */
 class Alert extends Model
 {

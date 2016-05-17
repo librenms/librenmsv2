@@ -5,22 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class NotificationAttrib
+ * App\Models\NotificationAttrib
  *
- * @package App\Models
- * @property int $user_id
- * @property string $key
- * @property string $value
  * @property integer $attrib_id
  * @property integer $notifications_id
+ * @property integer $user_id
+ * @property string $key
+ * @property string $value
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Notification $notification
  * @method static \Illuminate\Database\Query\Builder|\App\Models\NotificationAttrib whereAttribId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\NotificationAttrib whereNotificationsId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\NotificationAttrib whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\NotificationAttrib whereKey($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\NotificationAttrib whereValue($value)
  * @mixin \Eloquent
- * @property-read \App\Models\User $user
- * @property-read \App\Models\Notification $notification
  */
 class NotificationAttrib extends Model
 {

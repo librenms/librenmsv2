@@ -43,12 +43,6 @@ DB_USERNAME=username
 DB_PASSWORD=password
 ```
 
-If v1 is installed in a non-standard location, and you would like to import config.php settings, set V1_INSTALL_DIR. Or set this to empty if you don't want config.php imported.
-```yaml
-V1_INSTALL_DIR=/opt/librenms
-```
-
-
 Install requirements and generate unique key.
 ```bash
 composer install
@@ -62,6 +56,25 @@ Make sure librenms user is part of webserver Group and can write logs in storage
 ```bash
 usermod -a -G librenms www-data
 chmod -R g+w storage bootstrap/cache logs
+```
+
+V1 Settings
+-----------
+
+If v1 is installed in a non-standard location, and you would like to import config.php settings, set V1_INSTALL_DIR in `.env`. Or set this to empty if you don't want config.php imported.
+```yaml
+V1_INSTALL_DIR=/opt/librenms
+```
+
+The behavior of settings has changed and a migration will be needed to make sure your settings from v1 are correct.
+
+Preview the settings that will be migrated
+```bash
+php artisan librenms:migrate-settings --dry-run
+```
+Migrate settings
+```bash
+php artisan librenms:migrate-settings
 ```
 
 

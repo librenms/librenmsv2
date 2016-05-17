@@ -18,6 +18,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $refresh
  * @property string $settings
  * @property integer $dashboard_id
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Widgets $widget
+ * @property-read \App\Models\Dashboard $dashboard
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereUserWidgetId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereWidgetId($value)
@@ -29,11 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereRefresh($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereSettings($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets whereDashboardId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification GetSettings($request)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets getSettings($request)
  * @mixin \Eloquent
- * @property-read \App\Models\User $user
- * @property-read \App\Models\Widgets $widget
- * @property-read \App\Models\Dashboard $dashboard
  */
 class UsersWidgets extends Model
 {

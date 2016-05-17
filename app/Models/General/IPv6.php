@@ -31,6 +31,25 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * App\Models\General\IPv6
  *
+ * @property integer $ipv6_address_id
+ * @property string $ipv6_address
+ * @property string $ipv6_compressed
+ * @property integer $ipv6_prefixlen
+ * @property string $ipv6_origin
+ * @property string $ipv6_network_id
+ * @property integer $port_id
+ * @property string $context_name
+ * @property-read \App\Models\Port $port
+ * @property-read \App\Models\Device $device
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 whereIpv6AddressId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 whereIpv6Address($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 whereIpv6Compressed($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 whereIpv6Prefixlen($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 whereIpv6Origin($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 whereIpv6NetworkId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 wherePortId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\IPv6 whereContextName($value)
+ * @mixin \Eloquent
  */
 class IPv6 extends Model
 {

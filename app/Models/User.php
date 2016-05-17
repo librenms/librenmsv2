@@ -7,19 +7,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * App\Models\User
  *
- * @property string $username
- * @property string $realname
- * @property string $password
- * @property string $email
- * @property int $level
  * @property integer $user_id
+ * @property string $username
+ * @property string $password
+ * @property string $realname
+ * @property string $email
  * @property string $descr
+ * @property boolean $level
  * @property boolean $can_modify_passwd
  * @property string $twofactor
  * @property integer $dashboard
- * @property string $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property string $remember_token
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Device[] $devices
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Port[] $ports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dashboard[] $dashboards
@@ -33,9 +33,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCanModifyPasswd($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereTwofactor($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereDashboard($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable

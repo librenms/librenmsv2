@@ -28,13 +28,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class DbConfig
+ * App\Models\DbConfig
  *
- * @package App\Models
  * @property integer $config_id
  * @property string $config_name
- * @property string $config_hidden
- * @property string $config_disabled
  * @property string $config_value
  * @property string $config_default
  * @property string $config_descr
@@ -42,10 +39,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $config_group_order
  * @property string $config_sub_group
  * @property integer $config_sub_group_order
+ * @property string $config_hidden
+ * @property string $config_disabled
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigHidden($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigDisabled($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigValue($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigDefault($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigDescr($value)
@@ -53,6 +50,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigGroupOrder($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigSubGroup($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigSubGroupOrder($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigHidden($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig whereConfigDisabled($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig key($key)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DbConfig exactKey($key)
  * @mixin \Eloquent
@@ -95,7 +94,7 @@ class DbConfig extends Model
      */
     public function scopeKey(Builder $query, $key)
     {
-        return $query->where('config_name', 'LIKE', $key.'%');
+        return $query->where('config_name', $key)->orWhere('config_name', 'LIKE', $key.'.%');
     }
 
     /**
@@ -125,7 +124,7 @@ class DbConfig extends Model
             try {
                 return unserialize($value);
             } catch (\Exception $e) {
-                if (starts_with($e->getMessage(), 'unserialize():')) {
+                if (str_contains($e->getMessage(), 'unserialize():')) {
                     return $value;
                 }
                 else {
@@ -137,6 +136,19 @@ class DbConfig extends Model
     }
 
     /**
+     * Unserialize default values.
+     *
+     * @param $value
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getConfigDefault($value)
+    {
+        // uses the same code as values
+        return $this->getConfigValueAttribute($value);
+    }
+
+    /**
      * Serialize values before storing.
      *
      * @param $value
@@ -144,5 +156,15 @@ class DbConfig extends Model
     public function setConfigValueAttribute($value)
     {
         $this->attributes['config_value'] = serialize($value);
+    }
+
+    /**
+     * Serialize defaults before storing.
+     *
+     * @param $value
+     */
+    public function setConfigDefaultAttribute($value)
+    {
+        $this->attributes['config_default'] = serialize($value);
     }
 }
