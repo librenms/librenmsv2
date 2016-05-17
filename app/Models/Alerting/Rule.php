@@ -28,7 +28,25 @@ namespace App\Models\Alerting;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * App\Models\Alerting\Rule
  *
+ * @property integer $id
+ * @property string $device_id
+ * @property string $rule
+ * @property string $severity
+ * @property string $extra
+ * @property boolean $disabled
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Alert[] $alert
+ * @property-read \App\Models\Device $device
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereDeviceId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereRule($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereSeverity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereExtra($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereDisabled($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereName($value)
+ * @mixin \Eloquent
  */
 class Rule extends Model
 {

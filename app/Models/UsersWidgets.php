@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Widgets $widget
  * @property-read \App\Models\Dashboard $dashboard
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UsersWidgets getSettings($request)
  */
 class UsersWidgets extends Model
 {

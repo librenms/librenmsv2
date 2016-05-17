@@ -107,6 +107,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification IsDisabled()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Notification NotIgnored()
  * @mixin \Eloquent
+ * @property integer $port_association_mode
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Alert[] $alerts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Rule[] $rules
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\General\Eventlog[] $eventlog
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sensor[] $sensors
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Device wherePortAssociationMode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isUp()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDown()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Device notIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDisabled()
  */
 class Device extends Model
 {
