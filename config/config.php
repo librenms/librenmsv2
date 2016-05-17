@@ -25,6 +25,7 @@
 $install_dir = env('V1_INSTALL_DIR', '/opt/librenms');
 $config_source = $install_dir . '/config.php';
 $defaults_source = $install_dir . '/includes/defaults.inc.php';
+$definitions_source = $install_dir . '/includes/definitions.inc.php';
 
 unset($config);
 
@@ -36,6 +37,11 @@ if (file_exists($defaults_source))
 if (file_exists($config_source))
 {
     include_once($config_source);
+}
+
+if (file_exists($definitions_source))
+{
+    include_once($definitions_source);
 }
 
 return isset($config) ? $config : [];

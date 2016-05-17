@@ -46,8 +46,9 @@ class GraphController extends Controller
     public function json(Request $request, $type)
     {
         $class = 'App\Graphs\\' . ucfirst($type);
-        $data=new $class($variable, $variable);
-        return $data->json();
+        $data=new $class();
+        $data->setType($type);
+        return $data->json($request);
     }
 
     /**
@@ -57,10 +58,10 @@ class GraphController extends Controller
      * @param string $type
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function png(Request $request, $type)
+    public function png(Request $request)
     {
         $class = 'App\Graphs\\' . ucfirst($type);
-        $data=new $class($variable, $variable);
+        $data=new $class();
         return $data->png();
     }
 

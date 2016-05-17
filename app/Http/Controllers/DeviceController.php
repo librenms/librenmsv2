@@ -72,7 +72,7 @@ class DeviceController extends Controller
      */
     public function show($id)
     {
-        // show a single device
+        return view('devices.show');
     }
 
     /**

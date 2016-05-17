@@ -110,7 +110,7 @@ $api->version('v1', function($api) {
         $api->resource('alerting/logs', 'App\Api\Controllers\Alerting\LogsController');
 
         //Graphing section
-        $api->get('graph-data/{type}/png', 'App\Api\Controllers\GraphController@png');
-        $api->get('graph-data/{type}/json', 'App\Api\Controllers\GraphController@json');
+        $api->post('graph-data/{type}/png', 'App\Api\Controllers\GraphController@png');
+        $api->post('graph-data/{type}/json', 'App\Api\Controllers\GraphController@json');
     });
 });

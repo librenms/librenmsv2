@@ -8,7 +8,7 @@
 @else
     @section('content')
         @if ($params->{'data-source'} == 'rrd-json')
-            <canvas id="myChart" width="400" height="200"></canvas>
+            <canvas id="myChart" width="40" height="20"></canvas>
         @endif
     @endsection
 @endif
@@ -19,10 +19,11 @@
 var ctx = document.getElementById("myChart");
 
 $.ajax({
-    url: '/api/rrd',
+    url: '/api/graph-data/bits/json?source=rrd-json',
     async: true,
     dataType: 'json',
-    type: "get",
+    type: "post",
+    data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "36"}',
 }).done(function (data) {
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -31,6 +32,7 @@ $.ajax({
             datasets: data.data
         },
         options: {
+            fullWidth: false,
             responsive: true,
             legend: {
                 position: 'bottom',
@@ -43,7 +45,12 @@ $.ajax({
                     stacked: false,
                     ticks: {
                         callback: function(tick, index, ticks) {
-                            return BKMGT(tick, index, ticks);
+                            if (data.tick == 'BKMGT') {
+                                return BKMGT(tick, index, ticks);
+                            }
+                            else {
+                                return tick;
+                            }
                         }
                     },
 

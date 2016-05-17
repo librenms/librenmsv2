@@ -23,15 +23,19 @@
 
 namespace App\Graphs;
 
+use Illuminate\Http\Request;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Settings;
+
 class BaseGraph
 {
-    /**
-     *
-     * @return \Yajra\Datatables\Html\Builder
-     */
-    public function html()
+
+    private $type = '';
+
+    public function setType($value)
     {
-        return 'boom';
+        $this->type = $value;
     }
 
     /**
@@ -39,9 +43,15 @@ class BaseGraph
      *
      * @return array
      */
-    public function json()
+    public function json(Request $request)
     {
-        return null;
+        $input = json_decode($request->{'input'});
+        if ($request->{'source'} == 'rrd-json')
+        {
+            $build = $this->buildRRDJson($input, $this->buildRRDXport($input));
+        }
+        $response = $this->runRRDXport($build);
+        return $this->parseRRDJson($response);
     }
 
     /**
@@ -49,9 +59,103 @@ class BaseGraph
      *
      * @return array
      */
-    public function png()
+    public function png(Request $request)
     {
         return null;
     }
 
+    /**
+     * Build the RRD Xport query
+     *
+     * @return string
+     */
+    public function buildRRDJson($input, $rrd_params)
+    {
+        $cmd = Settings::get('rrdtool') . ' xport --json -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' . $rrd_params;
+        return $cmd;
+    }
+
+    /**
+     * Run the RRD Xport query
+     *
+     * @return string
+     */
+    public function runRRDXport($query)
+    {
+        $process = new Process($query);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+        return $process->getOutput();
+    }
+
+    /**
+     * Run the RRD Xport query
+     *
+     * @return string
+     */
+    public function parseRRDJson($response)
+    {
+        $response = preg_replace('/\'/', '"', $response);
+        $response = preg_replace('/about\:/', '"meta":', $response);
+        $response = preg_replace('/meta\:/', '"meta":', $response);
+        $response = json_decode($response);
+
+        $step = $response->{'meta'}->{'step'};
+        $start = $response->{'meta'}->{'start'};
+        $end = $response->{'meta'}->{'end'};
+        $cur_time = $start;
+        $z=0;
+
+        foreach ($response->{'data'} as $data)
+        {
+            $x=0;
+            foreach ($data as $key => $value)
+            {
+                $tmp_data[$x][] = (is_null($value)) ? 0 : (int) $value;
+                $x++;
+            }
+            $z++;
+            $labels[] = date('Y-m-d', $cur_time);
+            $cur_time = $cur_time + $step;
+        }
+        $y=0;
+        foreach ($response->{'meta'}->{'legend'} as $legend)
+        {
+             $color = rand(0,255);
+             $defaults = ['label' => $legend,
+                            'data' => $tmp_data[$y],
+                            'fill' => true,
+                            'backgroundColor' => "rgba($color,205,86,0.4)",
+                            'borderColor' => "rgba($color,205,86,1)",
+                            'pointRadius' => 1,
+                            'pointBorderWidth' => 1,
+                            'pointHoverRadius' => 4,
+                            'pointHoverBackgroundColor' => "rgba($color,205,86,0.5)",
+                            'pointHoverBorderColor' => "rgba($color,205,86,0.5)",
+                            'pointHoverBorderWidth' => 1,
+                        ];
+                $out_data = $this->formatJson($y);
+
+                $output['data'][$y] = array_merge($defaults,$out_data);
+                $y++;
+            }
+        $output['labels'] = $labels;
+        $output['tick'] = $this->getTick($this->type);
+        return json_encode($output);
+    }
+
+    public function getTick($type)
+    {
+        switch ($type)
+        {
+            case 'bits':
+                return 'BKMGT';
+                break;
+            default:
+                return '';
+                break;
+        }
+    }
 }
