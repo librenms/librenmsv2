@@ -2,7 +2,7 @@ Include the following header on every file.
 
 Fill in:
  * Full file name
- * Descrition of the purpose of this file
+ * Description of the purpose of this file
  * Your copyright including years
  * Your name and email
 
