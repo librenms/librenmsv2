@@ -97,16 +97,17 @@ class DeviceDataTable extends BaseDataTable
                 'data'  => 'status_reason',
                 'width' => '40px',
             ],
-            'vendor'        => [
-                'title' => trans('devices.text.vendor'),
-                'width' => '20px',
+            'vendor'         => [
+                'title'      => trans('devices.text.vendor'),
+                'width'      => '20px',
+                'searchable' => false,
             ],
             'hostname'  => [
                 'title' => trans('devices.label.hostname'),
             ],
-            'resources'  => [
-                'title'  => '',
-                'search' => false,
+            'resources'      => [
+                'title'      => '',
+                'searchable' => false,
             ],
             'hardware'  => [
                 'title' => trans('devices.text.platform'),
