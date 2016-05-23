@@ -188,7 +188,7 @@ class Settings implements ConfigContract
      * Currently, $key is unused
      *
      * @param string $key The path to check
-     * @return string|false false or the source: config | auth
+     * @return boolean false or the source: config | auth
      */
     public function isReadOnly($key)
     {
