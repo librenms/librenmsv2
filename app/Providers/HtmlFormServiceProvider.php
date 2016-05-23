@@ -11,14 +11,14 @@ class HtmlFormServiceProvider extends ServiceProvider
 
     public function boot(Router $router)
     {
-        Form::component('bsPassword', 'components.form.horiz-password', ['name', 'attributes' => [], 'class' => null, 'label' => null]);
-        Form::component('bsSelect', 'components.form.horiz-select', ['name', 'values' => [], 'selected' => null, 'label' => null]);
-        Form::component('bsSubmit', 'components.form.horiz-submit', ['name', 'class']);
-        Form::component('bsText', 'components.form.horiz-text', ['name', 'value', 'attributes' => [], 'class' => null, 'label' => null]);
+        Form::component('bsPassword', 'components.form.horiz-password', ['name', 'attributes' => []]);
+        Form::component('bsSelect', 'components.form.horiz-select', ['name', 'values' => [], 'selected' => null, 'attributes' => []]);
+        Form::component('bsSubmit', 'components.form.horiz-submit', ['name', 'attributes' => []]);
+        Form::component('bsText', 'components.form.horiz-text', ['name', 'value', 'attributes' => []]);
 
-        Form::component('ajaxText', 'components.form.ajax-text', ['setting', 'label']);
-        Form::component('ajaxRadio', 'components.form.ajax-radio', ['setting', 'label', 'items' => []]);
-        Form::component('ajaxSortable', 'components.form.ajax-sortable', ['setting', 'label', 'default' => []]);
+        Form::component('ajaxDynamicText', 'components.form.ajax-dynamic-text', ['name', 'values' => [], 'attributes' => []]);
+        Form::component('ajaxRadio', 'components.form.ajax-radio', ['setting', 'label'=>null, 'items' => []]);
+        Form::component('ajaxSortable', 'components.form.ajax-sortable', ['setting', 'label'=>null, 'default' => []]);
 
         parent::boot($router);
     }

@@ -67,13 +67,26 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
+        $key = Input::get('key');
+        if (Settings::isReadOnly($key)) {
+            return response('Read only setting', 422);
+        }
+
         $type = Input::get('type');
-        if ($type == 'settings-value' || $type == 'settings-array') {
-            $key = Input::get('key');
-            if (Settings::isReadOnly($key)) {
-                return response('Read only setting', 422);
-            }
+        if ($type == 'settings-value') {
             Settings::set($key, Input::get('value'));
+            return response('OK', 200);
+        } elseif ($type == 'settings-array') {
+            $new = Input::get('value');
+            $current = Settings::get($key);
+
+            // remove entries with missing indexes
+            $delete = array_diff_key($current, $new);
+            foreach ($delete as $index => $value) {
+                Settings::forget($key . '.' . $index);
+            }
+
+            Settings::set($key, $new);
             return response('OK', 200);
         }
         return response('Invalid Data', 422);

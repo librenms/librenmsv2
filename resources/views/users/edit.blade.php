@@ -30,8 +30,8 @@
                 {{ Form::bsText('username', $user->username) }}
                 {{ Form::bsSelect('level', ['1' => trans('user.level.1'), '5' => trans('user.level.5'), '10' => trans('user.level.10')]) }}
                 {{ Form::bsText('email', $user->email) }}
-                {{ Form::bsText('descr', $user->descr, [], null, trans('user.text.descr')) }}
-                {{ Form::bsSubmit(trans('button.save'), 'btn-primary') }}
+                {{ Form::bsText('descr', $user->descr, ['label'=>trans('user.text.descr')]) }}
+                {{ Form::bsSubmit(trans('button.save'), ['class' => 'btn-primary']) }}
                 {!! Form::close() !!}
             </div>
         </div>
@@ -49,7 +49,7 @@
                 @endif
                 {{ Form::bsPassword('password') }}
                 {{ Form::bsPassword('password_confirmation') }}
-                {{ Form::bsSubmit(trans('button.save'), 'btn-primary') }}
+                {{ Form::bsSubmit(trans('button.save'), ['class' => 'btn-primary']) }}
                 {!! Form::close() !!}
             </div>
         </div>
