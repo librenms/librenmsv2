@@ -1,5 +1,8 @@
 <?php
 return [
+    'text' => [
+        'readonly' => 'Read-Only: you do not have permissions to edit this setting.'
+    ],
     'snmp' => [
         'title'      => 'SNMP Defaults',
         'tabs'       => [

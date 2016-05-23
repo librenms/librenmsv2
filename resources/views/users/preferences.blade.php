@@ -29,7 +29,7 @@
                     {{ Form::bsPassword('current_password') }}
                     {{ Form::bsPassword('password') }}
                     {{ Form::bsPassword('password_confirmation') }}
-                    {{ Form::bsSubmit('Update password', 'btn-primary')}}
+                    {{ Form::bsSubmit('Update password', ['class' => 'btn-primary'])}}
                     {{ Form::close() }}
             </div>
         </div>

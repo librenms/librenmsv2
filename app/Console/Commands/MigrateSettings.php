@@ -95,7 +95,7 @@ class MigrateSettings extends Command
             $this->warn(trans('commands.migrate-settings.nochanges'));
         }
         else {
-            Settings::flush();  // clear the settings cache
+            Settings::flush(); // clear the settings cache
             DbConfig::updateOrCreate(['config_name' => 'settings.migrated'], ['config_value' => true]);
         }
     }
