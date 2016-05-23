@@ -243,6 +243,9 @@ class Device extends Model
      */
     public function formatUptime($seconds)
     {
+        if( empty($seconds) ) {
+            $seconds = 0;
+        }
         $from = new \DateTime("@0");
         $to = new \DateTime("@$seconds");
         return $from->diff($to)->format('%a d, %h h, %i m and %s s');
