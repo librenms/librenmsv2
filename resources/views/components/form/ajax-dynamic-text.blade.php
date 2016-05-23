@@ -10,10 +10,7 @@
 @endif
 
         <div class="input-group">
-            {{ Form::text($name, $value, \App\Util::array_merge_concat(['class' => 'form-control ', 'data-index' => $key], $attributes)) }}
-            {{--<input type="text" class="form-control" name="{{ $setting }}" data-index="{{ $key }}"--}}
-                   {{--data-index="0" data-original-value="{{ $value }}" value="{{ $value }}"--}}
-                    {{--{{ Settings::isReadOnly($setting.'.'.$key) ? 'disabled' : '' }} />--}}
+            {{ Form::text($name, $value, \App\Util::arrayMergeConcat(['class' => 'form-control ', 'data-index' => $key], $attributes)) }}
         @if($key > 0)
             <span class="input-group-btn"><button type="button" class="btn btn-danger"><i class="fa fa-lg fa-times-circle"></i></button></span>
         @else

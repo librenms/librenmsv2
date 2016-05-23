@@ -23,12 +23,12 @@
  */
 
 // Filter sections
-$('#settingsFilter').on('keyup search', function(event) {
+$('#settingsFilter').on('keyup search', function (event) {
     event.preventDefault();
     var search = $(this).val().toLowerCase();
-    $('.content section').each(function() {
+    $('.content section').each(function () {
         var $this = $(this);
-        if(search.length == 0 || $this.text().toLowerCase().indexOf(search) >= 0 ) {
+        if (search.length == 0 || $this.text().toLowerCase().indexOf(search) >= 0) {
             $this.show();
         } else {
             $this.hide();
@@ -41,9 +41,9 @@ $('.sortable').sortable({
     handle: '.drag-handle',
     create: function () {
         var $this = $(this);
-        if($this.hasClass('readonly')) {
+        if ($this.hasClass('readonly')) {
             $this.sortable('disable');
-            $('span.drag-handle',this ).remove();
+            $('span.drag-handle', this).remove();
         }
     },
     update: function () {
@@ -89,13 +89,13 @@ $('.sortable').sortable({
 });
 
 // text input control
-$(".content input[type='text']").on('blur keyup', function(e) {
-    if(e.type === 'keyup' && e.keyCode !== 13) return;
+$(".content input[type='text']").on('blur keyup', function (e) {
+    if (e.type === 'keyup' && e.keyCode !== 13) return;
     var $this = $(this);
     var data = $this.val();
 
     var original = $this.data('original-value');
-    if(data == original) return;
+    if (data == original) return;
 
     var key = $this.attr('name');
     if (typeof $this.data('index') !== "undefined") {
@@ -138,7 +138,7 @@ $(".content input[type='text']").on('blur keyup', function(e) {
 });
 
 // radio input control
-$(".content input[type='radio']").change(function() {
+$(".content input[type='radio']").change(function () {
     var $this = $(this);
     var key = $this.attr('id');
     var data = $this.data('value');
@@ -180,7 +180,7 @@ $(".content input[type='radio']").change(function() {
 // array input control
 $('.ajax-form-dynamic .btn-danger').on('click', removeInput);
 
-$('.ajax-form-dynamic .btn-success').on('click', function() {
+$('.ajax-form-dynamic .btn-success').on('click', function () {
     var container = $(this).closest('.ajax-form-dynamic');
 //            var $inputs = container.find('input');
     var newForm = container.find('.form-group:first').clone(true);
@@ -196,7 +196,7 @@ $('.ajax-form-dynamic .btn-success').on('click', function() {
     // fixup the input field indexes
     var newInput = newForm.find('input');
     var inputs = container.find('input');
-    inputs.each(function(index) {
+    inputs.each(function (index) {
         $(this).data('index', index);
     });
     newInput.val('');
@@ -211,8 +211,8 @@ function removeInput() {
     var index = input.data('index');
 
     var data = [];
-    $("input[name='" + key +"']").each(function(i) {
-        if(i != index) {
+    $("input[name='" + key + "']").each(function (i) {
+        if (i != index) {
             data.push($(this).val());
         }
     });
@@ -229,7 +229,7 @@ function removeInput() {
         success: function () {
             $this.closest('.form-group').remove();
 
-            $("input[name='" + key +"']").each(function(index) {
+            $("input[name='" + key + "']").each(function (index) {
                 $(this).data('index', index);
             });
 

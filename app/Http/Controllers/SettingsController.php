@@ -73,22 +73,25 @@ class SettingsController extends Controller
         }
 
         $type = Input::get('type');
+        $value = Input::get('value');
+
         if ($type == 'settings-value') {
-            Settings::set($key, Input::get('value'));
+            Settings::set($key, $value);
             return response('OK', 200);
-        } elseif ($type == 'settings-array') {
-            $new = Input::get('value');
+        }
+        elseif ($type == 'settings-array') {
             $current = Settings::get($key);
 
             // remove entries with missing indexes
-            $delete = array_diff_key($current, $new);
-            foreach ($delete as $index => $value) {
-                Settings::forget($key . '.' . $index);
+            $delete = array_diff_key($current, $value);
+            foreach (array_keys($delete) as $index) {
+                Settings::forget($key.'.'.$index);
             }
 
-            Settings::set($key, $new);
+            Settings::set($key, $value);
             return response('OK', 200);
         }
+
         return response('Invalid Data', 422);
     }
 

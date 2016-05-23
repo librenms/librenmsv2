@@ -34,7 +34,7 @@ class Util
      * @param array ...
      * @return array
      */
-    static function array_merge_concat()
+    public static function arrayMergeConcat()
     {
         $out = [];
         // loop through the arguments
