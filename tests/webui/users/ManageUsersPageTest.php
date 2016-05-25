@@ -41,7 +41,7 @@ class ManageUsersPageTest extends TestCase
         $user = factory(User::class)->create();
         $this->actingAs($user)
             ->visit('/users')
-            ->see('User Preferences ');
+            ->dontSee('Manage Users');
     }
 
     /**

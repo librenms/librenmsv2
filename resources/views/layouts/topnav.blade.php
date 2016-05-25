@@ -14,7 +14,7 @@
                 <!-- Menu toggle button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="label label-warning" id="notification-menu-count">0</span>
+                    <span class="label label-info" id="notification-menu-count"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
