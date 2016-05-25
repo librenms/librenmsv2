@@ -10,11 +10,6 @@ class WidgetsController extends Controller
 {
     use Helpers;
 
-    public function __construct(Request $request)
-    {
-        $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         

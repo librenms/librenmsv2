@@ -17,14 +17,6 @@ class UserController extends Controller
     use Helpers;
 
     /**
-     * Constructor
-     */
-    public function __construct(Request $request)
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @param UserDataTable $dataTable

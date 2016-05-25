@@ -13,12 +13,16 @@
 
 // ---- Web Routes ----
 
-Route::group(['middleware' => ['web']], function() {
-    // Authentication Routes...
+// Unauthenticated Routes
+Route::group(['middleware' => 'web'], function() {
+    // Authentication Routes
     $this->get('login', 'Auth\AuthController@showLoginForm');
     $this->post('login', 'Auth\AuthController@login');
     $this->get('logout', 'Auth\AuthController@logout');
+});
 
+// Authenticated Routes
+Route::group(['middleware' => 'auth'], function() {
     // Password Reset Routes...
     $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
     $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
@@ -46,13 +50,12 @@ Route::group(['middleware' => ['web']], function() {
     Route::patch('notifications/{id}/{action}', 'NotificationController@update');
     Route::put('notifications', 'NotificationController@create');
     Route::get('about', 'HomeController@about');
+
+    // Settings
     Route::resource('settings', 'SettingsController');
 
-    //User
+    //User Preferences
     Route::get('preferences', 'UserController@preferences');
-    Route::resource('users', 'UserController');
-    Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
-    Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);
 
     //Alerting section
     Route::resource('alerting/alerts', 'Alerting\AlertsController');
@@ -68,11 +71,14 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('widget-data/notes/{action?}', 'Widgets\WidgetDataController@notes');
     Route::get('widget-data/syslog/{action?}', 'Widgets\WidgetDataController@syslog');
     Route::get('widget-data/worldmap/{action?}', 'Widgets\WidgetDataController@worldmap');
-
 });
 
-Route::group(['middleware' => 'web'], function() {
-
+// Admin Only routes
+Route::group(['middleware' => 'admin'], function() {
+    // User Management
+    Route::resource('users', 'UserController');
+    Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
+    Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);
 });
 
 // ---- API Routes ----

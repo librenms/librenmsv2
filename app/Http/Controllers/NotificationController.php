@@ -11,14 +11,6 @@ class NotificationController extends Controller
     use Helpers;
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @param null $type

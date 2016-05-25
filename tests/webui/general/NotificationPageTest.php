@@ -28,7 +28,7 @@ class NotificationPageTest extends TestCase
             ->see('Archive')
             ->see($unread->title)
             ->dontSee($read->title)
-            ->see('id="notification-menu-count">1')
+            ->see("<ul class=\"timeline\">\n<li")
             ->click('show-notification')
             ->type('New Notification Title', 'title')
             ->type('Notification body text', 'body')
@@ -48,7 +48,7 @@ class NotificationPageTest extends TestCase
 
         $this->actingAs($user)
             ->visit('/notifications')
-            ->see('id="notification-menu-count">0');
+            ->see('<ul class="timeline"></ul>');
 
     }
 }
