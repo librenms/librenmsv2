@@ -31,8 +31,8 @@ div.remove-target:hover i.remove-icon {
 }
 
 /* sortable drag handles */
-.draggable, .drag-handle {
-    cursor: move;
+.draggable, .drag-handle { cursor: move; }
+.drag-handle {
     padding-right: 10px;
 }
 
