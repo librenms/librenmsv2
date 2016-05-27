@@ -74,6 +74,7 @@
                         <div class="form-group">
                             {{ Form::label('copy_from', trans('dashboard.label.copy')) }}
                             <select class="form-control" id="copy_from" name="copy_from">
+                                <option disabled selected value> -- {{ trans('dashboard.select.dashboard') }} -- </option>
                                 @foreach ($dashboards as $dashboard)
                                     <option value="{{ $dashboard->dashboard_id }}">{{ $dashboard->dashboard_name }} @if ($dashboard->access == 1) {{ '- '.trans('dashboard.select.read') }} @elseif ($dashboard->access == 2) {{ '- '.trans('dashboard.select.write') }} @endif</option>
                                 @endforeach
@@ -92,6 +93,7 @@
                     <div class="form-group">
                         {{ Form::label('name', trans('dashboard.label.add_widget')) }}
                         <select class="form-control" id="add_widget_id" name="add_widget_id" data-dashboard_id="{{ $request->route('dashboard_id') }}">
+                            <option disabled selected value> -- {{ trans('dashboard.select.widget') }} -- </option>
                             @foreach ($widgets as $widget)
                                 <option value="{{ $widget->widget_id }},{{ $widget->base_dimensions }},{{ $widget->widget_title }}">{{ $widget->widget_title }}</option>
                             @endforeach
