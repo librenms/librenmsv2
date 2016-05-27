@@ -151,14 +151,14 @@
         grid.removeAll();
         @foreach ($dash_widgets as $dash_widget)
             var data = {!! $dash_widget !!}
-            $.Dashboard.addWidget(grid, data, '{{ $token }}');
+            $.Dashboard.addWidget(grid, data);
         @endforeach
 
         $('.grid-stack').on('resizestop dragstop', function(event, ui) {
             setTimeout(function() {
-                $.Dashboard.updateWidget(event.target, '{{ $token }}');
+                $.Dashboard.updateWidget(event.target);
             }, 1);
         });
-        $.Dashboard.dashboardActions('{{ $token }}', grid);
+        $.Dashboard.dashboardActions(grid);
     </script>
 @endsection
