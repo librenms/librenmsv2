@@ -33,8 +33,8 @@ use App\Models\Device;
 use App\Models\Port;
 use App\Models\User;
 use App\Models\UsersWidgets;
-use App\Settings;
 use Illuminate\Http\Request;
+use Settings;
 
 class WidgetDataController extends Controller
 {
@@ -77,33 +77,23 @@ class WidgetDataController extends Controller
      * @param string $action
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function availabilitymap(Settings $settings, Request $request, $action = null)
+    public function availabilitymap(Request $request, $action = null)
     {
-        $uptime = $settings->get('uptime_warning');
-        if ($request->user()->hasGlobalRead())
-        {
+        $uptime = Settings::get('uptime_warning', 84600);
+        if ($request->user()->hasGlobalRead()) {
             $devices = Device::where('ignore', '=', 0)->get();
-        }
-        else
-        {
+        } else {
             $devices = User::find($request->user()->user_id)->devices()->where('ignore', '=', 0)->get();
         }
         $count = ['warn' => 0, 'up' => 0, 'down' => 0];
-        foreach ($devices as $device)
-        {
-            if ($device->status == 1)
-            {
-                if (($device->uptime < $uptime) && ($device->uptime != '0'))
-                {
+        foreach ($devices as $device) {
+            if ($device->status == 1) {
+                if (($device->uptime < $uptime) && ($device->uptime != '0')) {
                     $count['warn']++;
-                }
-                else
-                {
+                } else {
                     $count['up']++;
                 }
-            }
-            else
-            {
+            } else {
                 $count['down']++;
             }
         }
@@ -120,33 +110,32 @@ class WidgetDataController extends Controller
     {
         $type = $request->route()->getAction()['type'];
         $count = [];
-        if ($request->user()->hasGlobalRead())
-        {
-            $count['devices']['total']    = Device::all()->count();
-            $count['devices']['up']       = Device::isup()->count();
-            $count['devices']['down']     = Device::isdown()->count();
-            $count['devices']['ignored']  = Device::isignored()->count();
-            $count['devices']['disabled'] = Device::isdisabled()->count();
+        if ($request->user()->hasGlobalRead()) {
+            $count['devices']['total'] = Device::all()->count();
+            $count['devices']['up'] = Device::isUp()->count();
+            $count['devices']['down'] = Device::isDown()->count();
+            $count['devices']['ignored'] = Device::isIgnored()->count();
+            $count['devices']['disabled'] = Device::isDisabled()->count();
 
-            $count['ports']['total']      = Port::notdeleted()->count();
-            $count['ports']['up']         = Port::with('device')->isup()->count();
-            $count['ports']['down']       = Port::with('device')->isdown()->count();
-            $count['ports']['ignored']    = Port::with('device')->isignored()->count();
-            $count['ports']['disabled']   = Port::with('device')->isdisabled()->count();
-        }
-        else
-        {
-            $count['devices']['total']    = User::find($request->user()->user_id)->devices()->count();
-            $count['devices']['up']       = User::find($request->user()->user_id)->devices()->iseup()->count();
-            $count['devices']['down']     = User::find($request->user()->user_id)->devices()->isdown()->count();
-            $count['devices']['ignored']  = User::find($request->user()->user_id)->devices()->isignored()->count();
-            $count['devices']['disabled'] = User::find($request->user()->user_id)->devices()->isdisabled()->count();
+            $count['ports']['total'] = Port::notDeleted()->count();
+            $count['ports']['up'] = Port::isUp()->count();
+            $count['ports']['down'] = Port::isDown()->count();
+            $count['ports']['ignored'] = Port::isIgnored()->count();
+            $count['ports']['disabled'] = Port::isDisabled()->count();
+        } else {
+            $user = User::find($request->user()->user_id);
 
-            $count['ports']['total']      = User::find($request->user()->user_id)->ports()->with('device')->count();
-            $count['ports']['up']         = User::find($request->user()->user_id)->ports()->with('device')->isup()->count();
-            $count['ports']['down']       = User::find($request->user()->user_id)->ports()->with('device')->isdown()->count();
-            $count['ports']['ignored']    = User::find($request->user()->user_id)->ports()->with('device')->isignored()->count();
-            $count['ports']['disabled']   = User::find($request->user()->user_id)->ports()->with('device')->isdisabled()->count();
+            $count['devices']['total'] = $user->devices()->count();
+            $count['devices']['up'] = $user->devices()->isUp()->count();
+            $count['devices']['down'] = $user->devices()->isDown()->count();
+            $count['devices']['ignored'] = $user->devices()->isIgnored()->count();
+            $count['devices']['disabled'] = $user->devices()->isDisabled()->count();
+
+            $count['ports']['total'] = $user->ports()->count();
+            $count['ports']['up'] = $user->ports()->isUp()->count();
+            $count['ports']['down'] = $user->ports()->isDown()->count();
+            $count['ports']['ignored'] = $user->ports()->isIgnored()->count();
+            $count['ports']['disabled'] = $user->ports()->isDisabled()->count();
         }
         return view('widgets.device-summary', compact(['count', 'type', 'action']));
     }
@@ -167,7 +156,7 @@ class WidgetDataController extends Controller
      * @param string $action
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function notes(Settings $settings, Request $request, $action = null)
+    public function notes(Request $request, $action = null)
     {
         $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
         return view('widgets.notes', compact(['action', 'widget_settings']));

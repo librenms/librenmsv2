@@ -2,7 +2,7 @@
 
 @section('content')
     @if ($type === 'horiz')
-<table class="table table-hover">
+<table class="table table-hover" style="margin-top:-5px;">
     <tr>
         <th></th>
         <th><span class="text-muted">Total</span></th>
@@ -29,11 +29,11 @@
     </tr>
 </table>
     @elseif ($type === 'vert')
-    <table class="table table-hover">
+    <table class="table table-hover" style="margin-top: -11px; margin-bottom: -5px;">
         <tr>
             <th></th>
-            <th><strong>Devices</strong></th>
-            <th><strong>Ports</strong</th>
+            <th style="padding: 2px; text-align: center;"><strong>Devices</strong></th>
+            <th style="padding: 2px; text-align: center;"><strong>Ports</strong</th>
         </tr>
         <tr>
             <td><span class="text-success"><strong>Up</strong></span></td>
