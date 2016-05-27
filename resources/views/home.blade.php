@@ -74,7 +74,6 @@
                         <div class="form-group">
                             {{ Form::label('copy_from', trans('dashboard.label.copy')) }}
                             <select class="form-control" id="copy_from" name="copy_from">
-                                <option></option>
                                 @foreach ($dashboards as $dashboard)
                                     <option value="{{ $dashboard->dashboard_id }}">{{ $dashboard->dashboard_name }} @if ($dashboard->access == 1) {{ '- '.trans('dashboard.select.read') }} @elseif ($dashboard->access == 2) {{ '- '.trans('dashboard.select.write') }} @endif</option>
                                 @endforeach
@@ -93,7 +92,6 @@
                     <div class="form-group">
                         {{ Form::label('name', trans('dashboard.label.add_widget')) }}
                         <select class="form-control" id="add_widget_id" name="add_widget_id" data-dashboard_id="{{ $request->route('dashboard_id') }}">
-                                <option value=""></option>
                             @foreach ($widgets as $widget)
                                 <option value="{{ $widget->widget_id }},{{ $widget->base_dimensions }},{{ $widget->widget_title }}">{{ $widget->widget_title }}</option>
                             @endforeach
@@ -155,12 +153,8 @@
             var data = {!! $dash_widget !!}
             $.Dashboard.addWidget(grid, data, '{{ $token }}');
         @endforeach
-        $('.grid-stack').on('dragstop', function(event, ui) {
-            setTimeout(function() {
-                $.Dashboard.updateWidget(event.target, '{{ $token }}');
-            }, 1);
-        });
-        $('.grid-stack').on('resizestop', function(event, ui) {
+
+        $('.grid-stack').on('resizestop dragstop', function(event, ui) {
             setTimeout(function() {
                 $.Dashboard.updateWidget(event.target, '{{ $token }}');
             }, 1);

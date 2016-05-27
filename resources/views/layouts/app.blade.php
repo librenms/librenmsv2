@@ -74,7 +74,7 @@
                 </footer>
 
                 @yield('settings-menu')
-            <div>
+            </div>
         @endif
 
         @if (Auth::guest())
@@ -101,7 +101,7 @@
         <script src="{{ url('js/util.js') }}"></script>
         <script>
             var AdminLTEOptions = {
-                // set the treview slide speed
+                // set the treeview slide speed
                 animationSpeed: 150,
             };
         @if(Auth::check())

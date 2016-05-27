@@ -55,7 +55,7 @@ $.Dashboard.refreshDashboardWidget = function(token, data, refresh=false)
             var content  = response.content.content;
             if (refresh === false)
             {
-                var el = $('<div id="'+data.user_widget_id+'" data-widget_id="'+data.widget_id+'" data-refresh="'+data.refresh+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool" id="edit-widget" data-id="' + data.user_widget_id + '" data-widget-name="' + settings.widget + '" onClick="$.Dashboard.editWidget(this, \'' + token + '\')"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool" id="remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this, \'' + token + '\')"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
+                var el = $('<div id="'+data.user_widget_id+'" data-widget_id="'+data.widget_id+'" data-refresh="'+data.refresh+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool edit-widget" data-id="' + data.user_widget_id + '" data-widget-name="' + settings.widget + '" onClick="$.Dashboard.editWidget(this, \'' + token + '\')"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this, \'' + token + '\')"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
                 grid.addWidget(el, data.col, data.row, data.size_x, data.size_y, data.autoPosition, null, null, null, null, data.user_widget_id);
             }
             else {
@@ -344,7 +344,6 @@ $.Dashboard.dashboardActions = function(token, grid) {
             }
         });
         which = '';
-
     });
 };
 
