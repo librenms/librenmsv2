@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -17,16 +18,16 @@ class PortController extends Controller
      */
     public function index()
     {
-        $api = $this->api->be(auth()->user());
+        $api = $this->api->be(Auth::user());
         $ports = $api->get('/api/ports?include=device');
 
-        return view('ports.list', ['ports'=>$ports]);
+        return view('ports.list', ['ports' => $ports]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -37,7 +38,7 @@ class PortController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -48,8 +49,8 @@ class PortController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
