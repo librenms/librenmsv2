@@ -14,6 +14,7 @@ class WidgetController extends Controller
     /**
      * Display a listing of all widgets
      *
+     * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index(Request $request)
@@ -46,12 +47,14 @@ class WidgetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response|null
      */
     public function show(Request $request, $id)
     {
-        //
+        $widget = Widgets::find($id);
+        return $widget;
     }
 
     /**

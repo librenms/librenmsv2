@@ -21,6 +21,7 @@ class DashboardWidgetController extends Controller
     /**
      * Display a listing of all authorized devices
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -68,14 +69,14 @@ class DashboardWidgetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
     {
         $widget  = Widgets::find($id);
-        $content = $this->api->be(auth()->user())->get('/api/dashboard-widget/'.$id.'/content');
-        return array('widget' => $widget, 'content' => $content);
+        return array('widget' => $widget);
     }
 
     /**
@@ -136,11 +137,4 @@ class DashboardWidgetController extends Controller
             return $this->response->errorInternal();
         }
     }
-
-    public function get_content($id)
-    {
-        $content[] = '<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>';
-        return $this->response->array(array('statusText' => 'OK', 'content' => $content));
-    }
-
 }

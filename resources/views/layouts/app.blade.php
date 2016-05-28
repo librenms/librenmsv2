@@ -16,17 +16,18 @@
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
         @yield('datatablescss')
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
+    <!-- Gridstack style -->
+        <link href="{{ url('css/gridstack.min.css') }}" rel="stylesheet"/>
         <!-- Toastr style -->
         <link href="{{ url('css/toastr.min.css') }}" rel="stylesheet"/>
-        <!-- LibreNMS stylesheet -->
-        <link href="{{ url('css/librenms.css') }}" rel="stylesheet"/>
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
-        <!-- Gridstack style -->
-        <link href="{{ url('css/gridstack.min.css') }}" rel="stylesheet"/>
+        <!-- LibreNMS stylesheet -->
+        <link href="{{ url('css/librenms.css') }}" rel="stylesheet"/>
+
           <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
           <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
           <!--[if lt IE 9]>
@@ -74,7 +75,7 @@
                 </footer>
 
                 @yield('settings-menu')
-            <div>
+            </div>
         @endif
 
         @if (Auth::guest())
@@ -101,7 +102,7 @@
         <script src="{{ url('js/util.js') }}"></script>
         <script>
             var AdminLTEOptions = {
-                // set the treview slide speed
+                // set the treeview slide speed
                 animationSpeed: 150,
             };
         @if(Auth::check())

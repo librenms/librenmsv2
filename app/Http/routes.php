@@ -100,7 +100,6 @@ $api->version('v1', function($api) {
         $api->resource('dashboard', 'App\Api\Controllers\DashboardController', ['parameters' => ['dashboard' => 'dashboard_id']]);
         $api->resource('widget', 'App\Api\Controllers\WidgetController', ['paramaters' => ['widget' => 'widget_id']]);
         $api->resource('dashboard-widget', 'App\Api\Controllers\DashboardWidgetController', ['paramaters' => ['dashboard-widget' => 'user_widget_id']]);
-        $api->get('dashboard-widget/{user_widget_id}/content', ['as' => 'api.dashboard-widget.get_content', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_content']);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
         $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');
