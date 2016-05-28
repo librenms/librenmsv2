@@ -74,8 +74,7 @@ class DashboardWidgetController extends Controller
     public function show(Request $request, $id)
     {
         $widget  = Widgets::find($id);
-        $content = $this->api->be(auth()->user())->get('/api/dashboard-widget/'.$id.'/content');
-        return array('widget' => $widget, 'content' => $content);
+        return array('widget' => $widget);
     }
 
     /**
@@ -136,11 +135,4 @@ class DashboardWidgetController extends Controller
             return $this->response->errorInternal();
         }
     }
-
-    public function get_content($id)
-    {
-        $content[] = '<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>';
-        return $this->response->array(array('statusText' => 'OK', 'content' => $content));
-    }
-
 }

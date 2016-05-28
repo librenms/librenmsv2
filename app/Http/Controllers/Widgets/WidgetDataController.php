@@ -41,6 +41,8 @@ class WidgetDataController extends Controller
     /**
      * Display the eventlog widget.
      *
+     * @param EventlogDataTable $EventlogDataTable
+     * @param null $action
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function eventlog(EventlogDataTable $EventlogDataTable, $action = null)
@@ -52,6 +54,8 @@ class WidgetDataController extends Controller
     /**
      * Display the alerts widget.
      *
+     * @param AlertsDataTable $dataTable
+     * @param null $action
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function alerts(AlertsDataTable $dataTable, $action = null)
@@ -63,6 +67,8 @@ class WidgetDataController extends Controller
     /**
      * Display the syslog widget.
      *
+     * @param SyslogDataTable $dataTable
+     * @param null $action
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function syslog(SyslogDataTable $dataTable, $action = null)
@@ -74,8 +80,9 @@ class WidgetDataController extends Controller
     /**
      * Display the availability-map widget.
      *
+     * @param Request $request
      * @param string $action
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function availabilitymap(Request $request, $action = null)
     {
@@ -104,7 +111,9 @@ class WidgetDataController extends Controller
     /**
      * Display the device-summary widget.
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @param Request $request
+     * @param null $action
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function devicesummary(Request $request, $action = null)
     {
@@ -143,7 +152,9 @@ class WidgetDataController extends Controller
     /**
      * Display the Worldmap widget.
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @param Request $request
+     * @param null $action
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function worldmap(Request $request, $action = null)
     {
@@ -153,8 +164,9 @@ class WidgetDataController extends Controller
     /**
      * Display the notes widget.
      *
+     * @param Request $request
      * @param string $action
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function notes(Request $request, $action = null)
     {

@@ -52,14 +52,19 @@ $.Dashboard.refreshDashboardWidget = function(data, refresh=false)
     $.Util.apiAjaxGetCall('/api/dashboard-widget/'+id)
         .done(function(response) {
             var settings = response.widget;
-            var content  = response.content.content;
             if (refresh === false)
             {
-                var el = $('<div id="'+data.user_widget_id+'" data-widget_id="'+data.widget_id+'" data-refresh="'+data.refresh+'"><div class="grid-stack-item-content box box-primary box-solid"><div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool edit-widget" data-id="' + data.user_widget_id + '" data-widget-name="' + settings.widget + '" onClick="$.Dashboard.editWidget(this)"><i class="fa fa-wrench"></i></button> <button type="button" class="btn btn-box-tool remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this)"><i class="fa fa-trash"></i></button></div></div><div class="box-body">'+content+'</div></div></div>');
+                var html = '<div id="'+data.user_widget_id+'" data-widget_id="'+data.widget_id+'" data-refresh="'+data.refresh+'">' +
+                    '<div class="grid-stack-item-content box box-primary box-solid">' +
+                    '<div class="box-header with-border draggable"><h3 class="box-title">' + settings.widget_title + '</h3><div class="box-tools pull-right">' +
+                    '<button type="button" class="btn btn-box-tool edit-widget" data-id="' + data.user_widget_id + '" data-widget-name="' + settings.widget + '" onClick="$.Dashboard.editWidget(this)"><i class="fa fa-wrench"></i></button> ' +
+                    '<button type="button" class="btn btn-box-tool remove-widget" data-id="' + data.user_widget_id + '" onClick="$.Dashboard.removeWidget(this)"><i class="fa fa-trash"></i></button>' +
+                    '</div></div><div class="box-body">' +
+                    '<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>' +
+                    '</div></div></div>';
+
+                var el = $(html);
                 grid.addWidget(el, data.col, data.row, data.size_x, data.size_y, data.autoPosition, null, null, null, null, data.user_widget_id);
-            }
-            else {
-                $('#'+data.user_widget_id).find('.grid-stack-item-content .box-body').html(content);
             }
             $.Dashboard.grabContent(data,settings);
 
@@ -141,16 +146,22 @@ $.Dashboard.removeWidget = function(data) {
  * @Usage: $.Dashboard.editWidget()
  */
 $.Dashboard.editWidget = function(data) {
-    $(document).ready(function(){
         var $this = $(data);
-        //content = $this.closest('.grid-stack-item').find('.box-body').html();
         var id = $this.data('id');
         var widget = $this.data('widget-name');
-        $this.closest('.grid-stack-item').find('.box-body').html('<i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom"></i><span class="sr-only">Loading...</span>');
-        $.get('/widget-data/'+widget+'/settings?id='+id, function () {
+        var url;
+        if($this.data('settings-visible') != 1) {
+            $this.data('settings-visible', 1);
+            url = '/widget-data/' + widget + '/settings?id=' + id;
+        } else {
+            $this.data('settings-visible', 0);
+            url = '/widget-data/' + widget + '?id=' + id;
+        }
+        $.get(url, function () {
         })
         .done(function(output) {
-            $this.closest('.grid-stack-item').find('.box-body').html(output);
+            var container = $this.closest('.grid-stack-item').find('.box-body');
+            container.fadeOut(150).css('display', 'none').html(output).fadeIn(150);
         })
         .fail(function(err,msg) {
             if (err.status === 404) {
@@ -160,7 +171,6 @@ $.Dashboard.editWidget = function(data) {
                 $this.closest('.grid-stack-item').find('.box-body').html('<h1>:(</h1>');
             }
         });
-    });
 };
 
 $.Dashboard.dashboardActions = function(grid) {
@@ -307,14 +317,15 @@ $.Dashboard.dashboardActions = function(grid) {
         });
 
         var which;
-        $('body').on('click', '#update-widget-settings', function(event) {
-            which = $(this).attr("id");
+        var content = $('.content');
+        content.on('click', 'input.update-widget-settings', function(event) {
+            which = 'update-widget-settings';
         });
-        $('body').on('click', '#cancel-widget-settings', function(event) {
-            which = $(this).attr("id");
+        content.on('click', 'input.cancel-widget-settings', function(event) {
+            which = 'cancel-widget-settings';
         });
-        $('body').on('submit', '#widget-settings', function(event) {
-            event.preventDefault(event);
+        content.on('submit', 'form.widget-settings', function(event) {
+            event.preventDefault();
             var el = $(this).closest('.grid-stack-item');
             var user_widget_id = el.attr('id');
             var form_data = dataToJson($(this).find('[name!=_token]').serializeArray());
