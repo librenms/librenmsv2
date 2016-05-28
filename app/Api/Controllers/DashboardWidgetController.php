@@ -21,6 +21,7 @@ class DashboardWidgetController extends Controller
     /**
      * Display a listing of all authorized devices
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -68,7 +69,8 @@ class DashboardWidgetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
