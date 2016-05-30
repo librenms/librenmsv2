@@ -17,7 +17,8 @@ $.Util = {};
  * @Usage: $.Util.ajaxSetup()
  */
 $.Util.ajaxSetup = function(authtoken) {
-    var headers = {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')};
+    var headers = {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Accept': 'application/vnd.YOUR_SUBTYPE.v1+json'};
     if (typeof authtoken != 'undefined') {
         var auth = {'Authorization': 'Bearer ' + authtoken};
         $.extend(headers, auth);

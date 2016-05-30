@@ -67,7 +67,6 @@ class Bits extends BaseGraph
                 'borderColor' => "rgba(3,205,86,1)",
             ],
             [
-                'fill' => false,
                 'backgroundColor' => "rgba(3,205,86,0.2)",
                 'borderColor' => "rgba(3,205,86,0.2)",
             ],
@@ -76,7 +75,6 @@ class Bits extends BaseGraph
                 'borderColor' => "rgba(96,96,144,1)",
             ],
             [
-                'fill' => false,
                 'backgroundColor' => "rgba(96,96,144,0.2)",
                 'borderColor' => "rgba(96,96,144,0.2)",
             ],

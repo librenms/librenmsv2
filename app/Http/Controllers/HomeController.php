@@ -55,7 +55,4 @@ class HomeController extends Controller
         return view('general.about', ['versions' => $versions, 'stats' => $stats]);
     }
 
-    public function graph() {
-        return view('general.graph');
-    }
 }

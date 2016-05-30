@@ -46,7 +46,6 @@ Route::group(['middleware' => ['web']], function() {
     Route::patch('notifications/{id}/{action}', 'NotificationController@update');
     Route::put('notifications', 'NotificationController@create');
     Route::get('about', 'HomeController@about');
-    Route::get('graph', 'HomeController@graph');
     Route::resource('settings', 'SettingsController');
 
     //User

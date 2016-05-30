@@ -45,6 +45,7 @@ class GraphController extends Controller
      */
     public function json(Request $request, $type)
     {
+        ob_start('ob_gzhandler');
         $class = 'App\Graphs\\' . ucfirst($type);
         $data=new $class();
         $data->setType($type);

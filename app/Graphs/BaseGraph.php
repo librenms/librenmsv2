@@ -126,7 +126,8 @@ class BaseGraph
              $color = rand(0,255);
              $defaults = ['label' => $legend,
                             'data' => $tmp_data[$y],
-                            'fill' => true,
+                            'fill' => false,
+                            'lineTension' => 0.1,
                             'backgroundColor' => "rgba($color,205,86,0.4)",
                             'borderColor' => "rgba($color,205,86,1)",
                             'pointRadius' => 1,

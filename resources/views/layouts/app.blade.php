@@ -101,6 +101,7 @@
         <script src="{{ url('js/gridstack.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script src="{{ url('js/util.js') }}"></script>
+        <script src="{{ url('js/core/graphing.js') }}"></script>
         <script src="{{ url('js/Chart.bundle.min.js') }}"></script>
         <script src="{{ url('js/Chart.Zoom.min.js') }}"></script>
         <script>

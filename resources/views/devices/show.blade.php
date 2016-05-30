@@ -22,8 +22,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ url('js/util.js') }}"></script>
-<script src="{{ url('js/core/dashboard.js') }}"></script>
+
 <script>
 
 $.get('/widget-data/generic-graph/?id=', function () {

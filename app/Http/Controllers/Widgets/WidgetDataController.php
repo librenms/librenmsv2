@@ -181,9 +181,11 @@ class WidgetDataController extends Controller
      */
     public function graph(Settings $settings, Request $request, $action = null)
     {
+        $div_id = mt_rand();
         $request->params = '{"content-type": "js", "data-source": "rrd-json"}';
         $params = json_decode($request->params);
-        return view('widgets.graph', compact(['action', 'params']));
+        $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
+        return view('widgets.graph', compact(['action', 'params', 'div_id']));
     }
 
 }
