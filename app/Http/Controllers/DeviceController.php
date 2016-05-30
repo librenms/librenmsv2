@@ -12,13 +12,6 @@ class DeviceController extends Controller
     use Helpers;
 
     /**
-     * Constructor
-     */
-    public function __construct(Request $request) {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View

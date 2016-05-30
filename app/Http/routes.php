@@ -13,16 +13,20 @@
 
 // ---- Web Routes ----
 
-Route::group(['middleware' => ['web']], function() {
-    // Authentication Routes...
-    $this->get('login', 'Auth\AuthController@showLoginForm');
-    $this->post('login', 'Auth\AuthController@login');
-    $this->get('logout', 'Auth\AuthController@logout');
+// Unauthenticated Routes
+Route::group(['middleware' => 'web'], function() {
+    // Authentication Routes
+    Route::get('login', 'Auth\AuthController@showLoginForm');
+    Route::post('login', 'Auth\AuthController@login');
+    Route::get('logout', 'Auth\AuthController@logout');
+});
 
+// Authenticated Routes
+Route::group(['middleware' => 'auth'], function() {
     // Password Reset Routes...
-    $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-    $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-    $this->post('password/reset', 'Auth\PasswordController@reset');
+    Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+    Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'Auth\PasswordController@reset');
 
     // Overview routes
     Route::get('/', 'HomeController@redirect')->name('home');
@@ -46,13 +50,12 @@ Route::group(['middleware' => ['web']], function() {
     Route::patch('notifications/{id}/{action}', 'NotificationController@update');
     Route::put('notifications', 'NotificationController@create');
     Route::get('about', 'HomeController@about');
+
+    // Settings
     Route::resource('settings', 'SettingsController');
 
-    //User
+    //User Preferences
     Route::get('preferences', 'UserController@preferences');
-    Route::resource('users', 'UserController');
-    Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
-    Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);
 
     //Alerting section
     Route::resource('alerting/alerts', 'Alerting\AlertsController');
@@ -69,11 +72,14 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('widget-data/notes/{action?}', 'Widgets\WidgetDataController@notes');
     Route::get('widget-data/syslog/{action?}', 'Widgets\WidgetDataController@syslog');
     Route::get('widget-data/worldmap/{action?}', 'Widgets\WidgetDataController@worldmap');
-
 });
 
-Route::group(['middleware' => 'web'], function() {
-
+// Admin Only routes
+Route::group(['middleware' => 'admin'], function() {
+    // User Management
+    Route::resource('users', 'UserController');
+    Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
+    Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);
 });
 
 // ---- API Routes ----
@@ -95,7 +101,6 @@ $api->version('v1', function($api) {
         $api->resource('dashboard', 'App\Api\Controllers\DashboardController', ['parameters' => ['dashboard' => 'dashboard_id']]);
         $api->resource('widget', 'App\Api\Controllers\WidgetController', ['paramaters' => ['widget' => 'widget_id']]);
         $api->resource('dashboard-widget', 'App\Api\Controllers\DashboardWidgetController', ['paramaters' => ['dashboard-widget' => 'user_widget_id']]);
-        $api->get('dashboard-widget/{user_widget_id}/content', ['as' => 'api.dashboard-widget.get_content', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_content']);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
         $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');

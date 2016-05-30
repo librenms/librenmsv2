@@ -72,6 +72,11 @@ $.Util.updateNotificationMenu = function(baseurl) {
         success: function (data) {
             var nItems = data.data;
             var nCount = $('.notifications-menu > a > span');
+            if(nItems.length > 0) {
+                nCount.removeClass('label-info').addClass('label-warning');
+            } else {
+                nCount.removeClass('label-warning').addClass('label-info');
+            }
             nCount.text(nItems.length);
 
             var nList = $('#dropdown-notifications-list');

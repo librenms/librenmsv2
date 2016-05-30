@@ -243,6 +243,9 @@ class Device extends Model
      */
     public function formatUptime($seconds)
     {
+        if (empty($seconds)) {
+            $seconds = 0;
+        }
         $from = new \DateTime("@0");
         $to = new \DateTime("@$seconds");
         return $from->diff($to)->format('%a d, %h h, %i m and %s s');
@@ -252,10 +255,11 @@ class Device extends Model
 
     public function getIpAttribute($ip)
     {
-        if (!empty($ip)) {
-            return inet_ntop($ip);
+        if (empty($ip)) {
+            return null;
         }
-        return null;
+        // @ suppresses warning, inet_ntop() returns false if it fails
+        return @inet_ntop($ip) ?: null;
     }
 
     public function setIpAttribute($ip)

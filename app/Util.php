@@ -1,8 +1,8 @@
 <?php
 /**
- * DeleteUserRequest.php
+ * Util.php
  *
- * Validate user delete requests
+ * Common Utility functions
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,31 +23,35 @@
  * @author     Tony Murray <murraytony@gmail.com>
  */
 
-namespace App\Http\Requests;
+namespace App;
 
-use Auth;
 
-class DeleteUserRequest extends Request
+class Util
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Merge arrays, concatenate the values of any common keys
      *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return Auth::user()->isAdmin();
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
+     * @param array ...
      * @return array
      */
-    public function rules()
+    public static function arrayMergeConcat()
     {
-        return [
-            'user_id' => 'exists:users,user_id',
-        ];
+        $out = [];
+        // loop through the arguments
+        foreach (func_get_args() as $arr) {
+
+            // loop through each array
+            foreach ($arr as $key => $value) {
+                // If the same key exists in the $out array
+                if (array_key_exists($key, $out)) {
+                    // concat the values
+                    $out[$key] = $out[$key].$arr[$key];
+                }
+                else {
+                    $out[$key] = $arr[$key];
+                }
+            }
+        }
+        return $out;
     }
 }

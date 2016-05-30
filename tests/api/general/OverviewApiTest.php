@@ -80,8 +80,8 @@ class OverviewApiTest extends TestCase
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->get('/api/dashboard-widget/1?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
-            'statusText' => 'OK'
-        ]);
+        $this->get('/api/dashboard-widget/1?token='.$jwt, $this->headers)
+            ->seeStatusCode(Response::HTTP_OK)
+            ->seeJson(['widget_id' => 1]);
     }
 }

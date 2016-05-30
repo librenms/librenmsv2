@@ -37,7 +37,7 @@ Database -> Model -> API Controller -> Web Controller
 #### Web Controller
 * The web controllers reside in _/app/Http/Controllers_.
 * Routes are defined in the _/app/Http/routes.php_ file.
-* The connects to the API for all data requests, do not access the Models or Database from the Web Controler.
+* The connects to the API for all data requests, do not access the Models or Database from the Web Controller.
 
 ### Blade Templating Engine
 [Blade Templates](https://laravel.com/docs/blade)
@@ -52,12 +52,12 @@ WIP / TODO
 * _includes_: generic templates that are used in other templates to save code duplication
 
 ### Localisation support
-We utilise the [localisation](https://laravel.com/docs/5.2/localization) feature within Laravel. Initially only english is supported but we expect this to change.
+We utilise the [localisation](https://laravel.com/docs/5.2/localization) feature within Laravel. Initially only English is supported but we expect this to change.
 
 Language files are located in _/resources/lang/$language.
 
-### Javascript
-* Shared javascript functions should be kept in _js/util.js_ .  It encapsulates all methods in a Util object to provide a namespace to avoid conflicts.
+### JavaScript
+* Shared JavaScript functions should be kept in _js/util.js_ .  It encapsulates all methods in a Util object to provide a namespace to avoid conflicts.
 * You can include scripts in page by use the _scripts_ section.
 
 
@@ -68,7 +68,7 @@ This is some guidance on where might be best to perform these operations.
 
 
 ### Model
-* Required simple data transforms like ip and datetime.
+* Required simple data transforms like IP and datetime.
 * Use [Eloquent Accessors/Mutators](https://laravel.com/docs/eloquent-mutators#accessors-and-mutators)
 
 ### API
@@ -80,10 +80,10 @@ This is some guidance on where might be best to perform these operations.
 * For data that is just a single entity (non-tabular).
 
 
-### Javascript / Datatables
-* Use javascript to make simple data human readable such as bits per second
+### JavaScript / Datatables
+* Use JavaScript to make simple data human readable such as bits per second
 * [Datatables](https://www.datatables.net/manual/index) can be used to hide raw data, yet make it searchable/sortable and apply JS formatting.
-* You can activate datatables on a blade template with `@include('includes.datatables')`  optioninally specifying a table as follows `@include('includes.datatables', $datatables=['mytable'])`
+* You can activate datatables on a blade template with `@include('includes.datatables')`  optionally specifying a table as follows `@include('includes.datatables', $datatables=['mytable'])`
 
 
 ### Web UI
@@ -93,7 +93,7 @@ You can view an example of almost all the widgets available at [https://almsaeed
 PHP Storm
 ---------
 
-* Follow the [PhpStorm Documentation](https://confluence.jetbrains.com/display/PhpStorm/Laravel+Development+using+PhpStorm) to install the laravel plugin and configure command window completion for composer and artisan.
+* Follow the [PhpStorm Documentation](https://confluence.jetbrains.com/display/PhpStorm/Laravel+Development+using+PhpStorm) to install the Laravel plugin and configure command window completion for composer and artisan.
 * Set APP_ENV=development in your .env file. If you need to have separate settings, you can use .env.development.
 * Run `php artisan ide-helper` to set up autocomplete. [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
 * Edit the Copyright and PHP header templates to include your copyright

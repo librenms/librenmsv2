@@ -1,5 +1,5 @@
 <!-- Header Navbar: style can be found in header.less -->
-<nav class="navbar navbar-static-top" role="navigation">
+<nav class="navbar navbar-static-top">
     <!-- Sidebar toggle button-->
     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
@@ -14,20 +14,12 @@
                 <!-- Menu toggle button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="label label-warning" id="notification-menu-count">{{ count($menu_notifications) }}</span>
+                    <span class="label label-info" id="notification-menu-count"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
                         <!-- Inner Menu: contains the notifications -->
                         <ul id="dropdown-notifications-list" class="menu">
-                            @foreach($menu_notifications->take(5) as $notification)
-                                <li><!-- start notification -->
-                                    <a href="{{ url('/notifications/'.$notification->notifications_id) }}" title="{{ $notification->body }}">
-                                        <i class="fa fa-envelope text-aqua"></i> {{ $notification->title }}
-                                    </a>
-                                </li>
-                                @endforeach
-                                        <!-- end notification -->
                         </ul>
                     </li>
                     <li class="footer"><a href="{{ url('/notifications') }}">View all</a></li>

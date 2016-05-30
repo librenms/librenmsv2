@@ -32,14 +32,6 @@ use Settings;
 class SettingsController extends Controller
 {
     /**
-     * Constructor
-     */
-    public function __construct(Request $request)
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -67,15 +59,31 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
+        $key = Input::get('key');
+        if (Settings::isReadOnly($key)) {
+            return response('Read only setting', 422);
+        }
+
         $type = Input::get('type');
-        if ($type == 'settings-value' || $type == 'settings-array') {
-            $key = Input::get('key');
-            if (Settings::isReadOnly($key)) {
-                return response('Read only setting', 422);
-            }
-            Settings::set($key, Input::get('value'));
+        $value = Input::get('value');
+
+        if ($type == 'settings-value') {
+            Settings::set($key, $value);
             return response('OK', 200);
         }
+        elseif ($type == 'settings-array') {
+            $current = Settings::get($key);
+
+            // remove entries with missing indexes
+            $delete = array_diff_key($current, $value);
+            foreach (array_keys($delete) as $index) {
+                Settings::forget($key.'.'.$index);
+            }
+
+            Settings::set($key, $value);
+            return response('OK', 200);
+        }
+
         return response('Invalid Data', 422);
     }
 
