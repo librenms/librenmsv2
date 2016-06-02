@@ -157,72 +157,6 @@ class Device extends Model
         });
     }
 
-    // ---- Define Reletionships ----
-
-    /**
-     * Returns a list of users that can access this device.
-     */
-    public function users()
-    {
-        return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
-    }
-
-    /**
-     * Returns a list of the ports this device has.
-     */
-    public function ports()
-    {
-        return $this->hasMany('App\Models\Port', 'device_id', 'device_id');
-    }
-
-    /**
-     * Returns a list of the Syslog entries this device has.
-     */
-    public function syslogs()
-    {
-        return $this->hasMany('App\Models\General\Syslog', 'device_id', 'device_id');
-    }
-
-    /**
-     * Returns a list of the Eventlog entries this device has.
-     */
-    public function eventlogs()
-    {
-        return $this->hasMany('App\Models\General\Eventlog', 'host', 'device_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function alerts()
-    {
-        return $this->hasMany('App\Models\Alerting\Alert', 'device_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function rules()
-    {
-        return $this->hasMany('App\Models\Alerting\Rule', 'device_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function eventlog()
-    {
-        return $this->hasMany('App\Models\General\Eventlog', 'device_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function sensors()
-    {
-        return $this->hasMany('App\Models\Sensor', 'device_id');
-    }
-
     /**
      * @return string
      */
@@ -308,4 +242,85 @@ class Device extends Model
         ]);
     }
 
+    // ---- Define Relationships ----
+
+    /**
+     * Relationship to App\Models\Alerting\Alert
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function alerts()
+    {
+        return $this->hasMany('App\Models\Alerting\Alert', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\General\Eventlog
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventlogs()
+    {
+        return $this->hasMany('App\Models\General\Eventlog', 'host', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\DeviceGroup
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany('App\Models\DeviceGroup', 'device_group_device', 'device_id', 'device_group_id');
+    }
+
+    /**
+     * Relationship to App\Models\Port
+     * Returns a list of the ports this device has.
+     */
+    public function ports()
+    {
+        return $this->hasMany('App\Models\Port', 'device_id', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\Alerting\Rule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function rules()
+    {
+        return $this->hasMany('App\Models\Alerting\Rule', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\Sensor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function sensors()
+    {
+        return $this->hasMany('App\Models\Sensor', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\General\Syslog
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function syslogs()
+    {
+        return $this->hasMany('App\Models\General\Syslog', 'device_id', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\User
+     * Does not include users with global permissions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
+    }
 }
