@@ -37,13 +37,10 @@ class UpdateUserRequest extends Request
      */
     public function authorize()
     {
-        if (Auth::user()->isAdmin()) {
-            return true;
-        }
         if (Auth::id() == $this->input('user_id')) {
             return true;
         }
-        return false;
+        return Auth::user()->isAdmin();
     }
 
     /**

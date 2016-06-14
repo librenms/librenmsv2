@@ -36,10 +36,7 @@ class CreateUserRequest extends Request
      */
     public function authorize()
     {
-        if (Auth::user()->isAdmin()) {
-            return true;
-        }
-        return false;
+        return Auth::user()->isAdmin();
     }
 
     /**

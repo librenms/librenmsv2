@@ -36,10 +36,7 @@ class DeleteUserRequest extends Request
      */
     public function authorize()
     {
-        if (Auth::user()->isAdmin()) {
-            return true;
-        }
-        return false;
+        return Auth::user()->isAdmin();
     }
 
     /**
@@ -50,7 +47,7 @@ class DeleteUserRequest extends Request
     public function rules()
     {
         return [
-            'user_id' => 'exists:users,user_id'
+            'user_id' => 'exists:users,user_id',
         ];
     }
 }

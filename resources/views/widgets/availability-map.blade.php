@@ -29,23 +29,28 @@
     @endsection
 @else
     @section('content')
-        <center><span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="{{ $count['up'] }} Devices up">{{ $count['up'] }}</span> <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="{{ $count['warn'] }} Recently rebooted">{{ $count['warn'] }}</span> <span data-toggle="tooltip" title="" class="badge bg-red" data-original-title="{{ $count['down'] }} Devices down">{{ $count['down'] }}</span></h5></center>
+        <h5 style="text-align:center; margin-top: 0;">
+            <span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="{{ $count['up'] }} Devices up"><i class="fa fa-check"></i> {{ $count['up'] }}</span>
+            <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="{{ $count['warn'] }} Recently rebooted"><i class="fa fa-exclamation-triangle"></i> {{ $count['warn'] }}</span>
+            <span data-toggle="tooltip" title="" class="badge bg-red" data-original-title="{{ $count['down'] }} Devices down"><i class="fa fa-exclamation-circle"></i> {{ $count['down'] }}</span>
+        </h5>
 
         <?php $count = ['warn' => 0, 'up' => 0, 'down' => 0]; ?>
 
-        @foreach ($devices as $device)
-
+        @foreach ($devices as $device)<a
+            href="{{ url("devices/".$device->device_id) }}" role="button" class="btn btn-xs
             @if ($device->status == 1)
                 @if ($device->uptime < $uptime && $device->uptime != '0')
-                    <?php $btn = "warning"; ?>
+                    {{ "btn-warning" }}
                 @else
-                    <?php $btn = "success"; ?>
+                    {{ "btn-success" }}
                 @endif
             @else
-                <?php $btn = "danger"; ?>
+                {{ "btn-danger" }}
             @endif
-            <a href="{{ url("devices/".$device->device_id) }}" role="button" class="btn btn-{{ $btn }} btn-xs" title="{{ $device->hostname }} {{ $device->formatUptime($device->uptime) }}" style="min-height:{{ $widget_settings->tile_width or 10 }}px; min-width:{{ $widget_settings->tile_width or 10 }}px; border-radius:0px; margin:0px; padding:0px;"></a>
-        @endforeach
+            " title="{{ $device->hostname }} {{ $device->formatUptime($device->uptime) }}"
+            style="min-height:{{ $widget_settings->tile_width or 10 }}px; min-width:{{ $widget_settings->tile_width or 10 }}px; border-radius:0; margin:0; padding:0;">
+        </a>@endforeach
     @endsection
 @endif
 

@@ -16,17 +16,17 @@
 // Unauthenticated Routes
 Route::group(['middleware' => 'web'], function() {
     // Authentication Routes
-    $this->get('login', 'Auth\AuthController@showLoginForm');
-    $this->post('login', 'Auth\AuthController@login');
-    $this->get('logout', 'Auth\AuthController@logout');
+    Route::get('login', 'Auth\AuthController@showLoginForm');
+    Route::post('login', 'Auth\AuthController@login');
+    Route::get('logout', 'Auth\AuthController@logout');
 });
 
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function() {
     // Password Reset Routes...
-    $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-    $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-    $this->post('password/reset', 'Auth\PasswordController@reset');
+    Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+    Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'Auth\PasswordController@reset');
 
     // Overview routes
     Route::get('/', 'HomeController@redirect')->name('home');
@@ -100,7 +100,6 @@ $api->version('v1', function($api) {
         $api->resource('dashboard', 'App\Api\Controllers\DashboardController', ['parameters' => ['dashboard' => 'dashboard_id']]);
         $api->resource('widget', 'App\Api\Controllers\WidgetController', ['paramaters' => ['widget' => 'widget_id']]);
         $api->resource('dashboard-widget', 'App\Api\Controllers\DashboardWidgetController', ['paramaters' => ['dashboard-widget' => 'user_widget_id']]);
-        $api->get('dashboard-widget/{user_widget_id}/content', ['as' => 'api.dashboard-widget.get_content', 'uses' => 'App\Api\Controllers\DashboardWidgetController@get_content']);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');
         $api->resource('syslog', 'App\Api\Controllers\General\SyslogController');
         $api->resource('inventory', 'App\Api\Controllers\General\InventoryController');

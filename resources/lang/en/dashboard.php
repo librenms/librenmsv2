@@ -12,6 +12,8 @@ return [
         'private' => 'Private',
         'read'    => 'Shared (read)',
         'write'   => 'Shared (write)',
+        'widget' => 'Select a widget',
+        'dashboard' => 'Select a dashboard',
     ],
     'label'  => [
         'name'       => 'Dashboard name',
