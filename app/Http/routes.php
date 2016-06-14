@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('search/arp', 'General\SearchController@arp');
 
     // Device routes
+    Route::get('devices/group={group_id}', 'DeviceController@index');
     Route::resource('devices', 'DeviceController');
 
     // Port routes

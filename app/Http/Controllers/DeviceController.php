@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DeviceDataTable;
+use App\DataTables\DeviceGroupDataTable;
+use App\Models\DeviceGroup;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -16,9 +18,15 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function index(DeviceDataTable $dataTable)
+    public function index(DeviceDataTable $dataTable, $group_id=-1)
     {
-        return $dataTable->render('devices.list');
+        $group_name = "";
+        if($group_id >= 0) {
+            $dataTable->addScope(new \App\DataTables\Scopes\DeviceGroup($group_id));
+            $group_name = DeviceGroup::find($group_id)->name;
+        }
+
+        return $dataTable->render('devices.list', compact('group_name'));
     }
 
     /**

@@ -25,6 +25,7 @@
 
 namespace App\DataTables;
 
+use App\Models\DeviceGroup;
 use App\Models\Device;
 
 class DeviceDataTable extends BaseDataTable

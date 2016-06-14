@@ -3,6 +3,7 @@
 return [
 
     'text' => [
+        'all'           => 'All',
         'type'          => 'Type',
         'message'       => 'Message',
         'timestamp'     => 'Timestamp',

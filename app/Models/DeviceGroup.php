@@ -27,6 +27,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\DeviceGroup
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $desc
+ * @property string $pattern
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Device[] $devices
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereDesc($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup wherePattern($value)
+ * @mixin \Eloquent
+ */
 class DeviceGroup extends Model
 {
     /**
