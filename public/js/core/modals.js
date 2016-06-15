@@ -51,6 +51,8 @@ $(document).on('click', '.showModal', function () {
 $(document).on('click', '.modalSave', function (e) {
     e.preventDefault();
 
+    var form = $('.modalForm');
+
     $.ajax({
         url: form.attr('action'),
         type: form.attr('method'),

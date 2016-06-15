@@ -27,6 +27,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\DeviceGroupDataTable;
 use App\Http\Requests;
+use App\Http\Requests\DeviceGroupRequest;
 use App\Models\DeviceGroup;
 use Illuminate\Http\Request;
 
@@ -59,7 +60,7 @@ class DeviceGroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DeviceGroupRequest $request)
     {
         $group = DeviceGroup::create($request->all());
 
@@ -96,7 +97,7 @@ class DeviceGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DeviceGroupRequest $request, $id)
     {
         $group = DeviceGroup::find($id);
         $group->update($request->all());
