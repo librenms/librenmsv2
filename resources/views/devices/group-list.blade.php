@@ -30,5 +30,5 @@
 
 @section('scripts')
     {!! $dataTable->scripts() !!}
-    @include('includes.modal')
+    <script src="{{ url('js/core/modals.js') }}"></script>
 @endsection
