@@ -6,12 +6,12 @@
 
 @section('content-header')
     <h1>
-        {{ trans('nav.devices.main') }}
+        {{ trans('nav.devices.groups') }}
         <small>{{ trans('general.text.all') }}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> {{ trans('nav.home') }}</a></li>
-        <li class="active">{{ trans('nav.devices.title') }}</li>
+        <li class="active">{{ trans('nav.devices.groups') }}</li>
     </ol>
 @endsection
 
@@ -24,8 +24,8 @@
     </div>
 
     {!! $dataTable->table() !!}
-    @include('components.modals.delete')
     @include('components.modals.general')
+    @include('components.modals.delete', trans('devices.groups.deleteconfirm'))
 @endsection
 
 @section('scripts')

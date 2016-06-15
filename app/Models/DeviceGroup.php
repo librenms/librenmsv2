@@ -61,6 +61,34 @@ class DeviceGroup extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+    /**
+     * Virtual attributes
+     *
+     * @var string
+     */
+    protected $appends = ['deviceCount'];
+
+    protected $fillable = ['name', 'desc', 'pattern'];
+
+    /**
+     * Fetch the device counts for groups
+     * Use DeviceGroups::with('deviceCountRelation') to eager load
+     *
+     * @return int
+     */
+    public function getDeviceCountAttribute()
+    {
+        // if relation is not loaded already, let's do it first
+        if (!$this->relationLoaded('deviceCountRelation')) {
+            $this->load('deviceCountRelation');
+        }
+
+        $related = $this->getRelation('deviceCountRelation')->first();
+
+        // then return the count directly
+        return ($related) ? (int)$related->count : 0;
+    }
+
 
     // ---- Define Relationships ----
 
@@ -72,5 +100,16 @@ class DeviceGroup extends Model
     public function devices()
     {
         return $this->belongsToMany('App\Models\Device', 'device_group_device', 'device_group_id', 'device_id');
+    }
+
+    /**
+     * Relationship allows us to eager load device counts
+     * DeviceGroups::with('deviceCountRelation')
+     *
+     * @return mixed
+     */
+    public function deviceCountRelation()
+    {
+        return $this->devices()->selectRaw('`device_group_device`.`device_group_id`, count(*) as count')->groupBy('pivot_device_group_id');
     }
 }

@@ -41,13 +41,13 @@ return [
         'level'         => 'Level',
         'actions'       => 'Actions',
         'pwdupdated'    => 'Password has been updated',
-        'updated'       => 'User :username updated.',
-        'deleted'       => 'User :username deleted.',
-        'created'       => 'User :username created.',
+        'updated'       => 'User <i>:username</i> updated.',
+        'deleted'       => 'User <i>:username</i> deleted.',
+        'created'       => 'User <i>:username</i> created.',
         'devicesadded'  => 'Device(s) added.',
-        'deviceremoved' => 'Device :hostname removed.',
+        'deviceremoved' => 'Device <i>:hostname</i> removed.',
         'portsadded'    => 'Port(s) added.',
-        'portremoved'   => 'Port :label removed.',
+        'portremoved'   => 'Port <i>:label</i> removed.',
     ],
 
     'level' => [

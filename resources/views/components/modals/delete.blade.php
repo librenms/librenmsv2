@@ -21,9 +21,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                {!! Form::open(['id' => 'modalDeleteForm']) !!}
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('button.cancel') }}</button>
+                {!! Form::open(['id' => 'modalDeleteForm', 'method' => 'DELETE']) !!}
                 {!! Form::submit('Delete', ['class' => 'btn btn-danger modalDeleteConfirm']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('button.cancel') }}</button>
                 {!! Form::close() !!}
             </div>
         </div>

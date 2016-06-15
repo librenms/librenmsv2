@@ -87,12 +87,22 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
+                <li><a href="{{ url('devices') }}"><i class="icon fa fa-server"></i> {{ trans('nav.devices.all') }}</a></li>
+                <li><hr></li>
                 <li>
-                    <a href="#"><i class="icon fa fa-server"></i> {{ trans('nav.devices.all') }}
+                    <a href="#"><i class="icon fa fa-angle-double-right"></i> {{ trans('nav.devices.types') }}
                         <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ url('devices') }}"><i class="icon fa fa-server"></i> {{ trans('nav.devices.devices') }}</a></li>
                         <!-- Loop through all device types -->
+                    </ul>
+                </li>
+                <li><hr></li>
+                <!-- if enabled -->
+                <li>
+                    <a href="#"><i class="icon fa fa-map-marker"></i> {{ trans('nav.devices.locations') }}
+                        <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <!-- Loop through all device locations -->
                     </ul>
                 </li>
                 <li><hr></li>
@@ -109,15 +119,6 @@
                 @if (Auth::user()->isAdmin())
                     <li><a href="{{ url('device-groups') }}"><i class="icon fa fa-th"></i> {{ trans('nav.devices.managegroups') }}</a></li>
                 @endif
-                <li><hr></li>
-                <!-- if enabled -->
-                <li>
-                    <a href="#"><i class="icon fa fa-map-marker"></i> {{ trans('nav.devices.locations') }}
-                        <i class="fa fa-angle-left pull-right"></i></a>
-                    <ul class="treeview-menu">
-                        <!-- Loop through all device locations -->
-                    </ul>
-                </li>
                 <li><hr></li>
                 <!-- /.if enabled -->
                 <!-- if enabled -->

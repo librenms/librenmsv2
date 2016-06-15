@@ -1,4 +1,5 @@
 <script type="text/javascript">
+    // generic modal
     $( document ).on('click', '.showModal', function(){
         var modalTitle = $(this).attr('data-modal-title');
         $('#modalTitle').text(modalTitle);
@@ -28,8 +29,6 @@
     $(document).on('click', '.modalSave', function (e) {
         e.preventDefault();
 
-        var form = $(this).closest('form');
-
         $.ajax({
             url: form.attr('action'),
             type: form.attr('method'),
@@ -50,7 +49,34 @@
             }
         });
 
+
         return false;
     });
 
+    // delete modal
+    $(document).on('click', '.deleteModal', function () {
+        // copy the action from this button to the form
+        $("#modalDeleteForm").prop('action', $(this).attr('data-href'));
+    });
+
+    $(document).on('click', '.modalDeleteConfirm', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: $('#modalDeleteForm').attr('action'),
+            type: 'delete',
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                LaravelDataTables['dataTableBuilder'].draw(false);
+                toastr.success(data.message);
+            },
+            error: function (data) {
+                toastr.error(data.message)
+            }
+        });
+        $('#deleteModal').modal('hide');
+
+        return false;
+    });
 </script>

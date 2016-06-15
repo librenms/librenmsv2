@@ -18,7 +18,14 @@ return [
         'desc'    => 'Description',
         'pattern' => 'Pattern',
         'actions' => 'Actions',
-        'create'  => 'New Device Group'
+        'create'  => 'New Device Group',
+        'updated' => 'Device Group <i>:name</i> updated.',
+        'deleted' => 'Device Group <i>:name</i> deleted.',
+        'created' => 'Device Group <i>:name</i> created.',
+        'deleteconfirm' => [
+            'title'   => 'Delete Device Group?',
+            'message' => 'Are you sure you want to delete this device group?',
+        ],
     ],
     'label' => [
         'hostname'     => 'Hostname',

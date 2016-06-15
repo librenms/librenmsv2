@@ -33,32 +33,4 @@
 @section('scripts')
     {!! $dataTable->scripts() !!}
     @include('includes.modal')
-    <script type="text/javascript">
-
-        $(document).on('click', '.userDeleteModal', function () {
-            // copy the action from this button to the form
-            $("#modalDeleteForm").prop('action', $(this).attr('data-href'));
-        });
-
-        $(document).on('click', '.modalDeleteConfirm', function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: $('#modalDeleteForm').attr('action'),
-                type: 'delete',
-                cache: false,
-                dataType: 'json',
-                success: function (data) {
-                    LaravelDataTables['dataTableBuilder'].draw(false);
-                    $('#deleteModal').modal('hide');
-                    toastr.success(data.message);
-                },
-                error: function (data) {
-                    toastr.error('{{ trans('user.manage.deletefailed') }}')
-                }
-            });
-
-            return false;
-        });
-    </script>
 @endsection

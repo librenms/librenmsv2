@@ -39,7 +39,9 @@ class DeviceGroupController extends Controller
      */
     public function store(Request $request)
     {
-        DeviceGroup::create($request->all());
+        $group = DeviceGroup::create($request->all());
+
+        return response()->json(['message' => trans('devices.groups.created', ['name' => $group->name])]);
     }
 
     /**
@@ -50,7 +52,7 @@ class DeviceGroupController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect('devices/group='.$id);
     }
 
     /**
@@ -76,6 +78,8 @@ class DeviceGroupController extends Controller
     {
         $group = DeviceGroup::find($id);
         $group->update($request->all());
+
+        return response()->json(['message' => trans('devices.groups.updated', ['name' => $group->name])]);
     }
 
     /**
@@ -86,6 +90,9 @@ class DeviceGroupController extends Controller
      */
     public function destroy($id)
     {
-        DeviceGroup::destroy($id);
+        $group = DeviceGroup::find($id);
+        $group->delete();
+
+        return response()->json(['message' => trans('devices.groups.deleted', ['name' => $group->name])]);
     }
 }

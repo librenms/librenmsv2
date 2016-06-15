@@ -34,7 +34,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('eventlog', 'General\EventlogController');
     Route::resource('syslog', 'General\SyslogController');
     Route::resource('inventory', 'General\InventoryController');
-    Route::resource('widgets', 'WidgetsController');
     Route::resource('rirtools', 'General\RIRController');
     Route::get('search/ipv4', 'General\SearchController@ipv4');
     Route::get('search/ipv6', 'General\SearchController@ipv6');
