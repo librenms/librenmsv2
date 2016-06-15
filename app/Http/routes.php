@@ -45,6 +45,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('devices/group={group_id}', 'DeviceController@index');
     Route::resource('devices', 'DeviceController');
 
+    // Device Groups
+    Route::resource('device-groups', 'DeviceGroupController');
+
     // Port routes
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
     Route::get('notifications/{type?}', 'NotificationController@index');

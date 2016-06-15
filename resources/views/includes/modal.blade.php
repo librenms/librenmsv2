@@ -24,4 +24,33 @@
             }
         });
     });
+
+    $(document).on('click', '.modalSave', function (e) {
+        e.preventDefault();
+
+        var form = $(this).closest('form');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                LaravelDataTables['dataTableBuilder'].draw(false);
+                $('#generalModal').modal('hide');
+                toastr.success(data.message);
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                form.find('.help-block').empty();
+                $.each(errors, function (field, text) {
+                    $('input[name ="' + field + '"]').parent().find('.help-block').text(text);
+                });
+            }
+        });
+
+        return false;
+    });
+
 </script>

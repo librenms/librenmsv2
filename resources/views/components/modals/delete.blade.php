@@ -7,7 +7,7 @@
                     @if(isset($title))
                         {{ $title }}
                     @else
-                        {{ trans('general.delete.title') }}
+                        {{ trans('general.text.delete.title') }}
                     @endif
                 </h4>
             </div>
@@ -16,7 +16,7 @@
                     @if(isset($message))
                         {{ $message }}
                     @else
-                        {{ trans('general.delete.confirm') }}
+                        {{ trans('general.text.delete.confirm') }}
                     @endif
                 </div>
             </div>

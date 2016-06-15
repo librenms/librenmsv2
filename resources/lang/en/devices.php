@@ -12,6 +12,14 @@ return [
         'platform'        => 'Platform',
         'uptime_location' => 'Uptime/Location',
     ],
+    'groups' => [
+        'title'   => 'Device Groups',
+        'name'    => 'Name',
+        'desc'    => 'Description',
+        'pattern' => 'Pattern',
+        'actions' => 'Actions',
+        'create'  => 'New Device Group'
+    ],
     'label' => [
         'hostname'     => 'Hostname',
         'port'         => 'Port',
