@@ -66,7 +66,7 @@ class DeviceGroupDataTable extends BaseDataTable
      */
     public function query()
     {
-        $devicegroups = DeviceGroup::with('deviceCountRelation');
+        $devicegroups = DeviceGroup::query()->with('deviceCountRelation');
         return $this->applyScopes($devicegroups);
     }
 

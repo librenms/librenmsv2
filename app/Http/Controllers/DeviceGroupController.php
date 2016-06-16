@@ -27,6 +27,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\DeviceGroupDataTable;
 use App\Http\Requests;
+use App\Http\Requests\AdminOnlyRequest;
 use App\Http\Requests\DeviceGroupRequest;
 use App\Models\DeviceGroup;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class DeviceGroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(DeviceGroupRequest $request)
@@ -70,18 +71,18 @@ class DeviceGroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return redirect('devices/group='.$id);
+        return redirect('devices/group=' . $id);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -93,8 +94,8 @@ class DeviceGroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(DeviceGroupRequest $request, $id)
@@ -108,14 +109,19 @@ class DeviceGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(AdminOnlyRequest $request, $id)
     {
         $group = DeviceGroup::find($id);
-        $group->delete();
+        if ($group && $group->delete()) {
+            return response()->json(['message' => trans('devices.groups.deleted', ['name' => $group->name])]);
+        } else {
+            return response()->json(['message' => trans('devices.groups.deletefailed', ['name' => $group ? $group->name : ""])], 422);
+        }
 
-        return response()->json(['message' => trans('devices.groups.deleted', ['name' => $group->name])]);
     }
 }

@@ -19,9 +19,10 @@ return [
         'pattern' => 'Pattern',
         'actions' => 'Actions',
         'create'  => 'New Device Group',
-        'updated' => 'Device Group <i>:name</i> updated.',
-        'deleted' => 'Device Group <i>:name</i> deleted.',
-        'created' => 'Device Group <i>:name</i> created.',
+        'updated' => 'Device group <i>:name</i> updated.',
+        'deleted' => 'Device group <i>:name</i> deleted.',
+        'deletefailed' => 'Failed to delete device group <i>:name</i>',
+        'created' => 'Device group <i>:name</i> created.',
         'deleteconfirm' => [
             'title'   => 'Delete Device Group?',
             'message' => 'Are you sure you want to delete this device group?',

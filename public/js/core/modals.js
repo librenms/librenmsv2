@@ -38,7 +38,6 @@ $(document).on('click', '.showModal', function () {
         dataType: 'html',
         success: function (data) {
             content.html(data);
-            //TODO submit form on enter key
             footer.prepend(content.find('.modalFooterContent'));
         },
         error: function (data) {
@@ -48,7 +47,12 @@ $(document).on('click', '.showModal', function () {
     });
 });
 
-$(document).on('click', '.modalSave', function (e) {
+$(document).on('click keyup', '.modalSave,.modalForm input', function (e) {
+    // filter bad events
+    if (e.type === 'keyup' && e.keyCode !== 13) return;
+    if (e.target.type == "textarea") return;
+    if (e.type === 'click' && e.target.type !== "submit") return;
+
     e.preventDefault();
 
     var form = $('.modalForm');
@@ -96,7 +100,13 @@ $(document).on('click', '.modalDeleteConfirm', function (e) {
             toastr.success(data.message);
         },
         error: function (data) {
-            toastr.error(data.message)
+            console.log(data);
+            if('responseText' in data) {
+                var message = $.parseJSON(data.responseText).message;
+                toastr.error(message);
+            } else {
+                toastr.error(data.statusText)
+            }
         }
     });
     $('#deleteModal').modal('hide');
