@@ -25,6 +25,7 @@ namespace App\Graphs;
 
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Settings;
 
@@ -61,7 +62,18 @@ class BaseGraph
      */
     public function png(Request $request)
     {
-        return null;
+        $input = json_decode($request->{'input'});
+        $rrd_path = Settings::get('rrd_dir');
+        $hostname = $input->{'hostname'};
+        $port     = $input->{'port'};
+        $rrd_cmd  = [Settings::get('rrdtool') .
+                        ' graph' .
+                        ' -s ' . $input->{'start'} . ' -e ' . $input->{'end'} .
+                        $this->buildRRDGraph($input, $this->buildRRDGraphParams($input))];
+        $builder = new ProcessBuilder($rrd_cmd);
+        $cmd = $builder->getProcess();
+        $cmd->run();
+        dd($cmd->getErrorOutput());
     }
 
     /**
@@ -72,6 +84,27 @@ class BaseGraph
     public function buildRRDJson($input, $rrd_params)
     {
         $cmd = Settings::get('rrdtool') . ' xport --json -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' . $rrd_params;
+        return $cmd;
+    }
+
+    /**
+     * Build the RRD Graph command
+     *
+     * @return string
+     */
+    public function buildRRDGraph($input, $rrd_options) {
+        $rrdcached     = Settings::get('rrdcached');
+        $rrdcached_dir = Settings::get('rrdcached_dir');
+        $rrd_dir       = Settings::get('rrd_dir');
+        $rrd_daemon    = '';
+        if ($rrdcached) {
+            if (isset($rrdcached_dir) && $rrdcached_dir !== false) {
+                $rrd_options = str_replace($rrd_dir.'/', './'.$rrdcached_dir.'/', $rrd_options);
+                $rrd_options = str_replace($rrd_dir, './'.$rrdcached_dir.'/', $rrd_options);
+            }
+            $rrd_daemon = " --daemon $rrdcached ";
+        }
+        $cmd = $rrd_daemon . $rrd_options;
         return $cmd;
     }
 

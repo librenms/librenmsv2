@@ -15,19 +15,19 @@
 
 @else
     @section('content')
-        @if ($params->{'data-source'} == 'rrd-json')
-            <canvas id="ctx_{{ $div_id }}" width="400" height="150"></canvas>
-        @endif
+        <canvas id="ctx_{{ $div_id }}" width="400" height="150"></canvas>
     @endsection
 @endif
 
 @section('scripts')
     @if ($action != 'settings')
-        @if ($params->{'data-source'} == 'rrd-json')
-            <script>
+        <script>
             var ctx_{{ $div_id }} = document.getElementById("ctx_{{ $div_id }}");
-            $.Graphs.callGraph(ctx_{{ $div_id }});
-            </script>
-        @endif
+            @if ($params->{'data-source'} == 'rrd-json')
+                $.Graphs.callJsonGraph(ctx_{{ $div_id }});
+            @elseif ($params->{'data-source'} == 'rrd-png')
+                $.Graphs.callPNGGraph(ctx_{{ $div_id }});
+            @endif
+        </script>
     @endif
 @endsection

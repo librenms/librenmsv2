@@ -7,11 +7,11 @@
  */
 $.Graphs = {};
 
-/* callGraph()
+/* callJsonGraph()
  * ========
  * Sets up the users dashboard
  */
-$.Graphs.callGraph = function($ctx) {
+$.Graphs.callJsonGraph = function($ctx) {
     $.ajax({
         url: '/api/graph-data/bits/json?source=rrd-json',
         async: true,
@@ -60,6 +60,22 @@ $.Graphs.callGraph = function($ctx) {
                 }
             }
         });
+    });
+};
+
+/* callPNGGraph()
+ * ========
+ * Sets up the users dashboard
+ */
+$.Graphs.callPNGGraph = function($ctx) {
+    $.ajax({
+        url: '/api/graph-data/bits/png?source=rrd-png',
+        async: true,
+        dataType: 'png',
+        type: "post",
+        data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "id8"}',
+    }).done(function (data) {
+        console.log(data);
     });
 };
 

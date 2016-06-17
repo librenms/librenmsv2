@@ -59,11 +59,11 @@ class GraphController extends Controller
      * @param string $type
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function png(Request $request)
+    public function png(Request $request, $type)
     {
         $class = 'App\Graphs\\' . ucfirst($type);
         $data=new $class();
-        return $data->png();
+        return $data->png($request);
     }
 
 }
