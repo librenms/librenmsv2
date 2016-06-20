@@ -2,6 +2,11 @@
 
 @include('includes.datatables')
 
+@section('pagejs')
+    @parent
+    <script src="{{ url('js/core/modals.js') }}"></script>
+@endsection
+
 @section('title', trans('nav.settings.users'))
 
 @section('content-header')
@@ -32,5 +37,4 @@
 
 @section('scripts')
     {!! $dataTable->scripts() !!}
-    <script src="{{ url('js/core/modals.js') }}"></script>
 @endsection

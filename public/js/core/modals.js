@@ -50,8 +50,8 @@ $(document).on('click', '.showModal', function () {
 $(document).on('click keyup', '.modalSave,.modalForm input', function (e) {
     // filter bad events
     if (e.type === 'keyup' && e.keyCode !== 13) return;
-    if (e.target.type == "textarea") return;
-    if (e.type === 'click' && e.target.type !== "submit") return;
+    if (e.target.type == 'textarea') return;
+    if (e.type === 'click' && !$(this).hasClass('modalSave')) return;
 
     e.preventDefault();
 
@@ -69,11 +69,15 @@ $(document).on('click keyup', '.modalSave,.modalForm input', function (e) {
             toastr.success(data.message);
         },
         error: function (data) {
-            var errors = $.parseJSON(data.responseText);
-            form.find('.help-block').empty();
-            $.each(errors, function (field, text) {
-                $('input[name ="' + field + '"]').parent().find('.help-block').text(text);
-            });
+            if (data.responseText) {
+                var errors = $.parseJSON(data.responseText);
+                form.find('.help-block').empty();
+                $.each(errors, function (field, text) {
+                    $('input[name ="' + field + '"]').parent().find('.help-block').text(text);
+                });
+            } else {
+                toastr.error(data.statusText);
+            }
         }
     });
 
