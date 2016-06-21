@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-use Auth;
-
 class DeviceGroupRequest extends AdminOnlyRequest
 {
     /**
@@ -14,10 +11,15 @@ class DeviceGroupRequest extends AdminOnlyRequest
      */
     public function rules()
     {
+        $name = 'required|max:255';
+        if ($this->isMethod('post')) {
+            $name .= '|unique:device_groups';
+        }
+
         return [
-            'name'    => 'required|max:255',
+            'name'    => $name,
             'desc'    => 'max:255',
-            'pattern' => ['required', 'regex:/^[A-Za-z0-9\.\|&@~" _%=<>]+$/'],
+            'pattern' => 'required',
         ];
     }
 }

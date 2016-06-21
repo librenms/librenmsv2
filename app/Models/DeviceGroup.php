@@ -25,6 +25,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -68,6 +69,11 @@ class DeviceGroup extends Model
      */
     protected $appends = ['deviceCount'];
 
+    /**
+     * The attributes that can be mass assigned.
+     *
+     * @var array
+     */
     protected $fillable = ['name', 'desc', 'pattern'];
 
     /**
@@ -89,8 +95,24 @@ class DeviceGroup extends Model
         return ($related) ? (int)$related->count : 0;
     }
 
+    /**
+     * Set the pattern attribute
+     * Update the relationships when set
+     *
+     * @param $pattern
+     */
+    public function setPatternAttribute($pattern)
+    {
+        $this->attributes['pattern'] = $pattern;
 
-    // ---- Define Relationships ----
+        // we need an id to add relationships
+        if (is_null($this->id)) {
+            $this->save();
+        }
+
+        // update the relationships (deletes and adds as needed)
+        $this->devices()->sync($this->getDeviceIdsRaw($pattern));
+    }
 
     /**
      * Relationship to App\Models\Device
@@ -100,6 +122,137 @@ class DeviceGroup extends Model
     public function devices()
     {
         return $this->belongsToMany('App\Models\Device', 'device_group_device', 'device_group_id', 'device_id');
+    }
+
+    // ---- Accessors/Mutators ----
+
+    /**
+     * Get an array of the device ids from this group by re-querying the database with
+     * either the specified pattern or the saved pattern of this group
+     *
+     * @param null $pattern Optional, will use the pattern from this group if not specified
+     * @return array
+     */
+    public function getDeviceIdsRaw($pattern = null)
+    {
+        if (is_null($pattern)) {
+            $pattern = $this->pattern;
+        }
+
+        $tables = $this->getTablesFromPattern($pattern);
+
+        $query = null;
+        if (count($tables) == 1) {
+            $query = DB::table($tables[0])->select('device_id');
+        } else {
+            $query = DB::table('devices')->select('devices.device_id')->distinct();
+
+            foreach ($tables as $table) {
+                if ($table == 'devices') {
+                    // skip devices table as we used that as the base.
+                    continue;
+                }
+
+                $query = $query->join($table, 'devices.device_id', '=', $table.'.device_id');
+            }
+        }
+
+        // match the device ids
+        return $query->whereRaw($pattern)->pluck('device_id');
+    }
+
+    /**
+     * Extract an array of tables in a pattern
+     *
+     * @param $pattern
+     * @return array
+     */
+    private function getTablesFromPattern($pattern)
+    {
+        preg_match_all('/[A-Za-z_]+(?=\.[A-Za-z_]+ )/', $pattern, $tables);
+        $tables = array_keys(array_flip($tables[0])); // unique tables only
+        if (is_null($tables)) {
+            return [];
+        }
+        return $tables;
+    }
+
+    /**
+     * Check if the stored pattern is v1
+     * Convert it to v2 for display
+     * Currently, it will only be updated in the database if the user saves the rule in the ui
+     *
+     * @param $pattern
+     * @return array
+     */
+    public function getPatternAttribute($pattern)
+    {
+        // If this is a v1 pattern, convert it to v2 style
+        if (starts_with($pattern, '%')) {
+            $pattern = $this->convertV1Pattern($pattern);
+
+            $this->pattern = $pattern;  //TODO: does not save, only updates this instance
+        }
+
+        return $pattern;
+    }
+
+    // ---- Define Relationships ----
+
+    /**
+     * Convert a v1 device group pattern to v2 style
+     *
+     * @param $pattern
+     * @return array
+     */
+    private function convertV1Pattern($pattern)
+    {
+        $pattern = rtrim($pattern, ' &&');
+        $pattern = rtrim($pattern, ' ||');
+
+        $ops = ['=', '!=', '<', '<=', '>', '>='];
+        $parts = str_getcsv($pattern, ' ');
+        $out = "";
+
+        $count = count($parts);
+        for ($i = 0; $i < $count; $i++) {
+            $cur = $parts[$i];
+
+            if (starts_with($cur, '%')) {
+                // table and column
+                $out .= substr($cur, 1).' ';
+            } elseif (substr($cur, -1) == '~') {
+                // like operator
+                $content = $parts[++$i]; // grab the content so we can format it
+
+                if (str_contains($content, '@')) {
+                    // contains wildcard
+                    $content = str_replace('@', '%', $content);
+                } else {
+                    // assume substring
+                    $content = '%'.$content.'%';
+                }
+
+                if (starts_with($cur, '!')) {
+                    // prepend NOT
+                    $out .= 'NOT ';
+                }
+
+                $out .= "LIKE('".$content."') ";
+
+            } elseif ($cur == '&&') {
+                $out .= 'AND ';
+            } elseif ($cur == '||') {
+                $out .= 'OR ';
+            } elseif (in_array($cur, $ops)) {
+                // passthrough operators
+                $out .= $cur.' ';
+            } else {
+                // user supplied input
+                $out .= "'".trim($cur, '"\'')."' "; // TODO: remove trim, only needed with invalid input
+            }
+        }
+        return rtrim($out);
     }
 
     /**

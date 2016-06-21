@@ -30,7 +30,6 @@ use App\Http\Requests;
 use App\Http\Requests\AdminOnlyRequest;
 use App\Http\Requests\DeviceGroupRequest;
 use App\Models\DeviceGroup;
-use Illuminate\Http\Request;
 
 class DeviceGroupController extends Controller
 {
@@ -76,7 +75,7 @@ class DeviceGroupController extends Controller
      */
     public function show($id)
     {
-        return redirect('devices/group=' . $id);
+        return redirect('devices/group='.$id);
     }
 
     /**

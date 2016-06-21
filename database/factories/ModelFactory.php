@@ -15,24 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use App\Models\Alerting\Alert;
+use App\Models\Alerting\Log;
 use App\Models\Device;
+use App\Models\General\Inventory;
+use App\Models\General\IPv4;
+use App\Models\General\IPv4Mac;
+use App\Models\General\IPv6;
+use App\Models\General\Syslog;
 use App\Models\Notification;
 use App\Models\Port;
 use App\Models\User;
-use App\Models\Alerting\Alert;
-use App\Models\Alerting\Log;
-use App\Models\General\Syslog;
-use App\Models\General\Inventory;
-use App\Models\General\IPv4;
-use App\Models\General\IPv6;
-use App\Models\General\IPv4Mac;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [
-        'username' => $faker->username,
-        'realname' => $faker->name,
-        'email'    => $faker->email,
-        'password' => str_random(10),
+        'username'  => $faker->username,
+        'realname'  => $faker->name,
+        'email'     => $faker->email,
+        'password'  => str_random(10),
+        'twofactor' => $faker->randomElement([0, $faker->sha256()]),
     ];
 });
 
@@ -49,8 +50,9 @@ $factory->define(Device::class, function(Faker\Generator $faker) {
 
 $factory->define(Port::class, function(Faker\Generator $faker) {
     return [
-        'ifIndex' => $faker->unique()->numberBetween(),
-        'ifName'  => $faker->text(20),
+        'ifIndex'      => $faker->unique()->numberBetween(),
+        'ifName'       => $faker->text(20),
+        'ifLastChange' => $faker->dateTimeThisYear(),
     ];
 });
 
