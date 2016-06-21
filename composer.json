@@ -9,7 +9,7 @@
         "laravel/framework": "5.2.*",
         "tymon/jwt-auth": "0.5.*",
         "irazasyed/jwt-auth-guard": "1.0.*",
-        "dingo/api": "1.0.x-dev",
+        "dingo/api": "1.0.0-beta3",
         "doctrine/dbal": "2.5.*",
         "almasaeed2010/adminlte": "~2.0",
         "laravelcollective/html": "5.2.*",
