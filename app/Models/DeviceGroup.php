@@ -92,7 +92,7 @@ class DeviceGroup extends Model
         $related = $this->getRelation('deviceCountRelation')->first();
 
         // then return the count directly
-        return ($related) ? (int)$related->count : 0;
+        return ($related) ? (int) $related->count : 0;
     }
 
     /**
@@ -164,7 +164,7 @@ class DeviceGroup extends Model
     /**
      * Extract an array of tables in a pattern
      *
-     * @param $pattern
+     * @param string $pattern
      * @return array
      */
     private function getTablesFromPattern($pattern)
@@ -183,7 +183,7 @@ class DeviceGroup extends Model
      * Currently, it will only be updated in the database if the user saves the rule in the ui
      *
      * @param $pattern
-     * @return array
+     * @return string
      */
     public function getPatternAttribute($pattern)
     {
@@ -191,7 +191,7 @@ class DeviceGroup extends Model
         if (starts_with($pattern, '%')) {
             $pattern = $this->convertV1Pattern($pattern);
 
-            $this->pattern = $pattern;  //TODO: does not save, only updates this instance
+            $this->pattern = $pattern; //TODO: does not save, only updates this instance
         }
 
         return $pattern;

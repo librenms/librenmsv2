@@ -36,7 +36,7 @@ class DeviceGroup implements DataTableScopeContract
     /**
      * DeviceGroup constructor.
      *
-     * @param $group_id
+     * @param integer $group_id
      */
     function __construct($group_id)
     {
