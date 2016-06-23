@@ -28,7 +28,6 @@ namespace app;
 
 use Cache;
 use DB;
-use Log;
 use Settings;
 
 class QueryBuilderFilter
@@ -54,99 +53,90 @@ class QueryBuilderFilter
 
     private static function generateTableFilter($filter = [])
     {
-        $check_start = microtime(true);
-        $cached = Cache::get('query_builder_table_filter_migrations', []);
+        // check if the database schema has changed
         $db = DB::table('migrations')->pluck('migration');
+        $cached = Cache::get('migrations_list', []);
 
         if ($db != $cached) {
             Cache::forget('query_builder_table_filter');
-            Cache::add('query_builder_table_filter_migrations', $db, 30);
+            Cache::forever('migrations_list', $db);
         }
-        $check_end = microtime(true);
-        Log::info('Query Builder filter check time: '.($check_end - $check_start).'s');
 
-
-        return Cache::remember('query_builder_table_filter', 300, function() use ($filter) {
+        // return the table filter merged with $filter, fetch from cache if available
+        return array_merge($filter, Cache::rememberForever('query_builder_table_filter', function() {
+            $tableFilter = [];
             $schema = DB::getDoctrineSchemaManager();
 
             // Doctrine DBAL has issues with enums, pretend they are strings
             $schema->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-
-//            $validTypes = ['string', 'integer', 'double', 'date', 'time', 'datetime', 'boolean'];
-            $ignoreTypes = ['blob', 'binary'];
 
             $tables = $schema->listTables();
             foreach ($tables as $table) {
                 $columns = $schema->listTableColumns($table->getName());
                 $tableName = $table->getName();
 
-                // only allow tables with direct association to device_id for now
+                // only allow tables with a direct association to device_id
                 if (!$table->hasColumn('device_id')) {
                     continue;
                 }
 
                 foreach ($columns as $column) {
-                    $item = [];
-                    $type = $column->getType()->getName();
-                    $name = $column->getName();
+                    $columnName = $column->getName();
 
-                    switch ($type) {
-                        case 'text':
-//                            $item['input'] = 'textarea';
-                        case 'string':
-                            $item['type'] = 'string';
-                            break;
-
-                        case 'integer':
-                        case 'smallint':
-                        case 'bigint':
-                            $item['type'] = 'integer';
-                            break;
-
-                        case 'double':
-                        case 'float':
-                        case 'decimal':
-                            $item['type'] = 'double';
-                            break;
-
-                        case 'date':
-                            $item['type'] = 'date';
-                            break;
-
-                        case 'time':
-                            $item['type'] = 'time';
-                            break;
-
-                        case 'datetime':
-                            $item['type'] = 'datetime';
-                            break;
-
-                        case 'boolean':
-                            $item['type'] = 'boolean';
-                            break;
-
-                    }
-
-                    if (!isset($item['type'])) {
-                        if (!in_array($type, $ignoreTypes)) {
-                            dd($type);
-                        }
+                    // ignore device id columns, except in the devices table
+                    if ($columnName == 'device_id' && $tableName != 'devices') {
                         continue;
                     }
 
-                    // ignore device id columns, except in the devices table
-                    if ($name == 'device_id') {
-                        if ($tableName != 'devices') {
-                            continue;
-                        }
+                    $columnType = self::getColumnType($column->getType()->getName());
+
+                    // ignore unsupported types (such as binary and blob)
+                    if (is_null($columnType)) {
+                        continue;
                     }
 
-                    $item['id'] = $tableName.'.'.$name;
-                    $filter[] = $item;
+                    $tableFilter[] = [
+                        'id'   => $tableName.'.'.$columnName,
+                        'type' => $columnType,
+                    ];
                 }
             }
-            return $filter;
-        });
+            return $tableFilter;
+        }));
+    }
+
+    private static function getColumnType($type)
+    {
+        switch ($type) {
+            case 'text':
+//                return 'textarea';
+            case 'string':
+                return 'string';
+
+            case 'integer':
+            case 'smallint':
+            case 'bigint':
+                return 'integer';
+
+            case 'double':
+            case 'float':
+            case 'decimal':
+                return 'double';
+
+            case 'date':
+                return 'date';
+
+            case 'time':
+                return 'time';
+
+            case 'datetime':
+                return 'datetime';
+
+            case 'boolean':
+                return 'boolean';
+        }
+        // binary, blob
+        return null;
     }
 
     public static function getGroupFilter()
