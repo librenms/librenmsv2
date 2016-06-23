@@ -28,7 +28,7 @@
         plugins: {
             'bt-tooltip-errors': null
         },
-        filters: {!! \App\QueryBuilderFilter::generateFilter() !!}
+        filters: {!! \App\QueryBuilderFilter::getGroupFilter() !!}
     });
 
     @if(isset($group))
@@ -80,7 +80,9 @@
     });
 
     // use select2 for filter select
-    builder.find('.rule-filter-container>select').select2();
+    setTimeout(function () { // work around odd race condition
+        builder.find('.rule-filter-container>select').select2();
+    }, 100);
     builder.on('afterCreateRuleFilters.queryBuilder', function (e, rule) {
         rule.$el.find('select').select2();
     });

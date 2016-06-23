@@ -27,6 +27,7 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Settings;
 
 /**
  * App\Models\DeviceGroup
@@ -124,8 +125,6 @@ class DeviceGroup extends Model
         return $this->belongsToMany('App\Models\Device', 'device_group_device', 'device_group_id', 'device_id');
     }
 
-    // ---- Accessors/Mutators ----
-
     /**
      * Get an array of the device ids from this group by re-querying the database with
      * either the specified pattern or the saved pattern of this group
@@ -138,6 +137,8 @@ class DeviceGroup extends Model
         if (is_null($pattern)) {
             $pattern = $this->pattern;
         }
+
+        $pattern = $this->applyGroupMacros($pattern);
 
         $tables = $this->getTablesFromPattern($pattern);
 
@@ -159,6 +160,37 @@ class DeviceGroup extends Model
 
         // match the device ids
         return $query->whereRaw($pattern)->pluck('device_id');
+    }
+
+    // ---- Accessors/Mutators ----
+
+    /**
+     * Process Macros
+     * @param string $pattern Rule to process
+     * @param int $x Recursion-Anchor, do not pass
+     * @return string|boolean
+     */
+    public static function applyGroupMacros($pattern, $x = 1)
+    {
+        if (!str_contains($pattern, 'macros.')) {
+            return $pattern;
+        }
+
+        foreach (Settings::get('alert.macros.group', []) as $macro => $value) {
+            $value = str_replace(['%', '&&', '||'], ['', 'AND', 'OR'], $value);  // this might need something more complex
+            if (!str_contains($macro, ' ')) {
+                $pattern = str_replace('macros.'.$macro, '('.$value.')', $pattern);
+            }
+        }
+
+        if (str_contains($pattern, 'macros.')) {
+            if (++$x < 30) {
+                $pattern = self::applyGroupMacros($pattern, $x);
+            } else {
+                return false;
+            }
+        }
+        return $pattern;
     }
 
     /**
@@ -211,7 +243,7 @@ class DeviceGroup extends Model
         $pattern = rtrim($pattern, ' ||');
 
         $ops = ['=', '!=', '<', '<=', '>', '>='];
-        $parts = str_getcsv($pattern, ' ');
+        $parts = str_getcsv($pattern, ' '); // tokenize the pattern, respecting quoted parts
         $out = "";
 
         $count = count($parts);
@@ -219,7 +251,7 @@ class DeviceGroup extends Model
             $cur = $parts[$i];
 
             if (starts_with($cur, '%')) {
-                // table and column
+                // table and column or macro
                 $out .= substr($cur, 1).' ';
             } elseif (substr($cur, -1) == '~') {
                 // like operator
@@ -245,7 +277,7 @@ class DeviceGroup extends Model
             } elseif ($cur == '||') {
                 $out .= 'OR ';
             } elseif (in_array($cur, $ops)) {
-                // passthrough operators
+                // pass-through operators
                 $out .= $cur.' ';
             } else {
                 // user supplied input

@@ -65,6 +65,10 @@ class GroupTest extends TestCase
 
     function testV1Parser()
     {
+        $user = factory(User::class)->create(['level' => 10]);
+        Auth::login($user);
+        Settings::set('alert.macros.group.deviceid', '%devices.disabled = "0" && %devices.ignore = "0"');
+
         $data = [
             ['input'  => '%devices.hostname ~ "Test input" &&',
              'result' => "devices.hostname LIKE('%Test input%')"],
@@ -78,6 +82,9 @@ class GroupTest extends TestCase
             ['input'  => '%devices.device_id = "42" || %devices_attribs.attrib_value ~ "@end" || %devices.hostname = "fun time" &&',
              'result' => "devices.device_id = '42' OR devices_attribs.attrib_value LIKE('%end') OR devices.hostname = 'fun time'"],
 
+            ['input'  => '%macros.deviceid = 1 && %ports.ifType = "ethernetCsmacd"',
+             'result' => "macros.deviceid = '1' AND ports.ifType = 'ethernetCsmacd'"],
+
 // Bad input
 //            ['input'  => '%devices.hostname = ""fun"" && %devices.hostname = "\'fun\'" &&',
 //             'result' => 'devices.hostname = ""fun"" && devices.hostname = "\'fun\'" &&'],
@@ -90,6 +97,18 @@ class GroupTest extends TestCase
             $this->assertEquals($item['result'], DeviceGroup::find($group_id)->pattern);
         }
 
+    }
+
+    function testMacros()
+    {
+        $macro = '%devices.disabled = "0" && %devices.ignore = "0"';
+        $expected = '(devices.disabled = "0" AND devices.ignore = "0") = 1';
+
+        $user = factory(User::class)->create(['level' => 10]);
+        Auth::login($user);
+        Settings::set('alert.macros.group.device', $macro);
+
+        $this->assertEquals($expected, DeviceGroup::applyGroupMacros('macros.device = 1'));
     }
 }
 

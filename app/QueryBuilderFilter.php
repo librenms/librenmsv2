@@ -28,25 +28,52 @@ namespace app;
 
 use Cache;
 use DB;
+use Log;
+use Settings;
 
 class QueryBuilderFilter
 {
-    /**
-     *
-     */
-    public static function generateFilter()
+    public static function getAlertFilter()
     {
-        //TODO use variable for cache time or check if it should be invalidated
-//        Cache::forget('query_builder_filter');
+        return json_encode(self::generateMacroFilter('alert.macros.rule', self::generateTableFilter()));
+    }
 
-        return Cache::remember('query_builder_filter', 30, function() {
-            $filter = [];
+    private static function generateMacroFilter($setting, $filter = [])
+    {
+        foreach (Settings::get($setting, []) as $key => $value) {
+            $filter[] = [
+                'id'        => 'macros.'.$key,
+                'type'      => 'integer',
+                'input'     => 'radio',
+                'values'    => ['1' => 'Yes', '2' => 'No'],
+                'colors'    => ['1' => 'success', '2' => 'danger'],
+                'operators' => ['equal'],
+            ];
+        }
+        return $filter;
+    }
+
+    private static function generateTableFilter($filter = [])
+    {
+        $check_start = microtime(true);
+        $cached = Cache::get('query_builder_table_filter_migrations', []);
+        $db = DB::table('migrations')->pluck('migration');
+
+        if ($db != $cached) {
+            Cache::forget('query_builder_table_filter');
+            Cache::add('query_builder_table_filter_migrations', $db, 30);
+        }
+        $check_end = microtime(true);
+        Log::info('Query Builder filter check time: '.($check_end - $check_start).'s');
+
+
+        return Cache::remember('query_builder_table_filter', 300, function() use ($filter) {
             $schema = DB::getDoctrineSchemaManager();
 
             // Doctrine DBAL has issues with enums, pretend they are strings
             $schema->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 
-            $validTypes = ['string', 'integer', 'double', 'date', 'time', 'datetime', 'boolean'];
+//            $validTypes = ['string', 'integer', 'double', 'date', 'time', 'datetime', 'boolean'];
             $ignoreTypes = ['blob', 'binary'];
 
             $tables = $schema->listTables();
@@ -108,7 +135,6 @@ class QueryBuilderFilter
                         continue;
                     }
 
-
                     // ignore device id columns, except in the devices table
                     if ($name == 'device_id') {
                         if ($tableName != 'devices') {
@@ -120,7 +146,12 @@ class QueryBuilderFilter
                     $filter[] = $item;
                 }
             }
-            return json_encode($filter);
+            return $filter;
         });
+    }
+
+    public static function getGroupFilter()
+    {
+        return json_encode(self::generateMacroFilter('alert.macros.group', self::generateTableFilter()));
     }
 }

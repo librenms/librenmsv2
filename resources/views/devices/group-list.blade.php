@@ -18,7 +18,7 @@
 @endsection
 
 
-@section('title', trans('nav.devices.main'))
+@section('title', trans('nav.devices.groups'))
 
 @section('content-header')
     <h1>
