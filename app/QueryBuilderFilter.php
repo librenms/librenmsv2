@@ -45,8 +45,7 @@ class QueryBuilderFilter
                 'id'        => 'macros.'.$key,
                 'type'      => 'integer',
                 'input'     => 'radio',
-                'values'    => ['1' => 'Yes', '2' => 'No'],
-                'colors'    => ['1' => 'success', '2' => 'danger'],
+                'values'    => ['1' => 'Yes', '0' => 'No'],
                 'operators' => ['equal'],
             ];
         }
