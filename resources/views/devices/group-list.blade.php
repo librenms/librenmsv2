@@ -12,7 +12,7 @@
 @section('pagejs')
     @parent
     <script src="{{ url('js/core/modals.js') }}"></script>
-    <script src="{{ url('js/plugins/querybuilder/query-builder.standalone.js') }}"></script>
+    <script src="{{ url('js/plugins/querybuilder/query-builder.standalone.min.js') }}"></script>
     <script src="{{ url('js/plugins/querybuilder/sql-parser.js') }}"></script>
     <script src="{{ url('js/plugins/select2/select2.min.js') }}"></script>
 @endsection
