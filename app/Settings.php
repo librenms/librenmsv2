@@ -133,7 +133,7 @@ class Settings implements ConfigContract
             }
 
             // fall back to config.php/defaults.php
-            if (isset($config_data) && !is_array($config_data)) {
+            if (isset($config_data) && (!is_array($config_data) || count($db_data) == 0)) {
                 // return the value from config.php if it is a value
                 return $config_data;
             }
