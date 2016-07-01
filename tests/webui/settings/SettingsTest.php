@@ -82,6 +82,15 @@ class SettingsTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testConfigSubtree()
+    {
+        $expected = ['firstname' => 'Billy', 'lastname' => 'Joel'];
+        Config::set('config.test.indexed.subtree', $expected);
+        $result = Settings::get('test.indexed.subtree');
+
+        $this->assertEquals($expected, $result);
+    }
+
     public function testRecursiveSetting()
     {
         $data = ['key1' => 'data1', 'key2' => ['key3' => 'data3']];
