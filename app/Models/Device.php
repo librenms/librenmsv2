@@ -113,6 +113,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device notIgnored()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDisabled()
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DeviceGroup[] $groups
  */
 class Device extends Model
 {
@@ -158,6 +159,37 @@ class Device extends Model
     }
 
     /**
+     * Relationship to App\Models\Port
+     * Returns a list of the ports this device has.
+     */
+    public function ports()
+    {
+        return $this->hasMany('App\Models\Port', 'device_id', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\General\Syslog
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function syslogs()
+    {
+        return $this->hasMany('App\Models\General\Syslog', 'device_id', 'device_id');
+    }
+
+    // ---- Accessors/Mutators ----
+
+    /**
+     * Relationship to App\Models\General\Eventlog
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventlogs()
+    {
+        return $this->hasMany('App\Models\General\Eventlog', 'host', 'device_id');
+    }
+
+    /**
      * @return string
      */
     public function logo()
@@ -170,6 +202,8 @@ class Device extends Model
             return asset('images/os/generic.png');
         }
     }
+
+    // ---- Query scopes ----
 
     /**
      * @param int $seconds
@@ -185,8 +219,6 @@ class Device extends Model
         return $from->diff($to)->format('%a d, %h h, %i m and %s s');
     }
 
-    // ---- Accessors/Mutators ----
-
     public function getIpAttribute($ip)
     {
         if (empty($ip)) {
@@ -200,8 +232,6 @@ class Device extends Model
     {
         $this->attributes['ip'] = inet_pton($ip);
     }
-
-    // ---- Query scopes ----
 
     public function scopeIsUp($query)
     {
@@ -220,6 +250,8 @@ class Device extends Model
             ['disabled', '=', 0]
         ]);
     }
+
+    // ---- Define Relationships ----
 
     public function scopeIsIgnored($query)
     {
@@ -243,8 +275,6 @@ class Device extends Model
         ]);
     }
 
-    // ---- Define Relationships ----
-
     /**
      * Relationship to App\Models\Alerting\Alert
      *
@@ -256,16 +286,6 @@ class Device extends Model
     }
 
     /**
-     * Relationship to App\Models\General\Eventlog
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function eventlogs()
-    {
-        return $this->hasMany('App\Models\General\Eventlog', 'host', 'device_id');
-    }
-
-    /**
      * Relationship to App\Models\DeviceGroup
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -273,15 +293,6 @@ class Device extends Model
     public function groups()
     {
         return $this->belongsToMany('App\Models\DeviceGroup', 'device_group_device', 'device_id', 'device_group_id');
-    }
-
-    /**
-     * Relationship to App\Models\Port
-     * Returns a list of the ports this device has.
-     */
-    public function ports()
-    {
-        return $this->hasMany('App\Models\Port', 'device_id', 'device_id');
     }
 
     /**
@@ -302,16 +313,6 @@ class Device extends Model
     public function sensors()
     {
         return $this->hasMany('App\Models\Sensor', 'device_id');
-    }
-
-    /**
-     * Relationship to App\Models\General\Syslog
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function syslogs()
-    {
-        return $this->hasMany('App\Models\General\Syslog', 'device_id', 'device_id');
     }
 
     /**

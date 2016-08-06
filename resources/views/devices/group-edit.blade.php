@@ -28,6 +28,7 @@
         plugins: {
             'bt-tooltip-errors': null
         },
+        allow_groups: 1,
         filters: {!! \App\QueryBuilderFilter::getGroupFilter() !!}
     });
 
