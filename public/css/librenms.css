@@ -1,3 +1,9 @@
+.device-status {
+    display: block;
+    font-size: medium;
+    margin: 0 3px;
+}
+
 #toast-container {
     margin-top: 50px;
 }
