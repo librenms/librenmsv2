@@ -104,18 +104,17 @@ class Settings implements ConfigContract
      * @param null $default If the key isn't found, return this value. By default undefined keys return null.
      * @return mixed If the $key is a full path, a bare value will be returned.  If it is a partial path, a nested array will be retuned.
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null, $is_array = false)
     {
         // return value from cache or fetch it and return it
-        return Cache::tags(self::$cache_tag)->remember($key, $this->cache_time, function() use ($key, $default) {
-
+        return Cache::tags(self::$cache_tag)->remember($key, $this->cache_time, function() use ($key, $default, $is_array) {
             // fetch the values from storage
             if (Config::has('config.'.$key)) {
                 $config_data = Config::get('config.'.$key, $default);
             }
             $db_data = DbConfig::key($key)->get(['config_name', 'config_value']);
 
-            if (count($db_data) == 1 && $db_data->first()->config_name == $key) {
+            if (count($db_data) == 1 && $db_data->first()->config_name == $key && $is_array !== true) {
                 // return a value if we are getting one item and it is the requested item (not recursing)
                 return $db_data->first()->config_value;
             }
