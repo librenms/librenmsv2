@@ -78,23 +78,23 @@ class DeviceGroupDataTable extends BaseDataTable
     public function getColumns()
     {
         return [
-            'id'      => [
+            'id'         => [
                 'visible' => false,
             ],
-            'name'    => [
+            'name'       => [
                 'title' => trans('devices.groups.name'),
             ],
-            'count'   => [
+            'count'      => [
                 'title'      => '',
                 'searchable' => false,
             ],
-            'desc'    => [
+            'desc'       => [
                 'title' => trans('devices.groups.desc'),
             ],
-            'pattern' => [
+            'patternSql' => [
                 'title' => trans('devices.groups.pattern'),
             ],
-            'actions' => [
+            'actions'    => [
                 'title' => trans('devices.groups.actions'),
             ],
         ];

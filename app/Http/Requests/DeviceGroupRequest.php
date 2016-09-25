@@ -36,6 +36,7 @@ class DeviceGroupRequest extends AdminOnlyRequest
     {
         $name = 'required|max:255';
         if ($this->isMethod('post')) {
+            // if creating new, make sure the name is unique
             $name .= '|unique:device_groups';
         }
 
@@ -43,6 +44,7 @@ class DeviceGroupRequest extends AdminOnlyRequest
             'name'    => $name,
             'desc'    => 'max:255',
             'pattern' => 'required',
+            'params'  => 'required|json',
         ];
     }
 }

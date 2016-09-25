@@ -1,6 +1,6 @@
 <?php
 /**
- * GroupTest.php
+ * DeviceGroupTest.php
  *
  * Tests for Device Groups
  *
@@ -28,7 +28,7 @@ use App\Models\DeviceGroup;
 use App\Models\Port;
 use App\Models\User;
 
-class GroupTest extends TestCase
+class DeviceGroupTest extends TestCase
 {
     function testCreate()
     {
@@ -40,14 +40,31 @@ class GroupTest extends TestCase
         $deviceone->ports()->save($portone);
         $devicetwo->ports()->save($porttwo);
 
-        $groupone = DeviceGroup::create(['name' => 'test', 'desc' => 'A test rule', 'pattern' => "devices.hostname = '".$deviceone->hostname."'"]);
+        $groupone = DeviceGroup::create([
+            'name'    => 'test',
+            'desc'    => 'A test rule',
+            'pattern' => 'devices.hostname = ?',
+            'params'  => [$deviceone->hostname],
+        ]);
+        $groupone->updateRelations();
         $this->assertEquals(1, $groupone->devices()->count());
         $this->assertEquals($deviceone->device_id, $groupone->devices()->first()->device_id);
 
-        $grouptwo = DeviceGroup::create(['name' => 'another test group', 'desc' => 'Second test rule', 'pattern' => "ports.port_id > 0"]);
+        $grouptwo = DeviceGroup::create([
+            'name'    => 'another test group',
+            'desc'    => 'Second test rule',
+            'pattern' => 'ports.port_id > ?',
+            'params'  => ['0'],
+        ]);
+        $grouptwo->updateRelations();
         $this->assertEquals(2, $grouptwo->devices()->count());
 
-        $groupthree = DeviceGroup::create(['name' => 'third test', 'pattern' => "devices.device_id = '".$devicetwo->device_id."' AND ports.ifIndex = ".$porttwo->ifIndex]);
+        $groupthree = DeviceGroup::create([
+            'name'    => 'third test',
+            'pattern' => 'devices.device_id = ? AND ports.ifIndex = ?',
+            'params'  => '['.$devicetwo->device_id.','.$porttwo->ifIndex.']',
+        ]);
+        $groupthree->updateRelations();
         $this->assertEquals(1, $groupthree->devices()->count());
         $this->assertEquals($devicetwo->device_id, $groupthree->devices()->first()->device_id);
 

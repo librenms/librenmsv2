@@ -26,7 +26,6 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DeviceGroupDataTable;
-use App\Http\Requests;
 use App\Http\Requests\AdminOnlyRequest;
 use App\Http\Requests\DeviceGroupRequest;
 use App\Models\DeviceGroup;
@@ -101,6 +100,7 @@ class DeviceGroupController extends Controller
     {
         $group = DeviceGroup::find($id);
         $group->update($request->all());
+        $group->updateRelations();
 
         return response()->json(['message' => trans('devices.groups.updated', ['name' => $group->name])]);
     }

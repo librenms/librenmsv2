@@ -25,6 +25,7 @@
 
 namespace App\Models;
 
+use App\Util;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Settings;
@@ -36,6 +37,8 @@ use Settings;
  * @property string $name
  * @property string $desc
  * @property string $pattern
+ * @property array $params
+ * @property string $patternSql
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Device[] $devices
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereName($value)
@@ -68,31 +71,65 @@ class DeviceGroup extends Model
      *
      * @var string
      */
-    protected $appends = ['deviceCount'];
+    protected $appends = ['patternSql', 'deviceCount'];
 
     /**
      * The attributes that can be mass assigned.
      *
      * @var array
      */
-    protected $fillable = ['name', 'desc', 'pattern'];
+    protected $fillable = ['name', 'desc', 'pattern', 'params'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['params' => 'array'];
+
+    // ---- Helper Functions ----
+
+
+    public function updateRelations()
+    {
+        // we need an id to add relationships
+        if (is_null($this->id)) {
+            $this->save();
+        }
+
+        $device_ids = $this->getDeviceIdsRaw();
+
+        // update the relationships (deletes and adds as needed)
+        $this->devices()->sync($device_ids);
+    }
 
     /**
      * Get an array of the device ids from this group by re-querying the database with
      * either the specified pattern or the saved pattern of this group
      *
-     * @param null $pattern Optional, will use the pattern from this group if not specified
+     * @param string $statement Optional, will use the pattern from this group if not specified
+     * @param array $params array of paremeters
      * @return array
      */
-    public function getDeviceIdsRaw($pattern = null)
+    public function getDeviceIdsRaw($statement = null, $params = null)
     {
-        if (is_null($pattern)) {
-            $pattern = $this->pattern;
+        if (is_null($statement)) {
+            $statement = $this->pattern;
         }
 
-        $pattern = $this->applyGroupMacros($pattern);
+        if (is_null($params)) {
+            if (empty($this->params)) {
+                if (!starts_with($statement, '%')) {
+                    // can't build sql
+                    return [];
+                }
+            } else {
+                $params = $this->params;
+            }
+        }
 
-        $tables = $this->getTablesFromPattern($pattern);
+        $statement = $this->applyGroupMacros($statement);
+        $tables = $this->getTablesFromPattern($statement);
 
         $query = null;
         if (count($tables) == 1) {
@@ -111,7 +148,143 @@ class DeviceGroup extends Model
         }
 
         // match the device ids
-        return $query->whereRaw($pattern)->pluck('device_id');
+        if (is_null($params)) {
+            return $query->whereRaw($statement)->pluck('device_id');
+        } else {
+            return $query->whereRaw($statement, $params)->pluck('device_id');
+        }
+    }
+
+    /**
+     * Process Macros
+     *
+     * @param string $pattern Rule to process
+     * @param int $x Recursion-Anchor, do not pass
+     * @return string|boolean
+     */
+    public static function applyGroupMacros($pattern, $x = 1)
+    {
+        if (!str_contains($pattern, 'macros.')) {
+            return $pattern;
+        }
+
+        foreach (Settings::get('alert.macros.group', []) as $macro => $value) {
+            $value = str_replace(['%', '&&', '||'], ['', 'AND', 'OR'], $value);  // this might need something more complex
+            if (!str_contains($macro, ' ')) {
+                $pattern = str_replace('macros.'.$macro, '('.$value.')', $pattern);
+            }
+        }
+
+        if (str_contains($pattern, 'macros.')) {
+            if (++$x < 30) {
+                $pattern = self::applyGroupMacros($pattern, $x);
+            } else {
+                return false;
+            }
+        }
+        return $pattern;
+    }
+
+    /**
+     * Extract an array of tables in a pattern
+     *
+     * @param string $pattern
+     * @return array
+     */
+    private function getTablesFromPattern($pattern)
+    {
+        preg_match_all('/[A-Za-z_]+(?=\.[A-Za-z_]+ )/', $pattern, $tables);
+        if (is_null($tables)) {
+            return [];
+        }
+        return array_keys(array_flip($tables[0])); // unique tables only
+    }
+
+    /**
+     * Relationship to App\Models\Device
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function devices()
+    {
+        return $this->belongsToMany('App\Models\Device', 'device_group_device', 'device_group_id', 'device_id');
+    }
+
+    /**
+     * Returns an sql formatted string
+     * Mostly, this is for ingestion by JQuery-QueryBuilder
+     *
+     * @return string
+     */
+    public function getPatternSqlAttribute()
+    {
+        $sql = $this->pattern;
+        if (empty($this->params)) {
+            return $sql;
+        }
+
+        // fill in parameters
+        foreach ((array)$this->params as $value) {
+            if (!is_numeric($value) && !starts_with($value, "'")) {
+                $value = "'".$value."'";
+            }
+            $sql = preg_replace('/\?/', $value, $sql, 1);
+        }
+        return $sql;
+    }
+
+    // ---- Accessors/Mutators ----
+
+    /**
+     * Fetch the device counts for groups
+     * Use DeviceGroups::with('deviceCountRelation') to eager load
+     *
+     * @return int
+     */
+    public function getDeviceCountAttribute()
+    {
+        // if relation is not loaded already, let's do it first
+        if (!$this->relationLoaded('deviceCountRelation')) {
+            $this->load('deviceCountRelation');
+        }
+
+        $related = $this->getRelation('deviceCountRelation')->first();
+
+        // then return the count directly
+        return ($related) ? (int)$related->count : 0;
+    }
+
+    /**
+     * Custom mutator for params attribute
+     * Allows already encoded json to pass through
+     *
+     * @param array|string $params
+     */
+    public function setParamsAttribute($params)
+    {
+        if (!Util::isJson($params)) {
+            $params = json_encode($params);
+        }
+
+        $this->attributes['params'] = $params;
+    }
+
+    /**
+     * Check if the stored pattern is v1
+     * Convert it to v2 for display
+     * Currently, it will only be updated in the database if the user saves the rule in the ui
+     *
+     * @param $pattern
+     * @return string
+     */
+    public function getPatternAttribute($pattern)
+    {
+        // If this is a v1 pattern, convert it to sql
+        if (starts_with($pattern, '%')) {
+            return $this->convertV1Pattern($pattern);
+        }
+
+        return $pattern;
     }
 
     /**
@@ -162,6 +335,8 @@ class DeviceGroup extends Model
         return rtrim($out);
     }
 
+    // ---- Define Relationships ----
+
     /**
      * Convert sql regex to like, many common uses can be converted
      * Should only be used to convert v1 patterns
@@ -195,121 +370,6 @@ class DeviceGroup extends Model
         }
 
         return $pattern;
-    }
-
-    /**
-     * Process Macros
-     *
-     * @param string $pattern Rule to process
-     * @param int $x Recursion-Anchor, do not pass
-     * @return string|boolean
-     */
-    public static function applyGroupMacros($pattern, $x = 1)
-    {
-        if (!str_contains($pattern, 'macros.')) {
-            return $pattern;
-        }
-
-        foreach (Settings::get('alert.macros.group', []) as $macro => $value) {
-            $value = str_replace(['%', '&&', '||'], ['', 'AND', 'OR'], $value);  // this might need something more complex
-            if (!str_contains($macro, ' ')) {
-                $pattern = str_replace('macros.'.$macro, '('.$value.')', $pattern);
-            }
-        }
-
-        if (str_contains($pattern, 'macros.')) {
-            if (++$x < 30) {
-                $pattern = self::applyGroupMacros($pattern, $x);
-            } else {
-                return false;
-            }
-        }
-        return $pattern;
-    }
-
-    /**
-     * Extract an array of tables in a pattern
-     *
-     * @param string $pattern
-     * @return array
-     */
-    private function getTablesFromPattern($pattern)
-    {
-        preg_match_all('/[A-Za-z_]+(?=\.[A-Za-z_]+ )/', $pattern, $tables);
-        if (is_null($tables)) {
-            return [];
-        }
-        return array_keys(array_flip($tables[0])); // unique tables only
-    }
-
-    // ---- Accessors/Mutators ----
-
-    /**
-     * Fetch the device counts for groups
-     * Use DeviceGroups::with('deviceCountRelation') to eager load
-     *
-     * @return int
-     */
-    public function getDeviceCountAttribute()
-    {
-        // if relation is not loaded already, let's do it first
-        if (!$this->relationLoaded('deviceCountRelation')) {
-            $this->load('deviceCountRelation');
-        }
-
-        $related = $this->getRelation('deviceCountRelation')->first();
-
-        // then return the count directly
-        return ($related) ? (int)$related->count : 0;
-    }
-
-    /**
-     * Set the pattern attribute
-     * Update the relationships when set
-     *
-     * @param $pattern
-     */
-    public function setPatternAttribute($pattern)
-    {
-        $this->attributes['pattern'] = $pattern;
-
-        // we need an id to add relationships
-        if (is_null($this->id)) {
-            $this->save();
-        }
-
-        // update the relationships (deletes and adds as needed)
-        $this->devices()->sync($this->getDeviceIdsRaw($pattern));
-    }
-
-    /**
-     * Check if the stored pattern is v1
-     * Convert it to v2 for display
-     * Currently, it will only be updated in the database if the user saves the rule in the ui
-     *
-     * @param $pattern
-     * @return string
-     */
-    public function getPatternAttribute($pattern)
-    {
-        // If this is a v1 pattern, convert it to sql
-        if (starts_with($pattern, '%')) {
-            return $this->convertV1Pattern($pattern);
-        }
-
-        return $pattern;
-    }
-
-    // ---- Define Relationships ----
-
-    /**
-     * Relationship to App\Models\Device
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function devices()
-    {
-        return $this->belongsToMany('App\Models\Device', 'device_group_device', 'device_group_id', 'device_id');
     }
 
     /**

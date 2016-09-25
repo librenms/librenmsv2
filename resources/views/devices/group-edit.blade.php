@@ -34,7 +34,7 @@
 
     @if(isset($group))
             try {
-        builder.queryBuilder('setRulesFromSQL', "{!! $group->pattern !!}");
+        builder.queryBuilder('setRulesFromSQL', "{!! $group->patternSql!!}");
     } catch (err) {
         console.log(err);
         toastr.error('{{ trans('devices.groups.ruleloadfailed') }}');
@@ -42,14 +42,15 @@
     @endif
 
     $('#btn-save').on('click', function (e) {
-        var result = $('#pattern').queryBuilder('getSQL');
+        var result = builder.queryBuilder('getSQL', 'question_mark');
 
         e.preventDefault();
 
         var form = $('.groupForm');
 
         var data = form.serializeArray();
-        data.push({name: "pattern", value: result.sql});
+        data.push({"name": "pattern", "value": result.sql});
+        data.push({"name": "params", "value": JSON.stringify(result.params)});
 
         $.ajax({
             url: form.attr('action'),
