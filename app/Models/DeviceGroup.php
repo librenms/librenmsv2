@@ -230,6 +230,7 @@ class DeviceGroup extends Model
         return $sql;
     }
 
+
     // ---- Accessors/Mutators ----
 
     /**
