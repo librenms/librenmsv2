@@ -219,9 +219,6 @@ class DeviceGroup extends Model
     public function getPatternSqlAttribute()
     {
         $sql = $this->pattern;
-        if (empty($this->params)) {
-            return $sql;
-        }
 
         // fill in parameters
         foreach ((array)$this->params as $value) {
