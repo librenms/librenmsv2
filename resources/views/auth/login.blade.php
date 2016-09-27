@@ -25,7 +25,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}"">
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <div class="col-md-12">
                                 <input type="password" name="password" id="password" class="form-control" placeholder="{{ trans('user.login.password') }}" />
                                 @if ($errors->has('password'))

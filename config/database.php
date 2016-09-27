@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'fetch' => PDO::FETCH_CLASS,
+    'fetch' => PDO::FETCH_OBJ,
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_DEFAULT', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ return [
         ],
 
         'testing_mysql' => [
-            'driver'   => 'mysql',
+            'driver'    => 'mysql',
             'host'      => env('PHPUNIT_DB_HOST', '127.0.0.1'),
             'database'  => env('PHPUNIT_DB_DATABASE', 'phpunit_librenms'),
             'username'  => env('PHPUNIT_DB_USERNAME', 'travis'),
@@ -73,34 +73,28 @@ return [
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
+            'port'      => env('DB_PORT', '3306'),
             'database'  => env('DB_DATABASE', 'librenms'),
             'username'  => env('DB_USERNAME', 'librenms'),
             'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
-            'strict'    => false,
+            'strict'    => true,
+            'engine'    => null,
         ],
 
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),
+            'port'     => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'librenms'),
             'username' => env('DB_USERNAME', 'librenms'),
             'password' => env('DB_PASSWORD', ''),
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
-        ],
-
-        'sqlsrv' => [
-            'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'librenms'),
-            'username' => env('DB_USERNAME', 'librenms'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset'  => 'utf8',
-            'prefix'   => '',
+            'sslmode'  => 'prefer',
         ],
 
     ],

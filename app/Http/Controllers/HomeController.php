@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Api;
 use App\Models\Dashboard;
-use Dingo\Api\Http;
+use Auth;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 use JWTAuth;
@@ -14,10 +15,11 @@ class HomeController extends Controller
 
     public function redirect(Request $request)
     {
+        dd($request->user());
         $dashboard = Dashboard::where('user_id', $request->user()->user_id)->first();
         if (empty($dashboard->dashboard_id))
         {
-            $dashboard = new dashboard;
+            $dashboard = new Dashboard();
             $dashboard->dashboard_name = 'Default';
             $dashboard->access         = 0;
             $request->user()->dashboards()->save($dashboard);
@@ -26,18 +28,18 @@ class HomeController extends Controller
     }
 
     public function index(Request $request) {
-        $dashboards = $this->api->be(auth()->user())->get('/api/dashboard');
+        $dashboards = Api::be(auth()->user())->get('/api/dashboard');
         return view('home', ['dashboards' => $dashboards, 'request' => $request]);
     }
 
     public function show(Request $request)
     {
         $token      = JWTAuth::fromUser(auth()->user());
-        $dashboards = $this->api->be(auth()->user())->get('/api/dashboard');
+        $dashboards = Api::be(auth()->user())->get('/api/dashboard');
         if (Dashboard::find($request->route('dashboard_id')))
         {
-            $dash    = $this->api->be(auth()->user())->get('/api/dashboard/'.$request->route('dashboard_id'));
-            $widgets = $this->api->be(auth()->user())->get('/api/widget');
+            $dash    = Api::be(auth()->user())->get('/api/dashboard/'.$request->route('dashboard_id'));
+            $widgets = Api::be(auth()->user())->get('/api/widget');
         }
         else {
             return redirect()->route('home');
@@ -46,8 +48,8 @@ class HomeController extends Controller
     }
 
     public function about() {
-        $versions = $this->api->be(auth()->user())->get('/api/info');
-        $stats    = $this->api->be(auth()->user())->get('/api/stats');
+        $versions = Api::be(auth()->user())->get('/api/info');
+        $stats    = Api::be(auth()->user())->get('/api/stats');
         return view('general.about', ['versions' => $versions, 'stats' => $stats]);
     }
 }
