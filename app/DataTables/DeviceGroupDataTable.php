@@ -1,8 +1,8 @@
 <?php
 /**
- * UsersDataTable.php
+ * DeviceGroupDataTable.php
  *
- * Provide layout and data for the Users DataTable
+ * -Description-
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,12 +23,11 @@
  * @author     Tony Murray <murraytony@gmail.com>
  */
 
-namespace App\DataTables\General;
+namespace App\DataTables;
 
-use App\DataTables\BaseDataTable;
-use App\Models\User;
+use App\Models\DeviceGroup;
 
-class UserDataTable extends BaseDataTable
+class DeviceGroupDataTable extends BaseDataTable
 {
     /**
      * Display ajax response.
@@ -39,16 +38,20 @@ class UserDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('level', function($user) {
-                return trans('user.level.'.$user->level);
+            ->editColumn('name', function($group) {
+                return '<a href="'.url('devices/group='.$group->id).'">'.$group->name.'</a>';
             })
-            ->editColumn('actions', function($user) {
-                $edit = '<a type="button" class="btn btn-xs btn-primary" href="'.
-                    route('users.edit', ['user_id' => $user->user_id]).
-                    '"><i class="fa fa-edit fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.edit').'</span></a> ';
+            ->editColumn('count', function($group) {
+                return '<span data-toggle="tooltip" title="'.$group->deviceCount.' '.trans('nav.devices.devices').'" class="badge bg-aqua">
+                <i class="fa fa-server"></i>&nbsp; '.$group->deviceCount.'</span>';
+            })
+            ->addColumn('actions', function($group) {
+                $edit = '<button type="button" class="btn btn-xs btn-primary showModal"  data-toggle="modal" data-target="#generalModal" data-href="'.
+                    route('device-groups.edit', ['group_id' => $group->id]).
+                    '"><i class="fa fa-edit fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.edit').'</span></button> ';
 
                 $delete = '<button type="button" class="btn btn-xs btn-danger deleteModal" data-toggle="modal" data-target="#deleteModal" data-href="'.
-                    route('users.destroy', ['user_id' => $user->user_id]).
+                    route('device-groups.destroy', ['group_id' => $group->id]).
                     '"><i class="fa fa-trash fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.delete').'</span></button> ';
 
                 return $edit.$delete;
@@ -63,8 +66,8 @@ class UserDataTable extends BaseDataTable
      */
     public function query()
     {
-        $users = User::select('users.*');
-        return $this->applyScopes($users);
+        $devicegroups = DeviceGroup::query()->with('deviceCountRelation');
+        return $this->applyScopes($devicegroups);
     }
 
     /**
@@ -75,17 +78,24 @@ class UserDataTable extends BaseDataTable
     public function getColumns()
     {
         return [
-            'username' => [
-                'title' => trans('user.text.username'),
+            'id'         => [
+                'visible' => false,
             ],
-            'realname' => [
-                'title' => trans('user.text.realname'),
+            'name'       => [
+                'title' => trans('devices.groups.name'),
             ],
-            'level'    => [
-                'title' => trans('user.text.level'),
+            'count'      => [
+                'title'      => '',
+                'searchable' => false,
             ],
-            'actions'  => [
-                'title' => trans('user.text.actions'),
+            'desc'       => [
+                'title' => trans('devices.groups.desc'),
+            ],
+            'patternSql' => [
+                'title' => trans('devices.groups.pattern'),
+            ],
+            'actions'    => [
+                'title' => trans('devices.groups.actions'),
             ],
         ];
     }
@@ -97,6 +107,6 @@ class UserDataTable extends BaseDataTable
      */
     protected function filename()
     {
-        return 'users';
+        return 'devicegroups';
     }
 }

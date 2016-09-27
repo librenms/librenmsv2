@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>
-        @yield('title')
+            LibreNMS - @yield('title')
         </title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -15,9 +15,7 @@
         <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
-        @yield('datatablescss')
-    <!-- Gridstack style -->
-        <link href="{{ url('css/gridstack.min.css') }}" rel="stylesheet"/>
+    @yield('pagecss')
         <!-- Toastr style -->
         <link href="{{ url('css/toastr.min.css') }}" rel="stylesheet"/>
         <!-- Theme style -->
@@ -88,16 +86,11 @@
         <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
-        @yield('datatablesjs')
-        @yield('flotjs')
+        @yield('pagejs')
         <!-- FastClick -->
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
         <!-- Toastr -->
         <script src="{{ url('js/plugins/toastr/toastr.min.js') }}"></script>
-        <!-- Lodash -->
-        <script src="{{ url('js/lodash.min.js') }}"></script>
-        <!-- Gridstack -->
-        <script src="{{ url('js/gridstack.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script src="{{ url('js/util.js') }}"></script>
         <script>

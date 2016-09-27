@@ -14,6 +14,11 @@
     </ol>
 @endsection
 
+@section('pagejs')
+    @parent
+    <script src="{{ url('js/core/modals.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="container">
 
@@ -152,5 +157,4 @@
             $('.modalForm').submit();
         });
     </script>
-    @include('includes.modal')
 @endsection

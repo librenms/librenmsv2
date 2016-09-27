@@ -2,6 +2,11 @@
 
 @include('includes.datatables')
 
+@section('pagejs')
+    @parent
+    <script src="{{ url('js/core/modals.js') }}"></script>
+@endsection
+
 @section('title', trans('nav.settings.users'))
 
 @section('content-header')
@@ -32,60 +37,4 @@
 
 @section('scripts')
     {!! $dataTable->scripts() !!}
-    @include('includes.modal')
-    <script type="text/javascript">
-        $(document).on('click', '.saveUser', function (e) {
-            e.preventDefault();
-
-            var form = $('.userForm');
-
-            $.ajax({
-                url: form.attr('action'),
-                type: form.attr('method'),
-                data: form.serialize(),
-                cache: false,
-                dataType: 'json',
-                success: function (data) {
-                    LaravelDataTables['dataTableBuilder'].draw(false);
-                    $('#generalModal').modal('hide');
-                    toastr.success(data.message);
-                },
-                error: function (data) {
-                    var errors = $.parseJSON(data.responseText);
-                    form.find('.help-block').empty();
-                    $.each(errors, function (field, text) {
-                        $('input[name ="' + field + '"]').parent().find('.help-block').text(text);
-                    });
-                }
-            });
-
-            return false;
-        });
-
-        $(document).on('click', '.userDeleteModal', function () {
-            // copy the action from this button to the form
-            $("#modalDeleteForm").prop('action', $(this).attr('data-href'));
-        });
-
-        $(document).on('click', '.modalDeleteConfirm', function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: $('#modalDeleteForm').attr('action'),
-                type: 'delete',
-                cache: false,
-                dataType: 'json',
-                success: function (data) {
-                    LaravelDataTables['dataTableBuilder'].draw(false);
-                    $('#deleteModal').modal('hide');
-                    toastr.success(data.message);
-                },
-                error: function (data) {
-                    toastr.error('{{ trans('user.manage.deletefailed') }}')
-                }
-            });
-
-            return false;
-        });
-    </script>
 @endsection

@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $extra
  * @property boolean $disabled
  * @property string $name
+ * @property string $proc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alerting\Alert[] $alert
  * @property-read \App\Models\Device $device
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereId($value)
@@ -46,6 +47,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereExtra($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereDisabled($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereProc($value)
  * @mixin \Eloquent
  */
 class Rule extends Model

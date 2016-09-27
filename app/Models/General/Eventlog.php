@@ -3,7 +3,6 @@
 namespace App\Models\General;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\General\Eventlog
@@ -11,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property integer $event_id
  * @property integer $host
  * @property string $datetime
+ * @property integer $device_id
  * @property string $message
  * @property string $type
  * @property string $reference
@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereEventId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereHost($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereDatetime($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereDeviceId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereMessage($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\General\Eventlog whereReference($value)

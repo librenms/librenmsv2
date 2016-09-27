@@ -1,8 +1,8 @@
 <?php
 /**
- * DeleteUserRequest.php
+ * DeviceGroupRequest.php
  *
- * Validate user delete requests
+ * Checks incoming DeviceGroup create/edits
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 namespace App\Http\Requests;
 
-class DeleteUserRequest extends AdminOnlyRequest
+class DeviceGroupRequest extends AdminOnlyRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -34,8 +34,17 @@ class DeleteUserRequest extends AdminOnlyRequest
      */
     public function rules()
     {
+        $name = 'required|max:255';
+        if ($this->isMethod('post')) {
+            // if creating new, make sure the name is unique
+            $name .= '|unique:device_groups';
+        }
+
         return [
-            'user_id' => 'exists:users,user_id',
+            'name'    => $name,
+            'desc'    => 'max:255',
+            'pattern' => 'required',
+            'params'  => 'required|json',
         ];
     }
 }

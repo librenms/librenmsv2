@@ -12,6 +12,23 @@ return [
         'platform'        => 'Platform',
         'uptime_location' => 'Uptime/Location',
     ],
+    'groups' => [
+        'title'          => 'Device Groups',
+        'name'           => 'Name',
+        'desc'           => 'Description',
+        'pattern'        => 'Pattern',
+        'actions'        => 'Actions',
+        'create'         => 'New Device Group',
+        'updated'        => 'Device group <i>:name</i> updated.',
+        'deleted'        => 'Device group <i>:name</i> deleted.',
+        'deletefailed'   => 'Failed to delete device group <i>:name</i>',
+        'created'        => 'Device group <i>:name</i> created.',
+        'ruleloadfailed' => 'Failed to load the rule, parse failure.',
+        'deleteconfirm'  => [
+            'title'   => 'Delete Device Group?',
+            'message' => 'Are you sure you want to delete this device group?',
+        ],
+    ],
     'label' => [
         'hostname'     => 'Hostname',
         'port'         => 'Port',

@@ -54,4 +54,19 @@ class Util
         }
         return $out;
     }
+
+    /**
+     * Checks if the given variable is a json encoded string.
+     *
+     * @param string $string The string to check
+     * @return bool true if this is json, otherwise false
+     */
+    public static function isJson($string)
+    {
+        if (!is_string($string)) {
+            return false;
+        }
+        json_decode($string, true);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
 }

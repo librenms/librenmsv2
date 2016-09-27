@@ -14,6 +14,6 @@
         <hr />
     @endif
 @endforeach
-{{ Form::bsSubmit(trans('button.save'), 'btn-primary modalFooterContent modalSave')}}
+{{ Form::bsSubmit(trans('button.save'), ['class' => 'btn-primary modalFooterContent modalSave'])}}
 {{ Form::close() }}
 </div>

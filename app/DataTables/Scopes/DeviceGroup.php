@@ -1,8 +1,8 @@
 <?php
 /**
- * DeleteUserRequest.php
+ * DeviceGroup.php
  *
- * Validate user delete requests
+ * Scope that only includes devices with the specified group.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,19 +23,36 @@
  * @author     Tony Murray <murraytony@gmail.com>
  */
 
-namespace App\Http\Requests;
+namespace App\DataTables\Scopes;
 
-class DeleteUserRequest extends AdminOnlyRequest
+use Yajra\Datatables\Contracts\DataTableScopeContract;
+
+class DeviceGroup implements DataTableScopeContract
 {
+
+    private $group_id;
+
+
     /**
-     * Get the validation rules that apply to the request.
+     * DeviceGroup constructor.
      *
-     * @return array
+     * @param integer $group_id
      */
-    public function rules()
+    function __construct($group_id)
     {
-        return [
-            'user_id' => 'exists:users,user_id',
-        ];
+        $this->group_id = $group_id;
+    }
+
+    /**
+     * Apply a query scope.
+     *
+     * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
+     * @return mixed
+     */
+    public function apply($query)
+    {
+        return $query->whereHas('groups', function($q) {
+            $q->where('id', '=', $this->group_id);
+        });
     }
 }

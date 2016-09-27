@@ -34,7 +34,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('eventlog', 'General\EventlogController');
     Route::resource('syslog', 'General\SyslogController');
     Route::resource('inventory', 'General\InventoryController');
-    Route::resource('widgets', 'WidgetsController');
     Route::resource('rirtools', 'General\RIRController');
     Route::get('search/ipv4', 'General\SearchController@ipv4');
     Route::get('search/ipv6', 'General\SearchController@ipv6');
@@ -42,7 +41,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('search/arp', 'General\SearchController@arp');
 
     // Device routes
+    Route::get('devices/group={group_id}', 'DeviceController@index');
     Route::resource('devices', 'DeviceController');
+
+    // Device Groups
+    Route::resource('device-groups', 'DeviceGroupController');
 
     // Port routes
     Route::resource('ports', 'PortController', ['except' => ['create', 'store', 'destroy']]);
