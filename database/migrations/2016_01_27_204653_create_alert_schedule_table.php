@@ -15,8 +15,8 @@ class CreateAlertScheduleTable extends Migration {
 		Schema::create('alert_schedule', function(Blueprint $table)
 		{
 			$table->integer('schedule_id', true);
-			$table->dateTime('start')->default('0000-00-00 00:00:00');
-			$table->dateTime('end')->default('0000-00-00 00:00:00');
+            $table->dateTime('start')->useCurrent();
+            $table->dateTime('end')->useCurrent();
 			$table->string('title');
 			$table->text('notes', 65535);
 		});

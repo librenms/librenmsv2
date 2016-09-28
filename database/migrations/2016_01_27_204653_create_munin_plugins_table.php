@@ -23,8 +23,8 @@ class CreateMuninPluginsTable extends Migration {
 			$table->text('mplug_info');
 			$table->string('mplug_vlabel', 128)->nullable();
 			$table->string('mplug_args', 512)->nullable();
-			$table->binary('mplug_total', 1)->default('');
-			$table->binary('mplug_graph', 1)->default('');
+            $table->boolean('mplug_total')->default(0);
+            $table->boolean('mplug_graph')->default(1);
 			$table->unique(['device_id','mplug_type']);
 		});
 	}
