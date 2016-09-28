@@ -43,7 +43,7 @@
                         <form method="POST" action="{{ url('logout') }}">
                             {{ csrf_field() }}
                             <div class="pull-right">
-                                <button type="submit" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> {{ trans('nav.logout') }}</button>
+                                <button type="submit" name="logout" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> {{ trans('nav.logout') }}</button>
                             </div>
                         </form>
                     </li>
