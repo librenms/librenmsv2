@@ -5,7 +5,7 @@ Developing
 [Laravel Documentation](https://laravel.com/docs)
 
 ### Notes
-When new dependencies are added, you will need to run composer to install them:
+When new dependencies are added, you will need to run `composer update` to install them:
 
 
 Overview
@@ -30,13 +30,13 @@ Database -> Model -> API Controller -> Web Controller
 
 #### API Controller
 * The API controllers reside in _/app/Api/Controllers_.
-* Routes are defined in the same file as the web interface _/app/Http/routes.php_. TODO
+* Routes are defined in the same file as the web interface _/routes/api.php_. TODO
 * The API uses [Dingo](https://github.com/dingo/api/wiki) to service the API requests.
-* The API use [Fractal Transformers](http://fractal.thephpleague.com/transformers/) to format the responses.  This does not apply to internal requests.
+* The API uses [Fractal Transformers](http://fractal.thephpleague.com/transformers/) to format the responses.  This does not apply to internal requests.
 
 #### Web Controller
 * The web controllers reside in _/app/Http/Controllers_.
-* Routes are defined in the _/app/Http/routes.php_ file.
+* Routes are defined in the _/routes/web.php_ file.
 * The connects to the API for all data requests, do not access the Models or Database from the Web Controller.
 
 ### Blade Templating Engine
@@ -52,7 +52,7 @@ WIP / TODO
 * _includes_: generic templates that are used in other templates to save code duplication
 
 ### Localisation support
-We utilise the [localisation](https://laravel.com/docs/5.2/localization) feature within Laravel. Initially only English is supported but we expect this to change.
+We utilise the [localisation](https://laravel.com/docs/localization) feature within Laravel. Initially only English is supported but we expect this to change.
 
 Language files are located in _/resources/lang/$language.
 

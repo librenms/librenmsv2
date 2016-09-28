@@ -12,7 +12,7 @@ If you are installing this on a different server to that of your origin LibreNMS
 Requirements
 ------------
 
- - PHP 5.5.9 or newer
+ - PHP 5.6.4 or newer
  - Web server such as Apache or Nginx
 
 Initial Setup
