@@ -14,20 +14,14 @@ matrix:
 cache:
   directories:
     - vendor
-    - $HOME/.composer/cache
+    - $HOME/.cache/composer
 
 before_install:
   # Disable xdebug (hhvm doesn't support xdebug)
   - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-rm xdebug.ini; fi
 
-cache:
-  directories:
-    - vendor
-    - $HOME/.cache/composer
-
 install:
   - travis_retry composer install --no-interaction --prefer-dist
-
 
 before_script:
   - git reset --hard HEAD
