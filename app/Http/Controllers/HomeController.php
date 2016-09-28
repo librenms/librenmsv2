@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use Api;
 use App\Models\Dashboard;
-use Auth;
-use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 use JWTAuth;
 
 class HomeController extends Controller
 {
-    use Helpers;
+
 
     public function redirect(Request $request)
     {
-        dd($request->user());
         $dashboard = Dashboard::where('user_id', $request->user()->user_id)->first();
         if (empty($dashboard->dashboard_id))
         {

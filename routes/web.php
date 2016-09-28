@@ -38,25 +38,22 @@
 
 
 Auth::routes();
-
+//
 //Route::group(['middleware' => 'auth'], function() {
-    Route::get('/', function()
-    {
-        return 'Hello World';
-    });
+
 //    Route::get('/', 'HomeController@redirect')->name('home');
 //    Route::resource('dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
-    Route::get('/logout', 'Auth\LoginController@logout');
+//    Route::get('/logout', 'Auth\LoginController@logout');
 //});
 
 // Unauthenticated Routes
 //Route::group(['middleware' => 'web'], function() {
 //    // Authentication Routes
-//    Route::get('login', 'Auth\AuthController@showLoginForm');
-//    Route::post('login', 'Auth\AuthController@login');
-//    Route::get('logout', 'Auth\AuthController@logout');
+//    Route::get('login', 'Auth\LoginController@showLoginForm');
+//    Route::post('login', 'Auth\LoginController@login');
+//    Route::get('logout', 'Auth\LoginController@logout');
 //});
-/*
+
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function() {
     // Password Reset Routes...
@@ -65,6 +62,10 @@ Route::group(['middleware' => 'auth'], function() {
 //    Route::post('password/reset', 'Auth\PasswordController@reset');
 
     // Overview routes
+//    Route::get('/', function()
+//    {
+//        return 'Hello World';
+//    });
     Route::get('/', 'HomeController@redirect')->name('home');
     Route::resource('dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
     Route::resource('eventlog', 'General\EventlogController');
@@ -122,4 +123,4 @@ Route::group(['middleware' => 'admin'], function() {
 });
 
 
-*/
+

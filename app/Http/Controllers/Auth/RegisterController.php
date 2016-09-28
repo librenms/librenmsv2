@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Validator;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Validator;
 
 class RegisterController extends Controller
 {
@@ -39,6 +39,17 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    // Registration isn't allowed
+    public function register()
+    {
+        return redirect('/');
+    }
+
+    public function showRegistrationForm()
+    {
+        return redirect('/');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -64,7 +75,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'level'    => 10,
+            'level'    => 1,
             'realname' => $data['realname'],
             'username' => $data['username'],
             'email'    => $data['email'],

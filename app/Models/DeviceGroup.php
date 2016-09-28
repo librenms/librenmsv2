@@ -149,9 +149,9 @@ class DeviceGroup extends Model
 
         // match the device ids
         if (is_null($params)) {
-            return $query->whereRaw($statement)->pluck('device_id');
+            return $query->whereRaw($statement)->pluck('device_id')->toArray();
         } else {
-            return $query->whereRaw($statement, $params)->pluck('device_id');
+            return $query->whereRaw($statement, $params)->pluck('device_id')->toArray();
         }
     }
 
@@ -378,6 +378,7 @@ class DeviceGroup extends Model
      */
     public function deviceCountRelation()
     {
-        return $this->devices()->selectRaw('`device_group_device`.`device_group_id`, count(*) as count')->groupBy('pivot_device_group_id');
+        // this query doesn't work in strict mode
+        return $this->devices()->selectRaw('`device_group_device`.`device_group_id`, count(*) as count')->groupBy('device_group_device.device_group_id');
     }
 }

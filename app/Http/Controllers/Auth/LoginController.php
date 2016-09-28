@@ -28,13 +28,6 @@ class LoginController extends Controller
     protected $redirectTo = '/';
 
     /**
-     * The field to use for the username
-     *
-     * @var string
-     */
-    protected $username = 'username';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -42,5 +35,15 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
     }
 }

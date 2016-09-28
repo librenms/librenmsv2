@@ -17,8 +17,8 @@ class CreateDeviceGroupsTable extends Migration {
             $table->integer('id', true, true);
 			$table->string('name')->default('')->unique();
 			$table->string('desc')->default('');
-			$table->text('pattern', 65535)->nullable();
-            $table->text('params', 65535)->nullable();
+            $table->text('pattern')->nullable();
+            $table->text('params')->nullable();
 		});
 	}
 
