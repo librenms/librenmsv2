@@ -13,7 +13,7 @@ class CreateDeviceGroupDeviceTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_group_device', function(Blueprint $table) {
+        Schema::create('device_group_device', function (Blueprint $table) {
             $table->integer('device_group_id')->unsigned()->index();
             $table->integer('device_id')->unsigned()->index();
             $table->primary(['device_group_id', 'device_id']);
