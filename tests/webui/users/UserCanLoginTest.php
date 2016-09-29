@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Models\Dashboard;
+use App\Models\User;
 
 class UserCanLoginTest extends TestCase
 {
@@ -30,7 +30,7 @@ class UserCanLoginTest extends TestCase
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('/devices')
-             ->click('Logout')
+            ->press('Logout')
              ->seePageIs('/login');
     }
 

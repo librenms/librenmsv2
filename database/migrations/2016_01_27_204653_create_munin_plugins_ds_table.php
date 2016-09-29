@@ -16,11 +16,13 @@ class CreateMuninPluginsDsTable extends Migration {
 		{
 			$table->integer('mplug_id');
 			$table->string('ds_name', 32);
-			$table->enum('ds_type', array('COUNTER','ABSOLUTE','DERIVE','GAUGE'))->default('GAUGE');
+//			$table->enum('ds_type', array('COUNTER','ABSOLUTE','DERIVE','GAUGE'))->default('GAUGE');
+            $table->string('ds_type')->default('GAUGE');
 			$table->string('ds_label', 64);
 			$table->string('ds_cdef');
 			$table->string('ds_draw', 64);
-			$table->enum('ds_graph', array('no','yes'))->default('yes');
+//			$table->enum('ds_graph', array('no','yes'))->default('yes');
+            $table->string('ds_graph')->default('yes');
 			$table->string('ds_info');
 			$table->text('ds_extinfo', 65535);
 			$table->string('ds_max', 32);

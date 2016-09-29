@@ -40,7 +40,12 @@
                     </li>
                     <li class="user-footer">
                         <div class="pull-left"><a href="{{ url('preferences') }}" class="btn btn-default btn-flat"><i class="fa fa-cog"></i> {{ trans('nav.mysettings') }}</a></div>
-                        <div class="pull-right"><a href="{{ url('logout') }}" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> {{ trans('nav.logout') }}</a></div>
+                        <form method="POST" action="{{ url('logout') }}">
+                            {{ csrf_field() }}
+                            <div class="pull-right">
+                                <button type="submit" name="logout" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> {{ trans('nav.logout') }}</button>
+                            </div>
+                        </form>
                     </li>
                 </ul>
             </li>

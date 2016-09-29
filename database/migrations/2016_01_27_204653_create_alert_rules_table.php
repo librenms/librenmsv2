@@ -17,7 +17,8 @@ class CreateAlertRulesTable extends Migration {
 			$table->integer('id', true);
 			$table->string('device_id')->default('')->index();
 			$table->text('rule', 65535);
-			$table->enum('severity', array('ok','warning','critical'));
+//			$table->enum('severity', array('ok','warning','critical'));
+            $table->string('severity');
 			$table->string('extra');
 			$table->boolean('disabled');
 			$table->string('name')->unique();

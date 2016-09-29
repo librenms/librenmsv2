@@ -45,7 +45,7 @@ class UserAddTest extends TestCase
 
     public function testUserExists()
     {
-        User::create(['username' => 'mdomo', 'realname' => 'Major Domo', 'email' => 'major@domo.edu']);
+        User::create(['username' => 'mdomo', 'realname' => 'Major Domo', 'email' => 'major@domo.edu', 'password' => 'p@ssw0rd']);
         Artisan::call('user:add', ['username' => 'mdomo']);
 
         $this->assertContains("User mdomo exists.", Artisan::output());

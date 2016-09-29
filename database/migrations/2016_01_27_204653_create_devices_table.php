@@ -14,17 +14,20 @@ class CreateDevicesTable extends Migration {
 	{
 		Schema::create('devices', function(Blueprint $table)
 		{
-			$table->integer('device_id', true);
+            $table->integer('device_id', true, true);
 			$table->string('hostname', 128)->index();
 			$table->string('sysName', 128)->nullable()->index();
 			$table->binary('ip', 16);
 			$table->string('community')->nullable();
-			$table->enum('authlevel', array('noAuthNoPriv','authNoPriv','authPriv'))->nullable();
+//			$table->enum('authlevel', array('noAuthNoPriv','authNoPriv','authPriv'))->nullable();
+            $table->string('authlevel')->nullable();
 			$table->string('authname', 64)->nullable();
 			$table->string('authpass', 64)->nullable();
-			$table->enum('authalgo', array('MD5','SHA'))->nullable();
+//			$table->enum('authalgo', array('MD5','SHA'))->nullable();
+            $table->string('authalgo')->nullable();
 			$table->string('cryptopass', 64)->nullable();
-			$table->enum('cryptoalgo', array('AES','DES'))->nullable();
+//			$table->enum('cryptoalgo', array('AES','DES'))->nullable();
+            $table->string('cryptoalgo')->nullable();
 			$table->string('snmpver', 4)->default('v2c');
 			$table->smallInteger('port')->unsigned()->default(161);
 			$table->string('transport', 16)->default('udp');

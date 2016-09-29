@@ -33,7 +33,8 @@ $factory->define(User::class, function(Faker\Generator $faker) {
         'realname'  => $faker->name,
         'email'     => $faker->email,
         'password'  => str_random(10),
-        'twofactor' => $faker->randomElement([0, $faker->sha256()]),
+//        'twofactor' => $faker->randomElement([0, $faker->sha256()]),
+//        'remember_token' => str_random(10),
     ];
 });
 

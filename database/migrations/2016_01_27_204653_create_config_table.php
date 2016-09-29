@@ -23,8 +23,10 @@ class CreateConfigTable extends Migration {
 			$table->integer('config_group_order');
 			$table->string('config_sub_group', 50);
 			$table->integer('config_sub_group_order');
-			$table->enum('config_hidden', array('0','1'))->default('0');
-			$table->enum('config_disabled', array('0','1'))->default('0');
+//			$table->enum('config_hidden', array('0','1'))->default('0');
+            $table->boolean('config_hidden')->default(0);
+//			$table->enum('config_disabled', array('0','1'))->default('0');
+            $table->boolean('config_disabled')->default(0);
 		});
 	}
 

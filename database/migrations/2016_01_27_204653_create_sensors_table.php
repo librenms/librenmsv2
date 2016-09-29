@@ -31,7 +31,8 @@ class CreateSensorsTable extends Migration {
 			$table->float('sensor_limit_low', 10, 0)->nullable();
 			$table->float('sensor_limit_low_warn', 10, 0)->nullable();
 			$table->boolean('sensor_alert')->default(1);
-			$table->enum('sensor_custom', array('No','Yes'))->default('No');
+//			$table->enum('sensor_custom', array('No','Yes'))->default('No');
+            $table->string('sensor_custom')->default('No');
 			$table->string('entPhysicalIndex', 16)->nullable();
 			$table->string('entPhysicalIndex_measured', 16)->nullable();
 			$table->timestamp('lastupdate')->default(DB::raw('CURRENT_TIMESTAMP'));
