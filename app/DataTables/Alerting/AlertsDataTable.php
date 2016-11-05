@@ -67,6 +67,9 @@ class AlertsDataTable extends BaseDataTable
                 }
                 return '<a id="alerts-ack" data-id="'.$alert->id.'" data-state="'.$alert->state.'" class="btn btn-xs '.$btn.'"><i class="fa fa-'.$icon.' fa-fw"></i></a>';
             })
+            ->editColumn('rule.severity', function($alert) {
+                return $alert->rule->severity;
+            })
             ->make(true);
     }
 
@@ -77,7 +80,7 @@ class AlertsDataTable extends BaseDataTable
      */
     public function query()
     {
-        $alerts = Alert::with('device', 'rule')->active()->select('alerts.*');
+        $alerts = Alert::has('rule')->active()->select('alerts.*');
         return $this->applyScopes($alerts);
     }
 
