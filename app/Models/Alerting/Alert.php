@@ -87,7 +87,7 @@ class Alert extends Model
      */
     public function rule()
     {
-        return $this->belongsTo('App\Models\Alerting\Rule', 'rule_id');
+        return $this->belongsTo('App\Models\Alerting\Rule', 'rule_id', 'id');
     }
 
     /**
