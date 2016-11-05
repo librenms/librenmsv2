@@ -1,3 +1,15 @@
+# Ignore all dotfiles #
+#######################
+.*
+!/.gitignore
+!/.editorconfig
+!/.scrutinizer.yml
+!/.travis.yml
+!/.php_cs
+!/.github/
+
+# Others #
+##########
 /node_modules
 /vendor
 /storage/database.sqlite
