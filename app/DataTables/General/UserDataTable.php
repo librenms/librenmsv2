@@ -47,7 +47,7 @@ class UserDataTable extends BaseDataTable
                     route('users.edit', ['user_id' => $user->user_id]).
                     '"><i class="fa fa-edit fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.edit').'</span></a> ';
 
-                $delete = '<button type="button" class="btn btn-xs btn-danger userDeleteModal" data-toggle="modal" data-target="#deleteModal" data-href="'.
+                $delete = '<button type="button" class="btn btn-xs btn-danger deleteModal" data-toggle="modal" data-target="#deleteModal" data-href="'.
                     route('users.destroy', ['user_id' => $user->user_id]).
                     '"><i class="fa fa-trash fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.delete').'</span></button> ';
 

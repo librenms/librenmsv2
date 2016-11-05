@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
+@section('pagecss')
+    @parent
+    <link href="{{ url('css/gridstack.min.css') }}" rel="stylesheet"/>
+@endsection
+
 @include('includes.datatables')
+
+@section('pagejs')
+    @parent
+    <script src="{{ url('js/lodash.min.js') }}"></script>
+    <script src="{{ url('js/gridstack.min.js') }}"></script>
+@endsection
 
 @section('title', trans('nav.overview.dashboard'))
 

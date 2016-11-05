@@ -17,7 +17,7 @@
 <div class="row">
     <div class="col-md-offset-2 col-md-8">
         <form name="add_device" method="post" action="{{ route('devices.store') }}" class="form-horizontal" role="form">
-            {!! csrf_field() !!}
+            {{ csrf_field() }}
             <div class="callout callout-warning"><i class="icon fa fa-warning"></i> {{ trans('devices.text.warning') }}</div>
             <div class="well well-lg">
                 <div class="form-group">

@@ -9,7 +9,7 @@ use Form;
 class HtmlFormServiceProvider extends ServiceProvider
 {
 
-    public function boot(Router $router)
+    public function boot()
     {
         Form::component('bsPassword', 'components.form.horiz-password', ['name', 'attributes' => []]);
         Form::component('bsSelect', 'components.form.horiz-select', ['name', 'values' => [], 'selected' => null, 'attributes' => []]);
@@ -20,7 +20,7 @@ class HtmlFormServiceProvider extends ServiceProvider
         Form::component('ajaxRadio', 'components.form.ajax-radio', ['setting', 'label'=>null, 'items' => []]);
         Form::component('ajaxSortable', 'components.form.ajax-sortable', ['setting', 'label'=>null, 'default' => []]);
 
-        parent::boot($router);
+        parent::boot();
     }
 
     public function map()

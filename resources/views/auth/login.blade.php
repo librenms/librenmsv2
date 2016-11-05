@@ -14,7 +14,7 @@
             <div class="panel-body">
                 <div class="container-fluid">
                     <form class="form-horizontal" role="form" action="{{ url('/login') }}" method="post" name="logonform">
-                        {!! csrf_field() !!}
+                        {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}"">
                             <div class="col-md-12">
                                 <input type="text" name="username" id="username" value="{{ old('username') }}" class="form-control" placeholder="{{ trans('user.login.username') }}" required autofocus />
@@ -25,7 +25,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}"">
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <div class="col-md-12">
                                 <input type="password" name="password" id="password" class="form-control" placeholder="{{ trans('user.login.password') }}" />
                                 @if ($errors->has('password'))

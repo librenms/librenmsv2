@@ -25,6 +25,7 @@
 
 namespace App\DataTables;
 
+use App\Models\DeviceGroup;
 use App\Models\Device;
 
 class DeviceDataTable extends BaseDataTable
@@ -41,11 +42,11 @@ class DeviceDataTable extends BaseDataTable
             ->editColumn('status_reason', function($device) {
                 if ($device->status == 0)
                 {
-                    return '<span data-toggle="tooltip" title="down" class="badge bg-red">'.$device->status_reason.'</span>';
+                    return '<span data-toggle="tooltip" title="down" class="device-status label label-danger">'.$device->status_reason.'</span>';
                 }
                 else
                 {
-                    return '<span data-toggle="tooltip" title="up" class="badge bg-light-blue">up</span>';
+                    return '<span data-toggle="tooltip" title="up" class="device-status label label-success">up</span>';
                 }
             })
             ->editColumn('vendor', function($device) {
@@ -101,6 +102,7 @@ class DeviceDataTable extends BaseDataTable
                 'title'      => trans('devices.text.vendor'),
                 'width'      => '20px',
                 'searchable' => false,
+                'orderable'  => false,
             ],
             'hostname'  => [
                 'title' => trans('devices.label.hostname'),
@@ -108,6 +110,7 @@ class DeviceDataTable extends BaseDataTable
             'resources'      => [
                 'title'      => '',
                 'searchable' => false,
+                'orderable'  => false,
             ],
             'hardware'  => [
                 'title' => trans('devices.text.platform'),

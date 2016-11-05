@@ -184,7 +184,82 @@ class Port extends Model
      */
     protected $primaryKey = 'port_id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Helper Functions ----
+
+    /**
+     * Returns a human readable label for this port
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        if ($this->ifName) {
+            return $this->ifName;
+        }
+
+        if ($this->ifDescr) {
+            return $this->ifDescr;
+        }
+
+        return $this->ifIndex;
+    }
+
+    // ---- Accessors/Mutators ----
+
+    public function getIfPhysAddressAttribute($mac)
+    {
+        if (!empty($mac)) {
+            return preg_replace('/(..)(..)(..)(..)(..)(..)/', '\\1:\\2:\\3:\\4:\\5:\\6', $mac);
+        }
+        return null;
+    }
+
+    // ---- Query scopes ----
+
+    public function scopeNotDeleted($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+        ]);
+    }
+
+    public function scopeIsUp($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
+            ['ifOperStatus', '=', 'up'],
+        ]);
+    }
+
+    public function scopeIsDown($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
+            ['ifOperStatus', '=', 'down'],
+            ['ifAdminStatus', '=', 'up'],
+        ]);
+    }
+
+    public function scopeIsIgnored($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 1],
+        ]);
+    }
+
+    public function scopeIsDisabled($query)
+    {
+        return $query->where([
+            ['deleted', '=', 0],
+            ['ignore', '=', 0],
+            ['ifAdminStatus', '=', 'down'],
+        ]);
+    }
+
+    // ---- Define Relationships ----
 
     /**
      * Get the device this port belongs to.
@@ -219,68 +294,5 @@ class Port extends Model
         return $this->hasMany('App\Models\General\IPv6', 'port_id');
     }
 
-    // ---- Accessors/Mutators ----
-
-    public function getIfPhysAddressAttribute($mac)
-    {
-        if (!empty($mac)) {
-            return preg_replace('/(..)(..)(..)(..)(..)(..)/', '\\1:\\2:\\3:\\4:\\5:\\6', $mac);
-        }
-        return null;
-    }
-
-    // ---- Query scopes ----
-
-    public function scopeNotDeleted($query)
-    {
-        return $query->where([
-            ['deleted', '=', 0]
-        ]);
-    }
-
-    public function scopeIsUp($query)
-    {
-        return $query->where([
-            ['deleted', '=', 0],
-            ['ignore', '=', 0],
-            ['ifOperStatus', '=', 'up']
-        ]);
-    }
-
-    public function scopeIsDown($query)
-    {
-        return $query->where([
-            ['deleted', '=', 0],
-            ['ignore', '=', 0],
-            ['ifOperStatus', '=', 'down'],
-            ['ifAdminStatus', '=', 'up']
-        ]);
-    }
-
-    public function scopeIsIgnored($query)
-    {
-        return $query->where([
-            ['deleted', '=', 0],
-            ['ignore', '=', 1]
-        ]);
-    }
-
-    public function scopeIsDisabled($query)
-    {
-        return $query->where([
-            ['deleted', '=', 0],
-            ['ignore', '=', 0],
-            ['ifAdminStatus', '=', 'down']
-        ]);
-    }
-
-    // ---- Define Helper Functions ----
-
-    /**
-     * Returns a human readable label for this port
-     * @return string
-     */
-    public function getLabel() {
-        return $this->ifName ?: $this->ifDescr;
-    }
 }
+
