@@ -24,9 +24,11 @@
 namespace App\Graphs;
 
 use Illuminate\Http\Request;
+use App\Models\Device;
 use Settings;
+use App\Models\Port;
 
-class Bits extends BaseGraph
+class Device_bits extends BaseGraph
 {
 
     public function buildRRDGraphParams($input) {
@@ -83,57 +85,35 @@ class Bits extends BaseGraph
     public function buildRRDXport($input)
     {
         $rrd_path = Settings::get('rrd_dir');
-        $hostname = $input->{'hostname'};
-        $port     = $input->{'port'};
-        return "DEF:outoctets=$rrd_path/$hostname/port-$port.rrd:OUTOCTETS:AVERAGE \
-                DEF:inoctets=$rrd_path/$hostname/port-$port.rrd:INOCTETS:AVERAGE \
-                DEF:outoctets_max=$rrd_path/$hostname/port-$port.rrd:OUTOCTETS:MAX \
-                DEF:inoctets_max=$rrd_path/$hostname/port-$port.rrd:INOCTETS:MAX \
-                CDEF:octets=inoctets,outoctets,+ \
-                CDEF:doutoctets=outoctets,-1,* \
-                CDEF:outbits=outoctets,8,* \
-                CDEF:outbits_max=outoctets_max,8,* \
-                CDEF:doutoctets_max=outoctets_max,-1,* \
-                CDEF:doutbits=doutoctets,8,* \
-                CDEF:doutbits_max=doutoctets_max,8,* \
-                CDEF:inbits=inoctets,8,* \
-                CDEF:inbits_max=inoctets_max,8,* \
-                CDEF:d95thoutn=doutbits,-1,* \
-                XPORT:inbits:'In' \
-                XPORT:inbits_max:'In Max' \
-                XPORT:doutbits:'Out' \
-                XPORT:doutbits_max:'Out Max'";
-    }
+        $device_id = $input->{'device_id'};
+        $device = Device::find($device_id);
+        $hostname = $device->hostname;
+        if (isset($input->id) && is_numeric($input->id)) {
+            $port_ids = explode(',', $input->id);
+            $ports = $device->ports()->whereIn('port_id', $port_ids)->get();
+        } else {
+            $ports = $device->ports()->get();
+        }
 
-    public function formatJson($index)
-    {
-        $data = [
-            [
-                'backgroundColor' => "rgba(3,205,86,1)",
-                'borderColor' => "rgba(3,205,86,1)",
-            ],
-            [
-                'backgroundColor' => "rgba(3,205,86,0.2)",
-                'borderColor' => "rgba(3,205,86,0.2)",
-            ],
-            [
-                'backgroundColor' => "rgba(96,96,144,1)",
-                'borderColor' => "rgba(96,96,144,1)",
-            ],
-            [
-                'backgroundColor' => "rgba(96,96,144,0.2)",
-                'borderColor' => "rgba(96,96,144,0.2)",
-            ],
+        $headers = [];
+        $defs = '';
+
+        foreach ($ports as $port) {
+            $headers[] = 'In: ' . $port['ifDescr'];
+            $headers[] = 'Out: ' . $port['ifDescr'];
+            $port_id = $port->port_id;
+            $defs .= "DEF:outoct$port_id=$rrd_path/$hostname/port-id$port_id.rrd:OUTOCTETS:AVERAGE \
+                DEF:inoct$port_id=$rrd_path/$hostname/port-id$port_id.rrd:INOCTETS:AVERAGE \
+                CDEF:doutoct$port_id=outoct$port_id,-1,* \
+                CDEF:doutbits$port_id=doutoct$port_id,8,* \
+                CDEF:inbits$port_id=inoct$port_id,8,* \
+                XPORT:inbits$port_id:'In' \
+                XPORT:doutbits$port_id:'Out' ";
+        }
+
+        return [
+            'headers' => $headers,
+            'defs' => $defs,
         ];
-
-        if (isset($data[$index]))
-        {
-            return $data[$index];
-        }
-        else
-        {
-            return [];
-        }
     }
-
 }

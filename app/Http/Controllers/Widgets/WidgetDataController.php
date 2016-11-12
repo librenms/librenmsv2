@@ -58,10 +58,10 @@ class WidgetDataController extends Controller
      * @param null $action
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function alerts(AlertsDataTable $dataTable, $action = null)
+    public function alerts(AlertsDataTable $AlertsDataTable, $action = null)
     {
         $tableName = ['id' => 'alertlogDT'];
-        return $dataTable->render('widgets.alertlog', compact(['tableName', 'action']));
+        return $AlertsDataTable->render('widgets.alertlog', compact(['tableName', 'action']));
     }
 
     /**
@@ -183,7 +183,7 @@ class WidgetDataController extends Controller
     public function graph(Settings $settings, Request $request, $action = null)
     {
         $div_id = mt_rand();
-        $request->params = '{"content-type": "png", "data-source": "rrd-png"}';
+        $request->params = '{"content-type": "text/plain", "data-source": "rrd-csv"}';
         $params = json_decode($request->params);
         $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
         return view('widgets.graph', compact(['action', 'params', 'div_id']));

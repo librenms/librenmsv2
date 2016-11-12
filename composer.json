@@ -24,6 +24,11 @@
         "barryvdh/laravel-ide-helper": "~2.2"
     },
     "autoload": {
+        "files": [
+            "app/Helpers/Rewrite.php",
+            "app/Helpers/Functions.php",
+            "app/Helpers/RRDTool.php"
+        ],
         "classmap": [
             "database",
             "app/Console/Commands"

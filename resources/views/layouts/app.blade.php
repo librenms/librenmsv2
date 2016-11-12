@@ -95,9 +95,11 @@
         <script src="{{ url('js/plugins/toastr/toastr.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script src="{{ url('js/util.js') }}"></script>
+        <script src="{{ url('js/core/colours.js') }}"></script>
         <script src="{{ url('js/core/graphing.js') }}"></script>
         <script src="{{ url('js/Chart.bundle.min.js') }}"></script>
         <script src="{{ url('js/Chart.Zoom.min.js') }}"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
         <script>
             var AdminLTEOptions = {
                 // set the treeview slide speed
@@ -108,6 +110,7 @@
 
             setInterval($.Util.updateNotificationMenu('{{ url('/') }}'), {{ Settings::get('notifications.pollinterval', 3600000) }});
         @endif
+                $.Graphs.buildGraphs();
         </script>
         <script src="{{ url('js/app.min.js') }}"></script>
         <!-- page script -->

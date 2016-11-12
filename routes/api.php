@@ -72,8 +72,8 @@ ApiRoute::version('v1', function ($api) {
         $api->resource('alerting/logs', 'App\Api\Controllers\Alerting\LogsController');
 
         //Graphing section
-        $api->post('graph-data/{type}/png', 'App\Api\Controllers\GraphController@png');
-        $api->post('graph-data/{type}/json', 'App\Api\Controllers\GraphController@json');
-
+        $api->POST('graph-data/{type}/png', 'App\Api\Controllers\GraphController@png');
+        $api->POST('graph-data/{type}/json', 'App\Api\Controllers\GraphController@json');
+        $api->POST('graph-data/{type}/csv', 'App\Api\Controllers\GraphController@csv');
     });
 });

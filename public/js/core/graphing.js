@@ -17,49 +17,13 @@ $.Graphs.callJsonGraph = function($ctx) {
         async: true,
         dataType: 'json',
         type: "post",
-        data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "id8"}',
-    }).done(function (data) {
-        var ctx_$ctx = new Chart($ctx, {
-            type: 'line',
-            data: {
-                labels: data.labels,
-                datasets: data.data
-            },
-            options: {
-                animation: {
-                    duration: 0,
-                },
-                animate: false,
-                fullWidth: false,
-                responsive: true,
-                legend: {
-                    position: 'bottom',
-                },
-                hover: {
-                    mode: 'label'
-                },
-                scales: {
-                    yAxes: [{
-                        stacked: false,
-                        ticks: {
-                            callback: function(tick, index, ticks) {
-                                if (data.tick == 'BKMGT') {
-                                    return $.Graphs.BKMGT(tick, index, ticks);
-                                }
-                                else {
-                                    return tick;
-                                }
-                            }
-                        },
-
-                    }],
-                    xAxes: [{
-                        stacked: true,
-                        type: 'time',
-                    }],
-                }
-            }
-        });
+        data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "id24425"}',
+    }).done(function (output) {
+        tmpdata = JSON.stringify(output.data);
+        labels = JSON.stringify(output.labels);
+        new Dygraph($ctx,
+            tmpdata
+        );
     });
 };
 
@@ -75,18 +39,78 @@ $.Graphs.callPNGGraph = function($ctx) {
         type: "post",
         data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "id8"}',
     }).done(function (data) {
-        console.log(data);
+
     });
 };
 
-// Functions to convert graph data
-$.Graphs.BKMGT = function(tick, index, ticks) {
-    var abs_tick = Math.abs(tick);
-    if (abs_tick >= 1000000000000)     { return tick / 1000000000000 + "T" }
-    else if (abs_tick >= 1000000000)   { return tick / 1000000000 + "G" }
-    else if (abs_tick >= 1000000)      { return tick / 1000000 + "M" }
-    else if (abs_tick >= 1000)         { return tick / 1000 + "K" }
-    else if (abs_tick < 1 && tick > 0) { return tick.toFixed(2) }
-    else if (abs_tick === 0)           { return '' }
-    else                               { return tick }
-}
+/* callCsvGraph()
+ * ========
+ * Sets up the users dashboard
+ */
+$.Graphs.callCsvGraph = function($ctx, options = []) {
+    $.ajax({
+        url: '/api/graph-data/'+options.type+'/csv?source=rrd',
+        async: true,
+        type: "post",
+        data: 'input={"start": "'+options.start+'", "end": "'+options.end+'", "device_id": "'+options.device+'", "id": "'+options.id+'"}',
+    }).done(function (output) {
+        graph_options = Object.assign(
+            {
+                labelsKMB: true,
+                legend: 'follow',
+                connectSeparatedPoints: false,
+                fillGraph: true,
+                axes: {
+                    x: {
+                        drawAxis: false
+                    },
+                    y: {
+                        drawAxis: false
+                    }
+                },
+                colors: colourSets[colourMaps[options.type]]},
+            options.options);
+        new Dygraph($ctx,
+            output,
+            graph_options
+        );
+        setTimeout(function() {
+                $.Graphs.callCsvGraph($ctx, options);
+                console.log('test');
+            },
+            60000);
+    });
+};
+
+$.Graphs.buildGraphs = function() {
+    // Build graphs
+    var graphs = document.getElementsByClassName("show-graph");
+    for(var i = 0; i < graphs.length; i++)
+    {
+        item = graphs.item(i);
+        el = $(item);
+        type = el.data('type');
+        width = el.data('width');
+        height = el.data('height');
+        start = el.data('start');
+        end = el.data('end');
+        device = el.data('device');
+        id = el.data('id');
+        options = el.data('options') || '';
+        item.style.width=width;
+        item.style.height=height;
+        div_id = el.attr('id');
+        data = {
+            type: type,
+            width: width,
+            height: height,
+            start: start,
+            end: end,
+            device: device,
+            id: id,
+            options: options
+        }
+        $.Graphs.callCsvGraph(div_id, data);
+    }
+
+};

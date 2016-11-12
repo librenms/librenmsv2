@@ -203,6 +203,38 @@ class Device extends Model
         }
     }
 
+    /**
+     * @return string
+     */
+    public function status_colour()
+    {
+        $status = $this->status;
+        $ignore = $this->ignore;
+        $disabled = $this->disabled;
+        if ($disabled == 1) {
+            return 'teal';
+        } elseif ($ignore == 1) {
+            return 'yellow';
+        } elseif ($status == 0) {
+            return 'danger';
+        } else {
+            return 'success';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function location()
+    {
+        return $this->location;
+    }
+
+    public function hostname()
+    {
+        return $this->hostname;
+    }
+
     // ---- Query scopes ----
 
     /**
@@ -324,5 +356,25 @@ class Device extends Model
     public function users()
     {
         return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
+    }
+
+    /**
+     * Relationship to App\Models\Processor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function processors()
+    {
+        return $this->hasMany('App\Models\Processor', 'device_id');
+    }
+
+    /**
+     * Relationship to App\Models\Storage
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function storage()
+    {
+        return $this->hasMany('App\Models\Storage', 'device_id');
     }
 }

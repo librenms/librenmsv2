@@ -23,6 +23,7 @@
 
 namespace App\Graphs;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
@@ -51,8 +52,24 @@ class BaseGraph
         {
             $build = $this->buildRRDJson($input, $this->buildRRDXport($input));
         }
-        $response = $this->runRRDXport($build);
-        return $this->parseRRDJson($response);
+        $response = $this->runRRDXport($build['cmd']);
+        return $this->parseRRDJson($response, $build['headers']);
+    }
+
+    /**
+     * Get csv output.
+     *
+     * @return array
+     */
+    public function csv(Request $request)
+    {
+        if ($request->{'source'} == 'rrd')
+        {
+            $input = json_decode($request->{'input'});
+            $build = $this->buildRRDJson($input, $this->buildRRDXport($input));
+        }
+        $response = $this->runRRDXport($build['cmd']);
+        return $this->parseRRDCsv($response, $build['headers']);
     }
 
     /**
@@ -81,10 +98,16 @@ class BaseGraph
      *
      * @return string
      */
-    public function buildRRDJson($input, $rrd_params)
+    public function buildRRDJson($input, $setup)
     {
-        $cmd = Settings::get('rrdtool') . ' xport --json -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' . $rrd_params;
-        return $cmd;
+        $rrd_defs = $setup['defs'];
+        $headers  = $setup['headers'];
+        $cmd = Settings::get('rrdtool') . ' xport --json -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' . $rrd_defs;
+
+        return [
+            'headers' => $headers,
+            'cmd'     => $cmd,
+        ];
     }
 
     /**
@@ -120,7 +143,12 @@ class BaseGraph
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
-        return $process->getOutput();
+        $output = $process->getOutput();
+        $output = preg_replace('/\'/', '"', $output);
+        $output = preg_replace('/about\:/', '"meta":', $output);
+        $output = preg_replace('/meta\:/', '"meta":', $output);
+        $output = json_decode($output);
+        return $output;
     }
 
     /**
@@ -130,54 +158,52 @@ class BaseGraph
      */
     public function parseRRDJson($response)
     {
-        $response = preg_replace('/\'/', '"', $response);
-        $response = preg_replace('/about\:/', '"meta":', $response);
-        $response = preg_replace('/meta\:/', '"meta":', $response);
-        $response = json_decode($response);
-
         $step = $response->{'meta'}->{'step'};
         $start = $response->{'meta'}->{'start'};
         $end = $response->{'meta'}->{'end'};
         $cur_time = $start;
-        $z=0;
+        $z = 0;
+        $tmp_data = [];
 
         foreach ($response->{'data'} as $data)
         {
-            $x=0;
+            $tmp_data['data'][$z][] = $cur_time + $step;
             foreach ($data as $key => $value)
             {
-                $tmp_data[$x][] = (is_null($value)) ? 0 : (int) $value;
-                $x++;
+                $tmp_data['data'][$z][] = (is_null($value)) ? 0 : (int) $value;
             }
+            //$tmp_data[] = $data;
             $z++;
-            $labels[] = date('Y-m-d', $cur_time);
+        }
+        $tmp_data['labels'] = ['x', 'A', 'B', 'C', 'D'];
+        return json_encode($tmp_data);
+    }
+
+    /**
+     * Parse RRD output to csv
+     *
+     * @return string
+     */
+    public function parseRRDCsv($response, $headers)
+    {
+        $step = $response->{'meta'}->{'step'};
+        $start = $response->{'meta'}->{'start'};
+        $end = $response->{'meta'}->{'end'};
+        $cur_time = $start;
+        $output = 'Date, ' . implode(',', $headers) . PHP_EOL;
+
+        foreach ($response->{'data'} as $data)
+        {
+            $output .=  Carbon::createFromTimestamp($cur_time) . ',';
+            $tmp_data = [];
+            foreach ($data as $key => $value)
+            {
+                $tmp_data[] = (is_null($value)) ? 0 : (int) $value;
+            }
+            $output .= implode(',', $tmp_data) . PHP_EOL;
             $cur_time = $cur_time + $step;
         }
-        $y=0;
-        foreach ($response->{'meta'}->{'legend'} as $legend)
-        {
-             $color = rand(0,255);
-             $defaults = ['label' => $legend,
-                            'data' => $tmp_data[$y],
-                            'fill' => false,
-                            'lineTension' => 0.1,
-                            'backgroundColor' => "rgba($color,205,86,0.4)",
-                            'borderColor' => "rgba($color,205,86,1)",
-                            'pointRadius' => 1,
-                            'pointBorderWidth' => 1,
-                            'pointHoverRadius' => 4,
-                            'pointHoverBackgroundColor' => "rgba($color,205,86,0.5)",
-                            'pointHoverBorderColor' => "rgba($color,205,86,0.5)",
-                            'pointHoverBorderWidth' => 1,
-                        ];
-                $out_data = $this->formatJson($y);
-
-                $output['data'][$y] = array_merge($defaults,$out_data);
-                $y++;
-            }
-        $output['labels'] = $labels;
-        $output['tick'] = $this->getTick($this->type);
-        return json_encode($output);
+        return $output;
     }
 
     public function getTick($type)

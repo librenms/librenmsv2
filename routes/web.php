@@ -81,6 +81,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Device routes
     Route::get('devices/group={group_id}', 'DeviceController@index');
     Route::resource('devices', 'DeviceController');
+    Route::get('devices/{id}/{page}', 'DeviceController@show');
 
     // Device Groups
     Route::resource('device-groups', 'DeviceGroupController');

@@ -175,6 +175,18 @@ $.Dashboard.editWidget = function(data) {
 
 $.Dashboard.dashboardActions = function(grid) {
     $(document).ready(function(){
+        $('.grid-stack').on('resizestop', function(event, ui) {
+            var el = event.target;
+            var el = $(el);
+            var user_widget_id = el.attr('id');
+            var data = {
+                widget_id: el.data('widget_id'),
+                user_widget_id: user_widget_id,
+                refresh: el.data('refresh')
+            };
+            console.log(data);
+            $.Dashboard.refreshDashboardWidget(data,true);
+        });
         $('#add-dashboard').click('', function(event) {
             event.preventDefault();
             $('#show-edit').collapse('hide');

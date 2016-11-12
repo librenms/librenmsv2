@@ -66,4 +66,20 @@ class GraphController extends Controller
         return $data->png($request);
     }
 
+    /**
+     * Obtain and format data for csv output
+     *
+     * @param Request $request
+     * @param string $type
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function csv(Request $request, $type)
+    {
+        ob_start('ob_gzhandler');
+        $class = 'App\Graphs\\' . ucfirst($type);
+        $data=new $class();
+        $data->setType($type);
+        return $data->csv($request);
+    }
+
 }
