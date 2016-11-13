@@ -29,6 +29,7 @@
                                  data-start="-24h"
                                  data-end="-300"
                                  data-device="{{ $device->device_id }}"
+                                 data-drawaxis="false"
                                  style="border-bottom-width:1px; border-bottom-color:black; border-bottom-style: solid;"
                             ></div>
                         @endforeach
@@ -95,6 +96,24 @@
                                     {{ $device->serial }}
                                 </p>
                             @endif
+                            <hr>
+                            <strong><i class="fa fa-link"></i> Ports</strong>
+                            <p>
+                                <span class="label label-success">{{ $device->ports()->isUp()->count() }}</span>
+                                <span class="label label-default">{{ $device->ports()->isIgnored()->count() }}</span>
+                                <span class="label label-danger">{{ $device->ports()->isDown()->count() }}</span>
+                            </p>
+                            <strong><i class="fa fa-heartbeat"></i> Sensors</strong>
+                            <p>
+                                <span class="label label-success">{{ $device->sensors()->count() }}</span>
+                            </p>
+                            <strong><i class="fa fa-cogs"></i> Services</strong>
+                            <p>
+                                @foreach ($device->services()->get() as $service)
+                                    <span class="label label-success">{{ $service->service_type }}</span>
+                                @endforeach
+                            </p>
+
                         </div>
                     </div>
                 </div>

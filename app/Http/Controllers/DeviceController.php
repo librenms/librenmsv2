@@ -6,6 +6,7 @@ use App\DataTables\DeviceDataTable;
 use App\DataTables\DeviceGroupDataTable;
 use App\Models\Device;
 use App\Models\DeviceGroup;
+use App\Models\Port;
 use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;

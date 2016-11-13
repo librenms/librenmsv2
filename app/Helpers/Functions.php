@@ -33,3 +33,28 @@ function shorten_interface_type($string)
         $string
     );
 }//end shorten_interface_type()
+
+/**
+ * @param $port_id
+ * @param string $suffix
+ * @return string
+ */
+function getPortRrdName($port_id, $suffix = '')
+{
+    if (!empty($suffix)) {
+        $suffix = '-' . $suffix;
+    }
+
+    return "port-id$port_id$suffix";
+}
+
+/**
+ * @param $device
+ * @param $port_id
+ * @param string $suffix
+ * @return string
+ */
+function get_port_rrdfile_path($device, $port_id, $suffix = '')
+{
+    return rrd_name($device, getPortRrdName($port_id, $suffix));
+}

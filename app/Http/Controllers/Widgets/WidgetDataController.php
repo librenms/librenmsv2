@@ -42,13 +42,19 @@ class WidgetDataController extends Controller
      * Display the eventlog widget.
      *
      * @param EventlogDataTable $EventlogDataTable
+     * @param \Illuminate\Http\Request $request
      * @param null $action
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function eventlog(EventlogDataTable $EventlogDataTable, $action = null)
+    public function eventlog(EventlogDataTable $EventlogDataTable, Request $request, $action = null)
     {
         $tableName = ['id' => 'eventlogDT'];
-        return $EventlogDataTable->render('widgets.eventlog', compact(['tableName', 'action']));
+        if ($request->device_id) {
+            return $EventlogDataTable->forDevice($request->device_id)
+                ->render('widgets.eventlog', compact(['tableName', 'action']));
+        } else {
+            return $EventlogDataTable->render('widgets.eventlog', compact(['tableName', 'action']));
+        }
     }
 
     /**

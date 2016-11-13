@@ -37,3 +37,20 @@ function rrdtool_escape($string, $length = null)
     $result = str_replace(':', '\:', $result);          # escape colons
     return $result.' ';
 } // rrdtool_escape
+
+function build_rrdtool($arg)
+{
+    $rrdtool       = Settings::get('rrdtool');
+    $rrdcached     = Settings::get('rrdcached');
+    $rrdcached_dir = Settings::get('rrdcached_dir');
+    $rrd_dir       = Settings::get('rrd_dir');
+    $rrd_daemon    = '';
+    if (isset($rrdcached)) {
+        if (isset($rrdcached_dir) && $rrdcached_dir !== false) {
+            $arg = str_replace($rrd_dir.'/', './'.$rrdcached_dir.'/', $arg);
+            $arg = str_replace($rrd_dir, './'.$rrdcached_dir.'/', $arg);
+        }
+        $rrd_daemon = " --daemon $rrdcached ";
+    }
+    return $rrdtool . ' ' . $rrd_daemon . $arg;
+}

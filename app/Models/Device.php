@@ -348,6 +348,16 @@ class Device extends Model
     }
 
     /**
+     * Relationship to App\Models\Service
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function services()
+    {
+        return $this->hasMany('App\Models\Service', 'device_id');
+    }
+
+    /**
      * Relationship to App\Models\User
      * Does not include users with global permissions.
      *

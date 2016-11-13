@@ -17,7 +17,7 @@ $.Graphs.callJsonGraph = function($ctx) {
         async: true,
         dataType: 'json',
         type: "post",
-        data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "id24425"}',
+        data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "id24425"}'
     }).done(function (output) {
         tmpdata = JSON.stringify(output.data);
         labels = JSON.stringify(output.labels);
@@ -31,15 +31,18 @@ $.Graphs.callJsonGraph = function($ctx) {
  * ========
  * Sets up the users dashboard
  */
-$.Graphs.callPNGGraph = function($ctx) {
+$.Graphs.callPNGGraph = function($ctx, options = []) {
     $.ajax({
-        url: '/api/graph-data/bits/png?source=rrd-png',
+        url: '/api/graph-data/'+options.type+'/png?source=rrd',
         async: true,
-        dataType: 'png',
         type: "post",
-        data: 'input={"start": "-1y", "end": "-300", "hostname": "localhost", "port": "id8"}',
-    }).done(function (data) {
-
+        data: 'input={"start": "'+options.start+'", "end": "'+options.end+'", "device_id": "'+options.device+'", "id": "'+options.id+'", "width": "' + options.width + '", "height": "' + options.height + '"}'
+    }).done(function (output) {
+        $('#'+$ctx).html('<img src="data:image/png;base64,' + output + '" />');
+        setTimeout(function() {
+                $.Graphs.callPNGGraph($ctx, options);
+            },
+            60000);
     });
 };
 
@@ -52,7 +55,7 @@ $.Graphs.callCsvGraph = function($ctx, options = []) {
         url: '/api/graph-data/'+options.type+'/csv?source=rrd',
         async: true,
         type: "post",
-        data: 'input={"start": "'+options.start+'", "end": "'+options.end+'", "device_id": "'+options.device+'", "id": "'+options.id+'"}',
+        data: 'input={"start": "'+options.start+'", "end": "'+options.end+'", "device_id": "'+options.device+'", "id": "'+options.id+'"}'
     }).done(function (output) {
         graph_options = Object.assign(
             {
@@ -62,10 +65,10 @@ $.Graphs.callCsvGraph = function($ctx, options = []) {
                 fillGraph: true,
                 axes: {
                     x: {
-                        drawAxis: false
+                        drawAxis: options.drawaxis
                     },
                     y: {
-                        drawAxis: false
+                        drawAxis: options.drawaxis
                     }
                 },
                 colors: colourSets[colourMaps[options.type]]},
@@ -76,7 +79,6 @@ $.Graphs.callCsvGraph = function($ctx, options = []) {
         );
         setTimeout(function() {
                 $.Graphs.callCsvGraph($ctx, options);
-                console.log('test');
             },
             60000);
     });
@@ -97,9 +99,20 @@ $.Graphs.buildGraphs = function() {
         device = el.data('device');
         id = el.data('id');
         options = el.data('options') || '';
+        drawaxis = el.data('drawaxis');
+        graph = el.data('graph') || 'csv';
+        if (drawaxis != false) {
+            drawaxis = true;
+        }
         item.style.width=width;
         item.style.height=height;
         div_id = el.attr('id');
+
+        if (graph == 'png') {
+            width = document.getElementById(div_id).offsetWidth - 100;
+            height = document.getElementById(div_id).offsetHeight;
+        }
+
         data = {
             type: type,
             width: width,
@@ -108,9 +121,15 @@ $.Graphs.buildGraphs = function() {
             end: end,
             device: device,
             id: id,
-            options: options
+            options: options,
+            drawaxis: drawaxis
+        };
+
+        if (graph == 'csv') {
+            $.Graphs.callCsvGraph(div_id, data);
+        } else {
+            $.Graphs.callPNGGraph(div_id, data);
         }
-        $.Graphs.callCsvGraph(div_id, data);
     }
 
 };

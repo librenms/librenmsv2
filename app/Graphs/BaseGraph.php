@@ -28,16 +28,53 @@ use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use App\Models\Device;
 use Settings;
 
 class BaseGraph
 {
 
-    private $type = '';
+    private $type;
+    private $input;
+    private $device;
 
+    /**
+     * @param $value
+     * @return $this
+     */
     public function setType($value)
     {
         $this->type = $value;
+        return $this;
+    }
+
+    /**
+     * @param $input
+     * @return $this
+     */
+    public function setInput($input)
+    {
+        $this->input = $input;
+        return $this;
+    }
+
+    /**
+     * @param $device
+     * @return $this
+     */
+    public function setDevice($input)
+    {
+        $this->device = Device::find($input->device_id);
+        return $this;
+    }
+
+    /**
+     * @param $device
+     * @return $this
+     */
+    public function getDevice()
+    {
+        return $this->device;
     }
 
     /**
@@ -47,8 +84,8 @@ class BaseGraph
      */
     public function json(Request $request)
     {
-        $input = json_decode($request->{'input'});
-        if ($request->{'source'} == 'rrd-json')
+        $input = $this->input;
+        if ($request->{'source'} === 'rrd')
         {
             $build = $this->buildRRDJson($input, $this->buildRRDXport($input));
         }
@@ -63,13 +100,12 @@ class BaseGraph
      */
     public function csv(Request $request)
     {
-        if ($request->{'source'} == 'rrd')
-        {
-            $input = json_decode($request->{'input'});
+        $input = $this->input;
+        if ($request->{'source'} === 'rrd') {
             $build = $this->buildRRDJson($input, $this->buildRRDXport($input));
+            $response = $this->runRRDXport($build['cmd']);
+            return $this->parseRRDCsv($response, $build['headers']);
         }
-        $response = $this->runRRDXport($build['cmd']);
-        return $this->parseRRDCsv($response, $build['headers']);
     }
 
     /**
@@ -79,18 +115,12 @@ class BaseGraph
      */
     public function png(Request $request)
     {
-        $input = json_decode($request->{'input'});
-        $rrd_path = Settings::get('rrd_dir');
-        $hostname = $input->{'hostname'};
-        $port     = $input->{'port'};
-        $rrd_cmd  = [Settings::get('rrdtool') .
-                        ' graph' .
-                        ' -s ' . $input->{'start'} . ' -e ' . $input->{'end'} .
-                        $this->buildRRDGraph($input, $this->buildRRDGraphParams($input))];
-        $builder = new ProcessBuilder($rrd_cmd);
-        $cmd = $builder->getProcess();
-        $cmd->run();
-        dd($cmd->getErrorOutput());
+        $input = $this->input;
+        if ($request->{'source'} === 'rrd') {
+            $build = $this->buildRRDGraph($input, $this->buildRRDGraphParams($input));
+            $response = $this->runRRDGraph($build['cmd']);
+            return base64_encode($response);
+        }
     }
 
     /**
@@ -98,11 +128,10 @@ class BaseGraph
      *
      * @return string
      */
-    public function buildRRDJson($input, $setup)
-    {
+    public function buildRRDJson($input, $setup) {
         $rrd_defs = $setup['defs'];
         $headers  = $setup['headers'];
-        $cmd = Settings::get('rrdtool') . ' xport --json -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' . $rrd_defs;
+        $cmd = build_rrdtool(' xport --json -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' . $rrd_defs);
 
         return [
             'headers' => $headers,
@@ -115,20 +144,33 @@ class BaseGraph
      *
      * @return string
      */
-    public function buildRRDGraph($input, $rrd_options) {
-        $rrdcached     = Settings::get('rrdcached');
-        $rrdcached_dir = Settings::get('rrdcached_dir');
-        $rrd_dir       = Settings::get('rrd_dir');
-        $rrd_daemon    = '';
-        if ($rrdcached) {
-            if (isset($rrdcached_dir) && $rrdcached_dir !== false) {
-                $rrd_options = str_replace($rrd_dir.'/', './'.$rrdcached_dir.'/', $rrd_options);
-                $rrd_options = str_replace($rrd_dir, './'.$rrdcached_dir.'/', $rrd_options);
-            }
-            $rrd_daemon = " --daemon $rrdcached ";
+    public function buildRRDGraph($input, $setup) {
+        $rrd_defs = $setup['defs'];
+        $headers = [];
+        $cmd = build_rrdtool(' graph - -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' .
+            " --width " . $input->{'width'} . " --height " . $input->{'height'} . " --alt-autoscale-max --rigid -E -c BACK#EEEEEE00 -c SHADEA#EEEEEE00 -c SHADEB#EEEEEE00 -c \
+                FONT#000000 -c CANVAS#FFFFFF00 -c GRID#a5a5a5 -c MGRID#FF9999 -c FRAME#5e5e5e -c ARROW#5e5e5e \
+                -R normal --font LEGEND:8:DejaVuSansMono --font AXIS:7:DejaVuSansMono --font-render-mode normal " .
+            $rrd_defs);
+        return [
+            'headers' => $headers,
+            'cmd'     => $cmd,
+        ];
+    }
+
+    /**
+     * @param $cmd
+     * @return mixed|string
+     */
+    public function runRRDGraph($cmd)
+    {
+        $process = new Process($cmd);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
         }
-        $cmd = $rrd_daemon . $rrd_options;
-        return $cmd;
+        $output = $process->getOutput();
+        return $output;
     }
 
     /**
@@ -204,18 +246,5 @@ class BaseGraph
             $cur_time = $cur_time + $step;
         }
         return $output;
-    }
-
-    public function getTick($type)
-    {
-        switch ($type)
-        {
-            case 'bits':
-                return 'BKMGT';
-                break;
-            default:
-                return '';
-                break;
-        }
     }
 }

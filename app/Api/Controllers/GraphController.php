@@ -47,8 +47,11 @@ class GraphController extends Controller
     {
         ob_start('ob_gzhandler');
         $class = 'App\Graphs\\' . ucfirst($type);
+        $input = json_decode($request->{'input'});
         $data=new $class();
         $data->setType($type);
+        $data->setInput($input);
+        $data->setDevice($input);
         return $data->json($request);
     }
 
@@ -62,7 +65,11 @@ class GraphController extends Controller
     public function png(Request $request, $type)
     {
         $class = 'App\Graphs\\' . ucfirst($type);
+        $input = json_decode($request->{'input'});
         $data=new $class();
+        $data->setType($type);
+        $data->setInput($input);
+        $data->setDevice($input);
         return $data->png($request);
     }
 
@@ -77,8 +84,11 @@ class GraphController extends Controller
     {
         ob_start('ob_gzhandler');
         $class = 'App\Graphs\\' . ucfirst($type);
+        $input = json_decode($request->{'input'});
         $data=new $class();
         $data->setType($type);
+        $data->setInput($input);
+        $data->setDevice($input);
         return $data->csv($request);
     }
 

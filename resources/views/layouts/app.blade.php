@@ -80,8 +80,6 @@
             @yield('content')
         @endif
 
-        <!-- Javascript Libs -->
-        <script src="{{ url('js/d3.v3.js') }}"></script>
         <!-- jQuery 2.1.4 -->
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 
@@ -97,9 +95,7 @@
         <script src="{{ url('js/util.js') }}"></script>
         <script src="{{ url('js/core/colours.js') }}"></script>
         <script src="{{ url('js/core/graphing.js') }}"></script>
-        <script src="{{ url('js/Chart.bundle.min.js') }}"></script>
-        <script src="{{ url('js/Chart.Zoom.min.js') }}"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
+        <script src="{{ url('js/plugins/dygraph-combined.js') }}"></script>
         <script>
             var AdminLTEOptions = {
                 // set the treeview slide speed
