@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DeviceDataTable;
-use App\DataTables\DeviceGroupDataTable;
 use App\Models\Device;
 use App\Models\DeviceGroup;
-use App\Models\Port;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
-use Settings;
 
 class DeviceController extends Controller
 {
@@ -71,18 +67,16 @@ class DeviceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @param string $page
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id, $page = null)
+    public function show(Request $request, $id, $page = 'overview')
     {
         $device = Device::find($id);
-        $device['config'] = Settings::get('os.'.$device->{'os'});
         $device_url = url('devices/'.$device->device_id);
-        if ($page === null) {
-            $page = 'overview';
-        }
+
         $page_setup['navbar'] = [
             'Overview' => $device_url,
             'Graphs'   => $device_url . '/graphs',

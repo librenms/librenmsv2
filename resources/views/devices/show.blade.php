@@ -19,10 +19,10 @@
                         <span>{{ $device->location }}</span>
                     </div>
                     <div class="col-md-6">
-                        @foreach ($device->config{'over'} as $id => $over)
+                        @foreach (Settings::get('os.'.$device->os.'.over', []) as $id => $over)
                             <div class="show-graph"
-                                 id="{{ $device->device_id }}_{{ $over{'graph'} }}"
-                                 data-type="{{ $over{'graph'} }}"
+                                 id="{{ $device->device_id }}_{{ $over['graph'] }}"
+                                 data-type="{{ $over['graph'] }}"
                                  data-graph="csv"
                                  data-width="100%"
                                  data-height="20px"
