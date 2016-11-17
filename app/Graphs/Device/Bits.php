@@ -1,6 +1,6 @@
 <?php
 /**
- * BaseGraph.php
+ * Bits.php
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\Graphs;
+namespace App\Graphs\Device;
 
 use App\Data\RRD;
+use App\Graphs\Graph;
 use Illuminate\Database\Query\Builder;
 
-class Device_bits extends BaseGraph
+class Bits extends Graph
 {
     protected function getRelation()
     {
@@ -108,7 +109,7 @@ class Device_bits extends BaseGraph
         $defs = '';
         foreach ($this->getData() as $port) {
             $port_id = $port->port_id;
-            $rrd_file = get_port_rrdfile_path($this->device, $port->port_id);
+            $rrd_file = RRD::getPortFileName($this->device, $port->port_id);
             $defs .= "DEF:outoctets$port_id=$rrd_file:OUTOCTETS:AVERAGE \
                 DEF:inoctets$port_id=$rrd_file:INOCTETS:AVERAGE \
                 CDEF:doutoctets$port_id=outoctets$port_id,-1,* \

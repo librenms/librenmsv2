@@ -1,6 +1,6 @@
 <?php
 /**
- * BaseGraph.php
+ * Processor.php
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\Graphs;
+namespace App\Graphs\Device;
 
 use App\Data\RRD;
-use App\Models\Processor;
+use App\Graphs\Graph;
 use Illuminate\Database\Query\Builder;
 
-class Device_processor extends BaseGraph
+class Processor extends Graph
 {
     protected function getRelation()
     {
@@ -65,7 +65,7 @@ class Device_processor extends BaseGraph
     {
         $defs = '';
         foreach ($this->getData() as $proc) {
-            /** @var Processor $proc */
+            /** @var /App/Models/Processor $proc */
             $id = $proc->hrDeviceIndex;
             $rrd_file = RRD::getFileName($this->device, array('processor', 'hr', $id));
             $defs .= "DEF:ds$id=$rrd_file:usage:AVERAGE \

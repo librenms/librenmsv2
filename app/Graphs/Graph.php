@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use stdClass;
 
-abstract class BaseGraph
+abstract class Graph
 {
     protected $device;
     protected $type;
@@ -131,7 +131,7 @@ abstract class BaseGraph
 
     /**
      * Fetch the device with data
-     * We use eager loading so we can load both with one
+     * We use eager loading so we can load both at once
      *
      * @return mixed
      */
@@ -143,6 +143,23 @@ abstract class BaseGraph
         }
 
         return Device::with($this->getRelation())->find($this->input->device_id);
+    }
+
+    /**
+     * Get the class name of a graph type for a give string
+     *
+     * @param string $graph_type This will be in the format 'device_ucd_memory'
+     * @return string
+     * @throws \Exception
+     */
+    public static function getClass($graph_type)
+    {
+        $name = ucwords(str_replace('_', '\\', $graph_type), '\\');
+        $class = 'App\Graphs\\'.$name;
+        if (class_exists($class)) {
+            return $class;
+        }
+        throw new \Exception("Graph type $graph_type ($class) not found");
     }
 
 
@@ -163,6 +180,7 @@ abstract class BaseGraph
 
     /**
      * Get a Collection of db data for this graph
+     * This is a helper function to the correct data related to Device
      *
      * @return Collection
      */
@@ -173,6 +191,7 @@ abstract class BaseGraph
 
     /**
      * Get the chart headers for this graph
+     * One string for each data set
      *
      * @return array
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * BaseGraph.php
+ * Memory.php
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,11 +21,12 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-namespace App\Graphs;
+namespace App\Graphs\Device\Ucd;
 
 use App\Data\RRD;
+use App\Graphs\Graph;
 
-class Device_ucd_memory extends BaseGraph
+class Memory extends Graph
 {
     protected function getHeaders()
     {

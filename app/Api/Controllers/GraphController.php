@@ -25,7 +25,7 @@
 
 namespace App\Api\Controllers;
 
-use App\Graphs\BaseGraph;
+use App\Graphs\Graph;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -39,7 +39,7 @@ class GraphController extends Controller
      *
      * @param Request $request
      * @param string $type
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return string
      */
     public function json(Request $request, $type)
     {
@@ -52,7 +52,7 @@ class GraphController extends Controller
      *
      * @param Request $request
      * @param string $type
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return string
      */
     public function png(Request $request, $type)
     {
@@ -64,7 +64,7 @@ class GraphController extends Controller
      *
      * @param Request $request
      * @param string $type
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return string
      */
     public function csv(Request $request, $type)
     {
@@ -82,12 +82,9 @@ class GraphController extends Controller
      */
     private function getGraph($type, $format, Request $request)
     {
-        $class = 'App\Graphs\\'.ucfirst($type);
-        if (!class_exists($class)) {
-            throw new \Exception("Graph type $type ($class) not found");
-        }
+        $class = Graph::getClass($type);
 
-        /** @var BaseGraph $graph */
+        /** @var Graph $graph */
         $graph = new $class($type, $request);
         return $graph->getGraph($format);
     }
