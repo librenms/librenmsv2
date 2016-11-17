@@ -10,14 +10,14 @@
         <div class="box-body tab-pane form-horizontal active" id="snmp-common">
 
             {{ Form::ajaxRadio('snmp.version', trans('settings.snmp.version'), ['v1', 'v2c', 'v3']) }}
-            {{ Form::ajaxDynamicText('snmp.community', Settings::get('snmp.community'), array_merge(Settings::isReadOnly('snmp.community') ? ['disabled'] : [], ['label' =>trans('settings.snmp.community')])) }}
+            {{ Form::ajaxDynamicText('snmp.community', Settings::get('snmp.community', [], true), array_merge(Settings::isReadOnly('snmp.community') ? ['disabled'] : [], ['label' =>trans('settings.snmp.community')])) }}
             {{ Form::ajaxSortable('snmp.transports', trans('settings.snmp.transports'), ['udp', 'udp6', 'tcp', 'tcp6']) }}
 
         </div>
 
         <div class="box-body tab-pane form-horizontal" id="snmp-v3">
 
-            @foreach(Settings::get('snmp.v3') as $group => $settings)
+            @foreach(Settings::get('snmp.v3', [], true) as $group => $settings)
                 @foreach($settings as $key => $value)
                     {{ Form::bsText(implode('.', ['snmp.v3', $group, $key]), $value, array_merge(Settings::isReadOnly(implode('.', ['snmp.v3', $group, $key])) ? ['disabled'] : [], ['label' =>trans('settings.snmp.v3.'.$key)])) }}
                 @endforeach

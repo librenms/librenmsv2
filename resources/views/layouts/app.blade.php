@@ -80,9 +80,9 @@
             @yield('content')
         @endif
 
-        <!-- Javascript Libs -->
         <!-- jQuery 2.1.4 -->
         <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+
         <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
@@ -93,6 +93,9 @@
         <script src="{{ url('js/plugins/toastr/toastr.min.js') }}"></script>
         <!-- AdminLTE Options and App -->
         <script src="{{ url('js/util.js') }}"></script>
+        <script src="{{ url('js/core/colours.js') }}"></script>
+        <script src="{{ url('js/core/graphing.js') }}"></script>
+        <script src="{{ url('js/plugins/dygraph-combined.js') }}"></script>
         <script>
             var AdminLTEOptions = {
                 // set the treeview slide speed
@@ -103,6 +106,7 @@
 
             setInterval($.Util.updateNotificationMenu('{{ url('/') }}'), {{ Settings::get('notifications.pollinterval', 3600000) }});
         @endif
+                $.Graphs.buildGraphs();
         </script>
         <script src="{{ url('js/app.min.js') }}"></script>
         <!-- page script -->

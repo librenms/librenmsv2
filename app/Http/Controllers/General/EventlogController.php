@@ -36,9 +36,9 @@ class EventlogController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function index(EventlogDataTable $dataTable)
+    public function index(EventlogDataTable $dataTable, Request $request)
     {
-        return $dataTable->render('general.eventlog.list');
+        return $dataTable->forDevice($request->device_id)->render('general.eventlog.list');
     }
 
     /**

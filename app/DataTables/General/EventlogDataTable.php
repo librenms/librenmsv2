@@ -30,6 +30,9 @@ use App\Models\General\Eventlog;
 
 class EventlogDataTable extends BaseDataTable
 {
+
+    protected $device_id;
+
     /**
      * Display ajax response.
      *
@@ -53,7 +56,11 @@ class EventlogDataTable extends BaseDataTable
      */
     public function query()
     {
-        $eventlogs = Eventlog::with('device')->select('eventlog.*');
+        if (is_numeric($this->device_id)) {
+            $eventlogs = Eventlog::with('device')->where('eventlog.device_id', $this->device_id)->select('eventlog.*');
+        } else {
+            $eventlogs = Eventlog::with('device')->select('eventlog.*');
+        }
         return $this->applyScopes($eventlogs);
     }
 
@@ -98,7 +105,13 @@ class EventlogDataTable extends BaseDataTable
      */
     public function getAjax()
     {
-        return url('eventlog');
+        return url('eventlog?device_id=' . $this->device_id);
+    }
+
+    public function forDevice($device_id)
+    {
+        $this->device_id = $device_id;
+        return $this;
     }
 
 }

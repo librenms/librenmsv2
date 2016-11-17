@@ -81,6 +81,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Device routes
     Route::get('devices/group={group_id}', 'DeviceController@index');
     Route::resource('devices', 'DeviceController');
+    Route::get('devices/{id}/{page}', 'DeviceController@show');
 
     // Device Groups
     Route::resource('device-groups', 'DeviceGroupController');
@@ -109,6 +110,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('widget-data/device-summary-horiz/{action?}', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'horiz']);
     Route::get('widget-data/device-summary-vert/{action?}', ['uses' => 'Widgets\WidgetDataController@devicesummary', 'type' => 'vert']);
     Route::get('widget-data/eventlog/{action?}', 'Widgets\WidgetDataController@eventlog');
+    Route::get('widget-data/generic-graph/{action?}', 'Widgets\WidgetDataController@graph');
     Route::get('widget-data/notes/{action?}', 'Widgets\WidgetDataController@notes');
     Route::get('widget-data/syslog/{action?}', 'Widgets\WidgetDataController@syslog');
     Route::get('widget-data/worldmap/{action?}', 'Widgets\WidgetDataController@worldmap');
@@ -121,6 +123,4 @@ Route::group(['middleware' => 'admin'], function() {
     Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
     Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);
 });
-
-
 

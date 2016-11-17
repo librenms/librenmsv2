@@ -1,8 +1,8 @@
 <?php
 /**
- * config.php
+ * UnsupportedOutputFormatException.php
  *
- * Fetch $config from v1 config.php merged with defaults.inc.php
+ * Thrown when a data source does not support the request output format
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,27 +22,10 @@
  * @copyright  2016 Tony Murray
  * @author     Tony Murray <murraytony@gmail.com>
  */
-$install_dir = env('V1_INSTALL_DIR', '/opt/librenms');
-$config_source = $install_dir . '/config.php';
-$defaults_source = $install_dir . '/includes/defaults.inc.php';
-$definitions_source = $install_dir . '/includes/definitions.inc.php';
 
-unset($config);
+namespace App\Exceptions;
 
-if (file_exists($defaults_source))
+class UnsupportedOutputFormatException extends \Exception
 {
-    include_once($defaults_source);
-}
-    
-if (file_exists($config_source))
-{
-    $config['install_dir'] = $install_dir;
-    include_once($config_source);
-}
 
-if (file_exists($definitions_source))
-{
-    include_once($definitions_source);
 }
-
-return isset($config) ? $config : [];

@@ -49,4 +49,5 @@ class HomeController extends Controller
         $stats    = Api::be(auth()->user())->get('/api/stats');
         return view('general.about', ['versions' => $versions, 'stats' => $stats]);
     }
+
 }

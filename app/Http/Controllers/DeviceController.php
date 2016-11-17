@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DeviceDataTable;
-use App\DataTables\DeviceGroupDataTable;
+use App\Models\Device;
 use App\Models\DeviceGroup;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -68,12 +67,22 @@ class DeviceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @param string $page
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id, $page = 'overview')
     {
-        // show a single device
+        $device = Device::find($id);
+        $device_url = url('devices/'.$device->device_id);
+
+        $page_setup['navbar'] = [
+            'Overview' => $device_url,
+            'Graphs'   => $device_url . '/graphs',
+            'Health'   => $device_url . '/health',
+        ];
+        return view('devices.show', compact(['device', 'page_setup', 'request', 'page']));
     }
 
     /**

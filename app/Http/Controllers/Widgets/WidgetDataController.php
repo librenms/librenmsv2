@@ -42,13 +42,19 @@ class WidgetDataController extends Controller
      * Display the eventlog widget.
      *
      * @param EventlogDataTable $EventlogDataTable
+     * @param \Illuminate\Http\Request $request
      * @param null $action
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function eventlog(EventlogDataTable $EventlogDataTable, $action = null)
+    public function eventlog(EventlogDataTable $EventlogDataTable, Request $request, $action = null)
     {
         $tableName = ['id' => 'eventlogDT'];
-        return $EventlogDataTable->render('widgets.eventlog', compact(['tableName', 'action']));
+        if ($request->device_id) {
+            return $EventlogDataTable->forDevice($request->device_id)
+                ->render('widgets.eventlog', compact(['tableName', 'action']));
+        } else {
+            return $EventlogDataTable->render('widgets.eventlog', compact(['tableName', 'action']));
+        }
     }
 
     /**
@@ -58,10 +64,10 @@ class WidgetDataController extends Controller
      * @param null $action
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function alerts(AlertsDataTable $dataTable, $action = null)
+    public function alerts(AlertsDataTable $AlertsDataTable, $action = null)
     {
         $tableName = ['id' => 'alertlogDT'];
-        return $dataTable->render('widgets.alertlog', compact(['tableName', 'action']));
+        return $AlertsDataTable->render('widgets.alertlog', compact(['tableName', 'action']));
     }
 
     /**
@@ -172,6 +178,21 @@ class WidgetDataController extends Controller
     {
         $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
         return view('widgets.notes', compact(['action', 'widget_settings']));
+    }
+
+    /**
+     * Display the graph widget.
+     *
+     * @param string $action
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function graph(Settings $settings, Request $request, $action = null)
+    {
+        $div_id = mt_rand();
+        $request->params = '{"content-type": "text/plain", "data-source": "rrd-csv"}';
+        $params = json_decode($request->params);
+        $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
+        return view('widgets.graph', compact(['action', 'params', 'div_id']));
     }
 
 }

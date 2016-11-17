@@ -29,6 +29,7 @@ use Yajra\Datatables\Services\DataTable;
 
 abstract class BaseDataTable extends DataTable
 {
+
     /**
      * Optional method if you want to use html builder.
      *
