@@ -23,42 +23,54 @@
 
 namespace App\Graphs;
 
+use App\Data\RRD;
+use App\Models\Processor;
+use Illuminate\Database\Query\Builder;
+
 class Device_processor extends BaseGraph
 {
-
-    protected function buildRRDGraphParams()
+    protected function getRelation()
     {
-        //FIXME Add support for PNG Graph
-        return [
-            'headers' => '',
-            'defs' => '',
-        ];
+        if ($this->hasIDs()) {
+            return [
+                'processors' => function (Builder $query) {
+                    $query->whereIn('processor_id', $this->getIDs());
+                },
+            ];
+        }
+
+        return 'processors';
     }
 
-    protected function buildRRDXport()
+    protected function getData()
     {
-        if (isset($this->input->id) && is_numeric($this->input->id)) {
-            $proc_ids = explode(',', $this->input->id);
-            $procs = $this->device->processors()->whereIn('processor_id', $proc_ids)->get();
-        } else {
-            $procs = $this->device->processors()->get();
-        }
+        return $this->device->processors;
+    }
 
+    protected function getHeaders()
+    {
         $headers = [];
-        $defs = '';
-
-        foreach ($procs as $proc) {
-            $proc_descr = format_proc_descr($proc->processor_descr);
-            $headers[] = $proc_descr;
-            $id = $proc->hrDeviceIndex;
-            $rrd_file = rrd_name($this->device, array('processor', 'hr', $id));
-            $defs .= "DEF:ds$id=$rrd_file:usage:AVERAGE \
-                XPORT:ds$id:'$proc_descr' ";
+        foreach ($this->getData() as $proc) {
+            $headers[] = $proc->getFormattedDescription();
         }
+        return $headers;
+    }
 
-        return [
-            'headers' => $headers,
-            'defs' => $defs,
-        ];
+    protected function getRRDGraphDefinition()
+    {
+        // TODO: Implement getRRDGraphDefinition() method.
+    }
+
+    protected function getRRDXportDefinition()
+    {
+        $defs = '';
+        foreach ($this->getData() as $proc) {
+            /** @var Processor $proc */
+            $id = $proc->hrDeviceIndex;
+            $rrd_file = RRD::getFileName($this->device, array('processor', 'hr', $id));
+            $defs .= "DEF:ds$id=$rrd_file:usage:AVERAGE \
+                XPORT:ds$id:'".$proc->getFormattedDescription()."' ";
+        }
+        return $defs;
     }
 }

@@ -23,22 +23,23 @@
 
 namespace App\Graphs;
 
+use App\Data\RRD;
+
 class Device_ucd_memory extends BaseGraph
 {
-
-    protected function buildRRDGraphParams()
+    protected function getHeaders()
     {
-        //FIXME Add support for PNG Graph
-        return [
-            'headers' => '',
-            'defs' => '',
-        ];
+        return ['RAM Used', '-Sh Bu Ca', 'RAM Free', 'Swap Used', 'Shared', 'Buffers', 'Cached'];
     }
 
-    protected function buildRRDXport()
+    protected function getRRDGraphDefinition()
     {
-        $rrd_file = rrd_name($this->device, 'ucd_mem');
-        $headers = ['RAM Used', '-Sh Bu Ca', 'RAM Free', 'Swap Used', 'Shared', 'Buffers', 'Cached'];
+        // TODO: Implement getRRDGraphDefinition() method.
+    }
+
+    protected function getRRDXportDefinition()
+    {
+        $rrd_file = RRD::getFileName($this->device, 'ucd_mem');
         $defs = "DEF:atotalswap=$rrd_file:totalswap:AVERAGE \
                  DEF:aavailswap=$rrd_file:availswap:AVERAGE \
                  DEF:atotalreal=$rrd_file:totalreal:AVERAGE \
@@ -75,9 +76,6 @@ class Device_ucd_memory extends BaseGraph
                  XPORT:shared:'Shared' \
                  XPORT:buffered:'Buffers' \
                  XPORT:cached:'Cached'";
-        return [
-            'headers' => $headers,
-            'defs' => $defs,
-        ];
+        return $defs;
     }
 }

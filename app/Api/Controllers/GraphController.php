@@ -26,7 +26,6 @@
 namespace App\Api\Controllers;
 
 use App\Graphs\BaseGraph;
-use App\Models\Device;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -45,8 +44,7 @@ class GraphController extends Controller
     public function json(Request $request, $type)
     {
         ob_start('ob_gzhandler');
-        $data = $this->initializeData($request, $type);
-        return $data->json();
+        return $this->getGraph($type, 'json', $request);
     }
 
     /**
@@ -58,8 +56,7 @@ class GraphController extends Controller
      */
     public function png(Request $request, $type)
     {
-        $data = $this->initializeData($request, $type);
-        return $data->png();
+        return $this->getGraph($type, 'png', $request);
     }
 
     /**
@@ -72,29 +69,26 @@ class GraphController extends Controller
     public function csv(Request $request, $type)
     {
         ob_start('ob_gzhandler');
-        $data = $this->initializeData($request, $type);
-        return $data->csv();
+        return $this->getGraph($type, 'csv', $request);
     }
 
     /**
      * Common initialization
      *
-     * @param Request $request
      * @param string $type
-     * @return BaseGraph
+     * @param Request $request
+     * @return string
      * @throws \Exception
      */
-    private function initializeData(Request $request, $type)
+    private function getGraph($type, $format, Request $request)
     {
         $class = 'App\Graphs\\'.ucfirst($type);
         if (!class_exists($class)) {
             throw new \Exception("Graph type $type ($class) not found");
         }
 
-        $input = json_decode($request->{'input'});
-        $device = Device::find($input->device_id);
-        /** @var BaseGraph $data */
-        $data = new $class($device, $type, $request, $input);
-        return $data;
+        /** @var BaseGraph $graph */
+        $graph = new $class($type, $request);
+        return $graph->getGraph($format);
     }
 }

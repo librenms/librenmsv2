@@ -23,46 +23,55 @@
 
 namespace App\Graphs;
 
+use App\Data\RRD;
+use Illuminate\Database\Query\Builder;
+
 class Device_storage extends BaseGraph
 {
-
-    protected function buildRRDGraphParams()
+    protected function getRelation()
     {
-        //FIXME Add support for PNG Graph
-        return [
-            'headers' => '',
-            'defs' => '',
-        ];
-    }
-
-    protected function buildRRDXport()
-    {
-
-        if (isset($this->input->id) && is_numeric($this->input->id)) {
-            $disk_ids = explode(',', $this->input->id);
-            $disks = $this->device->storage()->whereIn('storage_id', $disk_ids)->get();
-        } else {
-            $disks = $this->device->storage()->get();
+        if ($this->hasIDs()) {
+            return [
+                'storage' => function (Builder $query) {
+                    $query->whereIn('storage_id', $this->getIDs());
+                },
+            ];
         }
 
-        $headers = [];
-        $defs = '';
+        return 'storage';
+    }
 
-        foreach ($disks as $disk) {
+    protected function getData()
+    {
+        return $this->device->storage;
+    }
+
+    protected function getHeaders()
+    {
+        $headers = [];
+        foreach ($this->getData() as $disk) {
+            $headers[] = RRD::escape($disk->storage_descr, 12);
+        }
+        return $headers;
+    }
+
+    protected function getRRDGraphDefinition()
+    {
+        // TODO: Implement getRRDGraphDefinition() method.
+    }
+
+    protected function getRRDXportDefinition()
+    {
+        $defs = '';
+        foreach ($this->getData() as $disk) {
             $id = $disk->storage_id;
-            $descr = rrdtool_escape($disk->storage_descr, 12);
-            $headers[] = $descr;
-            $rrd_file = rrd_name($this->device, array('storage', $disk->storage_mib, $disk->storage_descr));
+            $rrd_file = RRD::getFileName($this->device, array('storage', $disk->storage_mib, $disk->storage_descr));
             $defs .= "DEF:dsused$id=$rrd_file:used:AVERAGE \
                 DEF:dsfree$id=$rrd_file:free:AVERAGE \
                 CDEF:dssize$id=dsused$id,dsfree$id,+ \
                 CDEF:dsperc$id=dsused$id,dssize$id,/,100,* \
-                XPORT:dsperc$id:'$descr' ";
+                XPORT:dsperc$id:'".RRD::escape($disk->storage_descr, 12)."' ";
         }
-
-        return [
-            'headers' => $headers,
-            'defs' => $defs,
-        ];
+        return $defs;
     }
 }

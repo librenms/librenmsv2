@@ -1,8 +1,8 @@
 <?php
 /**
- * UnknownDataSourceException.php
+ * UnsupportedOutputFormatException.php
  *
- * Thrown when a data source is request, but doesn't exist or isn't supported
+ * Thrown when a data source does not support the request output format
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 
 namespace App\Exceptions;
 
-class UnknownDataSourceException extends \Exception
+class UnsupportedOutputFormatException extends \Exception
 {
+
 }

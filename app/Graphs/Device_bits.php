@@ -23,23 +23,46 @@
 
 namespace App\Graphs;
 
+use App\Data\RRD;
+use Illuminate\Database\Query\Builder;
+
 class Device_bits extends BaseGraph
 {
-
-    protected function buildRRDGraphParams()
+    protected function getRelation()
     {
-        if (isset($this->input->id) && is_numeric($this->input->id)) {
-            $port_ids = explode(',', $this->input->id);
-            $ports = $this->device->ports()->whereIn('port_id', $port_ids)->get();
-        } else {
-            $ports = $this->device->ports()->get();
+        if ($this->hasIDs()) {
+            return [
+                'ports' => function (Builder $query) {
+                    $query->whereIn('port_id', $this->getIDs());
+                },
+            ];
         }
+
+        return 'ports';
+    }
+
+    protected function getData()
+    {
+        return $this->device->ports;
+    }
+
+    protected function getHeaders()
+    {
         $headers = [];
+        foreach ($this->getData() as $port) {
+            $headers[] = 'In: '.$port['ifDescr'];
+            $headers[] = 'Out: '.$port['ifDescr'];
+        }
+        return $headers;
+    }
+
+    protected function getRRDGraphDefinition()
+    {
         $defs = " COMMENT:'              Now       Avg      Max' COMMENT:' \\n' ";
 
-        foreach ($ports as $port) {
+        foreach ($this->getData() as $port) {
             $port_id = $port->port_id;
-            $rrd_file = get_port_rrdfile_path($this->device, $port->port_id);
+            $rrd_file = RRD::getPortFileName($this->device, $port->port_id);
             $defs .= " DEF:outoctets$port_id=$rrd_file:OUTOCTETS:AVERAGE \
                 DEF:inoctets$port_id=$rrd_file:INOCTETS:AVERAGE \
                 DEF:outoctets_max$port_id=$rrd_file:OUTOCTETS:MAX \
@@ -64,7 +87,7 @@ class Device_bits extends BaseGraph
                 VDEF:d95thout$port_id=d95thoutn95n$port_id,FIRST  \
                 AREA:inbits_max$port_id#D7FFC7: \
                 AREA:inbits$port_id#90B040: \
-                LINE:inbits$port_id#608720:'In " . str_pad($port['ifDescr'], 6) . "' \
+                LINE:inbits$port_id#608720:'In ".str_pad($port['ifDescr'], 6)."' \
                 GPRINT:inbits$port_id:LAST:%6.2lf%s \
                 GPRINT:inbits$port_id:AVERAGE:%6.2lf%s \
                 GPRINT:inbits_max$port_id:MAX:%6.2lf%s \
@@ -77,32 +100,13 @@ class Device_bits extends BaseGraph
                 LINE1:95thin$port_id#aa0000 \
                 LINE1:d95thout$port_id#aa0000";
         }
-
-        return [
-            'headers' => $headers,
-            'defs' => $defs,
-        ];
-
+        return $defs;
     }
 
-    /**
-     * @return array
-     */
-    protected function buildRRDXport()
+    protected function getRRDXportDefinition()
     {
-        if (isset($this->input->id) && is_numeric($this->input->id)) {
-            $port_ids = explode(',', $this->input->id);
-            $ports = $this->device->ports()->whereIn('port_id', $port_ids)->get();
-        } else {
-            $ports = $this->device->ports()->get();
-        }
-
-        $headers = [];
         $defs = '';
-
-        foreach ($ports as $port) {
-            $headers[] = 'In: ' . $port['ifDescr'];
-            $headers[] = 'Out: ' . $port['ifDescr'];
+        foreach ($this->getData() as $port) {
             $port_id = $port->port_id;
             $rrd_file = get_port_rrdfile_path($this->device, $port->port_id);
             $defs .= "DEF:outoctets$port_id=$rrd_file:OUTOCTETS:AVERAGE \
@@ -113,10 +117,6 @@ class Device_bits extends BaseGraph
                 XPORT:inbits$port_id:'In' \
                 XPORT:doutbits$port_id:'Out' ";
         }
-
-        return [
-            'headers' => $headers,
-            'defs' => $defs,
-        ];
+        return $defs;
     }
 }

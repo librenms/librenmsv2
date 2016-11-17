@@ -25,9 +25,7 @@
     },
     "autoload": {
         "files": [
-            "app/Helpers/Rewrite.php",
-            "app/Helpers/Functions.php",
-            "app/Helpers/RRDTool.php"
+            "app/Helpers/Functions.php"
         ],
         "classmap": [
             "database",
