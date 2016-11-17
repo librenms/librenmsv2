@@ -88,7 +88,7 @@ abstract class BaseGraph
         $source = $this->request->{'source'};
         if ($source === 'rrd')
         {
-            $build = $this->buildRRDJson($this->buildRRDXport());
+            $build = $this->buildRRDJson();
             $response = $this->runRRDXport($build['cmd']);
             return $this->parseRRDJson($response);
         }
@@ -105,7 +105,7 @@ abstract class BaseGraph
     {
         $source = $this->request->{'source'};
         if ($source === 'rrd') {
-            $build = $this->buildRRDJson($this->buildRRDXport());
+            $build = $this->buildRRDJson();
             $response = $this->runRRDXport($build['cmd']);
             return $this->parseRRDCsv($response, $build['headers']);
         }
@@ -122,7 +122,7 @@ abstract class BaseGraph
     {
         $source = $this->request->{'source'};
         if ($source === 'rrd') {
-            $build = $this->buildRRDGraph($this->buildRRDGraphParams());
+            $build = $this->buildRRDGraph();
             $response = $this->runRRDGraph($build['cmd']);
             return base64_encode($response);
         }
@@ -132,11 +132,11 @@ abstract class BaseGraph
     /**
      * Build the RRD Xport query
      *
-     * @param $setup
      * @return string
      */
-    protected function buildRRDJson($setup)
+    protected function buildRRDJson()
     {
+        $setup = $this->buildRRDXport();
         $rrd_defs = $setup['defs'];
         $headers  = $setup['headers'];
         $cmd = build_rrdtool(' xport --json -s '.$this->input->{'start'}.' -e '.$this->input->{'end'}.' '.$rrd_defs);
@@ -150,11 +150,11 @@ abstract class BaseGraph
     /**
      * Build the RRD Graph command
      *
-     * @param $setup
      * @return string
      */
-    protected function buildRRDGraph($setup)
+    protected function buildRRDGraph()
     {
+        $setup = $this->buildRRDGraphParams();
         $rrd_defs = $setup['defs'];
         $headers = [];
         $cmd = build_rrdtool(' graph - -s '.$this->input->{'start'}.' -e '.$this->input->{'end'}.' '.

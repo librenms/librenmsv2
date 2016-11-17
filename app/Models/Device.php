@@ -222,19 +222,6 @@ class Device extends Model
         }
     }
 
-    /**
-     * @return string
-     */
-    public function location()
-    {
-        return $this->location;
-    }
-
-    public function hostname()
-    {
-        return $this->hostname;
-    }
-
     // ---- Query scopes ----
 
     /**

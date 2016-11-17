@@ -15,8 +15,8 @@
                         <img src="{{ $device->logo() }}" border="0" alt="{{ $device->os }}">
                     </div>
                     <div class="col-md-4">
-                        <h3 class="box-title"><strong>{{ $device->hostname() }}</strong></h3><br />
-                        <span>{{ $device->location() }}</span>
+                        <h3 class="box-title"><strong>{{ $device->hostname }}</strong></h3><br/>
+                        <span>{{ $device->location }}</span>
                     </div>
                     <div class="col-md-6">
                         @foreach ($device->config{'over'} as $id => $over)
@@ -49,8 +49,8 @@
                     <div class="box box-primary">
                         <div class="box-body box-profile">
                             <img class="img-responsive img-circle pull-right" src="{{ $device->logo() }}" alt="{{ $device->os }}">
-                            <strong>{{ $device->hostname() }}</strong><br />
-                            <span>{{ $device->location() }}</span>
+                            <strong>{{ $device->hostname }}</strong><br/>
+                            <span>{{ $device->location }}</span>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                             @if ($device->location)
                                 <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
                                 <p class="text-muted">
-                                    {{ $device->location() }}
+                                    {{ $device->location }}
                                 </p>
                             @endif
                             @if ($device->sysContact)
@@ -134,8 +134,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="https://{{ $device->hostname() }}" target="_blank"><i class="fa fa-link text-success"></i> Web</a></li>
-                                <li><a href="ssh://{{ $device->hostname() }}" target="_blank"><i class="fa fa-lock text-success"></i> SSH</a></li>
+                                <li><a href="https://{{ $device->hostname }}" target="_blank"><i class="fa fa-link text-success"></i> Web</a></li>
+                                <li><a href="ssh://{{ $device->hostname }}" target="_blank"><i class="fa fa-lock text-success"></i> SSH</a></li>
                                 <li><a href="telnet://localhost" target="_blank"><i class="fa fa-unlock text-success"></i> Telnet</a></li>
                                 <li><a href="{{ url("devices/".$device->device_id."/edit/") }}"><i class="fa fa-wrench text-success"></i> Edit</a></li>
                                 <li><a href="{{ url("devices/".$device->device_id."/capture/") }}"><i class="fa fa-video-camera text-success"></i> Capture</a></li>
