@@ -65,6 +65,7 @@ class RRDXport extends RRD implements \JsonSerializable
         } elseif ($format == 'csv') {
             return $this->csvSerialize();
         }
+        return null;  // shouldn't get here
     }
 
     /**
@@ -90,21 +91,19 @@ class RRDXport extends RRD implements \JsonSerializable
         $response = $this->getOutput();
         $step = $response->meta->step;
         $start = $response->meta->start;
-        $end = $response->meta->end;
+//        $end = $response->meta->end;
         $cur_time = $start;
-        $z = 0;
         $tmp_data = [];
 
-        foreach ($response->{'data'} as $data) {
-            $tmp_data['data'][$z][] = $cur_time + $step;
-            foreach ($data as $key => $value) {
-                $tmp_data['data'][$z][] = (is_null($value)) ? 0 : (int)$value;
-            }
-            //$tmp_data[] = $data;
-            $z++;
+        foreach ($response->data as $data) {
+            $tmp_data[] = [$cur_time] + array_map('intval', $data);
+            $cur_time += $step;
         }
-        $tmp_data['labels'] = ['x', 'A', 'B', 'C', 'D'];
-        return json_encode($tmp_data);
+
+        return json_encode([
+            'data'   => $tmp_data,
+            'labels' => $this->headers,
+        ]);
     }
 
     function csvSerialize()
@@ -112,18 +111,14 @@ class RRDXport extends RRD implements \JsonSerializable
         $response = $this->getOutput();
         $step = $response->meta->step;
         $start = $response->meta->start;
-        $end = $response->meta->end;
+//        $end = $response->meta->end;
         $cur_time = $start;
         $output = 'Date, '.implode(',', $this->headers).PHP_EOL;
 
-        foreach ($response->{'data'} as $data) {
+        foreach ($response->data as $data) {
             $output .= Carbon::createFromTimestamp($cur_time).',';
-            $tmp_data = [];
-            foreach ($data as $key => $value) {
-                $tmp_data[] = (is_null($value)) ? 0 : (int)$value;
-            }
-            $output .= implode(',', $tmp_data).PHP_EOL;
-            $cur_time = $cur_time + $step;
+            $output .= implode(',', array_map('intval', $data)).PHP_EOL;
+            $cur_time += $step;
         }
         return $output;
     }
