@@ -1,4 +1,5 @@
 <?php
+use App\Models\Device;
 
 /**
  * @param $name
@@ -49,7 +50,7 @@ function getPortRrdName($port_id, $suffix = '')
 }
 
 /**
- * @param $device
+ * @param Device $device
  * @param $port_id
  * @param string $suffix
  * @return string

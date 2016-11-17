@@ -25,11 +25,10 @@
 
 namespace App\Api\Controllers;
 
-use Dingo\Api\Http;
+use App\Graphs\BaseGraph;
+use App\Models\Device;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class GraphController extends Controller
 {
@@ -46,13 +45,8 @@ class GraphController extends Controller
     public function json(Request $request, $type)
     {
         ob_start('ob_gzhandler');
-        $class = 'App\Graphs\\' . ucfirst($type);
-        $input = json_decode($request->{'input'});
-        $data=new $class();
-        $data->setType($type);
-        $data->setInput($input);
-        $data->setDevice($input);
-        return $data->json($request);
+        $data = $this->initializeData($request, $type);
+        return $data->json();
     }
 
     /**
@@ -64,13 +58,8 @@ class GraphController extends Controller
      */
     public function png(Request $request, $type)
     {
-        $class = 'App\Graphs\\' . ucfirst($type);
-        $input = json_decode($request->{'input'});
-        $data=new $class();
-        $data->setType($type);
-        $data->setInput($input);
-        $data->setDevice($input);
-        return $data->png($request);
+        $data = $this->initializeData($request, $type);
+        return $data->png();
     }
 
     /**
@@ -83,13 +72,29 @@ class GraphController extends Controller
     public function csv(Request $request, $type)
     {
         ob_start('ob_gzhandler');
-        $class = 'App\Graphs\\' . ucfirst($type);
-        $input = json_decode($request->{'input'});
-        $data=new $class();
-        $data->setType($type);
-        $data->setInput($input);
-        $data->setDevice($input);
-        return $data->csv($request);
+        $data = $this->initializeData($request, $type);
+        return $data->csv();
     }
 
+    /**
+     * Common initialization
+     *
+     * @param Request $request
+     * @param string $type
+     * @return BaseGraph
+     * @throws \Exception
+     */
+    private function initializeData(Request $request, $type)
+    {
+        $class = 'App\Graphs\\'.ucfirst($type);
+        if (!class_exists($class)) {
+            throw new \Exception("Graph type $type ($class) not found");
+        }
+
+        $input = json_decode($request->{'input'});
+        $device = Device::find($input->device_id);
+        /** @var BaseGraph $data */
+        $data = new $class($device, $type, $request, $input);
+        return $data;
+    }
 }

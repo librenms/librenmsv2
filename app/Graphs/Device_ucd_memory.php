@@ -23,14 +23,11 @@
 
 namespace App\Graphs;
 
-use Illuminate\Http\Request;
-use App\Models\Device;
-use Settings;
-
 class Device_ucd_memory extends BaseGraph
 {
 
-    public function buildRRDGraphParams($input) {
+    protected function buildRRDGraphParams()
+    {
         //FIXME Add support for PNG Graph
         return [
             'headers' => '',
@@ -38,22 +35,18 @@ class Device_ucd_memory extends BaseGraph
         ];
     }
 
-    public function buildRRDXport($input)
+    protected function buildRRDXport()
     {
-        $rrd_path = Settings::get('rrd_dir');
-        $device_id = $input->{'device_id'};
-        $device = Device::find($device_id);
-        $hostname = $device->hostname;
-
+        $rrd_file = rrd_name($this->device, 'ucd_mem');
         $headers = ['RAM Used', '-Sh Bu Ca', 'RAM Free', 'Swap Used', 'Shared', 'Buffers', 'Cached'];
-        $defs = "DEF:atotalswap=$rrd_path/$hostname/ucd_mem.rrd:totalswap:AVERAGE \
-                 DEF:aavailswap=$rrd_path/$hostname/ucd_mem.rrd:availswap:AVERAGE \
-                 DEF:atotalreal=$rrd_path/$hostname/ucd_mem.rrd:totalreal:AVERAGE \
-                 DEF:aavailreal=$rrd_path/$hostname/ucd_mem.rrd:availreal:AVERAGE \
-                 DEF:atotalfree=$rrd_path/$hostname/ucd_mem.rrd:totalfree:AVERAGE \
-                 DEF:ashared=$rrd_path/$hostname/ucd_mem.rrd:shared:AVERAGE \
-                 DEF:abuffered=$rrd_path/$hostname/ucd_mem.rrd:buffered:AVERAGE \
-                 DEF:acached=$rrd_path/$hostname/ucd_mem.rrd:cached:AVERAGE \
+        $defs = "DEF:atotalswap=$rrd_file:totalswap:AVERAGE \
+                 DEF:aavailswap=$rrd_file:availswap:AVERAGE \
+                 DEF:atotalreal=$rrd_file:totalreal:AVERAGE \
+                 DEF:aavailreal=$rrd_file:availreal:AVERAGE \
+                 DEF:atotalfree=$rrd_file:totalfree:AVERAGE \
+                 DEF:ashared=$rrd_file:shared:AVERAGE \
+                 DEF:abuffered=$rrd_file:buffered:AVERAGE \
+                 DEF:acached=$rrd_file:cached:AVERAGE \
                  CDEF:totalswap=atotalswap,1024,* \
                  CDEF:availswap=aavailswap,1024,* \
                  CDEF:totalreal=atotalreal,1024,* \

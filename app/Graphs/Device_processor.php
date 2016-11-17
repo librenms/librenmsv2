@@ -23,15 +23,11 @@
 
 namespace App\Graphs;
 
-use Illuminate\Http\Request;
-use App\Models\Device;
-use App\Models\Processor;
-use Settings;
-
 class Device_processor extends BaseGraph
 {
 
-    public function buildRRDGraphParams($input) {
+    protected function buildRRDGraphParams()
+    {
         //FIXME Add support for PNG Graph
         return [
             'headers' => '',
@@ -39,17 +35,13 @@ class Device_processor extends BaseGraph
         ];
     }
 
-    public function buildRRDXport($input)
+    protected function buildRRDXport()
     {
-        $rrd_path = Settings::get('rrd_dir');
-        $device_id = $input->{'device_id'};
-        $device = Device::find($device_id);
-        $hostname = $device->hostname;
-        if (isset($input->id) && is_numeric($input->id)) {
-            $proc_ids = explode(',', $input->id);
-            $procs = $device->processors()->whereIn('processor_id', $proc_ids)->get();
+        if (isset($this->input->id) && is_numeric($this->input->id)) {
+            $proc_ids = explode(',', $this->input->id);
+            $procs = $this->device->processors()->whereIn('processor_id', $proc_ids)->get();
         } else {
-            $procs = $device->processors()->get();
+            $procs = $this->device->processors()->get();
         }
 
         $headers = [];
@@ -59,8 +51,8 @@ class Device_processor extends BaseGraph
             $proc_descr = format_proc_descr($proc->processor_descr);
             $headers[] = $proc_descr;
             $id = $proc->hrDeviceIndex;
-
-            $defs .= "DEF:ds$id=$rrd_path/$hostname/processor-hr-$id.rrd:usage:AVERAGE \
+            $rrd_file = rrd_name($this->device, array('processor', 'hr', $id));
+            $defs .= "DEF:ds$id=$rrd_file:usage:AVERAGE \
                 XPORT:ds$id:'$proc_descr' ";
         }
 

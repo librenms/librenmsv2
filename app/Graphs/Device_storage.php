@@ -23,14 +23,11 @@
 
 namespace App\Graphs;
 
-use Illuminate\Http\Request;
-use App\Models\Device;
-use Settings;
-
 class Device_storage extends BaseGraph
 {
 
-    public function buildRRDGraphParams($input) {
+    protected function buildRRDGraphParams()
+    {
         //FIXME Add support for PNG Graph
         return [
             'headers' => '',
@@ -38,16 +35,14 @@ class Device_storage extends BaseGraph
         ];
     }
 
-    public function buildRRDXport($input)
+    protected function buildRRDXport()
     {
-        $device_id = $input->{'device_id'};
-        $device = Device::find($device_id);
 
-        if (isset($input->id) && is_numeric($input->id)) {
-            $disk_ids = explode(',', $input->id);
-            $disks = $device->storage()->whereIn('storage_id', $disk_ids)->get();
+        if (isset($this->input->id) && is_numeric($this->input->id)) {
+            $disk_ids = explode(',', $this->input->id);
+            $disks = $this->device->storage()->whereIn('storage_id', $disk_ids)->get();
         } else {
-            $disks = $device->storage()->get();
+            $disks = $this->device->storage()->get();
         }
 
         $headers = [];
@@ -57,8 +52,9 @@ class Device_storage extends BaseGraph
             $id = $disk->storage_id;
             $descr = rrdtool_escape($disk->storage_descr, 12);
             $headers[] = $descr;
-            $defs .= "DEF:dsused$id=" . rrd_name($device, array('storage', $disk->storage_mib, $disk->storage_descr)) . ":used:AVERAGE \
-                DEF:dsfree$id=" . rrd_name($device, array('storage', $disk->storage_mib, $disk->storage_descr)) . ":free:AVERAGE \
+            $rrd_file = rrd_name($this->device, array('storage', $disk->storage_mib, $disk->storage_descr));
+            $defs .= "DEF:dsused$id=$rrd_file:used:AVERAGE \
+                DEF:dsfree$id=$rrd_file:free:AVERAGE \
                 CDEF:dssize$id=dsused$id,dsfree$id,+ \
                 CDEF:dsperc$id=dsused$id,dssize$id,/,100,* \
                 XPORT:dsperc$id:'$descr' ";

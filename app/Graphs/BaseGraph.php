@@ -23,29 +23,40 @@
 
 namespace App\Graphs;
 
+use App\Exceptions\UnknownDataSourceException;
+use App\Models\Device;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
+use stdClass;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use App\Models\Device;
-use Settings;
+use Symfony\Component\Process\Process;
 
-class BaseGraph
+abstract class BaseGraph
 {
 
-    private $type;
-    private $input;
-    private $device;
+    protected $device;
+    protected $type;
+    protected $request;
+    protected $input;
 
     /**
-     * @param $value
-     * @return $this
+     * BaseGraph constructor.
+     *
+     * @param Device $device
+     * @param string $type
+     * @param Request $request
+     * @param stdClass $input
      */
-    public function setType($value)
+    public function __construct(Device $device, $type, Request $request, $input = null)
     {
-        $this->type = $value;
-        return $this;
+        $this->type = $type;
+        $this->device = $device;
+        $this->request = $request;
+        if (is_null($input)) {
+            $this->input = json_decode($request->{'input'});
+        } else {
+            $this->input = $input;
+        }
     }
 
     /**
@@ -59,18 +70,7 @@ class BaseGraph
     }
 
     /**
-     * @param $device
-     * @return $this
-     */
-    public function setDevice($input)
-    {
-        $this->device = Device::find($input->device_id);
-        return $this;
-    }
-
-    /**
-     * @param $device
-     * @return $this
+     * @return Device
      */
     public function getDevice()
     {
@@ -81,57 +81,65 @@ class BaseGraph
      * Get json output.
      *
      * @return array
+     * @throws UnknownDataSourceException
      */
-    public function json(Request $request)
+    public function json()
     {
-        $input = $this->input;
-        if ($request->{'source'} === 'rrd')
+        $source = $this->request->{'source'};
+        if ($source === 'rrd')
         {
-            $build = $this->buildRRDJson($input, $this->buildRRDXport($input));
+            $build = $this->buildRRDJson($this->buildRRDXport());
+            $response = $this->runRRDXport($build['cmd']);
+            return $this->parseRRDJson($response);
         }
-        $response = $this->runRRDXport($build['cmd']);
-        return $this->parseRRDJson($response, $build['headers']);
+        throw new UnknownDataSourceException("Source type $source is not supported");
     }
 
     /**
      * Get csv output.
      *
      * @return array
+     * @throws UnknownDataSourceException
      */
-    public function csv(Request $request)
+    public function csv()
     {
-        $input = $this->input;
-        if ($request->{'source'} === 'rrd') {
-            $build = $this->buildRRDJson($input, $this->buildRRDXport($input));
+        $source = $this->request->{'source'};
+        if ($source === 'rrd') {
+            $build = $this->buildRRDJson($this->buildRRDXport());
             $response = $this->runRRDXport($build['cmd']);
             return $this->parseRRDCsv($response, $build['headers']);
         }
+        throw new UnknownDataSourceException("Source type $source is not supported");
     }
 
     /**
      * Get png output.
      *
      * @return array
+     * @throws UnknownDataSourceException
      */
-    public function png(Request $request)
+    public function png()
     {
-        $input = $this->input;
-        if ($request->{'source'} === 'rrd') {
-            $build = $this->buildRRDGraph($input, $this->buildRRDGraphParams($input));
+        $source = $this->request->{'source'};
+        if ($source === 'rrd') {
+            $build = $this->buildRRDGraph($this->buildRRDGraphParams());
             $response = $this->runRRDGraph($build['cmd']);
             return base64_encode($response);
         }
+        throw new UnknownDataSourceException("Source type $source is not supported");
     }
 
     /**
      * Build the RRD Xport query
      *
+     * @param $setup
      * @return string
      */
-    public function buildRRDJson($input, $setup) {
+    protected function buildRRDJson($setup)
+    {
         $rrd_defs = $setup['defs'];
         $headers  = $setup['headers'];
-        $cmd = build_rrdtool(' xport --json -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' . $rrd_defs);
+        $cmd = build_rrdtool(' xport --json -s '.$this->input->{'start'}.' -e '.$this->input->{'end'}.' '.$rrd_defs);
 
         return [
             'headers' => $headers,
@@ -142,13 +150,15 @@ class BaseGraph
     /**
      * Build the RRD Graph command
      *
+     * @param $setup
      * @return string
      */
-    public function buildRRDGraph($input, $setup) {
+    protected function buildRRDGraph($setup)
+    {
         $rrd_defs = $setup['defs'];
         $headers = [];
-        $cmd = build_rrdtool(' graph - -s ' . $input->{'start'} . ' -e ' . $input->{'end'} . ' ' .
-            " --width " . $input->{'width'} . " --height " . $input->{'height'} . " --alt-autoscale-max --rigid -E -c BACK#EEEEEE00 -c SHADEA#EEEEEE00 -c SHADEB#EEEEEE00 -c \
+        $cmd = build_rrdtool(' graph - -s '.$this->input->{'start'}.' -e '.$this->input->{'end'}.' '.
+            " --width ".$this->input->{'width'}." --height ".$this->input->{'height'}." --alt-autoscale-max --rigid -E -c BACK#EEEEEE00 -c SHADEA#EEEEEE00 -c SHADEB#EEEEEE00 -c \
                 FONT#000000 -c CANVAS#FFFFFF00 -c GRID#a5a5a5 -c MGRID#FF9999 -c FRAME#5e5e5e -c ARROW#5e5e5e \
                 -R normal --font LEGEND:8:DejaVuSansMono --font AXIS:7:DejaVuSansMono --font-render-mode normal " .
             $rrd_defs);
@@ -162,7 +172,7 @@ class BaseGraph
      * @param $cmd
      * @return mixed|string
      */
-    public function runRRDGraph($cmd)
+    protected function runRRDGraph($cmd)
     {
         $process = new Process($cmd);
         $process->run();
@@ -176,9 +186,10 @@ class BaseGraph
     /**
      * Run the RRD Xport query
      *
+     * @param $query
      * @return string
      */
-    public function runRRDXport($query)
+    protected function runRRDXport($query)
     {
         $process = new Process($query);
         $process->run();
@@ -196,9 +207,10 @@ class BaseGraph
     /**
      * Run the RRD Xport query
      *
+     * @param $response
      * @return string
      */
-    public function parseRRDJson($response)
+    protected function parseRRDJson($response)
     {
         $step = $response->{'meta'}->{'step'};
         $start = $response->{'meta'}->{'start'};
@@ -224,9 +236,11 @@ class BaseGraph
     /**
      * Parse RRD output to csv
      *
+     * @param $response
+     * @param $headers
      * @return string
      */
-    public function parseRRDCsv($response, $headers)
+    protected function parseRRDCsv($response, $headers)
     {
         $step = $response->{'meta'}->{'step'};
         $start = $response->{'meta'}->{'start'};
@@ -247,4 +261,9 @@ class BaseGraph
         }
         return $output;
     }
+
+    abstract protected function buildRRDXport();
+
+    abstract protected function buildRRDGraphParams();
+
 }

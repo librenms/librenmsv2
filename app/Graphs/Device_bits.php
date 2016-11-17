@@ -23,28 +23,23 @@
 
 namespace App\Graphs;
 
-use Illuminate\Http\Request;
-use App\Models\Device;
-use Settings;
-use App\Models\Port;
-
 class Device_bits extends BaseGraph
 {
 
-    public function buildRRDGraphParams($input) {
-        $device = $this->getDevice();
-        if (isset($input->id) && is_numeric($input->id)) {
-            $port_ids = explode(',', $input->id);
-            $ports = $device->ports()->whereIn('port_id', $port_ids)->get();
+    protected function buildRRDGraphParams()
+    {
+        if (isset($this->input->id) && is_numeric($this->input->id)) {
+            $port_ids = explode(',', $this->input->id);
+            $ports = $this->device->ports()->whereIn('port_id', $port_ids)->get();
         } else {
-            $ports = $device->ports()->get();
+            $ports = $this->device->ports()->get();
         }
         $headers = [];
         $defs = " COMMENT:'              Now       Avg      Max' COMMENT:' \\n' ";
 
         foreach ($ports as $port) {
             $port_id = $port->port_id;
-            $rrd_file = get_port_rrdfile_path($device, $port->port_id);
+            $rrd_file = get_port_rrdfile_path($this->device, $port->port_id);
             $defs .= " DEF:outoctets$port_id=$rrd_file:OUTOCTETS:AVERAGE \
                 DEF:inoctets$port_id=$rrd_file:INOCTETS:AVERAGE \
                 DEF:outoctets_max$port_id=$rrd_file:OUTOCTETS:MAX \
@@ -91,17 +86,15 @@ class Device_bits extends BaseGraph
     }
 
     /**
-     * @param $input
      * @return array
      */
-    public function buildRRDXport($input)
+    protected function buildRRDXport()
     {
-        $device = $this->getDevice();
-        if (isset($input->id) && is_numeric($input->id)) {
-            $port_ids = explode(',', $input->id);
-            $ports = $device->ports()->whereIn('port_id', $port_ids)->get();
+        if (isset($this->input->id) && is_numeric($this->input->id)) {
+            $port_ids = explode(',', $this->input->id);
+            $ports = $this->device->ports()->whereIn('port_id', $port_ids)->get();
         } else {
-            $ports = $device->ports()->get();
+            $ports = $this->device->ports()->get();
         }
 
         $headers = [];
@@ -111,7 +104,7 @@ class Device_bits extends BaseGraph
             $headers[] = 'In: ' . $port['ifDescr'];
             $headers[] = 'Out: ' . $port['ifDescr'];
             $port_id = $port->port_id;
-            $rrd_file = get_port_rrdfile_path($device, $port->port_id);
+            $rrd_file = get_port_rrdfile_path($this->device, $port->port_id);
             $defs .= "DEF:outoctets$port_id=$rrd_file:OUTOCTETS:AVERAGE \
                 DEF:inoctets$port_id=$rrd_file:INOCTETS:AVERAGE \
                 CDEF:doutoctets$port_id=outoctets$port_id,-1,* \
