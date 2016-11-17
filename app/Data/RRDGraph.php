@@ -26,9 +26,12 @@
 namespace App\Data;
 
 
+use Cache;
+
 class RRDGraph extends RRD
 {
     protected $supported_formats = ['png'];
+    private $key;
 
     public function __construct($definitions, $start, $end, $width, $height)
     {
@@ -39,6 +42,8 @@ class RRDGraph extends RRD
             $definitions;
 
         parent::__construct($args);
+
+        $this->key = $this->genKey('graph', $definitions, $this->roundTime($start), $this->roundTime($end), $width, $height);
     }
 
     /**
@@ -51,6 +56,9 @@ class RRDGraph extends RRD
     public function fetch($format)
     {
         $this->checkFormatSupported($format);
-        return base64_encode($this->run());
+
+        return Cache::tags('graphs')->remember($this->key, 5, function () {
+            return base64_encode($this->run());
+        });
     }
 }

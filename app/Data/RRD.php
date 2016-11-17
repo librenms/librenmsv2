@@ -115,6 +115,30 @@ abstract class RRD implements Source
     }
 
     /**
+     * Hash all the variables to get a unique key for this rrd graph image
+     * It is a good idea to round all time values to increase chances of success
+     *
+     * @param string ... Values to use to generate a key
+     * @return string
+     */
+    protected function genKey()
+    {
+        return hash('sha256', implode('-', func_get_args()));
+    }
+
+    /**
+     * Round time to the nearest time ($target
+     *
+     * @param int $time
+     * @param int $target defaults to 5 minutes
+     * @return int
+     */
+    protected function roundTime($time, $target = 300)
+    {
+        return intval(round($time / $target) * $target);
+    }
+
+    /**
      * Generates a filename based on the hostname (or IP) and some extra items
      *
      * @param Device $device Device

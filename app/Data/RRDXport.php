@@ -25,13 +25,14 @@
 
 namespace App\Data;
 
+use Cache;
 use Carbon\Carbon;
 
 class RRDXport extends RRD implements \JsonSerializable
 {
     protected $supported_formats = ['json', 'csv'];
-    private $output;
     private $headers;
+    private $key;
 
     /**
      * RRDXport constructor.
@@ -47,6 +48,7 @@ class RRDXport extends RRD implements \JsonSerializable
         parent::__construct($args);
 
         $this->headers = $headers;
+        $this->key = $this->genKey('xport', $definition, implode(',', $headers), $this->roundTime($start), $this->roundTime($end));
     }
 
     /**
@@ -75,15 +77,13 @@ class RRDXport extends RRD implements \JsonSerializable
      */
     private function getOutput()
     {
-        if (!isset($this->output)) {
+        return Cache::tags('graphs')->remember($this->key, 5, function () {
             $output = $this->run();
             $output = preg_replace('/\'/', '"', $output);
             $output = preg_replace('/about\:/', '"meta":', $output);
             $output = preg_replace('/meta\:/', '"meta":', $output);
-            $this->output = json_decode($output);
-        }
-
-        return $this->output;
+            return json_decode($output);
+        });
     }
 
     function jsonSerialize()
