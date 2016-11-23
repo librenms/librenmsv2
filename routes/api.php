@@ -23,8 +23,7 @@
  * @author     Tony Murray <murraytony@gmail.com>
  */
 
-//use \ApiRoute;
-use Illuminate\Http\Request;
+use Dingo\Api\Routing\Router;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,15 +36,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
-
-//ApiRoute::post('auth', 'App\Api\Controllers\APIAuthController@authenticate');
-
-ApiRoute::version('v1', function ($api) {
+ApiRoute::version('v1', function (Router $api) {
     $api->post('auth', 'App\Api\Controllers\APIAuthController@authenticate');
-    $api->group(['middleware' => 'api.auth', 'providers' => ['basic', 'jwt']], function ($api) {
+
+    $api->group(['middleware' => 'api.auth', 'providers' => ['basic', 'jwt']], function (Router $api) {
         $api->resource('devices', 'App\Api\Controllers\DeviceController');
         $api->resource('ports', 'App\Api\Controllers\PortController', ['except' => ['create', 'store', 'destroy']]);
         $api->get('notifications/{type?}', 'App\Api\Controllers\NotificationController@index');
