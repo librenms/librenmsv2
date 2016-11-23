@@ -43,9 +43,8 @@ class ListAlertsTest extends TestCase
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
-        for ($x = 0; $x < 5; $x++) {
-            $alert = factory(Alert::class)->create();
-        }
+        factory(Alert::class, 5)->create();
+
         $this->actingAs($user)
             ->visit('/alerting/alerts')
             ->see('Timestamp');

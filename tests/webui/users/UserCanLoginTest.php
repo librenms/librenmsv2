@@ -1,6 +1,9 @@
 <?php
 namespace Tests\Webui\Users;
 
+use App\Models\Dashboard;
+use Tests\TestCase;
+
 class UserCanLoginTest extends TestCase
 {
 

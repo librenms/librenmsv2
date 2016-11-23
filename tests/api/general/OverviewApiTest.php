@@ -28,8 +28,8 @@ use App\Models\User;
 use App\Models\UsersWidgets;
 use App\Models\Widgets;
 use Illuminate\Http\Response;
+use JWTAuth;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OverviewApiTest extends TestCase
 {

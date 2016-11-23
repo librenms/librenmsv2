@@ -27,8 +27,8 @@ namespace Tests\Api\Alerting;
 use App\Models\Alerting\Alert;
 use App\Models\User;
 use Illuminate\Http\Response;
+use JWTAuth;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AlertsApiTest extends TestCase
 {

@@ -28,8 +28,8 @@ namespace Tests\Api;
 use App\Models\Device;
 use App\Models\User;
 use Illuminate\Http\Response;
+use JWTAuth;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class DeviceApiTest extends TestCase
 {
@@ -42,9 +42,8 @@ class DeviceApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create(['level'=>10]);
-        for ($x = 0; $x < 5; $x++) {
-            factory(Device::class)->create();
-        }
+        factory(Device::class, 5)->create();
+
         $jwt = JWTAuth::fromUser($user);
         $count = Device::all()->count();
         $this->headers = [

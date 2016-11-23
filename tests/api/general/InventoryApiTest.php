@@ -27,8 +27,8 @@ namespace Tests\Api\General;
 use App\Models\General\Inventory;
 use App\Models\User;
 use Illuminate\Http\Response;
+use JWTAuth;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class InventoryApiTest extends TestCase
 {
@@ -41,9 +41,8 @@ class InventoryApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create();
-        for ($x = 0; $x < 5; $x++) {
-            factory(Inventory::class)->create();
-        }
+        factory(Inventory::class, 5)->create();
+
         $jwt = JWTAuth::fromUser($user);
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'

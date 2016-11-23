@@ -43,9 +43,8 @@ class ListLogsTest extends TestCase
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
-        for ($x = 0; $x < 5; $x++) {
-            $log   = factory(Log::class)->create();
-        }
+        factory(Log::class, 5)->create();
+
         $this->actingAs($user)
              ->visit('/alerting/logs')
              ->see('Time Logged');

@@ -24,7 +24,13 @@
  */
 namespace Tests\Webui\Users;
 
-class ManageUsersPageTest extends \Tests\TestCase
+use App\Models\Device;
+use App\Models\Port;
+use App\Models\User;
+use Auth;
+use Tests\TestCase;
+
+class ManageUsersPageTest extends TestCase
 {
 
     /**
@@ -75,10 +81,10 @@ class ManageUsersPageTest extends \Tests\TestCase
         Auth::login($user);
 
         $normalUser = factory(User::class)->create();
-        $device = factory(\App\Models\Device::class)->create();
+        $device = factory(Device::class)->create();
         $normalUser->devices()->attach($device);
 
-        $port = factory(\App\Models\Port::class)->create();
+        $port = factory(Port::class)->create();
         $device->ports()->save($port);
         $normalUser->ports()->attach($port);
 
