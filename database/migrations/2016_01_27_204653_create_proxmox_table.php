@@ -34,5 +34,4 @@ class CreateProxmoxTable extends Migration
     {
         Schema::drop('proxmox');
     }
-
 }

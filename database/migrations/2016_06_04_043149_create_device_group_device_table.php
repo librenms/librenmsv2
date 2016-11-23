@@ -33,5 +33,4 @@ class CreateDeviceGroupDeviceTable extends Migration
     {
         Schema::drop('device_group_device');
     }
-
 }

@@ -36,5 +36,4 @@ class CreateDeviceOidsTable extends Migration
     {
         Schema::drop('device_oids');
     }
-
 }

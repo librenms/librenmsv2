@@ -38,14 +38,14 @@ class DeviceGroupDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('name', function($group) {
+            ->editColumn('name', function ($group) {
                 return '<a href="'.url('devices/group='.$group->id).'">'.$group->name.'</a>';
             })
-            ->editColumn('count', function($group) {
+            ->editColumn('count', function ($group) {
                 return '<span data-toggle="tooltip" title="'.$group->deviceCount.' '.trans('nav.devices.devices').'" class="badge bg-aqua">
                 <i class="fa fa-server"></i>&nbsp; '.$group->deviceCount.'</span>';
             })
-            ->addColumn('actions', function($group) {
+            ->addColumn('actions', function ($group) {
                 $edit = '<button type="button" class="btn btn-xs btn-primary showModal"  data-toggle="modal" data-target="#generalModal" data-href="'.
                     route('device-groups.edit', ['group_id' => $group->id]).
                     '"><i class="fa fa-edit fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.edit').'</span></button> ';

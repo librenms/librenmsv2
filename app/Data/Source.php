@@ -49,7 +49,6 @@
 
 namespace app\Data;
 
-
 interface Source
 {
     /**

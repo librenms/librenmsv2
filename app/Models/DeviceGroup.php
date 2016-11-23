@@ -317,7 +317,6 @@ class DeviceGroup extends Model
                 }
 
                 $out .= "LIKE('".$this->convertRegexToLike($content)."') ";
-
             } elseif ($cur == '&&') {
                 $out .= 'AND ';
             } elseif ($cur == '||') {

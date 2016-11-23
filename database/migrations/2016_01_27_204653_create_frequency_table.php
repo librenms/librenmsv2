@@ -37,5 +37,4 @@ class CreateFrequencyTable extends Migration
     {
         Schema::drop('frequency');
     }
-
 }

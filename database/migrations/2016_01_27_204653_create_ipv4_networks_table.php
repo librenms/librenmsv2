@@ -29,5 +29,4 @@ class CreateIpv4NetworksTable extends Migration
     {
         Schema::drop('ipv4_networks');
     }
-
 }

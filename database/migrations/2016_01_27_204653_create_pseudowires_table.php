@@ -39,5 +39,4 @@ class CreatePseudowiresTable extends Migration
     {
         Schema::drop('pseudowires');
     }
-
 }

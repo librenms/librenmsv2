@@ -22,12 +22,9 @@
  * @copyright  2016 Tony Murray
  * @author     Tony Murray <murraytony@gmail.com>
  */
+namespace Tests\Webui\Users;
 
-use App\Models\Device;
-use App\Models\Port;
-use App\Models\User;
-
-class ManageUsersPageTest extends TestCase
+class ManageUsersPageTest extends \Tests\TestCase
 {
 
     /**
@@ -68,7 +65,8 @@ class ManageUsersPageTest extends TestCase
      *
      * @return void
      */
-    public function testEditPage() {
+    public function testEditPage()
+    {
         $this->seed();
 
         $user = factory(User::class)->create([
@@ -77,10 +75,10 @@ class ManageUsersPageTest extends TestCase
         Auth::login($user);
 
         $normalUser = factory(User::class)->create();
-        $device = factory(Device::class)->create();
+        $device = factory(\App\Models\Device::class)->create();
         $normalUser->devices()->attach($device);
 
-        $port = factory(Port::class)->create();
+        $port = factory(\App\Models\Port::class)->create();
         $device->ports()->save($port);
         $normalUser->ports()->attach($port);
 

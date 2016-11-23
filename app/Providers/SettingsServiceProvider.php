@@ -46,11 +46,8 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \App::bind('settings', function()
-        {
+        \App::bind('settings', function () {
             return new \App\Settings;
         });
     }
-
-
 }

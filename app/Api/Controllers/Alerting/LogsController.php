@@ -27,7 +27,6 @@ namespace App\Api\Controllers\Alerting;
 
 use App\Api\Controllers\Controller;
 use App\Models\Alerting\Log;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -107,5 +106,4 @@ class LogsController extends Controller
     {
         //
     }
-
 }

@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class WidgetController extends Controller
 {
-    public function __construct() {
-
+    public function __construct()
+    {
     }
 
     /**
@@ -90,5 +90,4 @@ class WidgetController extends Controller
     {
         //
     }
-
 }

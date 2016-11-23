@@ -31,5 +31,4 @@ class CreateLoadbalancerRserversTable extends Migration
     {
         Schema::drop('loadbalancer_rservers');
     }
-
 }

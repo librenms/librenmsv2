@@ -32,5 +32,4 @@ class CreateProxmoxPortsTable extends Migration
     {
         Schema::drop('proxmox_ports');
     }
-
 }

@@ -49,5 +49,4 @@ class CreateBillHistoryTable extends Migration
     {
         Schema::drop('bill_history');
     }
-
 }

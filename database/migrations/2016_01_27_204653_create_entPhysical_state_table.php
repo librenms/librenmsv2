@@ -34,5 +34,4 @@ class CreateEntPhysicalStateTable extends Migration
     {
         Schema::drop('entPhysical_state');
     }
-
 }

@@ -1,6 +1,8 @@
 <?php
+namespace Tests\Webui\General;
 
 use App\Models\User;
+use Tests\TestCase;
 
 class AboutPageTest extends TestCase
 {

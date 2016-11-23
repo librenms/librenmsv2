@@ -25,7 +25,6 @@
 
 namespace App\Http\Middleware;
 
-
 use Auth;
 use Closure;
 
@@ -44,8 +43,7 @@ class Access
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
-            }
-            else {
+            } else {
                 return redirect()->guest('login');
             }
         }

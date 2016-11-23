@@ -29,19 +29,16 @@ $definitions_source = $install_dir . '/includes/definitions.inc.php';
 
 unset($config);
 
-if (file_exists($defaults_source))
-{
+if (file_exists($defaults_source)) {
     include_once($defaults_source);
 }
-    
-if (file_exists($config_source))
-{
+
+if (file_exists($config_source)) {
     $config['install_dir'] = $install_dir;
     include_once($config_source);
 }
 
-if (file_exists($definitions_source))
-{
+if (file_exists($definitions_source)) {
     include_once($definitions_source);
 }
 

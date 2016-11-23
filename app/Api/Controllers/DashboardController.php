@@ -13,8 +13,8 @@ class DashboardController extends Controller
 
     use Helpers;
 
-    public function __construct() {
-
+    public function __construct()
+    {
     }
 
     /**
@@ -50,18 +50,14 @@ class DashboardController extends Controller
             'name' => 'required|max:255',
             'access' => 'required',
         ]);
-        if ($validation->passes())
-        {
+        if ($validation->passes()) {
             $dashboard = new Dashboard;
             $dashboard->dashboard_name = $request->name;
             $dashboard->access         = $request->access;
-            if ($request->user()->dashboards()->save($dashboard))
-            {
-                if (is_numeric($request->copy_from))
-                {
+            if ($request->user()->dashboards()->save($dashboard)) {
+                if (is_numeric($request->copy_from)) {
                     $duplicate_widgets = Dashboard::find($request->copy_from)->widgets()->get();
-                    foreach ($duplicate_widgets as $tmp_widget)
-                    {
+                    foreach ($duplicate_widgets as $tmp_widget) {
                         /** @var UsersWidgets $tmp_widget */
                         $new_widget               = $tmp_widget->replicate();
                         $new_widget->user_id      = $request->user()->user_id;
@@ -71,12 +67,10 @@ class DashboardController extends Controller
                     }
                 }
                 return $this->response->array(array('statusText' => 'OK', 'dashboard_id' => $dashboard->dashboard_id));
-            }
-            else {
+            } else {
                 return $this->response->errorInternal();
             }
-        }
-        else {
+        } else {
             $errors = $validation->errors();
             return response()->json($errors, 422);
         }
@@ -120,20 +114,16 @@ class DashboardController extends Controller
             'name' => 'required|max:255',
             'access' => 'required',
         ]);
-        if ($validation->passes())
-        {
+        if ($validation->passes()) {
             $dashboard = Dashboard::find($id);
             $dashboard->dashboard_name = $request->name;
             $dashboard->access         = $request->access;
-            if ($dashboard->save())
-            {
+            if ($dashboard->save()) {
                 return $this->response->array(array('statusText' => 'OK'));
-            }
-            else {
+            } else {
                 return $this->response->errorInternal();
             }
-        }
-        else {
+        } else {
             $errors = $validation->errors();
             return response()->json($errors, 422);
         }
@@ -147,30 +137,23 @@ class DashboardController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if (Dashboard::where('user_id', $request->user()->user_id)->where('dashboard_id', $id)->delete())
-        {
-            if (UsersWidgets::where('dashboard_id', $id)->delete() >= 0)
-            {
+        if (Dashboard::where('user_id', $request->user()->user_id)->where('dashboard_id', $id)->delete()) {
+            if (UsersWidgets::where('dashboard_id', $id)->delete() >= 0) {
                 return $this->response->array(array('statusText' => 'OK'));
-            }
-            else {
+            } else {
                 return $this->response->errorInternal();
             }
-        }
-        else {
+        } else {
             return $this->response->errorInternal();
         }
     }
 
     public function clear($id)
     {
-        if (Dashboard::find($id)->widgets()->delete() >= 0)
-        {
+        if (Dashboard::find($id)->widgets()->delete() >= 0) {
             return $this->response->array(array('statusText' => 'OK'));
-        }
-        else {
+        } else {
             return $this->response->errorInternal();
         }
     }
-
 }

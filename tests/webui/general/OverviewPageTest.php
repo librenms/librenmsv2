@@ -1,7 +1,9 @@
 <?php
+namespace Tests\Webui\General;
 
-use App\Models\User;
 use App\Models\Dashboard;
+use App\Models\User;
+use Tests\TestCase;
 
 class OverviewPageTest extends TestCase
 {

@@ -42,5 +42,4 @@ class CreateMempoolsTable extends Migration
     {
         Schema::drop('mempools');
     }
-
 }

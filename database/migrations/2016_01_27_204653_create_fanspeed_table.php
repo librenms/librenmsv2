@@ -34,5 +34,4 @@ class CreateFanspeedTable extends Migration
     {
         Schema::drop('fanspeed');
     }
-
 }

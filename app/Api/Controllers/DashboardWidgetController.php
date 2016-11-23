@@ -5,7 +5,6 @@ namespace App\Api\Controllers;
 use App\Models\Dashboard;
 use App\Models\UsersWidgets;
 use App\Models\Widgets;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -14,8 +13,8 @@ class DashboardWidgetController extends Controller
 
     use Helpers;
 
-    public function __construct() {
-
+    public function __construct()
+    {
     }
 
     /**
@@ -57,11 +56,9 @@ class DashboardWidgetController extends Controller
         $user_widget->size_y         = $request->size_y;
         $user_widget->title          = $request->title;
         $user_widget->dashboard_id   = $request->dashboard_id;
-        if ($user_widget->save())
-        {
+        if ($user_widget->save()) {
             return $this->response->array(array('statusText' => 'OK', 'user_widget_id' => $user_widget->user_widget_id));
-        }
-        else {
+        } else {
             return $this->response->errorInternal();
         }
     }
@@ -99,12 +96,10 @@ class DashboardWidgetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->input('settings'))
-        {
+        if ($request->input('settings')) {
             $users_widgets           = UsersWidgets::find($id);
             $users_widgets->settings = json_encode($request->input('settings'));
-        }
-        else {
+        } else {
             $users_widgets         = UsersWidgets::find($id);
             $users_widgets->col    = $request->input('x');
             $users_widgets->row    = $request->input('y');
@@ -112,11 +107,9 @@ class DashboardWidgetController extends Controller
             $users_widgets->size_y = $request->input('height');
         }
 
-        if ($users_widgets->save())
-        {
+        if ($users_widgets->save()) {
             return $this->response->array(array('statusText' => 'OK'));
-        }
-        else {
+        } else {
             return $this->response->errorInternal();
         }
     }
@@ -129,11 +122,9 @@ class DashboardWidgetController extends Controller
      */
     public function destroy($id)
     {
-        if (UsersWidgets::destroy($id))
-        {
+        if (UsersWidgets::destroy($id)) {
             return $this->response->array(array('statusText' => 'OK'));
-        }
-        else {
+        } else {
             return $this->response->errorInternal();
         }
     }

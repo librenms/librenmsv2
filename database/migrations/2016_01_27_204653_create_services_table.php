@@ -39,5 +39,4 @@ class CreateServicesTable extends Migration
     {
         Schema::drop('services');
     }
-
 }

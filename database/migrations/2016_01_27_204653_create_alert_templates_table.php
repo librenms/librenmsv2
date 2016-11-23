@@ -33,5 +33,4 @@ class CreateAlertTemplatesTable extends Migration
     {
         Schema::drop('alert_templates');
     }
-
 }

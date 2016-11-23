@@ -31,5 +31,4 @@ class CreateWidgetsTable extends Migration
     {
         Schema::drop('widgets');
     }
-
 }

@@ -28,5 +28,4 @@ class CreateDbSchemaTable extends Migration
     {
         Schema::drop('dbSchema');
     }
-
 }

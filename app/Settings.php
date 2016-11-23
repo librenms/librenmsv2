@@ -24,7 +24,6 @@
  */
 namespace App;
 
-
 use App\Models\DbConfig;
 use Cache;
 use Config;
@@ -71,19 +70,16 @@ class Settings implements ConfigContract
                     if (is_string($k) && !str_contains($k, '.') && DbConfig::exactKey($key)->exists() && DbConfig::key($key)->count() == 1) {
                         // check that we aren't trying to set an array onto an existing value only setting
                         throw new \Exception("Attempting to set array value to existing non-array value at the key '".$key."'");
-                    }
-                    else {
+                    } else {
                         // we are not at the leaf yet, add this chunk to the key and recurse
                         $this->set($key.'.'.$k, $v);
                     }
-                }
-                else {
+                } else {
                     // a leaf, recurse one last time
                     $this->set($k, $v);
                 }
             }
-        }
-        else {
+        } else {
             // make sure we can save this
             if ($this->isReadOnly($key)) {
                 throw new \Exception("The setting '".$key."' is read only");
@@ -94,7 +90,6 @@ class Settings implements ConfigContract
             DbConfig::updateOrCreate(['config_name' => $key], ['config_value' => $value]);
             Cache::tags(self::$cache_tag)->put($key, $value, $this->cache_time);
         }
-
     }
 
     /**
@@ -107,7 +102,7 @@ class Settings implements ConfigContract
     public function get($key, $default = null, $is_array = false)
     {
         // return value from cache or fetch it and return it
-        return Cache::tags(self::$cache_tag)->remember($key, $this->cache_time, function() use ($key, $default, $is_array) {
+        return Cache::tags(self::$cache_tag)->remember($key, $this->cache_time, function () use ($key, $default, $is_array) {
             // fetch the values from storage
             if (Config::has('config.'.$key)) {
                 $config_data = Config::get('config.'.$key, $default);
@@ -117,16 +112,14 @@ class Settings implements ConfigContract
             if (count($db_data) == 1 && $db_data->first()->config_name == $key && $is_array !== true) {
                 // return a value if we are getting one item and it is the requested item (not recursing)
                 return $db_data->first()->config_value;
-            }
-            elseif (count($db_data) >= 1) {
+            } elseif (count($db_data) >= 1) {
                 // convert the collection to an array
                 $result = self::collectionToArray($db_data, $key);
 
                 // if we have config_data, merge them
                 if (isset($config_data)) {
                     return array_replace_recursive($config_data, $result);
-                }
-                else {
+                } else {
                     return $result;
                 }
             }
@@ -208,8 +201,7 @@ class Settings implements ConfigContract
         $count = DbConfig::key($key)->count();
         if ($count == 1) {
             $this->flush($key);
-        }
-        else {
+        } else {
             $this->flush(); // possible optimization: selective flush
         }
 
@@ -243,8 +235,7 @@ class Settings implements ConfigContract
         if (is_null($key)) {
             // Clear all cache
             Cache::tags(self::$cache_tag)->flush();
-        }
-        else {
+        } else {
             // Clear specific path
             $path = [];
             foreach (explode('.', $key) as $element) {
@@ -269,8 +260,7 @@ class Settings implements ConfigContract
             $this->forget($key);
             array_unshift($var, $value);
             $this->set($key, $var);
-        }
-        else {
+        } else {
             $arr = [$value];
             if (!is_null($var)) {
                 $arr[] = $var;
@@ -294,8 +284,7 @@ class Settings implements ConfigContract
         if (is_array($var)) {
             $var[] = $value;
             $this->set($key, $var);
-        }
-        else {
+        } else {
             $arr = array();
             if (!is_null($var)) {
                 $arr[] = $var;

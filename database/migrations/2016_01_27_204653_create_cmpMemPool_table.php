@@ -36,5 +36,4 @@ class CreateCmpMemPoolTable extends Migration
     {
         Schema::drop('cmpMemPool');
     }
-
 }

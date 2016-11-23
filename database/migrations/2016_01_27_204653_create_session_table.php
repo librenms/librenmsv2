@@ -33,5 +33,4 @@ class CreateSessionTable extends Migration
     {
         Schema::drop('session');
     }
-
 }

@@ -26,7 +26,6 @@
 namespace App\Models\General;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\General\IPv6
@@ -96,5 +95,4 @@ class IPv6 extends Model
     {
         return $this->belongsTo('App\Models\Device', 'device_id', 'device_id');
     }
-
 }

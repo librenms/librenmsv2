@@ -33,5 +33,4 @@ class CreateVrfsTable extends Migration
     {
         Schema::drop('vrfs');
     }
-
 }

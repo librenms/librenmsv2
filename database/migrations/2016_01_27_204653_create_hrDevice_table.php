@@ -35,5 +35,4 @@ class CreateHrDeviceTable extends Migration
     {
         Schema::drop('hrDevice');
     }
-
 }

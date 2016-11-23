@@ -48,14 +48,16 @@ class NotificationAttrib extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function notification() {
+    public function notification()
+    {
         return $this->belongsTo('App\Models\Notification', 'notifications_id');
     }
 }

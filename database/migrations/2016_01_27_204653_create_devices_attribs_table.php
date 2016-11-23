@@ -32,5 +32,4 @@ class CreateDevicesAttribsTable extends Migration
     {
         Schema::drop('devices_attribs');
     }
-
 }

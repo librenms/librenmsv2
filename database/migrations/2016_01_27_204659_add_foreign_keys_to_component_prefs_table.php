@@ -30,5 +30,4 @@ class AddForeignKeysToComponentPrefsTable extends Migration
             $table->dropForeign('component_prefs_ibfk_1');
         });
     }
-
 }

@@ -87,8 +87,7 @@ class Notification extends Model
             $read->value = 1;
             $this->attribs()->save($read);
             return true;
-        }
-        else {
+        } else {
             return $this->attribs()->where('key', $name)->delete();
         }
     }
@@ -139,5 +138,4 @@ class Notification extends Model
     {
         return $query->leftJoin('users', 'notifications.source', '=', 'users.user_id');
     }
-
 }

@@ -26,7 +26,6 @@
 namespace App\Models\General;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\General\IPv4Mac
@@ -93,5 +92,4 @@ class IPv4Mac extends Model
     {
         return $this->belongsTo('App\Models\Device', 'device_id', 'device_id');
     }
-
 }

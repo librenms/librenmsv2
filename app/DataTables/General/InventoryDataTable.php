@@ -39,7 +39,7 @@ class InventoryDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($inventory) {
+            ->editColumn('device.hostname', function ($inventory) {
                 $hostname = is_null($inventory->device) ? trans('devices.text.deleted') : $inventory->device->hostname;
                 return '<a href="'.url("devices/".$inventory->device_id).'">'.$hostname.'</a>';
             })

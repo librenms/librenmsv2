@@ -22,10 +22,12 @@
  * @copyright  2016 Neil Lathwood
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
+namespace Tests\Api\General;
 
-use App\Models\User;
 use App\Models\General\Inventory;
+use App\Models\User;
 use Illuminate\Http\Response;
+use Tests\TestCase;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class InventoryApiTest extends TestCase
@@ -39,7 +41,7 @@ class InventoryApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create();
-        for ($x=0;$x<5;$x++) {
+        for ($x = 0; $x < 5; $x++) {
             factory(Inventory::class)->create();
         }
         $jwt = JWTAuth::fromUser($user);

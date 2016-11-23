@@ -45,5 +45,4 @@ class CreateStpTable extends Migration
     {
         Schema::drop('stp');
     }
-
 }

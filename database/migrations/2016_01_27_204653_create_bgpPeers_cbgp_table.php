@@ -41,5 +41,4 @@ class CreateBgpPeersCbgpTable extends Migration
     {
         Schema::drop('bgpPeers_cbgp');
     }
-
 }

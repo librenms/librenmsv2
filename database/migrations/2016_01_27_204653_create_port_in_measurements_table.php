@@ -31,5 +31,4 @@ class CreatePortInMeasurementsTable extends Migration
     {
         Schema::drop('port_in_measurements');
     }
-
 }

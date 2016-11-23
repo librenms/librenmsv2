@@ -42,5 +42,4 @@ class CreateCefSwitchingTable extends Migration
     {
         Schema::drop('cef_switching');
     }
-
 }

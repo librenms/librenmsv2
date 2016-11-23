@@ -85,5 +85,4 @@ abstract class BaseDataTable extends DataTable
     {
         return '';
     }
-
 }

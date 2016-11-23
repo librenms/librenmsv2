@@ -25,7 +25,6 @@
 
 namespace App;
 
-
 class Util
 {
     /**
@@ -39,15 +38,13 @@ class Util
         $out = [];
         // loop through the arguments
         foreach (func_get_args() as $arr) {
-
             // loop through each array
             foreach ($arr as $key => $value) {
                 // If the same key exists in the $out array
                 if (array_key_exists($key, $out)) {
                     // concat the values
                     $out[$key] = $out[$key].$arr[$key];
-                }
-                else {
+                } else {
                     $out[$key] = $arr[$key];
                 }
             }

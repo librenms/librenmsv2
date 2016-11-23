@@ -22,15 +22,20 @@
  * @copyright  2016 Tony Murray
  * @author     Tony Murray <murraytony@gmail.com>
  */
+namespace Tests\Webui\Devices;
 
 use App\Models\Device;
 use App\Models\DeviceGroup;
 use App\Models\Port;
 use App\Models\User;
+use Auth;
+use DB;
+use Settings;
+use Tests\TestCase;
 
 class DeviceGroupTest extends TestCase
 {
-    function testCreate()
+    public function testCreate()
     {
         $deviceone = factory(Device::class)->create();
         $devicetwo = factory(Device::class)->create();
@@ -47,7 +52,7 @@ class DeviceGroupTest extends TestCase
             'params'  => [$deviceone->hostname],
         ]);
         $groupone->updateRelations();
-        $this->assertEquals(1, $groupone->devices()->count());
+        $this->assertEquals(1, $groupone->devices->count());
         $this->assertEquals($deviceone->device_id, $groupone->devices()->first()->device_id);
 
         $grouptwo = DeviceGroup::create([
@@ -57,7 +62,7 @@ class DeviceGroupTest extends TestCase
             'params'  => ['0'],
         ]);
         $grouptwo->updateRelations();
-        $this->assertEquals(2, $grouptwo->devices()->count());
+        $this->assertEquals(2, $grouptwo->devices->count());
 
         $groupthree = DeviceGroup::create([
             'name'    => 'third test',
@@ -65,7 +70,7 @@ class DeviceGroupTest extends TestCase
             'params'  => '['.$devicetwo->device_id.','.$porttwo->ifIndex.']',
         ]);
         $groupthree->updateRelations();
-        $this->assertEquals(1, $groupthree->devices()->count());
+        $this->assertEquals(1, $groupthree->devices->count());
         $this->assertEquals($devicetwo->device_id, $groupthree->devices()->first()->device_id);
 
         // check the web pages
@@ -80,7 +85,7 @@ class DeviceGroupTest extends TestCase
             ->see('<small>'.$groupthree->name.'</small>');
     }
 
-    function testV1Parser()
+    public function testV1Parser()
     {
         $user = factory(User::class)->create(['level' => 10]);
         Auth::login($user);
@@ -113,10 +118,9 @@ class DeviceGroupTest extends TestCase
             DB::table('device_groups')->where('id', $group_id)->update(['pattern' => $item['input']]);
             $this->assertEquals($item['result'], DeviceGroup::find($group_id)->pattern);
         }
-
     }
 
-    function testMacros()
+    public function testMacros()
     {
         $macro = '%devices.disabled = "0" && %devices.ignore = "0"';
         $expected = '(devices.disabled = "0" AND devices.ignore = "0") = 1';
@@ -128,4 +132,3 @@ class DeviceGroupTest extends TestCase
         $this->assertEquals($expected, DeviceGroup::applyGroupMacros('macros.device = 1'));
     }
 }
-

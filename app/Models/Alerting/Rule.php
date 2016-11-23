@@ -88,5 +88,4 @@ class Rule extends Model
     {
         return $this->belongsTo('App\Models\Device', 'device_id');
     }
-
 }

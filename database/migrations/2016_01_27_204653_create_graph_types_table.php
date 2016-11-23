@@ -33,5 +33,4 @@ class CreateGraphTypesTable extends Migration
     {
         Schema::drop('graph_types');
     }
-
 }

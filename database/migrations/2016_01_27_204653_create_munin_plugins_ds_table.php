@@ -48,5 +48,4 @@ class CreateMuninPluginsDsTable extends Migration
     {
         Schema::drop('munin_plugins_ds');
     }
-
 }

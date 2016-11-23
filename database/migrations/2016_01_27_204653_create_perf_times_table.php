@@ -33,5 +33,4 @@ class CreatePerfTimesTable extends Migration
     {
         Schema::drop('perf_times');
     }
-
 }

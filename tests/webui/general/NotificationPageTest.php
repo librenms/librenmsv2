@@ -1,7 +1,10 @@
 <?php
+namespace Tests\Webui\General;
 
 use App\Models\Notification;
 use App\Models\User;
+use Auth;
+use Tests\TestCase;
 
 class NotificationPageTest extends TestCase
 {
@@ -42,13 +45,12 @@ class NotificationPageTest extends TestCase
             ->see($read->title)
             ->click('Mark as unread');
 
-        Notification::each(function(Notification $notification) {
+        Notification::each(function (Notification $notification) {
             $notification->markRead();
         });
 
         $this->actingAs($user)
             ->visit('/notifications')
             ->see('<ul class="timeline"></ul>');
-
     }
 }

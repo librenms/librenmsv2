@@ -36,5 +36,4 @@ class CreateDevicePerfTable extends Migration
     {
         Schema::drop('device_perf');
     }
-
 }

@@ -4,7 +4,6 @@ namespace App\Api\Controllers;
 
 use App\Api\Transformers\NotificationTransformer;
 use App\Models\Notification;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -22,11 +21,9 @@ class NotificationController extends Controller
      */
     public function index(Request $request, $type = null)
     {
-        if ($type === 'archive')
-        {
+        if ($type === 'archive') {
             $notifications = Notification::isArchived($request->user())->get();
-        }
-        else {
+        } else {
             $notifications = Notification::isUnread()->get();
         }
         return $this->response->collection($notifications, NotificationTransformer::class);
@@ -42,15 +39,13 @@ class NotificationController extends Controller
 
         if ($action == 'read') {
             $result = $notification->markRead($enable);
-        }
-        elseif ($action == 'sticky') {
+        } elseif ($action == 'sticky') {
             $result = $notification->markSticky(false);
         }
 
         if ($result === false) {
             return $this->response->errorInternal();
-        }
-        else {
+        } else {
             return $this->response->array(array('statusText' => 'OK'));
         }
     }
@@ -69,10 +64,8 @@ class NotificationController extends Controller
         $notification->source = $request->user()->user_id;
         if ($notification->save()) {
             return $this->response->array(array('statusText' => 'OK'));
-        }
-        else {
+        } else {
             return $this->response->errorInternal();
         }
     }
-
 }

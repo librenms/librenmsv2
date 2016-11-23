@@ -25,7 +25,6 @@
 
 namespace App\Data;
 
-
 class RRDGraph extends RRD
 {
     protected $supported_formats = ['png'];

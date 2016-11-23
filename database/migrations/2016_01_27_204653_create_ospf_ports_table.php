@@ -51,5 +51,4 @@ class CreateOspfPortsTable extends Migration
     {
         Schema::drop('ospf_ports');
     }
-
 }

@@ -23,6 +23,7 @@
  * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
  */
 namespace App\Facades;
+
 use Illuminate\Support\Facades\Facade;
 
 class Settings extends Facade
@@ -32,5 +33,8 @@ class Settings extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'settings'; }
+    protected static function getFacadeAccessor()
+    {
+        return 'settings';
+    }
 }

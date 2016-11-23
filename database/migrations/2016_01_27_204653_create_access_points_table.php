@@ -43,5 +43,4 @@ class CreateAccessPointsTable extends Migration
     {
         Schema::drop('access_points');
     }
-
 }

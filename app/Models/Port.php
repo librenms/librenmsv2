@@ -293,6 +293,4 @@ class Port extends Model
     {
         return $this->hasMany('App\Models\General\IPv6', 'port_id');
     }
-
 }
-

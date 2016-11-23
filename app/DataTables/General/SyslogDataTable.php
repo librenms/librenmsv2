@@ -39,7 +39,7 @@ class SyslogDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($syslog) {
+            ->editColumn('device.hostname', function ($syslog) {
                 $hostname = is_null($syslog->device) ? trans('devices.text.deleted') : $syslog->device->hostname;
                 return '<a href="'.url("devices/".$syslog->device_id).'">'.$hostname.'</a>';
             })
@@ -99,5 +99,4 @@ class SyslogDataTable extends BaseDataTable
     {
         return url('syslog');
     }
-
 }

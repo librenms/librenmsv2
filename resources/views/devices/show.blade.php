@@ -9,7 +9,7 @@
     <!-- Device overview box -->
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-{{ $device->status_colour() }}">
+            <div class="box box-{{ $device->statusColour() }}">
                 <div class="box-header with-border">
                     <div class="col-md-1">
                         <img src="{{ $device->logo() }}" border="0" alt="{{ $device->os }}">

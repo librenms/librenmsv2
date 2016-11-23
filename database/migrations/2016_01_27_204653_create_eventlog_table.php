@@ -33,5 +33,4 @@ class CreateEventlogTable extends Migration
     {
         Schema::drop('eventlog');
     }
-
 }

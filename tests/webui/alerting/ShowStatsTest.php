@@ -23,8 +23,11 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
+namespace Tests\Webui\Alerting;
+
 use App\Models\Alerting\Log;
 use App\Models\User;
+use Tests\TestCase;
 
 class ShowStatsTest extends TestCase
 {
@@ -40,13 +43,11 @@ class ShowStatsTest extends TestCase
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
-        for ($x=0;$x<5;$x++) {
+        for ($x = 0; $x < 5; $x++) {
             $log   = factory(Log::class)->create();
         }
         $this->actingAs($user)
              ->visit('/alerting/stats')
              ->see('Alerting statistics');
-
     }
-
 }

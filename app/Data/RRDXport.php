@@ -86,7 +86,7 @@ class RRDXport extends RRD implements \JsonSerializable
         return $this->output;
     }
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         $response = $this->getOutput();
         $step = $response->meta->step;
@@ -106,7 +106,7 @@ class RRDXport extends RRD implements \JsonSerializable
         ]);
     }
 
-    function csvSerialize()
+    public function csvSerialize()
     {
         $response = $this->getOutput();
         $step = $response->meta->step;

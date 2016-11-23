@@ -22,10 +22,12 @@
  * @copyright  2016 Neil Lathwood
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
+namespace Tests\Api\General;
 
-use App\Models\User;
 use App\Models\General\Syslog;
+use App\Models\User;
 use Illuminate\Http\Response;
+use Tests\TestCase;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class SyslogApiTest extends TestCase
@@ -39,7 +41,7 @@ class SyslogApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create();
-        for ($x=0;$x<5;$x++) {
+        for ($x = 0; $x < 5; $x++) {
             factory(Syslog::class)->create();
         }
         $jwt = JWTAuth::fromUser($user);

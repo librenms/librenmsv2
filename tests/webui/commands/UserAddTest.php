@@ -23,8 +23,14 @@
  * @copyright  2016 Tony Murray
  * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
  */
+namespace Tests\Webui\Commands;
 
 use App\Models\User;
+use Artisan;
+use Auth;
+use Hash;
+use Mockery;
+use Tests\TestCase;
 
 class UserAddTest extends TestCase
 {
@@ -51,7 +57,8 @@ class UserAddTest extends TestCase
         $this->assertContains("User mdomo exists.", Artisan::output());
     }
 
-    public function testMockInput() {
+    public function testMockInput()
+    {
         $username = 'mcyrus';
         $realname = 'Miley Cyrus';
         $email = 'miley@hannahmontana.com';

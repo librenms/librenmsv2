@@ -35,5 +35,4 @@ class CreateComponentTable extends Migration
     {
         Schema::drop('component');
     }
-
 }

@@ -49,5 +49,4 @@ class CreateSensorsTable extends Migration
     {
         Schema::drop('sensors');
     }
-
 }

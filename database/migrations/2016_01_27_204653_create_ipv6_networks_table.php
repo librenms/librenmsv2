@@ -29,5 +29,4 @@ class CreateIpv6NetworksTable extends Migration
     {
         Schema::drop('ipv6_networks');
     }
-
 }

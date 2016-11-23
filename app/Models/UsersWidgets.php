@@ -97,5 +97,4 @@ class UsersWidgets extends Model
             ['user_id', '=', $request->user()->user_id]
         ])->select('settings');
     }
-
 }

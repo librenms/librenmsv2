@@ -27,7 +27,6 @@ namespace App\Api\Controllers\Alerting;
 
 use App\Api\Controllers\Controller;
 use App\Models\Alerting\Alert;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -96,11 +95,9 @@ class AlertsController extends Controller
     {
         $alert         = Alert::find($id);
         $alert->state  = $request->input('state');
-        if ($alert->save())
-        {
+        if ($alert->save()) {
             return $this->response->array(array('statusText' => 'OK'));
-        }
-        else {
+        } else {
             return $this->response->errorInternal();
         }
     }
@@ -115,5 +112,4 @@ class AlertsController extends Controller
     {
         //
     }
-
 }

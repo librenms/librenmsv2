@@ -36,5 +36,4 @@ class CreateSyslogTable extends Migration
     {
         Schema::drop('syslog');
     }
-
 }

@@ -27,7 +27,7 @@ use App\Models\Notification;
 use App\Models\Port;
 use App\Models\User;
 
-$factory->define(User::class, function(Faker\Generator $faker) {
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'username'  => $faker->username,
         'realname'  => $faker->name,
@@ -39,7 +39,7 @@ $factory->define(User::class, function(Faker\Generator $faker) {
 });
 
 
-$factory->define(Device::class, function(Faker\Generator $faker) {
+$factory->define(Device::class, function (Faker\Generator $faker) {
     return [
         'hostname'      => $faker->domainWord.'.'.$faker->domainName,
         'ip'            => $faker->randomElement([$faker->ipv4, $faker->ipv6]),
@@ -49,7 +49,7 @@ $factory->define(Device::class, function(Faker\Generator $faker) {
 });
 
 
-$factory->define(Port::class, function(Faker\Generator $faker) {
+$factory->define(Port::class, function (Faker\Generator $faker) {
     return [
         'ifIndex'      => $faker->unique()->numberBetween(),
         'ifName'       => $faker->text(20),
@@ -57,7 +57,7 @@ $factory->define(Port::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Notification::class, function(Faker\Generator $faker) {
+$factory->define(Notification::class, function (Faker\Generator $faker) {
     return [
         'title'    => $faker->sentence(8, true),
         'body'     => $faker->text(1000),
@@ -67,7 +67,7 @@ $factory->define(Notification::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Alert::class, function(Faker\Generator $faker) {
+$factory->define(Alert::class, function (Faker\Generator $faker) {
     return [
         'device_id' => $faker->randomDigitNotNull(),
         'rule_id'   => $faker->randomDigitNotNull(),
@@ -78,7 +78,7 @@ $factory->define(Alert::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Log::class, function(Faker\Generator $faker) {
+$factory->define(Log::class, function (Faker\Generator $faker) {
     return [
         'rule_id'     => $faker->randomDigitNotNull(),
         'device_id'   => $faker->randomDigitNotNull(),
@@ -88,7 +88,7 @@ $factory->define(Log::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Syslog::class, function(Faker\Generator $faker) {
+$factory->define(Syslog::class, function (Faker\Generator $faker) {
     return [
         'device_id' => $faker->randomDigitNotNull(),
         'facility'  => 'syslog',
@@ -101,7 +101,7 @@ $factory->define(Syslog::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Inventory::class, function(Faker\Generator $faker) {
+$factory->define(Inventory::class, function (Faker\Generator $faker) {
     return [
         'device_id'               => $faker->randomDigitNotNull(),
         'entPhysicalIndex'        => $faker->randomDigitNotNull(),
@@ -116,7 +116,7 @@ $factory->define(Inventory::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(IPv4::class, function(Faker\Generator $faker) {
+$factory->define(IPv4::class, function (Faker\Generator $faker) {
     return [
         'ipv4_address'    => $faker->ipv4(),
         'ipv4_prefixlen'  => $faker->randomElement($array = array ('8','16','24','32')),
@@ -125,7 +125,7 @@ $factory->define(IPv4::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(IPv6::class, function(Faker\Generator $faker) {
+$factory->define(IPv6::class, function (Faker\Generator $faker) {
     return [
         'ipv6_address'    => $faker->ipv6(),
         'ipv6_compressed' => $faker->ipv6(),
@@ -136,7 +136,7 @@ $factory->define(IPv6::class, function(Faker\Generator $faker) {
     ];
 });
 
-$factory->define(IPv4Mac::class, function(Faker\Generator $faker) {
+$factory->define(IPv4Mac::class, function (Faker\Generator $faker) {
     return [
         'port_id'      => $faker->randomDigitNotNull(),
         'mac_address'  => $faker->macAddress(),

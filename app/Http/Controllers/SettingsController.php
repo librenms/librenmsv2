@@ -70,8 +70,7 @@ class SettingsController extends Controller
         if ($type == 'settings-value') {
             Settings::set($key, $value);
             return response('OK', 200);
-        }
-        elseif ($type == 'settings-array') {
+        } elseif ($type == 'settings-array') {
             $current = Settings::get($key);
 
             // remove entries with missing indexes

@@ -64,5 +64,4 @@ class CreatePortsStatisticsTable extends Migration
     {
         Schema::drop('ports_statistics');
     }
-
 }

@@ -31,5 +31,4 @@ class CreateUsersPrefsTable extends Migration
     {
         Schema::drop('users_prefs');
     }
-
 }

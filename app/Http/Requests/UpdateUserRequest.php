@@ -59,8 +59,7 @@ class UpdateUserRequest extends Request
                 $rules['current_password'] = 'required|password:'.$user_id;
             }
             return $rules;
-        }
-        else {
+        } else {
             $user = User::find($this->input('user_id'));
             return ['username'    => 'required|max:20|unique:users,username,'.$user->username.',username',
                     'email'       => 'required|email|max:60|unique:users,email,'.$user->username.',username',

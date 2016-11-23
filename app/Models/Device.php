@@ -150,7 +150,7 @@ class Device extends Model
     {
         parent::boot();
 
-        static::deleting(function(Device $device) {
+        static::deleting(function (Device $device) {
             // delete related data
             $device->ports()->delete();
             $device->syslogs()->delete();
@@ -197,8 +197,7 @@ class Device extends Model
         $icon = $this->icon;
         if (isset($icon)) {
             return asset('images/os/'.$icon.'.png');
-        }
-        else {
+        } else {
             return asset('images/os/generic.png');
         }
     }
@@ -206,7 +205,7 @@ class Device extends Model
     /**
      * @return string
      */
-    public function status_colour()
+    public function statusColour()
     {
         $status = $this->status;
         $ignore = $this->ignore;

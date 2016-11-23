@@ -40,5 +40,4 @@ class CreateConfigTable extends Migration
     {
         Schema::drop('config');
     }
-
 }

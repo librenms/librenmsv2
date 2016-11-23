@@ -23,8 +23,11 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
+namespace Tests\Webui\Alerting;
+
 use App\Models\Alerting\Alert;
 use App\Models\User;
+use Tests\TestCase;
 
 class ListAlertsTest extends TestCase
 {
@@ -32,7 +35,7 @@ class ListAlertsTest extends TestCase
     /**
      * Make sure we see a list of alerts
      *
-    **/
+     **/
 
     public function testListingAlerts()
     {
@@ -40,13 +43,11 @@ class ListAlertsTest extends TestCase
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
-        for ($x=0;$x<5;$x++) {
+        for ($x = 0; $x < 5; $x++) {
             $alert = factory(Alert::class)->create();
         }
         $this->actingAs($user)
-             ->visit('/alerting/alerts')
-             ->see('Timestamp');
-
+            ->visit('/alerting/alerts')
+            ->see('Timestamp');
     }
-
 }

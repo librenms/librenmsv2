@@ -78,5 +78,4 @@ class UserPortController extends Controller
         $user->ports()->detach($port);
         return redirect()->back()->with(['type' => 'success', 'message' => trans('user.text.portremoved', ['label' => $port->getLabel()])]);
     }
-
 }

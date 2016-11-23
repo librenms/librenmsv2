@@ -43,5 +43,4 @@ class Widgets extends Model
      * @var array
      */
     protected $fillable = ['widget_title', 'widget', 'base_dimensions'];
-
 }

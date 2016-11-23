@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Routing\Router;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Form;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class HtmlFormServiceProvider extends ServiceProvider
 {
@@ -25,7 +24,5 @@ class HtmlFormServiceProvider extends ServiceProvider
 
     public function map()
     {
-
     }
-
 }

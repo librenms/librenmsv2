@@ -39,5 +39,4 @@ class CreateMuninPluginsTable extends Migration
     {
         Schema::drop('munin_plugins');
     }
-
 }

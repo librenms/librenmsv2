@@ -126,8 +126,7 @@ class DbConfig extends Model
             } catch (\Exception $e) {
                 if (str_contains($e->getMessage(), 'unserialize():')) {
                     return $value;
-                }
-                else {
+                } else {
                     throw $e;
                 }
             }

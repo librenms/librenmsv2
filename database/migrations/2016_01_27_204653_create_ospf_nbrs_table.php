@@ -42,5 +42,4 @@ class CreateOspfNbrsTable extends Migration
     {
         Schema::drop('ospf_nbrs');
     }
-
 }
