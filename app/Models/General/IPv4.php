@@ -74,10 +74,11 @@ class IPv4 extends Model
     // ---- Accessors/Mutators ----
 
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * Returns the port this entry belongs to.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function port()
     {
@@ -86,6 +87,7 @@ class IPv4 extends Model
 
     /**
      * Returns the device this entry belongs to.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
     {

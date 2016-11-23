@@ -83,30 +83,19 @@ class DbConfig extends Model
      */
     protected $fillable = ['config_name', 'config_value'];
 
-    // ---- Define Scopes ----
+    // ---- Helper Functions ----
 
     /**
-     * Limit the query to config_names that start with $key
+     * Unserialize default values.
      *
-     * @param $query Builder
-     * @param $key string The key (full or partial) to limit the query to.
-     * @return Builder
+     * @param $value
+     * @return mixed
+     * @throws \Exception
      */
-    public function scopeKey(Builder $query, $key)
+    public function getConfigDefault($value)
     {
-        return $query->where('config_name', $key)->orWhere('config_name', 'LIKE', $key.'.%');
-    }
-
-    /**
-     * Limit the query to the exact config_name.
-     *
-     * @param $query Builder
-     * @param $key string The full key to limit the query to.
-     * @return Builder
-     */
-    public function scopeExactKey(Builder $query, $key)
-    {
-        return $query->where('config_name', $key);
+        // uses the same code as values
+        return $this->getConfigValueAttribute($value);
     }
 
     // ---- Accessors/Mutators ----
@@ -135,19 +124,6 @@ class DbConfig extends Model
     }
 
     /**
-     * Unserialize default values.
-     *
-     * @param $value
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getConfigDefault($value)
-    {
-        // uses the same code as values
-        return $this->getConfigValueAttribute($value);
-    }
-
-    /**
      * Serialize values before storing.
      *
      * @param $value
@@ -165,5 +141,31 @@ class DbConfig extends Model
     public function setConfigDefaultAttribute($value)
     {
         $this->attributes['config_default'] = serialize($value);
+    }
+
+    // ---- Define Scopes ----
+
+    /**
+     * Limit the query to config_names that start with $key
+     *
+     * @param $query Builder
+     * @param $key string The key (full or partial) to limit the query to.
+     * @return Builder
+     */
+    public function scopeKey(Builder $query, $key)
+    {
+        return $query->where('config_name', $key)->orWhere('config_name', 'LIKE', $key.'.%');
+    }
+
+    /**
+     * Limit the query to the exact config_name.
+     *
+     * @param $query Builder
+     * @param $key string The full key to limit the query to.
+     * @return Builder
+     */
+    public function scopeExactKey(Builder $query, $key)
+    {
+        return $query->where('config_name', $key);
     }
 }

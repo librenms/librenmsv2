@@ -25,8 +25,8 @@
 
 namespace App\Models\Alerting;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Alerting\Alert
@@ -72,7 +72,17 @@ class Alert extends Model
      */
     protected $primaryKey = 'id';
 
-    // ---- Define Reletionships ----
+    // ---- Query scopes ----
+
+    /**
+     * Only select active alerts
+     */
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('state', '!=', '0');
+    }
+
+    // ---- Define Relationships ----
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -96,13 +106,5 @@ class Alert extends Model
     public function user()
     {
         return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
-    }
-
-    /**
-     *
-     */
-    public function scopeActive(Builder $query)
-    {
-        return $query->where('state', '!=', '0');
     }
 }

@@ -62,6 +62,16 @@ class UsersWidgets extends Model
      */
     protected $fillable = ['user_id', 'widget_id', 'col', 'row', 'size_x', 'size_y', 'title', 'refresh', 'settings', 'dashboard_id'];
 
+    // ---- Query scopes ----
+
+    public function scopeGetSettings($query, $request)
+    {
+        return $query->where([
+            ['user_widget_id', '=', $request->id],
+            ['user_id', '=', $request->user()->user_id]
+        ])->select('settings');
+    }
+
     // ---- Define Relationships ----
 
     /**
@@ -86,15 +96,5 @@ class UsersWidgets extends Model
     public function dashboard()
     {
         return $this->belongsTo('App\Models\Dashboard', 'dashboard_id');
-    }
-
-    // ---- Query scopes ----
-
-    public function scopeGetSettings($query, $request)
-    {
-        return $query->where([
-            ['user_widget_id', '=', $request->id],
-            ['user_id', '=', $request->user()->user_id]
-        ])->select('settings');
     }
 }

@@ -71,10 +71,10 @@ class Rule extends Model
      */
     protected $primaryKey = 'id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function alert()
     {
@@ -82,7 +82,7 @@ class Rule extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
     {

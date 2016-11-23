@@ -75,7 +75,7 @@ class Sensor extends Model
      */
     protected $primaryKey = 'sensors_id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

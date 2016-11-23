@@ -43,7 +43,7 @@ class NotificationAttrib extends Model
      */
     protected $primaryKey = 'attrib_id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

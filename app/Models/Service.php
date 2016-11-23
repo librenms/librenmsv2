@@ -43,7 +43,7 @@ class Service extends Model
      */
     protected $primaryKey = 'service_id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -26,7 +26,6 @@
 namespace App\Models\Alerting;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\Alerting\Log
@@ -69,7 +68,23 @@ class Log extends Model
      */
     protected $primaryKey = 'id';
 
-    // ---- Define Reletionships ----
+    // ---- Accessors/Mutators ----
+
+    public function getDetailsAttribute($details)
+    {
+        if ($details) {
+            return json_decode(gzuncompress($details), true);
+        }
+    }
+
+    public function getTimeLoggedAttribute($date)
+    {
+        if ($date) {
+            return strtotime($date) * 1000;
+        }
+    }
+
+    // ---- Define Relationships ----
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -93,21 +108,5 @@ class Log extends Model
     public function user()
     {
         return $this->belongsToMany('App\Models\User', 'devices_perms', 'device_id', 'user_id');
-    }
-
-    // ---- Accessors/Mutators ----
-
-    public function getDetailsAttribute($details)
-    {
-        if ($details) {
-            return json_decode(gzuncompress($details), true);
-        }
-    }
-
-    public function getTimeLoggedAttribute($date)
-    {
-        if ($date) {
-            return strtotime($date) * 1000;
-        }
     }
 }

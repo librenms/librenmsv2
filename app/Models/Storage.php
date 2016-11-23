@@ -33,7 +33,7 @@ class Storage extends Model
      */
     protected $primaryKey = 'storage_id';
 
-    // ---- Define Helper Functions ----
+    // ---- Helper Functions ----
 
     // ---- Accessors/Mutators ----
 

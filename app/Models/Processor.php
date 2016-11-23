@@ -33,7 +33,7 @@ class Processor extends Model
      */
     protected $primaryKey = 'processor_id';
 
-    // ---- Define Helper Functions ----
+    // ---- Helper Functions ----
 
     /**
      * Return Processor Description, formatted for display
@@ -59,17 +59,17 @@ class Processor extends Model
         return $descr;
     }
 
-    // ---- Accessors/Mutators ----
-
-
     // ---- Query scopes ----
+
+
+    // ---- Accessors/Mutators ----
 
 
     // ---- Define Relationships ----
 
     /**
      * Get the device this port belongs to.
-     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
     {
