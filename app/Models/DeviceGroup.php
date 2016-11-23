@@ -45,6 +45,9 @@ use Settings;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereDesc($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup wherePattern($value)
  * @mixin \Eloquent
+ * @property-read mixed $pattern_sql
+ * @property-read mixed $device_count
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereParams($value)
  */
 class DeviceGroup extends Model
 {

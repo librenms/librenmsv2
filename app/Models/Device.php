@@ -114,6 +114,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDisabled()
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DeviceGroup[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Processor[] $processors
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Service[] $services
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Storage[] $storage
  */
 class Device extends Model
 {

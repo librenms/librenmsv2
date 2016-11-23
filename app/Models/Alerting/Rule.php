@@ -49,6 +49,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereProc($value)
  * @mixin \Eloquent
+ * @property string $query
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereQuery($value)
  */
 class Rule extends Model
 {
