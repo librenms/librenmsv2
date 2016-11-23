@@ -49,6 +49,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereProc($value)
  * @mixin \Eloquent
+ * @property string $query
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Alerting\Rule whereQuery($value)
  */
 class Rule extends Model
 {
@@ -71,10 +73,10 @@ class Rule extends Model
      */
     protected $primaryKey = 'id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function alert()
     {
@@ -82,11 +84,10 @@ class Rule extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
     {
         return $this->belongsTo('App\Models\Device', 'device_id');
     }
-
 }

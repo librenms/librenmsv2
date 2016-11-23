@@ -51,8 +51,8 @@ ApiRoute::version('v1', function ($api) {
         $api->get('notifications/{type?}', 'App\Api\Controllers\NotificationController@index');
         $api->patch('notifications/{id}/{action}', ['as' => 'api.notifications.update', 'uses' => 'App\Api\Controllers\NotificationController@update']);
         $api->put('notifications', ['as' => 'api.notifications.create', 'uses' => 'App\Api\Controllers\NotificationController@create']);
-        $api->get('info', 'App\Api\Controllers\APIController@get_info');
-        $api->get('stats', 'App\Api\Controllers\APIController@get_stats');
+        $api->get('info', 'App\Api\Controllers\APIController@getInfo');
+        $api->get('stats', 'App\Api\Controllers\APIController@getStats');
 
         // Overview section
         $api->delete('dashboard/{dashboard_id}/clear', 'App\Api\Controllers\DashboardController@clear');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -24,8 +23,7 @@ class NotificationController extends Controller
             $page = '';
             $button = 'Notifications';
             $bg = 'maroon';
-        }
-        else {
+        } else {
             $page = 'archive';
             $button = 'Archive';
             $bg = 'blue';
@@ -60,5 +58,4 @@ class NotificationController extends Controller
         ]);
         return response()->json($this->api->be(auth()->user())->put('/api/notifications', ['title' => $request->title, 'body' => $request->body]));
     }
-
 }

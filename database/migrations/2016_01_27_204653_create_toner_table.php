@@ -36,5 +36,4 @@ class CreateTonerTable extends Migration
     {
         Schema::drop('toner');
     }
-
 }

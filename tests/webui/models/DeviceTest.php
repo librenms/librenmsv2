@@ -22,8 +22,12 @@
  * @copyright  2016 Tony Murray
  * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
  */
+namespace Tests\Webui\Models;
+
 use App\Models\Device;
 use App\Models\Port;
+use DB;
+use Tests\TestCase;
 
 class DeviceTest extends TestCase
 {

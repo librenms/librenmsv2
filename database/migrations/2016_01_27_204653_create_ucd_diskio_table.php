@@ -31,5 +31,4 @@ class CreateUcdDiskioTable extends Migration
     {
         Schema::drop('ucd_diskio');
     }
-
 }

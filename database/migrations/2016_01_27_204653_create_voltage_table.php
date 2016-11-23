@@ -34,5 +34,4 @@ class CreateVoltageTable extends Migration
     {
         Schema::drop('voltage');
     }
-
 }

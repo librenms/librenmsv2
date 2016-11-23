@@ -32,5 +32,4 @@ class CreateApiTokensTable extends Migration
     {
         Schema::drop('api_tokens');
     }
-
 }

@@ -30,5 +30,4 @@ class CreateIpv4MacTable extends Migration
     {
         Schema::drop('ipv4_mac');
     }
-
 }

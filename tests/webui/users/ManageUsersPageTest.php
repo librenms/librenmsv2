@@ -22,10 +22,13 @@
  * @copyright  2016 Tony Murray
  * @author     Tony Murray <murraytony@gmail.com>
  */
+namespace Tests\Webui\Users;
 
 use App\Models\Device;
 use App\Models\Port;
 use App\Models\User;
+use Auth;
+use Tests\TestCase;
 
 class ManageUsersPageTest extends TestCase
 {
@@ -68,7 +71,8 @@ class ManageUsersPageTest extends TestCase
      *
      * @return void
      */
-    public function testEditPage() {
+    public function testEditPage()
+    {
         $this->seed();
 
         $user = factory(User::class)->create([

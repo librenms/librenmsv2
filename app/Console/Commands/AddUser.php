@@ -54,16 +54,14 @@ class AddUser extends Command
         // set realname
         if ($this->option('realname')) {
             $user->realname = $this->option('realname');
-        }
-        else {
+        } else {
             $user->realname = $this->ask('Real Name');
         }
 
         // set email
         if ($this->option('email')) {
             $user->email = $this->option('email');
-        }
-        else {
+        } else {
             $user->email = $this->ask('Email');
         }
 
@@ -79,16 +77,14 @@ class AddUser extends Command
         // set password
         if ($this->argument('password')) {
             $user->password = $this->argument('password');
-        }
-        else {
+        } else {
             $user->password = $this->secret('Password');
         }
 
         // save user
         if ($user->save()) {
             $this->info('User '.$user->username.' created.');
-        }
-        else {
+        } else {
             $this->error('Failed to create user '.$user->username);
         }
     }

@@ -38,5 +38,4 @@ class CreateMibdefsTable extends Migration
     {
         Schema::drop('mibdefs');
     }
-
 }

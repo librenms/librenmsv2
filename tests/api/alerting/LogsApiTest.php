@@ -22,12 +22,13 @@
  * @copyright  2016 Neil Lathwood
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
+namespace Tests\Api\Alerting;
 
-use Illuminate\Http\Response;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Models\Alerting\Alert;
 use App\Models\Alerting\Log;
 use App\Models\User;
+use Illuminate\Http\Response;
+use JWTAuth;
+use Tests\TestCase;
 
 class LogsApiTest extends TestCase
 {

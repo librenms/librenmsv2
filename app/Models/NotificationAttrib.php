@@ -43,19 +43,21 @@ class NotificationAttrib extends Model
      */
     protected $primaryKey = 'attrib_id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function notification() {
+    public function notification()
+    {
         return $this->belongsTo('App\Models\Notification', 'notifications_id');
     }
 }

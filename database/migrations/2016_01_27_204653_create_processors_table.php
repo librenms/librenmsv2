@@ -37,5 +37,4 @@ class CreateProcessorsTable extends Migration
     {
         Schema::drop('processors');
     }
-
 }

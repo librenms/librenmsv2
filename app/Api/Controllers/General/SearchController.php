@@ -30,7 +30,6 @@ use App\Models\General\IPv4;
 use App\Models\General\IPv4Mac;
 use App\Models\General\IPv6;
 use App\Models\Port;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -163,5 +162,4 @@ class SearchController extends Controller
         $per_page = $request->per_page ?: 25;
         return IPv4Mac::paginate($per_page);
     }
-
 }

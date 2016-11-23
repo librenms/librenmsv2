@@ -25,10 +25,10 @@
 
 namespace App\Http\Controllers\General;
 
+use App\DataTables\General\ArpDataTable;
 use App\DataTables\General\IPv4DataTable;
 use App\DataTables\General\IPv6DataTable;
 use App\DataTables\General\MacDataTable;
-use App\DataTables\General\ArpDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -148,5 +148,4 @@ class SearchController extends Controller
     {
         return $dataTable->render('general.search.list');
     }
-
 }

@@ -32,5 +32,4 @@ class CreateLocationsTable extends Migration
     {
         Schema::drop('locations');
     }
-
 }

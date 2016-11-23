@@ -25,7 +25,6 @@
 
 namespace app;
 
-
 use Cache;
 use DB;
 use Settings;
@@ -63,7 +62,7 @@ class QueryBuilderFilter
         }
 
         // return the table filter merged with $filter, fetch from cache if available
-        return array_merge($filter, Cache::rememberForever('query_builder_table_filter', function() {
+        return array_merge($filter, Cache::rememberForever('query_builder_table_filter', function () {
             $tableFilter = [];
             $schema = DB::getDoctrineSchemaManager();
 

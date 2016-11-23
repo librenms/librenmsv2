@@ -44,5 +44,4 @@ class CreateOspfInstancesTable extends Migration
     {
         Schema::drop('ospf_instances');
     }
-
 }

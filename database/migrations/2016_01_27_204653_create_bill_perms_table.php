@@ -29,5 +29,4 @@ class CreateBillPermsTable extends Migration
     {
         Schema::drop('bill_perms');
     }
-
 }

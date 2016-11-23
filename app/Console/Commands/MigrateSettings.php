@@ -93,8 +93,7 @@ class MigrateSettings extends Command
 
         if ($this->option('dry-run')) {
             $this->warn(trans('commands.migrate-settings.nochanges'));
-        }
-        else {
+        } else {
             Settings::flush(); // clear the settings cache
             DbConfig::updateOrCreate(['config_name' => 'settings.migrated'], ['config_value' => true]);
         }

@@ -40,11 +40,11 @@ class IPv6DataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('hostname', function($data) {
+            ->editColumn('hostname', function ($data) {
                 $hostname = is_null($data->device) ? trans('devices.text.deleted') : $data->device->hostname;
                 return '<a href="'.url("devices/".$data->device_id).'">'.$hostname.'</a>';
             })
-            ->editColumn('ifName', function($data) {
+            ->editColumn('ifName', function ($data) {
                 $ifName = is_null($data->ifName) ? trans('devices.text.deleted') : $data->ifName;
                 return '<a href="'.url("devices/".$data->device_id."/ports/".$data->port_id).'">'.$ifName.'</a>';
             })
@@ -95,5 +95,4 @@ class IPv6DataTable extends BaseDataTable
     {
         return 'ipv6';
     }
-
 }

@@ -33,5 +33,4 @@ class CreateAlertLogTable extends Migration
     {
         Schema::drop('alert_log');
     }
-
 }

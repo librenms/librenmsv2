@@ -32,5 +32,4 @@ class CreateGraphTypesDeadTable extends Migration
     {
         Schema::drop('graph_types_dead');
     }
-
 }

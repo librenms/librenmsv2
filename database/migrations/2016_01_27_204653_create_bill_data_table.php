@@ -33,5 +33,4 @@ class CreateBillDataTable extends Migration
     {
         Schema::drop('bill_data');
     }
-
 }

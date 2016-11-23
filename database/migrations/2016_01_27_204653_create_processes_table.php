@@ -34,5 +34,4 @@ class CreateProcessesTable extends Migration
     {
         Schema::drop('processes');
     }
-
 }

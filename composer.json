@@ -21,7 +21,8 @@
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "barryvdh/laravel-ide-helper": "~2.2"
+        "barryvdh/laravel-ide-helper": "~2.2",
+        "squizlabs/php_codesniffer": "^2.7"
     },
     "autoload": {
         "files": [
@@ -38,7 +39,10 @@
     "autoload-dev": {
         "classmap": [
             "tests/TestCase.php"
-        ]
+        ],
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [

@@ -49,25 +49,24 @@ class AlertsDataTable extends BaseDataTable
                                     @else
                                         <div class="label label-default">UNKNOWN</div>
                                     @endif')
-            ->editColumn('rule.name', function($alert) {
+            ->editColumn('rule.name', function ($alert) {
                 return '<a href="'.url("alerting/rules/".$alert->rule_id).'">'.$alert->rule->name.'</a>';
             })
-            ->editColumn('device.hostname', function($alert) {
+            ->editColumn('device.hostname', function ($alert) {
                 $hostname = is_null($alert->device) ? trans('devices.text.deleted') : $alert->device->hostname;
                 return '<a href="'.url("devices/".$alert->device_id).'">'.$hostname.'</a>';
             })
-            ->addColumn('actions', function($alert) {
+            ->addColumn('actions', function ($alert) {
                 if ($alert->state == 2) {
                     $btn  = "btn-danger";
                     $icon = "volume-off";
-                }
-                else {
+                } else {
                     $btn  = "btn-success";
                     $icon = "volume-up";
                 }
                 return '<a id="alerts-ack" data-id="'.$alert->id.'" data-state="'.$alert->state.'" class="btn btn-xs '.$btn.'"><i class="fa fa-'.$icon.' fa-fw"></i></a>';
             })
-            ->editColumn('rule.severity', function($alert) {
+            ->editColumn('rule.severity', function ($alert) {
                 return $alert->rule->severity;
             })
             ->make(true);
@@ -133,5 +132,4 @@ class AlertsDataTable extends BaseDataTable
     {
         return url('alerting/alerts');
     }
-
 }

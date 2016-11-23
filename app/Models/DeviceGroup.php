@@ -45,6 +45,9 @@ use Settings;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereDesc($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup wherePattern($value)
  * @mixin \Eloquent
+ * @property-read mixed $pattern_sql
+ * @property-read mixed $device_count
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DeviceGroup whereParams($value)
  */
 class DeviceGroup extends Model
 {
@@ -201,14 +204,88 @@ class DeviceGroup extends Model
     }
 
     /**
-     * Relationship to App\Models\Device
+     * Convert a v1 device group pattern to sql that can be ingested by jQuery-QueryBuilder
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @param $pattern
+     * @return array
      */
-    public function devices()
+    private function convertV1Pattern($pattern)
     {
-        return $this->belongsToMany('App\Models\Device', 'device_group_device', 'device_group_id', 'device_id');
+        $pattern = rtrim($pattern, ' &&');
+        $pattern = rtrim($pattern, ' ||');
+
+        $ops = ['=', '!=', '<', '<=', '>', '>='];
+        $parts = str_getcsv($pattern, ' '); // tokenize the pattern, respecting quoted parts
+        $out = "";
+
+        $count = count($parts);
+        for ($i = 0; $i < $count; $i++) {
+            $cur = $parts[$i];
+
+            if (starts_with($cur, '%')) {
+                // table and column or macro
+                $out .= substr($cur, 1).' ';
+            } elseif (substr($cur, -1) == '~') {
+                // like operator
+                $content = $parts[++$i]; // grab the content so we can format it
+
+                if (starts_with($cur, '!')) {
+                    // prepend NOT
+                    $out .= 'NOT ';
+                }
+
+                $out .= "LIKE('".$this->convertRegexToLike($content)."') ";
+            } elseif ($cur == '&&') {
+                $out .= 'AND ';
+            } elseif ($cur == '||') {
+                $out .= 'OR ';
+            } elseif (in_array($cur, $ops)) {
+                // pass-through operators
+                $out .= $cur.' ';
+            } else {
+                // user supplied input
+                $out .= "'".trim($cur, '"\'')."' "; // TODO: remove trim, only needed with invalid input
+            }
+        }
+        return rtrim($out);
     }
+
+    /**
+     * Convert sql regex to like, many common uses can be converted
+     * Should only be used to convert v1 patterns
+     *
+     * @param $pattern
+     * @return string
+     */
+    private function convertRegexToLike($pattern)
+    {
+        $startAnchor = starts_with($pattern, '^');
+        $endAnchor = ends_with($pattern, '$');
+
+        $pattern = trim($pattern, '^$');
+
+        $wildcards = ['@', '.*'];
+        if (str_contains($pattern, $wildcards)) {
+            // contains wildcard
+            $pattern = str_replace($wildcards, '%', $pattern);
+        }
+
+        // add ends appropriately
+        if ($startAnchor && !$endAnchor) {
+            $pattern .= '%';
+        } elseif (!$startAnchor && $endAnchor) {
+            $pattern = '%'.$pattern;
+        }
+
+        // if there are no wildcards, assume substring
+        if (!str_contains($pattern, '%')) {
+            $pattern = '%'.$pattern.'%';
+        }
+
+        return $pattern;
+    }
+
+    // ---- Accessors/Mutators ----
 
     /**
      * Returns an sql formatted string
@@ -229,9 +306,6 @@ class DeviceGroup extends Model
         }
         return $sql;
     }
-
-
-    // ---- Accessors/Mutators ----
 
     /**
      * Fetch the device counts for groups
@@ -285,90 +359,8 @@ class DeviceGroup extends Model
         return $pattern;
     }
 
-    /**
-     * Convert a v1 device group pattern to sql that can be ingested by jQuery-QueryBuilder
-     *
-     * @param $pattern
-     * @return array
-     */
-    private function convertV1Pattern($pattern)
-    {
-        $pattern = rtrim($pattern, ' &&');
-        $pattern = rtrim($pattern, ' ||');
-
-        $ops = ['=', '!=', '<', '<=', '>', '>='];
-        $parts = str_getcsv($pattern, ' '); // tokenize the pattern, respecting quoted parts
-        $out = "";
-
-        $count = count($parts);
-        for ($i = 0; $i < $count; $i++) {
-            $cur = $parts[$i];
-
-            if (starts_with($cur, '%')) {
-                // table and column or macro
-                $out .= substr($cur, 1).' ';
-            } elseif (substr($cur, -1) == '~') {
-                // like operator
-                $content = $parts[++$i]; // grab the content so we can format it
-
-                if (starts_with($cur, '!')) {
-                    // prepend NOT
-                    $out .= 'NOT ';
-                }
-
-                $out .= "LIKE('".$this->convertRegexToLike($content)."') ";
-
-            } elseif ($cur == '&&') {
-                $out .= 'AND ';
-            } elseif ($cur == '||') {
-                $out .= 'OR ';
-            } elseif (in_array($cur, $ops)) {
-                // pass-through operators
-                $out .= $cur.' ';
-            } else {
-                // user supplied input
-                $out .= "'".trim($cur, '"\'')."' "; // TODO: remove trim, only needed with invalid input
-            }
-        }
-        return rtrim($out);
-    }
 
     // ---- Define Relationships ----
-
-    /**
-     * Convert sql regex to like, many common uses can be converted
-     * Should only be used to convert v1 patterns
-     *
-     * @param $pattern
-     * @return string
-     */
-    private function convertRegexToLike($pattern)
-    {
-        $startAnchor = starts_with($pattern, '^');
-        $endAnchor = ends_with($pattern, '$');
-
-        $pattern = trim($pattern, '^$');
-
-        $wildcards = ['@', '.*'];
-        if (str_contains($pattern, $wildcards)) {
-            // contains wildcard
-            $pattern = str_replace($wildcards, '%', $pattern);
-        }
-
-        // add ends appropriately
-        if ($startAnchor && !$endAnchor) {
-            $pattern .= '%';
-        } elseif (!$startAnchor && $endAnchor) {
-            $pattern = '%'.$pattern;
-        }
-
-        // if there are no wildcards, assume substring
-        if (!str_contains($pattern, '%')) {
-            $pattern = '%'.$pattern.'%';
-        }
-
-        return $pattern;
-    }
 
     /**
      * Relationship allows us to eager load device counts
@@ -378,7 +370,17 @@ class DeviceGroup extends Model
      */
     public function deviceCountRelation()
     {
-        // this query doesn't work in strict mode
+        // FIXME this query doesn't work in strict mode
         return $this->devices()->selectRaw('`device_group_device`.`device_group_id`, count(*) as count')->groupBy('device_group_device.device_group_id');
+    }
+
+    /**
+     * Relationship to App\Models\Device
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function devices()
+    {
+        return $this->belongsToMany('App\Models\Device', 'device_group_device', 'device_group_id', 'device_id');
     }
 }

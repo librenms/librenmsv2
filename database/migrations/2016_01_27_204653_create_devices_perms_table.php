@@ -30,5 +30,4 @@ class CreateDevicesPermsTable extends Migration
     {
         Schema::drop('devices_perms');
     }
-
 }

@@ -49,7 +49,7 @@ class Notification extends Model
      */
     protected $primaryKey = 'notifications_id';
 
-    // ---- Define Convenience Functions ---
+    // ---- Helper Functions ----
 
     /**
      * Mark this notification as read or unread
@@ -87,17 +87,9 @@ class Notification extends Model
             $read->value = 1;
             $this->attribs()->save($read);
             return true;
-        }
-        else {
+        } else {
             return $this->attribs()->where('key', $name)->delete();
         }
-    }
-
-    // ---- Define Relationships ----
-
-    public function attribs()
-    {
-        return $this->hasMany('App\Models\NotificationAttrib', 'notifications_id', 'notifications_id');
     }
 
     // ---- Define Scopes ----
@@ -140,4 +132,13 @@ class Notification extends Model
         return $query->leftJoin('users', 'notifications.source', '=', 'users.user_id');
     }
 
+    // ---- Define Relationships ----
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attribs()
+    {
+        return $this->hasMany('App\Models\NotificationAttrib', 'notifications_id', 'notifications_id');
+    }
 }

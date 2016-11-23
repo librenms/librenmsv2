@@ -31,5 +31,4 @@ class CreateAlertTemplateMapTable extends Migration
     {
         Schema::drop('alert_template_map');
     }
-
 }

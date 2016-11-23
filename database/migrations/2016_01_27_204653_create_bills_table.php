@@ -48,5 +48,4 @@ class CreateBillsTable extends Migration
     {
         Schema::drop('bills');
     }
-
 }

@@ -98,5 +98,4 @@ class CreatePortsTable extends Migration
     {
         Schema::drop('ports');
     }
-
 }

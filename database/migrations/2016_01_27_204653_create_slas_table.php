@@ -36,5 +36,4 @@ class CreateSlasTable extends Migration
     {
         Schema::drop('slas');
     }
-
 }

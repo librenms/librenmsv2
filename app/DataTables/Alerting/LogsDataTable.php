@@ -39,19 +39,18 @@ class LogsDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($log) {
+            ->editColumn('device.hostname', function ($log) {
                 $hostname = is_null($log->device) ? trans('devices.text.deleted') : $log->device->hostname;
                 return '<a href="'.url("devices/".$log->device_id).'">'.$hostname.'</a>';
             })
-            ->editColumn('rule.name', function($log) {
+            ->editColumn('rule.name', function ($log) {
                 if ($log->rule_id) {
                     return '<a href="'.url("alerting/rules/".$log->rule_id).'">'.$log->rule->name.'</a>';
-                }
-                else {
+                } else {
                     return trans('alerting.general.text.invalid');
                 }
             })
-            ->editColumn('state', function($log) {
+            ->editColumn('state', function ($log) {
                 $icon   = '';
                 $colour = '';
                 $text   = '';
@@ -59,30 +58,26 @@ class LogsDataTable extends BaseDataTable
                     $icon   = 'check';
                     $colour = 'green';
                     $text   = trans('alerting.logs.text.ok');
-                }
-                elseif ($log->state == 1) {
+                } elseif ($log->state == 1) {
                     $icon   = 'times';
                     $colour = 'red';
                     $text   = trans('alerting.logs.text.fail');
-                }
-                elseif ($log->state == 2) {
+                } elseif ($log->state == 2) {
                     $icon   = 'volume-off';
                     $colour = 'lightgrey';
                     $text   = trans('alerting.logs.text.ack');
-                }
-                elseif ($log->state == 3) {
+                } elseif ($log->state == 3) {
                     $icon   = 'arrow-down';
                     $colour = 'orange';
                     $text   = trans('alerting.logs.text.worse');
-                }
-                elseif ($log->state == 4) {
+                } elseif ($log->state == 4) {
                     $icon   = 'arrow-up';
                     $colour = 'khaki';
                     $text   = trans('alerting.logs.text.better');
                 }
                 return '<b><span class="fa fa-'.$icon.'" style="color:'.$colour.'"></span> '.$text.'</b>';
             })
-            ->editColumn('time_logged', function($log) {
+            ->editColumn('time_logged', function ($log) {
                 return date('Y-m-d H:i:s', $log->time_logged / 1000);
             })
             ->make(true);

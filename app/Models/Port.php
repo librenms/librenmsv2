@@ -184,7 +184,7 @@ class Port extends Model
      */
     protected $primaryKey = 'port_id';
 
-    // ---- Define Helper Functions ----
+    // ---- Helper Functions ----
 
     /**
      * Returns a human readable label for this port
@@ -293,6 +293,4 @@ class Port extends Model
     {
         return $this->hasMany('App\Models\General\IPv6', 'port_id');
     }
-
 }
-

@@ -23,9 +23,11 @@
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
 
-use App\Models\Alerting\Alert;
+namespace Tests\Webui\Alerting;
+
 use App\Models\Alerting\Log;
 use App\Models\User;
+use Tests\TestCase;
 
 class ListLogsTest extends TestCase
 {
@@ -41,13 +43,10 @@ class ListLogsTest extends TestCase
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
-        for ($x=0;$x<5;$x++) {
-            $log   = factory(Log::class)->create();
-        }
+        factory(Log::class, 5)->create();
+
         $this->actingAs($user)
              ->visit('/alerting/logs')
              ->see('Time Logged');
-
     }
-
 }

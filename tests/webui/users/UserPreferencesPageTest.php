@@ -1,7 +1,9 @@
 <?php
+namespace Tests\Webui\Users;
 
 use App\Models\Device;
 use App\Models\User;
+use Tests\TestCase;
 
 class UserPreferencesPageTest extends TestCase
 {
@@ -74,7 +76,5 @@ class UserPreferencesPageTest extends TestCase
              ->visit('/preferences')
              ->see('Device / Port permissions')
              ->see('Show devices');
-
     }
-
 }

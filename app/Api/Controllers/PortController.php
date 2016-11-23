@@ -13,8 +13,8 @@ class PortController extends Controller
 {
     use Helpers;
 
-    public function __construct() {
-
+    public function __construct()
+    {
     }
 
     /**
@@ -26,8 +26,7 @@ class PortController extends Controller
     {
         if (Auth::user()->hasGlobalRead()) {
             $ports = Port::all();
-        }
-        else {
+        } else {
             $ports = Auth::user()->ports()->get();
         }
 
@@ -65,8 +64,7 @@ class PortController extends Controller
     {
         if ($request->user()->hasGlobalRead()) {
             return Port::find($id);
-        }
-        else {
+        } else {
             $user = User::find($request->user()->user_id);
             return $user->ports()->find($id);
         }

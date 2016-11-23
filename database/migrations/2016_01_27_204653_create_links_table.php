@@ -39,5 +39,4 @@ class CreateLinksTable extends Migration
     {
         Schema::drop('links');
     }
-
 }

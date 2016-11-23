@@ -23,8 +23,13 @@
  * @copyright  2016 Paul Heinrichs
  * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
  */
+namespace Tests\Webui\Commands;
 
 use App\Models\User;
+use Artisan;
+use Auth;
+use Mockery;
+use Tests\TestCase;
 
 class UserDeleteTest extends TestCase
 {
@@ -94,11 +99,11 @@ class UserDeleteTest extends TestCase
         // call the handle function
         $mock->handle();
 
-        $user = User::where('username',$removeUser)->get();
+        $user = User::where('username', $removeUser)->get();
         $this->assertEquals(0, count($user));
         $this->assertFalse(Auth::once(['username' => $removeUser, 'password' => 'the0ner1ng']));
 
-        $user = User::where('username','frodobaggins')->get();
+        $user = User::where('username', 'frodobaggins')->get();
         $this->assertEquals(1, count($user));
         $this->assertTrue(Auth::once(['username' => 'frodobaggins', 'password' => 'the0ner1ng']));
     }

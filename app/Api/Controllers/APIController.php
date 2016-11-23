@@ -9,7 +9,7 @@ class ApiController extends Controller
     /**
      * Get info about the install
      */
-    public function get_info()
+    public function getInfo()
     {
         $versions              = array();
         $versions['git']       = `git rev-parse --short HEAD`;
@@ -18,8 +18,7 @@ class ApiController extends Controller
         $versions['db_driver'] = strtoupper(DB::connection()->getDriverName());
         if ($versions['db_driver'] == 'SQLITE') {
             $versions['db_version'] = DB::select('SELECT sqlite_version() AS version')[0]->version;
-        }
-        else {
+        } else {
             $versions['db_version'] = DB::select('SELECT version() AS version')[0]->version;
         }
         return $versions;
@@ -28,7 +27,7 @@ class ApiController extends Controller
     /**
      * Get statistics about the install
      */
-    public function get_stats()
+    public function getStats()
     {
         $stats               = array();
         $stats['devices']    = \App\Models\Device::all()->count();
@@ -54,5 +53,4 @@ class ApiController extends Controller
         $stats['vlans']      = DB::table('vlans')->count();
         return $stats;
     }
-
 }

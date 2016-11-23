@@ -30,5 +30,4 @@ class CreatePortsPermsTable extends Migration
     {
         Schema::drop('ports_perms');
     }
-
 }

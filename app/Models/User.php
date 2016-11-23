@@ -39,6 +39,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $readNotifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $unreadNotifications
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -68,7 +71,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
-    // ---- Define Helper Functions ----
+    // ---- Helper Functions ----
 
     /**
      * Test if this user has global read access
@@ -91,8 +94,41 @@ class User extends Authenticatable implements JWTSubject
         return $this->level >= 10;
     }
 
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->user_id;
+        // TODO: Implement getJWTIdentifier() method.
+    }
 
-    // ---- Define Reletionships ----
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        // TODO: Implement getJWTCustomClaims() method.
+        return ['app' => 'LibreNMS', 'username' => $this->username];
+    }
+
+    // ---- Accessors/Mutators ----
+
+    /**
+     * Encrypt passwords before saving
+     *
+     * @param $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    // ---- Define Relationships ----
 
     /**
      * Returns a list of devices this user has access to
@@ -117,40 +153,5 @@ class User extends Authenticatable implements JWTSubject
     public function dashboards()
     {
         return $this->hasMany('App\Models\Dashboard');
-    }
-
-
-    // ---- Accessors/Mutators ----
-
-    /**
-     * Encrypt passwords before saving
-     *
-     * @param $password
-     */
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->user_id;
-        // TODO: Implement getJWTIdentifier() method.
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        // TODO: Implement getJWTCustomClaims() method.
-        return ['app' => 'LibreNMS', 'username' => $this->username];
     }
 }

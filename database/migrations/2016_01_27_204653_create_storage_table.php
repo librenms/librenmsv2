@@ -41,5 +41,4 @@ class CreateStorageTable extends Migration
     {
         Schema::drop('storage');
     }
-
 }

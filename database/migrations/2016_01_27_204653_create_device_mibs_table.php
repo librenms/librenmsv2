@@ -33,5 +33,4 @@ class CreateDeviceMibsTable extends Migration
     {
         Schema::drop('device_mibs');
     }
-
 }

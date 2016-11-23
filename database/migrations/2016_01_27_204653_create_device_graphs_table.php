@@ -29,5 +29,4 @@ class CreateDeviceGraphsTable extends Migration
     {
         Schema::drop('device_graphs');
     }
-
 }

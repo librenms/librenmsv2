@@ -26,7 +26,6 @@
 namespace App\Models\General;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\General\Inventory
@@ -97,10 +96,11 @@ class Inventory extends Model
     // ---- Accessors/Mutators ----
 
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * Returns the device this entry belongs to.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
     {

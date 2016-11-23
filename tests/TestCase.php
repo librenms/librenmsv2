@@ -1,8 +1,9 @@
 <?php
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+namespace Tests;
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     // This will migrate and rollback the database for each test
     use DatabaseMigrations;
@@ -22,7 +23,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         $app = require __DIR__.'/../bootstrap/app.php';
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
         return $app;
     }
 }

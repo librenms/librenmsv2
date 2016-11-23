@@ -22,12 +22,14 @@
  * @copyright  2016 Neil Lathwood
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
+namespace Tests\Api\General;
 
 use App\Models\User;
-use App\Models\Widgets;
 use App\Models\UsersWidgets;
+use App\Models\Widgets;
 use Illuminate\Http\Response;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use JWTAuth;
+use Tests\TestCase;
 
 class OverviewApiTest extends TestCase
 {
@@ -45,7 +47,7 @@ class OverviewApiTest extends TestCase
         $this->headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->json('POST', '/api/dashboard?token='.$jwt, array_merge($data,$this->headers))->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('POST', '/api/dashboard?token='.$jwt, array_merge($data, $this->headers))->seeStatusCode(Response::HTTP_OK)->seeJson([
             'statusText' => 'OK'
         ]);
         $this->json('GET', '/api/dashboard?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([

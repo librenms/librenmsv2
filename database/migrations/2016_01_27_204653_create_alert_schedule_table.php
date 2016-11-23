@@ -32,5 +32,4 @@ class CreateAlertScheduleTable extends Migration
     {
         Schema::drop('alert_schedule');
     }
-
 }

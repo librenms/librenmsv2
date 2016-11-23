@@ -39,5 +39,4 @@ class CreateOspfAreasTable extends Migration
     {
         Schema::drop('ospf_areas');
     }
-
 }

@@ -25,7 +25,6 @@
 
 namespace App\Api\Controllers;
 
-
 use App\Models\User;
 use Dingo\Api\Routing\Helpers;
 use Request;
@@ -113,5 +112,4 @@ class UsersController extends Controller
     {
         //
     }
-
 }

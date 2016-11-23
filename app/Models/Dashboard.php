@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Dashboard
@@ -48,6 +48,19 @@ class Dashboard extends Model
      */
     protected $fillable = ['user_id', 'dashboard_name', 'access'];
 
+    // ---- Query scopes ----
+
+    /**
+     * @param Builder $query
+     * @param $user
+     * @return Builder|static
+     */
+    public function scopeAllAvailable(Builder $query, $user)
+    {
+        return $query->where('user_id', $user->user_id)
+            ->orWhere('access', '>', 0);
+    }
+
     // ---- Define Reletionships ----
 
     /**
@@ -64,16 +77,5 @@ class Dashboard extends Model
     public function widgets()
     {
         return $this->hasMany('App\Models\UsersWidgets', 'dashboard_id');
-    }
-
-    /**
-     * @param Builder $query
-     * @param $user_id
-     * @return Builder|static
-     */
-    public function scopeAllAvailable(Builder $query, $user)
-    {
-        return $query->where('user_id', $user->user_id)
-            ->orWhere('access', '>', 0);
     }
 }

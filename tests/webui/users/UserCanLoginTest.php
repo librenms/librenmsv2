@@ -1,7 +1,8 @@
 <?php
+namespace Tests\Webui\Users;
 
 use App\Models\Dashboard;
-use App\Models\User;
+use Tests\TestCase;
 
 class UserCanLoginTest extends TestCase
 {
@@ -15,7 +16,7 @@ class UserCanLoginTest extends TestCase
     public function testLoggingInAsUser()
     {
         $this->seed();
-        $user = factory(User::class)->create();
+        $user = factory(\App\Models\User::class)->create();
 
         $data = ['user_id' => $user['user_id'], 'dashboard_name' => 'Test Dashboard', 'access' => '0'];
         $dashboard = Dashboard::create($data);
@@ -27,7 +28,7 @@ class UserCanLoginTest extends TestCase
 
     public function testLoggingOut()
     {
-        $user = factory(User::class)->create();
+        $user = factory(\App\Models\User::class)->create();
         $this->actingAs($user)
              ->visit('/devices')
             ->press('Logout')
@@ -64,5 +65,4 @@ class UserCanLoginTest extends TestCase
              ->seePageIs('/dashboard/'.$dashboard->dashboard_id);
         **/
     }
-
 }

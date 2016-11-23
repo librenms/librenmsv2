@@ -39,5 +39,4 @@ class CreateNetscalerVserversTable extends Migration
     {
         Schema::drop('netscaler_vservers');
     }
-
 }

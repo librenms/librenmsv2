@@ -32,5 +32,4 @@ class CreateNotificationsAttribsTable extends Migration
     {
         Schema::drop('notifications_attribs');
     }
-
 }

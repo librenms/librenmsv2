@@ -27,7 +27,6 @@ namespace App\Api\Controllers\General;
 
 use App\Api\Controllers\Controller;
 use App\Models\General\Eventlog;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -114,5 +113,4 @@ class EventlogController extends Controller
     {
         //
     }
-
 }

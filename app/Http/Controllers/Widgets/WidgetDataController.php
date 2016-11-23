@@ -194,5 +194,4 @@ class WidgetDataController extends Controller
         $widget_settings = json_decode(UsersWidgets::getSettings($request)->value('settings'));
         return view('widgets.graph', compact(['action', 'params', 'div_id']));
     }
-
 }

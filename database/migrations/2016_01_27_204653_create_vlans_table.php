@@ -35,5 +35,4 @@ class CreateVlansTable extends Migration
     {
         Schema::drop('vlans');
     }
-
 }

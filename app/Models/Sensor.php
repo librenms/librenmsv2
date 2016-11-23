@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\Sensor
@@ -76,7 +75,7 @@ class Sensor extends Model
      */
     protected $primaryKey = 'sensors_id';
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -85,5 +84,4 @@ class Sensor extends Model
     {
         return $this->belongsTo('App\Models\Device', 'device_id');
     }
-
 }

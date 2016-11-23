@@ -36,5 +36,4 @@ class CreateIpsecTunnelsTable extends Migration
     {
         Schema::drop('ipsec_tunnels');
     }
-
 }

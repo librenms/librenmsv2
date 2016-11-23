@@ -38,7 +38,7 @@ class DeviceGroup implements DataTableScopeContract
      *
      * @param integer $group_id
      */
-    function __construct($group_id)
+    public function __construct($group_id)
     {
         $this->group_id = $group_id;
     }
@@ -51,7 +51,7 @@ class DeviceGroup implements DataTableScopeContract
      */
     public function apply($query)
     {
-        return $query->whereHas('groups', function($q) {
+        return $query->whereHas('groups', function ($q) {
             $q->where('id', '=', $this->group_id);
         });
     }

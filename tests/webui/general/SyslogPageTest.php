@@ -22,21 +22,23 @@
  * @copyright  2016 Neil Lathwood
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
+namespace Tests\Webui\General;
 
 use App\Models\User;
+use Tests\TestCase;
 
 class SyslogPageTest extends TestCase
 {
 
     /**
      * Test about page
-    **/
+     **/
 
     public function testSyslogPage()
     {
         $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
-             ->visit('/syslog');
+            ->visit('/syslog');
     }
 }

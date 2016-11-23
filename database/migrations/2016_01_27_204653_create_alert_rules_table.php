@@ -35,5 +35,4 @@ class CreateAlertRulesTable extends Migration
     {
         Schema::drop('alert_rules');
     }
-
 }

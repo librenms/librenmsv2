@@ -39,5 +39,4 @@ class CreateUsersWidgetsTable extends Migration
     {
         Schema::drop('users_widgets');
     }
-
 }

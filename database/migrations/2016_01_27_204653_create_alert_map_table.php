@@ -30,5 +30,4 @@ class CreateAlertMapTable extends Migration
     {
         Schema::drop('alert_map');
     }
-
 }

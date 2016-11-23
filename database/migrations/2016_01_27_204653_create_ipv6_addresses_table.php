@@ -34,5 +34,4 @@ class CreateIpv6AddressesTable extends Migration
     {
         Schema::drop('ipv6_addresses');
     }
-
 }

@@ -42,7 +42,7 @@ class EventlogDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function($eventlog) {
+            ->editColumn('device.hostname', function ($eventlog) {
                 $hostname = is_null($eventlog->device) ? trans('devices.text.deleted') : $eventlog->device->hostname;
                 return '<a href="'.url("devices/".$eventlog->device_id).'">'.$hostname.'</a>';
             })
@@ -113,5 +113,4 @@ class EventlogDataTable extends BaseDataTable
         $this->device_id = $device_id;
         return $this;
     }
-
 }

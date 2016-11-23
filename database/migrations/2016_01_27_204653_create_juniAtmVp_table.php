@@ -31,5 +31,4 @@ class CreateJuniAtmVpTable extends Migration
     {
         Schema::drop('juniAtmVp');
     }
-
 }

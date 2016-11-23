@@ -34,5 +34,4 @@ class CreateCiscoASATable extends Migration
     {
         Schema::drop('ciscoASA');
     }
-
 }

@@ -22,13 +22,21 @@
  * @copyright  2016 Tony Murray
  * @author     Tony Murray <murraytony@gmail.com>
  */
+namespace Tests\Webui\Commands;
+
+use App\Models\User;
+use Artisan;
+use Auth;
+use Config;
+use Settings;
+use Tests\TestCase;
 
 class MigrateSettingsTest extends TestCase
 {
     protected function setUp()
     {
         parent::setUp();
-        $user = factory(App\Models\User::class)->create(['level' => 10]);
+        $user = factory(User::class)->create(['level' => 10]);
         Auth::login($user);
     }
 

@@ -75,5 +75,4 @@ class CreateDevicesTable extends Migration
     {
         Schema::drop('devices');
     }
-
 }

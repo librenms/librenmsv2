@@ -17,10 +17,10 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function index(DeviceDataTable $dataTable, $group_id=-1)
+    public function index(DeviceDataTable $dataTable, $group_id = -1)
     {
         $group_name = "";
-        if($group_id >= 0) {
+        if ($group_id >= 0) {
             $dataTable->addScope(new \App\DataTables\Scopes\DeviceGroup($group_id));
             $group_name = DeviceGroup::find($group_id)->name;
         }

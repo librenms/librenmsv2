@@ -8,7 +8,6 @@ use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Auth;
-use Dingo\Api\Http;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
@@ -109,8 +108,7 @@ class UserController extends Controller
         $user->update($request->all());
         if ($request->input('update') == 'password') {
             $message = trans('user.text.pwdupdated');
-        }
-        else {
+        } else {
             $message = trans('user.text.updated', ['username' => $user->username]);
         }
 

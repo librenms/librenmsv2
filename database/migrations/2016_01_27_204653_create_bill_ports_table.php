@@ -30,5 +30,4 @@ class CreateBillPortsTable extends Migration
     {
         Schema::drop('bill_ports');
     }
-
 }

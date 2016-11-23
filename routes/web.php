@@ -55,7 +55,7 @@ Auth::routes();
 //});
 
 // Authenticated Routes
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
     // Password Reset Routes...
 //    Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
 //    Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
@@ -117,10 +117,9 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 // Admin Only routes
-Route::group(['middleware' => 'admin'], function() {
+Route::group(['middleware' => 'admin'], function () {
     // User Management
     Route::resource('users', 'UserController');
     Route::resource('users.devices', 'UserDeviceController', ['only' => ['create', 'store', 'destroy']]);
     Route::resource('users.ports', 'UserPortController', ['only' => ['create', 'store', 'destroy']]);
 });
-

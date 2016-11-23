@@ -36,5 +36,4 @@ class CreatePortsVlansTable extends Migration
     {
         Schema::drop('ports_vlans');
     }
-
 }

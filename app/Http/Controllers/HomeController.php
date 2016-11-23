@@ -14,8 +14,7 @@ class HomeController extends Controller
     public function redirect(Request $request)
     {
         $dashboard = Dashboard::where('user_id', $request->user()->user_id)->first();
-        if (empty($dashboard->dashboard_id))
-        {
+        if (empty($dashboard->dashboard_id)) {
             $dashboard = new Dashboard();
             $dashboard->dashboard_name = 'Default';
             $dashboard->access         = 0;
@@ -24,7 +23,8 @@ class HomeController extends Controller
         return redirect()->route('dashboard.show', ['id' => $dashboard->dashboard_id]);
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $dashboards = Api::be(auth()->user())->get('/api/dashboard');
         return view('home', ['dashboards' => $dashboards, 'request' => $request]);
     }
@@ -33,21 +33,19 @@ class HomeController extends Controller
     {
         $token      = JWTAuth::fromUser(auth()->user());
         $dashboards = Api::be(auth()->user())->get('/api/dashboard');
-        if (Dashboard::find($request->route('dashboard_id')))
-        {
+        if (Dashboard::find($request->route('dashboard_id'))) {
             $dash    = Api::be(auth()->user())->get('/api/dashboard/'.$request->route('dashboard_id'));
             $widgets = Api::be(auth()->user())->get('/api/widget');
-        }
-        else {
+        } else {
             return redirect()->route('home');
         }
         return view('home', ['dashboards' => $dashboards, 'request' => $request, 'dash_widgets' => $dash['widgets'], 'token' => $token, 'dash_details' => $dash['dashboard'], 'widgets' => $widgets]);
     }
 
-    public function about() {
+    public function about()
+    {
         $versions = Api::be(auth()->user())->get('/api/info');
         $stats    = Api::be(auth()->user())->get('/api/stats');
         return view('general.about', ['versions' => $versions, 'stats' => $stats]);
     }
-
 }

@@ -31,5 +31,4 @@ class CreateComponentPrefsTable extends Migration
     {
         Schema::drop('component_prefs');
     }
-
 }

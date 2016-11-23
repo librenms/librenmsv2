@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
-    public function __construct() {
-
+    public function __construct()
+    {
     }
 
     /**
@@ -23,8 +23,7 @@ class DeviceController extends Controller
         $per_page = $request->per_page ?: 25;
         if ($request->user()->hasGlobalRead()) {
             $devices = Device::paginate($per_page);
-        }
-        else {
+        } else {
             $devices = User::find($request->user()->user_id)->devices()->paginate($per_page);
         }
         return $devices;
@@ -61,8 +60,7 @@ class DeviceController extends Controller
     {
         if ($request->user()->hasGlobalRead()) {
             $device = Device::find($id);
-        }
-        else {
+        } else {
             $user = User::find($request->user()->user_id);
             $device = $user->devices()->find($id);
         }
@@ -107,5 +105,4 @@ class DeviceController extends Controller
     {
         //
     }
-
 }

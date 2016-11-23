@@ -23,12 +23,21 @@
  * @copyright  2016 Tony Murray
  * @license    @license http://opensource.org/licenses/GPL-3.0 GNU Public License v3 or later
  */
+namespace Tests\Webui\Settings;
+
+use App\Models\User;
+use Auth;
+use Cache;
+use Config;
+use Settings;
+use Tests\TestCase;
+
 class SettingsTest extends TestCase
 {
     protected function setUp()
     {
         parent::setUp();
-        $user = factory(App\Models\User::class)->create(['level' => 10]);
+        $user = factory(User::class)->create(['level' => 10]);
         Auth::login($user);
     }
 
@@ -56,17 +65,18 @@ class SettingsTest extends TestCase
     {
         $this->assertFalse(Settings::isReadOnly('test.writable'));
 
-        $user = factory(App\Models\User::class)->create();
+        $user = factory(User::class)->create();
         Auth::login($user);
 
         $this->assertTrue(Settings::isReadOnly('test.roauth'));
     }
 
+    /**
+     * @expectedException \Exception
+     */
     public function testReadOnlyException()
     {
-        $this->setExpectedException('Exception');
-
-        $user = factory(App\Models\User::class)->create();
+        $user = factory(User::class)->create();
         Auth::login($user);
 
         Settings::set('test.readonly');
@@ -257,7 +267,6 @@ class SettingsTest extends TestCase
         Settings::flush();
         $flushed = Cache::tags(\App\Settings::$cache_tag)->get('test.flush');
         $this->assertNull($flushed);
-
     }
 
     public function testNoCache()
@@ -305,7 +314,7 @@ class SettingsTest extends TestCase
 
     public function testGetAll()
     {
-        $data = ['key1' => 'data1', 'key2' => ['key3' => 'data3']];
+        $data = ['key1' => 'data1', 'key2' => ['key3' => 'data3'], 'install_dir' => './'];
 
         Settings::set("", $data);
         $result = Settings::all();

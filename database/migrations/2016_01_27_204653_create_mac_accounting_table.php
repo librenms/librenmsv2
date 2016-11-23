@@ -53,5 +53,4 @@ class CreateMacAccountingTable extends Migration
     {
         Schema::drop('mac_accounting');
     }
-
 }

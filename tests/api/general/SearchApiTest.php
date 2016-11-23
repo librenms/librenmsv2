@@ -22,14 +22,16 @@
  * @copyright  2016 Neil Lathwood
  * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
+namespace Tests\Api\General;
 
-use App\Models\User;
 use App\Models\General\IPv4;
+use App\Models\General\IPv4Mac;
 use App\Models\General\IPv6;
 use App\Models\Port;
-use App\Models\General\IPv4Mac;
+use App\Models\User;
 use Illuminate\Http\Response;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use JWTAuth;
+use Tests\TestCase;
 
 class SearchApiTest extends TestCase
 {
@@ -41,7 +43,7 @@ class SearchApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create();
-        for ($x=0;$x<5;$x++) {
+        for ($x = 0; $x < 5; $x++) {
             factory(IPv4::class)->create();
         }
         $total = IPv4::all()->count();
@@ -61,7 +63,7 @@ class SearchApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create();
-        for ($x=0;$x<5;$x++) {
+        for ($x = 0; $x < 5; $x++) {
             factory(IPv6::class)->create();
         }
         $total = IPv6::all()->count();
@@ -81,9 +83,8 @@ class SearchApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create();
-        for ($x=0;$x<5;$x++) {
-            factory(Port::class)->create();
-        }
+        factory(Port::class, 5)->create();
+
         $total = Port::all()->count();
         $jwt = JWTAuth::fromUser($user);
         $this->headers = [
@@ -101,9 +102,8 @@ class SearchApiTest extends TestCase
     {
         $this->seed();
         $user = factory(User::class)->create();
-        for ($x=0;$x<5;$x++) {
-            factory(IPv4Mac::class)->create();
-        }
+        factory(IPv4Mac::class, 5)->create();
+
         $total = IPv4Mac::all()->count();
         $jwt = JWTAuth::fromUser($user);
         $this->headers = [
@@ -113,5 +113,4 @@ class SearchApiTest extends TestCase
             'total' => $total,
         ]);
     }
-
 }

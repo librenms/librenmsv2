@@ -26,7 +26,6 @@
 namespace App\Models\General;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\General\IPv4
@@ -75,10 +74,11 @@ class IPv4 extends Model
     // ---- Accessors/Mutators ----
 
 
-    // ---- Define Reletionships ----
+    // ---- Define Relationships ----
 
     /**
      * Returns the port this entry belongs to.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function port()
     {
@@ -87,10 +87,10 @@ class IPv4 extends Model
 
     /**
      * Returns the device this entry belongs to.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
     {
         return $this->belongsTo('App\Models\Device', 'device_id', 'device_id');
     }
-
 }

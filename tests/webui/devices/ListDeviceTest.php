@@ -1,7 +1,9 @@
 <?php
+namespace Tests\Webui\Devices;
 
 use App\Models\Device;
 use App\Models\User;
+use Tests\TestCase;
 
 class ListDeviceTest extends TestCase
 {
@@ -30,5 +32,4 @@ class ListDeviceTest extends TestCase
         $this->actingAs($user)
              ->visit('/devices');
     }
-
 }

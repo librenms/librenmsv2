@@ -46,5 +46,4 @@ class CreatePortsAdslTable extends Migration
     {
         Schema::drop('ports_adsl');
     }
-
 }

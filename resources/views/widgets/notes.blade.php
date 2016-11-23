@@ -3,12 +3,11 @@
 @if ($action == 'settings')
 
 <?php
-    if (!isset($widget_settings))
-    {
-        $widget_settings = new stdClass();
-        $widget_settings->tile_width = 10;
-        $widget_settings->mode       = 0;
-    }
+if (!isset($widget_settings)) {
+    $widget_settings = new stdClass();
+    $widget_settings->tile_width = 10;
+    $widget_settings->mode = 0;
+}
 ?>
 
     @section('settings')

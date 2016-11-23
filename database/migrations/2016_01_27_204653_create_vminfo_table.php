@@ -36,5 +36,4 @@ class CreateVminfoTable extends Migration
     {
         Schema::drop('vminfo');
     }
-
 }

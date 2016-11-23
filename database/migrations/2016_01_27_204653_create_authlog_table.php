@@ -32,5 +32,4 @@ class CreateAuthlogTable extends Migration
     {
         Schema::drop('authlog');
     }
-
 }

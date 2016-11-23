@@ -32,5 +32,4 @@ class CreatePortsStackTable extends Migration
     {
         Schema::drop('ports_stack');
     }
-
 }

@@ -30,5 +30,4 @@ class CreatePluginsTable extends Migration
     {
         Schema::drop('plugins');
     }
-
 }

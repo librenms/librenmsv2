@@ -29,8 +29,7 @@ $config_source = $install_dir . '/config.php';
 
 unset($config);
 
-if (file_exists($config_source))
-{
+if (file_exists($config_source)) {
     include_once($config_source);
 }
 

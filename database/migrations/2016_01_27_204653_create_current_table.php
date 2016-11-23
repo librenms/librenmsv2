@@ -38,5 +38,4 @@ class CreateCurrentTable extends Migration
     {
         Schema::drop('current');
     }
-
 }

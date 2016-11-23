@@ -74,8 +74,7 @@ class DeleteUser extends Command
         }
         if (count($names) > 1) {
             $name = $this->choice('Who would you like to remove?', $names);
-        }
-        else {
+        } else {
             $name = $names[0];
         }
         if ($this->confirm('Do you wish to remove '.$name.'?')) {

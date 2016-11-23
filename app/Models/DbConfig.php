@@ -83,6 +83,66 @@ class DbConfig extends Model
      */
     protected $fillable = ['config_name', 'config_value'];
 
+    // ---- Helper Functions ----
+
+    /**
+     * Unserialize default values.
+     *
+     * @param $value
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getConfigDefault($value)
+    {
+        // uses the same code as values
+        return $this->getConfigValueAttribute($value);
+    }
+
+    // ---- Accessors/Mutators ----
+
+    /**
+     * Unserialize stored values.
+     *
+     * @param $value
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getConfigValueAttribute($value)
+    {
+        if (!empty($value)) {
+            try {
+                return unserialize($value);
+            } catch (\Exception $e) {
+                if (str_contains($e->getMessage(), 'unserialize():')) {
+                    return $value;
+                } else {
+                    throw $e;
+                }
+            }
+        }
+        return $value;
+    }
+
+    /**
+     * Serialize values before storing.
+     *
+     * @param $value
+     */
+    public function setConfigValueAttribute($value)
+    {
+        $this->attributes['config_value'] = serialize($value);
+    }
+
+    /**
+     * Serialize defaults before storing.
+     *
+     * @param $value
+     */
+    public function setConfigDefaultAttribute($value)
+    {
+        $this->attributes['config_default'] = serialize($value);
+    }
+
     // ---- Define Scopes ----
 
     /**
@@ -107,64 +167,5 @@ class DbConfig extends Model
     public function scopeExactKey(Builder $query, $key)
     {
         return $query->where('config_name', $key);
-    }
-
-    // ---- Accessors/Mutators ----
-
-    /**
-     * Unserialize stored values.
-     *
-     * @param $value
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getConfigValueAttribute($value)
-    {
-        if (!empty($value)) {
-            try {
-                return unserialize($value);
-            } catch (\Exception $e) {
-                if (str_contains($e->getMessage(), 'unserialize():')) {
-                    return $value;
-                }
-                else {
-                    throw $e;
-                }
-            }
-        }
-        return $value;
-    }
-
-    /**
-     * Unserialize default values.
-     *
-     * @param $value
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getConfigDefault($value)
-    {
-        // uses the same code as values
-        return $this->getConfigValueAttribute($value);
-    }
-
-    /**
-     * Serialize values before storing.
-     *
-     * @param $value
-     */
-    public function setConfigValueAttribute($value)
-    {
-        $this->attributes['config_value'] = serialize($value);
-    }
-
-    /**
-     * Serialize defaults before storing.
-     *
-     * @param $value
-     */
-    public function setConfigDefaultAttribute($value)
-    {
-        $this->attributes['config_default'] = serialize($value);
     }
 }

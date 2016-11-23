@@ -33,5 +33,4 @@ class CreateApplicationsTable extends Migration
     {
         Schema::drop('applications');
     }
-
 }

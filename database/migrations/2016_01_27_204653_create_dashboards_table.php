@@ -31,5 +31,4 @@ class CreateDashboardsTable extends Migration
     {
         Schema::drop('dashboards');
     }
-
 }

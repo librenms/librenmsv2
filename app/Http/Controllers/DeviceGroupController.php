@@ -121,6 +121,5 @@ class DeviceGroupController extends Controller
         } else {
             return response()->json(['message' => trans('devices.groups.deletefailed', ['name' => $group ? $group->name : ""])], 422);
         }
-
     }
 }

@@ -32,5 +32,4 @@ class CreatePollersTable extends Migration
     {
         Schema::drop('pollers');
     }
-
 }
