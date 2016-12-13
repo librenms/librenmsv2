@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('APP_ENV') == 'testing' ? env('PHPUNIT_DB_CONNECTION', 'testing_sqlite') : env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------

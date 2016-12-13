@@ -102,7 +102,7 @@ class UserAddTest extends TestCase
         // call the handle function
         $mock->handle();
 
-        $user = User::find(1)->first();
+        $user = User::first();
         $this->assertEquals($username, $user->username);
         $this->assertEquals($realname, $user->realname);
         $this->assertEquals($email, $user->email);
