@@ -44,13 +44,13 @@ class OverviewApiTest extends TestCase
         $user = factory(User::class)->create();
         $jwt = JWTAuth::fromUser($user);
         $data = ['user_id' => $user->user_id, 'name' => 'Test Dashboard', 'access' => '0',];
-        $this->headers = [
+        $headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->json('POST', '/api/dashboard?token='.$jwt, array_merge($data, $this->headers))->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('POST', '/api/dashboard?token='.$jwt, array_merge($data, $headers))->seeStatusCode(Response::HTTP_OK)->seeJson([
             'statusText' => 'OK'
         ]);
-        $this->json('GET', '/api/dashboard?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->json('GET', '/api/dashboard?token='.$jwt, $headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
             'dashboard_name' => 'Test Dashboard'
         ]);
     }
@@ -63,10 +63,10 @@ class OverviewApiTest extends TestCase
         $data = ['widget_title' => 'Test Widget', 'widget' => 'test-widget', 'base_dimensions' => '4,3'];
         $widgets = Widgets::create($data);
 
-        $this->headers = [
+        $headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->get('/api/widget?token='.$jwt, $this->headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
+        $this->get('/api/widget?token='.$jwt, $headers)->seeStatusCode(Response::HTTP_OK)->seeJson([
             'widget_title' => 'Test Widget'
         ]);
     }
@@ -76,14 +76,23 @@ class OverviewApiTest extends TestCase
         $this->seed();
         $user = factory(User::class)->create();
         $jwt = JWTAuth::fromUser($user);
-        $data = ['user_id' => $user->user_id, 'widget_id' => 1, 'col' => 1, 'row' => 2, 'size_x' => 1, 'size_y' => 2, 'title' => 'Test Widget', 'settings' => '', 'dashboard_id' => 1];
+        $widget_id = Widgets::first()->widget_id;
+        $data = ['user_id'      => $user->user_id,
+                 'widget_id'    => $widget_id,
+                 'col'          => 1,
+                 'row'          => 2,
+                 'size_x'       => 1,
+                 'size_y'       => 2,
+                 'title'        => 'Test Widget',
+                 'settings'     => '',
+                 'dashboard_id' => 1,
+        ];
         $users_widgets = UsersWidgets::create($data);
 
-        $this->headers = [
+        $headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->get('/api/dashboard-widget/1?token='.$jwt, $this->headers)
-            ->seeStatusCode(Response::HTTP_OK)
-            ->seeJson(['widget_id' => 1]);
+        $this->delete('/api/widget/'.$users_widgets->user_widget_id.'?token='.$jwt, $headers)
+            ->seeStatusCode(Response::HTTP_OK);
     }
 }

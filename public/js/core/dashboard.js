@@ -49,7 +49,7 @@ $.Dashboard.addWidget = function(grid, data) {
 $.Dashboard.refreshDashboardWidget = function(data, refresh=false)
 {
     var id = data.widget_id;
-    $.Util.apiAjaxGetCall('/api/dashboard-widget/'+id)
+    $.Util.apiAjaxGetCall('/api/widget/' + id)
         .done(function(response) {
             var settings = response.widget;
             if (refresh === false)
@@ -109,7 +109,7 @@ $.Dashboard.updateWidget = function(target)
         width:  target.getAttribute('data-gs-width'),
         height: target.getAttribute('data-gs-height')
     };
-    $.Util.apiAjaxPATCHCall('/api/dashboard-widget/'+data['id'], data)
+    $.Util.apiAjaxPATCHCall('/api/widget/' + data['id'], data)
         .done(function(content) {
         })
         .fail(function(err,msg) {
@@ -128,7 +128,7 @@ $.Dashboard.removeWidget = function(data) {
     $(document).ready(function(){
             var $this = $(data);
             var el = $this.closest('.grid-stack-item');
-            $.Util.apiAjaxDELETECall('/api/dashboard-widget/'+$this.data('id'))
+        $.Util.apiAjaxDELETECall('/api/widget/' + $this.data('id'))
                 .done(function(content) {
                     $('.grid-stack').data('gridstack').removeWidget(el);
                 })
@@ -309,7 +309,7 @@ $.Dashboard.dashboardActions = function(grid) {
                     dashboard_id: dashboard_id,
                     autoPosition: true
                 };
-                $.Util.ajaxCall('POST','/api/dashboard-widget', post_data)
+                $.Util.ajaxCall('POST', '/api/widget', post_data)
                 .done(function(data) {
                     if (data.statusText === "OK" ) {
                         post_data.user_widget_id = data.user_widget_id;
@@ -348,7 +348,7 @@ $.Dashboard.dashboardActions = function(grid) {
                 refresh: el.data('refresh')
             };
             if (which === 'update-widget-settings') {
-                $.Util.apiAjaxPATCHCall('/api/dashboard-widget/'+user_widget_id, fd)
+                $.Util.apiAjaxPATCHCall('/api/widget/' + user_widget_id, fd)
                     .done(function(content) {
                         $.Dashboard.refreshDashboardWidget(data,true);
                     })
