@@ -1,12 +1,10 @@
 <?php
 namespace Tests;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
-    // This will migrate and rollback the database for each test
-    use DatabaseMigrations;
+    // This will migrate and rollback the database for each test, or use transactions with a db, automatically migrating
+    use DatabaseSetup;
 
     /**
      * The base URL to use while testing the application.
@@ -14,6 +12,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * @var string
      */
     protected $baseUrl = 'http://localhost:12345';
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->setupDatabase();
+    }
 
     /**
      * Creates the application.
