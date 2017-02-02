@@ -11,14 +11,14 @@
         <div class="col-md-12">
             <div class="box box-{{ $device->statusColour() }}">
                 <div class="box-header with-border">
-                    <div class="col-md-1">
-                        <img src="{{ $device->logo() }}" border="0" alt="{{ $device->os }}">
+                    <div class="col-md-2">
+                        <img class="img-responsive" src="{{ $device->logo() }}" alt="{{ $device->os }}">
                     </div>
                     <div class="col-md-4">
                         <h3 class="box-title"><strong>{{ $device->hostname }}</strong></h3><br/>
                         <span>{{ $device->location }}</span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         @foreach (Settings::get('os.'.$device->os.'.over', []) as $id => $over)
                             <div class="show-graph"
                                  id="{{ $device->device_id }}_{{ $over['graph'] }}"
@@ -48,7 +48,9 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-body box-profile">
-                            <img class="img-responsive img-circle pull-right" src="{{ $device->logo() }}" alt="{{ $device->os }}">
+                            <div class="device-icon pull-right">
+                                <img class="" src="{{ $device->icon }}" alt="{{ $device->os }}">
+                            </div>
                             <strong>{{ $device->hostname }}</strong><br/>
                             <span>{{ $device->location }}</span>
                         </div>

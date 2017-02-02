@@ -168,12 +168,21 @@ class Device extends Model
      */
     public function logo()
     {
-        $icon = $this->icon;
-        if (isset($icon)) {
-            return asset('images/os/'.$icon.'.png');
-        } else {
-            return asset('images/os/generic.png');
+        $base_name = pathinfo($this->icon, PATHINFO_FILENAME);
+        $options = [
+            "images/logos/$base_name.svg",
+            "images/logos/$base_name.png",
+            "images/os/$base_name.svg",
+            "images/os/$base_name.png",
+        ];
+
+        foreach ($options as $file) {
+            if (is_file(public_path()."/$file")) {
+                return asset($file);
+            }
         }
+
+        return asset('images/os/generic.svg');
     }
 
     /**
@@ -196,7 +205,13 @@ class Device extends Model
     }
 
     // ---- Accessors/Mutators ----
-
+    public function getIconAttribute($icon)
+    {
+        if (isset($icon)) {
+            return asset("images/os/$icon");
+        }
+        return asset('images/os/generic.svg');
+    }
     public function getIpAttribute($ip)
     {
         if (empty($ip)) {

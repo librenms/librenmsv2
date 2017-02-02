@@ -1,3 +1,26 @@
+.device-icon {
+    line-height: 36px !important;
+}
+
+td.device-icon {
+    padding: 5px !important;
+}
+
+td.device-icon img {
+    max-height: 36px;
+    max-width: 36px;
+}
+
+div.device-icon img {
+    max-height: 36px;
+    max-width: 52px;
+}
+
+.device-logo img {
+    max-height: 64px;
+    max-width: 64px;
+}
+
 .device-status {
     display: block;
     font-size: medium;
