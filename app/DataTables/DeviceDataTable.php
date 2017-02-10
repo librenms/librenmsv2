@@ -46,7 +46,7 @@ class DeviceDataTable extends BaseDataTable
                 }
             })
             ->editColumn('vendor', function ($device) {
-                return '<img src="'.$device->logo().'" border="0" alt="'.$device->os.'">';
+                return '<img src="'.$device->icon.'" alt="'.$device->os.'">';
             })
             ->editColumn('hostname', function ($device) {
                 $hostname = is_null($device) ? trans('devices.text.deleted') : $device->hostname;
@@ -96,7 +96,7 @@ class DeviceDataTable extends BaseDataTable
             ],
             'vendor'         => [
                 'title'      => trans('devices.text.vendor'),
-                'width'      => '20px',
+                'className'  => 'device-icon',
                 'searchable' => false,
                 'orderable'  => false,
             ],

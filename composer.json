@@ -13,7 +13,8 @@
         "doctrine/dbal": "2.5.*",
         "almasaeed2010/adminlte": "~2.0",
         "laravelcollective/html": "5.3.*",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "yajra/laravel-datatables-oracle": "~6.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
