@@ -42,17 +42,8 @@ class UserDataTable extends BaseDataTable
             ->editColumn('level', function ($user) {
                 return trans('user.level.'.$user->level);
             })
-            ->editColumn('actions', function ($user) {
-                $edit = '<a type="button" class="btn btn-xs btn-primary" href="'.
-                    route('users.edit', ['user_id' => $user->user_id]).
-                    '"><i class="fa fa-edit fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.edit').'</span></a> ';
-
-                $delete = '<button type="button" class="btn btn-xs btn-danger deleteModal" data-toggle="modal" data-target="#deleteModal" data-href="'.
-                    route('users.destroy', ['user_id' => $user->user_id]).
-                    '"><i class="fa fa-trash fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.delete').'</span></button> ';
-
-                return $edit.$delete;
-            })
+            ->editColumn('actions', 'datatables.user.actions')
+            ->rawColumns(['actions'])
             ->make(true);
     }
 

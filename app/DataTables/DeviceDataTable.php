@@ -38,35 +38,14 @@ class DeviceDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('status_reason', function ($device) {
-                if ($device->status == 0) {
-                    return '<span data-toggle="tooltip" title="down" class="device-status label label-danger">'.$device->status_reason.'</span>';
-                } else {
-                    return '<span data-toggle="tooltip" title="up" class="device-status label label-success">up</span>';
-                }
-            })
-            ->editColumn('vendor', function ($device) {
-                return '<img src="'.$device->icon.'" alt="'.$device->os.'">';
-            })
-            ->editColumn('hostname', function ($device) {
-                $hostname = is_null($device) ? trans('devices.text.deleted') : $device->hostname;
-                return '<a href="'.url("devices/".$device->device_id).'">'.$hostname.'</a>';
-            })
-            ->editColumn('resources', function ($device) {
-                $ports   = $device->ports()->count();
-                $sensors = $device->sensors()->count();
-                return '<span data-toggle="tooltip" title="'.$ports.' Ports" class="badge bg-light-blue"><i class="fa fa-link"></i>&nbsp; '.$ports.'</span><br />
-                        <span data-toggle="tooltip" title="'.$sensors.' Sensors" class="badge bg-light-blue"><i class="fa fa-dashboard"></i>&nbsp; '.$sensors.'</span>';
-            })
-            ->editColumn('hardware', function ($device) {
-                return $device->hardware.'<br />'.$device->features;
-            })
-            ->editColumn('os', function ($device) {
-                return ucfirst($device->os).'<br />'.$device->version;
-            })
-            ->editColumn('location', function ($device) {
-                return $device->formatUptime($device->uptime).'<br />'.$device->location;
-            })
+            ->editColumn('status_reason', 'datatables.device.status-reason')
+            ->editColumn('vendor', 'datatables.device.icon')
+            ->editColumn('hostname', 'datatables.device.hostname')
+            ->editColumn('resources', 'datatables.device.resources')
+            ->editColumn('hardware', '{{ $hardware }}<br />{{ $features }}')
+            ->editColumn('os', '{{ ucfirst($os) }}<br />{{ $version }}')
+            ->editColumn('location', '{{ Util::formatUptime($uptime) }}<br />{{ $location }}')
+            ->rawColumns(['status_reason', 'vendor', 'hostname', 'resources', 'hardware', 'os', 'location'])
             ->make(true);
     }
 
@@ -77,7 +56,7 @@ class DeviceDataTable extends BaseDataTable
      */
     public function query()
     {
-        $device = Device::select('devices.*');
+        $device = Device::with(['portCountRelation', 'sensorCountRelation'])->select('devices.*');
         return $this->applyScopes($device);
     }
 

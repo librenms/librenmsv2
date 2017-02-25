@@ -38,24 +38,10 @@ class DeviceGroupDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('name', function ($group) {
-                return '<a href="'.url('devices/group='.$group->id).'">'.$group->name.'</a>';
-            })
-            ->editColumn('count', function ($group) {
-                return '<span data-toggle="tooltip" title="'.$group->deviceCount.' '.trans('nav.devices.devices').'" class="badge bg-aqua">
-                <i class="fa fa-server"></i>&nbsp; '.$group->deviceCount.'</span>';
-            })
-            ->addColumn('actions', function ($group) {
-                $edit = '<button type="button" class="btn btn-xs btn-primary showModal"  data-toggle="modal" data-target="#generalModal" data-href="'.
-                    route('device-groups.edit', ['group_id' => $group->id]).
-                    '"><i class="fa fa-edit fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.edit').'</span></button> ';
-
-                $delete = '<button type="button" class="btn btn-xs btn-danger deleteModal" data-toggle="modal" data-target="#deleteModal" data-href="'.
-                    route('device-groups.destroy', ['group_id' => $group->id]).
-                    '"><i class="fa fa-trash fa-lg fa-fw"></i><span class="hidden-xs"> '.trans('button.delete').'</span></button> ';
-
-                return $edit.$delete;
-            })
+            ->editColumn('name', 'datatables.device-group.link')
+            ->editColumn('count', 'datatables.device-group.count')
+            ->addColumn('actions', 'datatables.device-group.actions')
+            ->rawColumns(['name', 'count', 'actions'])
             ->make(true);
     }
 
@@ -66,7 +52,7 @@ class DeviceGroupDataTable extends BaseDataTable
      */
     public function query()
     {
-        $devicegroups = DeviceGroup::query()->with('deviceCountRelation');
+        $devicegroups = DeviceGroup::with('deviceCountRelation')->select('device_groups.*');
         return $this->applyScopes($devicegroups);
     }
 

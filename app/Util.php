@@ -66,4 +66,19 @@ class Util
         json_decode($string, true);
         return (json_last_error() == JSON_ERROR_NONE);
     }
+
+
+    /**
+     * @param int $seconds
+     * @return string
+     */
+    public static function formatUptime($seconds)
+    {
+        if (empty($seconds)) {
+            $seconds = 0;
+        }
+        $from = new \DateTime("@0");
+        $to = new \DateTime("@$seconds");
+        return $from->diff($to)->format('%a d, %h h, %i m and %s s');
+    }
 }

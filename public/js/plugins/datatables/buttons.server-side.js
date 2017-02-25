@@ -5,7 +5,11 @@
         var url = dt.ajax.url() || '';
         var params = dt.ajax.params();
         params.action = action;
-
+        
+        if (url.indexOf("?")) {
+            return url + '&' + $.param(params);
+        }
+        
         return url + '?' + $.param(params);
     };
 
@@ -20,6 +24,18 @@
             var url = _buildUrl(dt, 'excel');
             window.location = url;
         }
+    };
+
+    DataTable.ext.buttons.export = {
+        extend: 'collection',
+
+        className: 'buttons-export',
+
+        text: function (dt) {
+            return '<i class="fa fa-download"></i> ' + dt.i18n('buttons.export', 'Export') + '&nbsp;<span class="caret"/>';
+        },
+
+        buttons: ['csv', 'excel', 'pdf']
     };
 
     DataTable.ext.buttons.csv = {

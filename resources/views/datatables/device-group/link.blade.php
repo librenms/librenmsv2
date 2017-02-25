@@ -1,0 +1,1 @@
+<a href="{{ url('devices/group='.$id) }}">{{ $name }}</a>
