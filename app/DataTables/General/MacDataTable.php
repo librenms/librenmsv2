@@ -48,6 +48,7 @@ class MacDataTable extends BaseDataTable
                 $ifName = is_null($data->ifName) ? trans('devices.text.deleted') : $data->ifName;
                 return '<a href="'.url("devices/".$data->device_id."/ports/".$data->port_id).'">'.$ifName.'</a>';
             })
+            ->rawColumns(['hostname', 'ifName'])
             ->make(true);
     }
 

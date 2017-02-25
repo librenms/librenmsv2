@@ -1,0 +1,1 @@
+<a href="{{ url("devices/".$device_id) }}">{{ isset($device['hostname']) ? $device['hostname'] : __('Device deleted') }}</a>

@@ -52,16 +52,17 @@ class ArpDataTable extends BaseDataTable
             ->addColumn('remote_device', function ($data) {
                 $remote_device = IPv4::where('ipv4_addresses.ipv4_address', $data->ipv4_address)->with('port.device')->first();
                 $remote_id = empty($remote_device->port->device->device_id) ? '' : $remote_device->port->device->device_id;
-                $remote_hostname = empty($remote_device->port->device->hostname) ? trans('devices.text.deleted') : $remote_device->port->device->hostname;
+                $remote_hostname = empty($remote_device->port->device->hostname) ? '' : $remote_device->port->device->hostname;
                 return '<a href="'.url("devices/".$remote_id).'">'.$remote_hostname.'</a>';
             })
             ->addColumn('remote_interface', function ($data) {
                 $remote_device = IPv4::where('ipv4_addresses.ipv4_address', $data->ipv4_address)->with('port.device')->first();
                 $remote_id = empty($remote_device->port->device->device_id) ? '' : $remote_device->port->device->device_id;
                 $remote_port_id = empty($remote_device->port->port_id) ? '' : $remote_device->port->port_id;
-                $remote_port = empty($remote_device->port->ifName) ? trans('devices.text.deleted') : $remote_device->port->ifName;
+                $remote_port = empty($remote_device->port->ifName) ? '' : $remote_device->port->ifName;
                 return '<a href="'.url("devices/".$remote_id."/ports/".$remote_port_id).'">'.$remote_port.'</a>';
             })
+            ->rawColumns(['hostname', 'ifName', 'remote_device', 'remote_interface'])
             ->make(true);
     }
 
