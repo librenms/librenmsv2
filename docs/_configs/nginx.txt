@@ -3,9 +3,12 @@ server {
  server_name librenms.example.com;
  root        /opt/librenmsv2/public;
  index       index.php;
+
  access_log  /opt/librenmsv2/logs/access_log;
  error_log   /opt/librenmsv2/logs/error_log;
 
+ large_client_header_buffers 8 16k;
+ client_header_buffer_size 8k;
 
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
@@ -24,7 +27,7 @@ server {
         try_files $uri /index.php =404;
         fastcgi_pass unix:/run/php-fpm/php-fpm.sock;
         fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;                                                                                                                              
-        include fastcgi_params;                                                                                                                                                                        
-    }                                                                                                                                                                                                  
-}                                                                                                                                                                                                      
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
