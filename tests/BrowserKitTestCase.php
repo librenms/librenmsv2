@@ -2,14 +2,14 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
 abstract class BrowserKitTestCase extends BaseTestCase
 {
     use CreatesApplication;
     use DatabaseSetup;
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /**
      * The base URL of the application.
@@ -20,7 +20,6 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
     public function setUp()
     {
-        $this->initSqliteFile();
         parent::setUp();
         $this->setupDatabase();
     }

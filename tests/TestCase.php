@@ -11,7 +11,6 @@ abstract class TestCase extends BaseTestCase
 
     public function setUp()
     {
-        $this->initSqliteFile();
         parent::setUp();
         $this->setupDatabase();
     }

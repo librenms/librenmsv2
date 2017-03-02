@@ -35,13 +35,6 @@ trait DatabaseSetup
         Artisan::call('migrate');
     }
 
-    public function initSqliteFile()
-    {
-        // Chicken and egg problem
-        touch(__DIR__.'/../storage/testing.sqlite');
-        `php artisan migrate --database=testing_sqlite`;
-    }
-
     /**
      * If different actions are needed for in memory databases, use this to check
      *

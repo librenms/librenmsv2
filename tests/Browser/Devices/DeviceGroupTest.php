@@ -28,13 +28,10 @@ use App\Models\Device;
 use App\Models\DeviceGroup;
 use App\Models\Port;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\BrowserKitTestCase;
 
 class DeviceGroupTest extends BrowserKitTestCase
 {
-    use DatabaseMigrations;
-
     public function testCreate()
     {
         $deviceone = factory(Device::class)->create();

@@ -37,7 +37,7 @@ class InventoryApiTest extends TestCase
 
     /**
      * Test inventory api
-    **/
+     **/
 
     public function testInventoryApi()
     {
@@ -47,12 +47,10 @@ class InventoryApiTest extends TestCase
 
         $jwt = JWTAuth::fromUser($user);
         $this->headers = [
-            'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
+            'HTTP_ACCEPT' => 'application/vnd.'.env('API_VENDOR', '').'.v1+json',
         ];
         $this->json('GET', '/api/inventory?token='.$jwt, $this->headers)
             ->assertStatus(Response::HTTP_OK)
-            ->assertJson([
-            'total' => 5,
-        ]);
+            ->assertJson(['total' => 5]);
     }
 }
