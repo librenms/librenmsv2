@@ -20,7 +20,7 @@ checks:
     javascript: true 
 
 tools:
-    php_mess_detector: true
+    php_messk_detector: true
     php_code_sniffer: true
     sensiolabs_security_checker: true
     php_pdepend: true
@@ -34,7 +34,7 @@ tools:
 build:
     environment:
         php: '7.1.1'
-        node: false
+
         variables:
             APP_ENV: 'testing'
             PHPUNIT_DB_CONNECTION: 'mysql'
@@ -42,7 +42,8 @@ build:
             DB_USERNAME: 'scrutinizer'
 
     dependencies:
-        after:
+        override:
+            - 'composer install --no-interaction'
             - 'cp .env.example .env'
             - 'php artisan key:generate'
 
