@@ -26,7 +26,8 @@
         "barryvdh/laravel-ide-helper": "~2.2",
       "squizlabs/php_codesniffer": "^2.7",
       "laravel/browser-kit-testing": "^1.0",
-      "laravel/dusk": "^1.0"
+      "laravel/dusk": "^1.0",
+      "laravel/tinker": "^1.0"
     },
     "autoload": {
         "files": [

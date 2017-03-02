@@ -160,21 +160,22 @@ $factory->define(IPv4Mac::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(UsersWidgets::class, function (Faker\Generator $faker) {
+$factory->define(Widgets::class, function (Faker\Generator $faker) {
     return [
-        'col'          => 1,
-        'row'          => 2,
-        'size_x'       => 1,
-        'size_y'       => 2,
-        'title'        => $faker->text(20),
-        'settings'     => '',
+        'widget_title'    => $faker->text(20),
+        'widget'          => $faker->regexify('[a-z\-]{4,12}'),
+        'base_dimensions' => $faker->randomDigitNotNull.', '.$faker->randomDigitNotNull,
     ];
 });
 
-$factory->define(Widgets::class, function (Faker\Generator $faker) {
+$factory->define(UsersWidgets::class, function (Faker\Generator $faker) use ($factory) {
     return [
-        'widget_title' => $faker->text(20),
-        'widget'       => $faker->regexify('[a-z\-]{4-12}'),
-        'base_dimensions' => $faker->randomDigitNotNull . ', ' . $faker->randomDigitNotNull,
+        'col'       => 1,
+        'row'       => 2,
+        'size_x'    => 1,
+        'size_y'    => 2,
+        'title'     => $faker->text(20),
+        'widget_id' => $factory->create(Widgets::class)->widget_id,
+        'settings'  => '',
     ];
 });

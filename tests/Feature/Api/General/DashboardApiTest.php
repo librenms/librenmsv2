@@ -54,10 +54,9 @@ class DashboardApiTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertJson(['statusText' => 'OK']);
 
-//        dd((array)$this->json('GET', '/api/dashboard?token='.$jwt, $headers));
         $this->json('GET', '/api/dashboard?token='.$jwt, $headers)
-            ->assertStatus(Response::HTTP_OK);
-//            ->assertJson(['dashboard_name' => $dashboard_name]); // FIXME
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJsonFragment(['dashboard_name' => $dashboard_name]);
     }
 
     public function testWidgetsApi()
@@ -66,50 +65,33 @@ class DashboardApiTest extends TestCase
         $jwt = JWTAuth::fromUser($user);
         $widget = factory(Widgets::class)->create();
 
-
-
         $headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
         $this->get('/api/widget?token='.$jwt, $headers)
-            ->assertStatus(Response::HTTP_OK);
-//            ->assertJson(['widget_title' => $widget->widget_title]); // FIXME
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJsonFragment(['widget_title' => $widget->widget_title]);
     }
 
     public function testUserWidgetsApi()
     {
-        return; //FIXME
         $user = factory(User::class)->create();
         $dashboard = factory(Dashboard::class)->make();
         $user->dashboards()->save($dashboard);
 
-        $widget = factory(Widgets::class)->make();
-        $user->widgets();
-
-        $user->widgets()->save($widget);
-        $user->dashboard()->first()->save($widget);
+        $widget = factory(UsersWidgets::class)->make();
+        $widget->user()->associate($user->user_id);
+        $dashboard->widgets()->save($widget);
 
         $jwt = JWTAuth::fromUser($user);
 
 
-
-        $widget_id = Widgets::first()->widget_id;
-        $data = ['user_id'      => $user->user_id,
-                 'widget_id'    => $widget_id,
-                 'col'          => 1,
-                 'row'          => 2,
-                 'size_x'       => 1,
-                 'size_y'       => 2,
-                 'title'        => 'Test Widget',
-                 'settings'     => '',
-                 'dashboard_id' => $dashboard->dashboard_id,
-        ];
-        $users_widgets = UsersWidgets::create($data);
-
         $headers = [
             'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
         ];
-        $this->delete('/api/widget/'.$users_widgets->user_widget_id.'?token='.$jwt, $headers)
+        $this->delete('/api/widget/'.$widget->user_widget_id.'?token='.$jwt, $headers)
             ->assertStatus(Response::HTTP_OK);
+        $this->delete('/api/widget/'.$widget->user_widget_id.'?token='.$jwt, $headers)
+            ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
