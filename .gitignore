@@ -12,7 +12,7 @@
 ##########
 /node_modules
 /vendor
-/storage/database.sqlite
+/storage/*.sqlite
 Homestead.yaml
 Homestead.json
 .env
