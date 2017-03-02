@@ -1,9 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-// Fix PHPStorm
-if (isset($argv[1]) && $argv[1] === '-V') { die('Symfony version 3.0.0'); }
-
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
