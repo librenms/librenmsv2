@@ -36,6 +36,7 @@ build:
         php: '7.1.1'
         variables:
             APP_ENV: 'testing'
+            PHPUNIT_DB_CONNECTION: 'pgsql'
             DB_CONNECTION: 'pgsql'
             DB_DATABASE: 'my_project'
             DB_USERNAME: 'scrutinizer'
