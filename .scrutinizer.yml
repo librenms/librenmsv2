@@ -38,7 +38,7 @@ build:
             APP_ENV: 'testing'
             PHPUNIT_DB_CONNECTION: 'pgsql'
             DB_CONNECTION: 'pgsql'
-            DB_DATABASE: 'my_project'
+            DB_DATABASE: 'scrutinizer'
             DB_USERNAME: 'scrutinizer'
             DB_PASSWORD: 'scrutinizer'
     dependencies:
