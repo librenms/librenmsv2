@@ -1,8 +1,8 @@
 <?php
 /**
- * DatabaseSetup.php
+ * tests/webui/alerting/ShowStatsTest.php
  *
- * Migrate and set-up the database
+ * Test unit for Webui alerts stats page.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,36 +19,34 @@
  *
  * @package    LibreNMS
  * @link       http://librenms.org
- * @copyright  2016 Tony Murray
- * @author     Tony Murray <murraytony@gmail.com>
+ * @copyright  2016 Neil Lathwood
+ * @author     Neil Lathwood <neil@lathwood.co.uk>
  */
-namespace Tests;
 
-use Artisan;
+namespace Tests\Browser\Alerting;
 
-trait DatabaseSetup
+use App\Models\Alerting\Log;
+use App\Models\User;
+use Tests\BrowserKitTestCase;
+
+class ShowStatsTest extends BrowserKitTestCase
 {
-    protected static $migrated = false;
-
-    public function setupDatabase()
-    {
-        Artisan::call('migrate');
-    }
-
-    public function initSqliteFile()
-    {
-        // Chicken and egg problem
-        touch(__DIR__.'/../storage/testing.sqlite');
-        `php artisan migrate --database=testing_sqlite`;
-    }
 
     /**
-     * If different actions are needed for in memory databases, use this to check
+     * Make sure we see the stats page header
      *
-     * @return bool
-     */
-    protected function isInMemory()
+    **/
+
+    public function testShowStats()
     {
-        return config('database.connections')[config('database.default')]['database'] == ':memory:';
+        $this->seed();
+        $user = factory(User::class)->create([
+            'level' => 10,
+        ]);
+        factory(Log::class, 5)->create();
+
+        $this->actingAs($user)
+             ->visit('/alerting/stats')
+             ->see('Alerting statistics');
     }
 }
