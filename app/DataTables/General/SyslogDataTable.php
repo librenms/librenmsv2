@@ -40,7 +40,7 @@ class SyslogDataTable extends BaseDataTable
         return $this->datatables
             ->eloquent($this->query())
             ->orderColumn('name', '-name $1')
-            ->editColumn('device_id', 'datatables.syslog.hostname')
+            ->editColumn('device_id', 'datatables.generic.hostname')
             ->rawColumns(['device_id'])
             ->make(true);
     }
@@ -58,6 +58,11 @@ class SyslogDataTable extends BaseDataTable
         return $this->applyScopes($syslog);
     }
 
+    /**
+     * Sort by timestamp descending
+     *
+     * @return array
+     */
     public function getBuilderParameters()
     {
         $params = parent::getBuilderParameters();

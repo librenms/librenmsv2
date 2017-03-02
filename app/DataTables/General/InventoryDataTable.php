@@ -39,10 +39,8 @@ class InventoryDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function ($inventory) {
-                $hostname = is_null($inventory->device) ? trans('devices.text.deleted') : $inventory->device->hostname;
-                return '<a href="'.url("devices/".$inventory->device_id).'">'.$hostname.'</a>';
-            })
+            ->editColumn('hostname', 'datatables.generic.hostname')
+            ->rawColumns(['hostname'])
             ->make(true);
     }
 
@@ -53,7 +51,11 @@ class InventoryDataTable extends BaseDataTable
      */
     public function query()
     {
-        $inventory = Inventory::with('device')->select('entPhysical.*');
+        $inventory = Inventory::with([
+            'device' => function ($query) {
+                return $query->addSelect(['device_id', 'hostname']);
+            },
+        ])->select('entPhysical.*');
         return $this->applyScopes($inventory);
     }
 
@@ -65,19 +67,20 @@ class InventoryDataTable extends BaseDataTable
     public function getColumns()
     {
         return [
-            'device.hostname' => [
-                'title'       => trans('devices.label.hostname'),
+            'hostname'             => [
+                'title'     => trans('devices.label.hostname'),
+                'orderable' => false,
             ],
-            'entPhysicalDescr'      => [
+            'entPhysicalDescr'     => [
                 'title' => trans('general.text.description'),
             ],
-            'entPhysicalName'   => [
+            'entPhysicalName'      => [
                 'title' => trans('general.text.name'),
             ],
-            'entPhysicalModelName'  => [
+            'entPhysicalModelName' => [
                 'title' => trans('general.text.model'),
             ],
-            'entPhysicalSerialNum'  => [
+            'entPhysicalSerialNum' => [
                 'title' => trans('general.text.serial'),
             ],
         ];
