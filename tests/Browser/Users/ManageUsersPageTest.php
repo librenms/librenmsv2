@@ -73,8 +73,6 @@ class ManageUsersPageTest extends BrowserKitTestCase
      */
     public function testEditPage()
     {
-        $this->seed();
-
         $user = factory(User::class)->create([
             'level' => 10,
         ]);

@@ -41,7 +41,6 @@ class InventoryApiTest extends TestCase
 
     public function testInventoryApi()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         factory(Inventory::class, 5)->create();
 

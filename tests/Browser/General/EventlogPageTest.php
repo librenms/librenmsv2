@@ -36,7 +36,6 @@ class EventlogPageTest extends BrowserKitTestCase
 
     public function testEventlogPage()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('/eventlog');

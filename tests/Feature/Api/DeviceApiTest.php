@@ -42,7 +42,6 @@ class DeviceApiTest extends TestCase
 
     public function testDeviceApi()
     {
-        $this->seed();
         $user = factory(User::class)->create(['level'=>10]);
         factory(Device::class, 5)->create();
 

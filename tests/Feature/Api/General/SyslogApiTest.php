@@ -41,7 +41,6 @@ class SyslogApiTest extends TestCase
 
     public function testSyslogApi()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         factory(Syslog::class, 5)->create();
 

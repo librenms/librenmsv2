@@ -14,7 +14,6 @@ class OverviewPageTest extends BrowserKitTestCase
 
     public function testOverviewPage()
     {
-        $this->seed();
         $user = factory(User::class)->create();
 
         $data = ['user_id' => $user['user_id'], 'dashboard_name' => 'Test Dashboard', 'access' => '0'];

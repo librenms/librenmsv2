@@ -39,7 +39,6 @@ class ShowStatsTest extends BrowserKitTestCase
 
     public function testShowStats()
     {
-        $this->seed();
         $user = factory(User::class)->create([
             'level' => 10,
         ]);

@@ -36,7 +36,6 @@ class RIRToolsPageTest extends BrowserKitTestCase
 
     public function testRIRToolsPage()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('/rirtools')

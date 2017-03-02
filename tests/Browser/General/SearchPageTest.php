@@ -35,7 +35,6 @@ class SearchPageTest extends BrowserKitTestCase
     **/
     public function testSearchIPv4Page()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('search/ipv4');
@@ -46,7 +45,6 @@ class SearchPageTest extends BrowserKitTestCase
     **/
     public function testSearchIPv6Page()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('search/ipv6');
@@ -57,7 +55,6 @@ class SearchPageTest extends BrowserKitTestCase
     **/
     public function testSearchMacPage()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('search/mac');
@@ -68,7 +65,6 @@ class SearchPageTest extends BrowserKitTestCase
     **/
     public function testSearchArpPage()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
             ->visit('search/arp');

@@ -43,7 +43,6 @@ class SearchApiTest extends TestCase
     **/
     public function testSearchIPv4Api()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         for ($x = 0; $x < 5; $x++) {
             factory(IPv4::class)->create();
@@ -63,7 +62,6 @@ class SearchApiTest extends TestCase
     **/
     public function testSearchIPv6Api()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         for ($x = 0; $x < 5; $x++) {
             factory(IPv6::class)->create();
@@ -83,7 +81,6 @@ class SearchApiTest extends TestCase
     **/
     public function testSearchMacApi()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         factory(Port::class, 5)->create();
 
@@ -102,7 +99,6 @@ class SearchApiTest extends TestCase
     **/
     public function testSearchArpApi()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         factory(IPv4Mac::class, 5)->create();
 

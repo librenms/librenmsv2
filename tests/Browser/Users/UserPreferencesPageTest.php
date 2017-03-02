@@ -30,7 +30,6 @@ class UserPreferencesPageTest extends BrowserKitTestCase
      */
     public function testCanSeeDevicePermissionsAdmin()
     {
-        $this->seed();
         $user = factory(User::class)->create([
             'level' => 10,
         ]);
@@ -47,7 +46,6 @@ class UserPreferencesPageTest extends BrowserKitTestCase
      */
     public function testCanSeeDevicePermissionsRead()
     {
-        $this->seed();
         $user = factory(User::class)->create([
             'level' => 5,
         ]);

@@ -39,7 +39,6 @@ class ListLogsTest extends BrowserKitTestCase
 
     public function testListingLogs()
     {
-        $this->seed();
         $user = factory(User::class)->create([
             'level' => 10,
         ]);

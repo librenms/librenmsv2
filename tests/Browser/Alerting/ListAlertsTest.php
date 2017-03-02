@@ -39,7 +39,6 @@ class ListAlertsTest extends BrowserKitTestCase
 
     public function testListingAlerts()
     {
-        $this->seed();
         $user = factory(User::class)->create([
             'level' => 10,
         ]);

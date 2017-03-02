@@ -15,7 +15,6 @@ class UserCanLoginTest extends BrowserKitTestCase
 
     public function testLoggingInAsUser()
     {
-        $this->seed();
         $user = factory(\App\Models\User::class)->create();
 
         $data = ['user_id' => $user['user_id'], 'dashboard_name' => 'Test Dashboard', 'access' => '0'];
@@ -38,7 +37,6 @@ class UserCanLoginTest extends BrowserKitTestCase
     public function testLoginFormFail()
     {
         // Try logging in with no credentials
-        $this->seed();
         $this->visit('/login')
              ->press('submit')
              ->see('has-error');
@@ -47,8 +45,8 @@ class UserCanLoginTest extends BrowserKitTestCase
     public function testManualLogin()
     {
         // Disabled for now until we get login redirects working
-        
-        /**$this->seed();
+
+        /**
         $password = str_random(10);
         $user = factory(User::class)->create([
             'password' => bcrypt($password),

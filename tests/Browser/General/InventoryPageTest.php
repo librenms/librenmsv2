@@ -36,7 +36,6 @@ class InventoryPageTest extends BrowserKitTestCase
 
     public function testInventoryPage()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
              ->visit('/inventory');

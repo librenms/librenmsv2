@@ -36,7 +36,6 @@ class SyslogPageTest extends BrowserKitTestCase
 
     public function testSyslogPage()
     {
-        $this->seed();
         $user = factory(User::class)->create();
         $this->actingAs($user)
             ->visit('/syslog');
