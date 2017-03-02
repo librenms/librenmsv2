@@ -34,9 +34,10 @@ tools:
 build:
     dependencies:
         before:
+            - 'composer update'
             - 'cp .env.example .env'
             - 'php artisan key:generate'
-            - 'composer update'
+
     tests:
         override:
             -
