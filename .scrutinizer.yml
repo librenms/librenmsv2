@@ -32,9 +32,11 @@ tools:
         excluded_dirs: [vendor, tests]
 
 build:
+    environment:
+        variables:
+            PHPUNIT_DB_CONNECTION: 'testing_sqlite'
     dependencies:
-        before:
-            - 'composer update'
+        after:
             - 'cp .env.example .env'
             - 'php artisan key:generate'
 
