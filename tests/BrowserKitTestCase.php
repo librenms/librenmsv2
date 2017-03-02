@@ -16,7 +16,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
      *
      * @var string
      */
-    public $baseUrl = 'http://localhost';
+    public $baseUrl = 'http://localhost:43253';
 
     public function setUp()
     {

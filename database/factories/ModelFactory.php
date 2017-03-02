@@ -43,6 +43,12 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->state(User::class, 'admin', function (Faker\Generator $faker) {
+    return [
+        'level' => 10,
+    ];
+});
+
 $factory->define(Dashboard::class, function (Faker\Generator $faker) {
     return [
         'dashboard_name' => $faker->text(50),

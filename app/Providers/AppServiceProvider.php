@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment() == 'development') {
             $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
+        }
+
+        if ($this->app->environment('development', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
         }
     }
 }
