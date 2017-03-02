@@ -33,9 +33,13 @@ tools:
 
 build:
     environment:
+        php: '7.1.1'
         variables:
             APP_ENV: 'testing'
-            PHPUNIT_DB_CONNECTION: 'testing_sqlite'
+            DB_CONNECTION: 'pgsql'
+            DB_DATABASE: 'scrutinizer'
+            DB_USERNAME: 'scrutinizer'
+            DB_PASSWORD: 'scrutinizer'
     dependencies:
         after:
             - 'cp .env.example .env'
