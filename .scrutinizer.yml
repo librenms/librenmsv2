@@ -32,10 +32,15 @@ tools:
         excluded_dirs: [vendor, tests]
 
 build:
+    dependencies:
+        before:
+            - 'cp .env.example .env'
+            - 'php artisan key:generate'
+            - 'composer update'
     tests:
         override:
             -
-                command: './vendor/bin/phpunit --coverage-clover=covrrage.clover'
+                command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
                 coverage:
                     file: 'coverage.clover'
                     format: 'clover'

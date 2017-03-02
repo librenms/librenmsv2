@@ -30,7 +30,6 @@ install:
   - travis_retry composer install --no-interaction --prefer-dist
 
 before_script:
-  - git reset --hard HEAD
   - cp .env.example .env
   - php artisan key:generate
 
