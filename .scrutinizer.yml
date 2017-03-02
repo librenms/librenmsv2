@@ -34,6 +34,7 @@ tools:
 build:
     environment:
         variables:
+            APP_ENV: 'testing'
             PHPUNIT_DB_CONNECTION: 'testing_sqlite'
     dependencies:
         after:
