@@ -34,13 +34,13 @@ tools:
 build:
     environment:
         php: '7.1.1'
+        node: false
         variables:
             APP_ENV: 'testing'
-            PHPUNIT_DB_CONNECTION: 'pgsql'
-            DB_CONNECTION: 'pgsql'
-            DB_DATABASE: 'scrutinizer'
+            PHPUNIT_DB_CONNECTION: 'mysql'
+            DB_CONNECTION: 'mysql'
             DB_USERNAME: 'scrutinizer'
-            DB_PASSWORD: 'scrutinizer'
+
     dependencies:
         after:
             - 'cp .env.example .env'
@@ -53,3 +53,7 @@ build:
                 coverage:
                     file: 'coverage.clover'
                     format: 'clover'
+
+    project_setup:
+        before:
+            - mysql -e "CREATE DATABASE librenms"
