@@ -26,6 +26,7 @@
 namespace App\DataTables\General;
 
 use App\DataTables\BaseDataTable;
+use App\Models\Device;
 use App\Models\General\Eventlog;
 
 class EventlogDataTable extends BaseDataTable
@@ -42,10 +43,8 @@ class EventlogDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function ($eventlog) {
-                $hostname = is_null($eventlog->device) ? trans('devices.text.deleted') : $eventlog->device->hostname;
-                return '<a href="'.url("devices/".$eventlog->device_id).'">'.$hostname.'</a>';
-            })
+            ->addColumn('hostname', 'datatables.generic.hostname')
+            ->rawColumns(['hostname'])
             ->make(true);
     }
 
@@ -57,9 +56,14 @@ class EventlogDataTable extends BaseDataTable
     public function query()
     {
         if (is_numeric($this->device_id)) {
-            $eventlogs = Eventlog::with('device')->where('eventlog.device_id', $this->device_id)->select('eventlog.*');
+            // eventlogs for a single device
+            $eventlogs = Device::find($this->device_id)->eventlogs()->select('eventlog.*');
         } else {
-            $eventlogs = Eventlog::with('device')->select('eventlog.*');
+            $eventlogs = Eventlog::with([
+                'device' => function ($query) {
+                    return $query->addSelect(['device_id', 'hostname']);
+                },
+            ])->select('eventlog.*');
         }
         return $this->applyScopes($eventlogs);
     }
@@ -72,20 +76,33 @@ class EventlogDataTable extends BaseDataTable
     public function getColumns()
     {
         return [
-            'device.hostname' => [
-                'title'       => trans('devices.label.hostname'),
+            'hostname' => [
+                'title'     => trans('devices.label.hostname'),
+                'orderable' => false,
             ],
-            'type'      => [
+            'type'     => [
                 'title' => trans('general.text.type'),
                 'name'  => 'eventlog.type',
             ],
-            'message'   => [
+            'message'  => [
                 'title' => trans('general.text.message'),
             ],
-            'datetime'  => [
+            'datetime' => [
                 'title' => trans('general.text.timestamp'),
             ],
         ];
+    }
+
+    /**
+     * Sort by timestamp descending
+     *
+     * @return array
+     */
+    public function getBuilderParameters()
+    {
+        $params = parent::getBuilderParameters();
+        $params['order'] = [[3, 'desc']];
+        return $params;
     }
 
     /**

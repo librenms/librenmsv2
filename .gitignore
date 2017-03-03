@@ -11,14 +11,18 @@
 # Others #
 ##########
 /node_modules
+/public/storage
+/public/hot
+/storage/*.key
 /vendor
-/storage/database.sqlite
-Homestead.yaml
+/.idea
 Homestead.json
+Homestead.yaml
 .env
 /logs/
 /storage/logs/
 composer.lock
+/storage/*.sqlite
 
 # IntelliJ
 **/.idea

@@ -178,7 +178,8 @@ return [
         Irazasyed\JwtAuthGuard\JwtAuthGuardServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class
+        Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Datatables\ButtonsServiceProvider::class
 
     ],
 
@@ -199,6 +200,7 @@ return [
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
         'Auth'      => Illuminate\Support\Facades\Auth::class,
         'Blade'     => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus'       => Illuminate\Support\Facades\Bus::class,
         'Cache'     => Illuminate\Support\Facades\Cache::class,
         'Config'    => Illuminate\Support\Facades\Config::class,
@@ -234,6 +236,7 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Settings'  => App\Facades\Settings::class,
+        'Util'      => App\Util::class,
     ],
 
 ];

@@ -50,7 +50,7 @@ class WidgetController extends Controller
         $user_widget = new UsersWidgets;
         $user_widget->user_id = $request->user()->user_id;
         $user_widget->widget_id = $request->widget_id;
-        $user_widget->col = $request->col;
+        $user_widget->col = $request->col ?: 1;
         $user_widget->row = $row;
         $user_widget->size_x = $request->size_x;
         $user_widget->size_y = $request->size_y;

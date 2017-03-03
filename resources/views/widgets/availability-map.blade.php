@@ -47,7 +47,7 @@ if (!isset($widget_settings)) {
             @else
                 {{ "btn-danger" }}
             @endif
-            " title="{{ $device->hostname }} {{ $device->formatUptime($device->uptime) }}"
+            " title="{{ $device->hostname }} {{ Util::formatUptime($device->uptime) }}"
             style="min-height:{{ $widget_settings->tile_width or 10 }}px; min-width:{{ $widget_settings->tile_width or 10 }}px; border-radius:0; margin:0; padding:0;">
         </a>@endforeach
     @endsection

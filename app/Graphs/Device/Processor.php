@@ -65,7 +65,7 @@ class Processor extends Graph
     {
         $defs = '';
         foreach ($this->getData() as $proc) {
-            /** @var /App/Models/Processor $proc */
+            /** @var \App\Models\Processor $proc */
             $id = $proc->hrDeviceIndex;
             $rrd_file = RRD::getFileName($this->device, array('processor', 'hr', $id));
             $defs .= "DEF:ds$id=$rrd_file:usage:AVERAGE \

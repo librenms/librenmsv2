@@ -1,0 +1,60 @@
+filter:
+    paths:
+        - 'app/*'
+
+checks:
+    php:
+        avoid_perl_style_comments: true
+        classes_in_camel_caps: true
+        function_in_camel_caps: true
+        phpunit_assertions: true
+        return_doc_comments: true
+        uppercase_constants: true
+        simplify_boolean_return: true
+        fix_use_statements:
+            remove_unused: true
+            preserve_multiple: false
+            preserve_blanklines: true
+            order_alphabetically: true
+        fix_line_ending: true
+    javascript: true 
+
+tools:
+    php_mess_detector: true
+    php_code_sniffer: true
+    sensiolabs_security_checker: true
+    php_pdepend: true
+    php_loc:
+        enabled: true
+        excluded_dirs: [vendor, tests]
+    php_cpd:
+        enabled: true
+        excluded_dirs: [vendor, tests]
+
+build:
+    environment:
+        php: '7.1.1'
+
+        variables:
+            APP_ENV: 'testing'
+            PHPUNIT_DB_CONNECTION: 'mysql'
+            DB_CONNECTION: 'mysql'
+            DB_USERNAME: 'scrutinizer'
+
+    dependencies:
+        override:
+            - 'composer install --no-interaction'
+            - 'cp .env.example .env'
+            - 'php artisan key:generate'
+
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
+                coverage:
+                    file: 'coverage.clover'
+                    format: 'clover'
+
+    project_setup:
+        before:
+            - mysql -e "CREATE DATABASE librenms"

@@ -152,6 +152,14 @@ class User extends Authenticatable implements JWTSubject
      */
     public function dashboards()
     {
-        return $this->hasMany('App\Models\Dashboard');
+        return $this->hasMany('App\Models\Dashboard', 'user_id');
+    }
+
+    /**
+     * Returns a list of dashboards this user has
+     */
+    public function widgets()
+    {
+        return $this->hasMany('App\Models\UserWidgets', 'user_id');
     }
 }

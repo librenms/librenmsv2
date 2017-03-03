@@ -6,15 +6,16 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
         "tymon/jwt-auth": "^1.0@dev",
         "irazasyed/jwt-auth-guard": "1.0.*",
         "dingo/api": "1.0.*@dev",
         "doctrine/dbal": "2.5.*",
         "almasaeed2010/adminlte": "~2.0",
-        "laravelcollective/html": "5.3.*",
-        "yajra/laravel-datatables-oracle": "~6.0",
-        "predis/predis": "^1.1"
+        "laravelcollective/html": "5.4.*",
+        "yajra/laravel-datatables-oracle": "~7.0",
+        "predis/predis": "^1.1",
+      "yajra/laravel-datatables-buttons": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -23,7 +24,10 @@
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
         "barryvdh/laravel-ide-helper": "~2.2",
-        "squizlabs/php_codesniffer": "^2.7"
+      "squizlabs/php_codesniffer": "^2.7",
+      "laravel/browser-kit-testing": "^1.0",
+      "laravel/dusk": "^1.0",
+      "laravel/tinker": "^1.0"
     },
     "autoload": {
         "files": [
@@ -39,7 +43,8 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/TestCase.php"
+            "tests/TestCase.php",
+            "tests/BrowserKitTestCase.php"
         ],
         "psr-4": {
             "Tests\\": "tests/"

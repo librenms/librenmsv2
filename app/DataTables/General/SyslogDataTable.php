@@ -39,10 +39,9 @@ class SyslogDataTable extends BaseDataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('device.hostname', function ($syslog) {
-                $hostname = is_null($syslog->device) ? trans('devices.text.deleted') : $syslog->device->hostname;
-                return '<a href="'.url("devices/".$syslog->device_id).'">'.$hostname.'</a>';
-            })
+            ->orderColumn('name', '-name $1')
+            ->editColumn('device_id', 'datatables.generic.hostname')
+            ->rawColumns(['device_id'])
             ->make(true);
     }
 
@@ -53,8 +52,22 @@ class SyslogDataTable extends BaseDataTable
      */
     public function query()
     {
-        $syslog = Syslog::with('device')->select('syslog.*');
+        $syslog = Syslog::with(['device' => function ($query) {
+            return $query->addSelect(['device_id', 'hostname']);
+        }])->select('syslog.*');
         return $this->applyScopes($syslog);
+    }
+
+    /**
+     * Sort by timestamp descending
+     *
+     * @return array
+     */
+    public function getBuilderParameters()
+    {
+        $params = parent::getBuilderParameters();
+        $params['order'] = [[3, 'desc']];
+        return $params;
     }
 
     /**
@@ -65,7 +78,7 @@ class SyslogDataTable extends BaseDataTable
     public function getColumns()
     {
         return [
-            'device.hostname' => [
+            'device_id' => [
                 'title'       => trans('devices.label.hostname'),
             ],
             'program'      => [

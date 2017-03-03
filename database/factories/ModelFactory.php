@@ -17,6 +17,7 @@
 
 use App\Models\Alerting\Alert;
 use App\Models\Alerting\Log;
+use App\Models\Dashboard;
 use App\Models\Device;
 use App\Models\General\Inventory;
 use App\Models\General\IPv4;
@@ -26,6 +27,10 @@ use App\Models\General\Syslog;
 use App\Models\Notification;
 use App\Models\Port;
 use App\Models\User;
+use App\Models\UsersWidgets;
+use App\Models\Widgets;
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
@@ -33,11 +38,22 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'realname'  => $faker->name,
         'email'     => $faker->email,
         'password'  => str_random(10),
-//        'twofactor' => $faker->randomElement([0, $faker->sha256()]),
-//        'remember_token' => str_random(10),
     ];
 });
 
+$factory->state(User::class, 'admin', function (Faker\Generator $faker) {
+    return ['level' => 10];
+});
+
+$factory->state(User::class, 'globalread', function (Faker\Generator $faker) {
+    return ['level' => 5];
+});
+
+$factory->define(Dashboard::class, function (Faker\Generator $faker) {
+    return [
+        'dashboard_name' => $faker->text(50),
+    ];
+});
 
 $factory->define(Device::class, function (Faker\Generator $faker) {
     return [
@@ -141,5 +157,25 @@ $factory->define(IPv4Mac::class, function (Faker\Generator $faker) {
         'port_id'      => $faker->randomDigitNotNull(),
         'mac_address'  => $faker->macAddress(),
         'ipv4_address' => $faker->ipv4(),
+    ];
+});
+
+$factory->define(Widgets::class, function (Faker\Generator $faker) {
+    return [
+        'widget_title'    => $faker->text(20),
+        'widget'          => $faker->regexify('[a-z\-]{4,12}'),
+        'base_dimensions' => $faker->randomDigitNotNull.', '.$faker->randomDigitNotNull,
+    ];
+});
+
+$factory->define(UsersWidgets::class, function (Faker\Generator $faker) use ($factory) {
+    return [
+        'col'       => 1,
+        'row'       => 2,
+        'size_x'    => 1,
+        'size_y'    => 2,
+        'title'     => $faker->text(20),
+        'widget_id' => $factory->create(Widgets::class)->widget_id,
+        'settings'  => '',
     ];
 });

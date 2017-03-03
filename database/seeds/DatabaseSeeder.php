@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
         // allow all values to be inserted
         Model::unguard();
 
+        $this->call(WidgetSeeder::class);
         $this->call(DbSchemaTableSeeder::class);
-        $this->call(InsertDevicesTableSeeder::class);
-        $this->call(InsertPortsTableSeeder::class);
-        $this->call(DashboardSeeder::class);
+//        $this->call(InsertDevicesTableSeeder::class);
+//        $this->call(InsertPortsTableSeeder::class);
 
         Model::reguard();
     }

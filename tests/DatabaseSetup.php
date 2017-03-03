@@ -2,7 +2,7 @@
 /**
  * DatabaseSetup.php
  *
- * -Description-
+ * Migrate and set-up the database
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  */
 namespace Tests;
 
-use Illuminate\Contracts\Console\Kernel;
+use Artisan;
 
 trait DatabaseSetup
 {
@@ -32,50 +32,16 @@ trait DatabaseSetup
 
     public function setupDatabase()
     {
-        if ($this->isInMemory()) {
-            $this->setupInMemoryDatabase();
-        } else {
-            $this->setupTestDatabase();
-        }
+        Artisan::call('migrate');
     }
 
+    /**
+     * If different actions are needed for in memory databases, use this to check
+     *
+     * @return bool
+     */
     protected function isInMemory()
     {
         return config('database.connections')[config('database.default')]['database'] == ':memory:';
-    }
-
-    protected function setupInMemoryDatabase()
-    {
-        $this->artisan('migrate');
-        $this->app[Kernel::class]->setArtisan(null);
-    }
-
-    protected function setupTestDatabase()
-    {
-        if (!static::$migrated) {
-            $this->artisan('migrate:refresh');
-            $this->app[Kernel::class]->setArtisan(null);
-            static::$migrated = true;
-        }
-        $this->beginDatabaseTransaction();
-    }
-
-    public function beginDatabaseTransaction()
-    {
-        $database = $this->app->make('db');
-        foreach ($this->connectionsToTransact() as $name) {
-            $database->connection($name)->beginTransaction();
-        }
-        $this->beforeApplicationDestroyed(function () use ($database) {
-            foreach ($this->connectionsToTransact() as $name) {
-                $database->connection($name)->rollBack();
-            }
-        });
-    }
-
-    protected function connectionsToTransact()
-    {
-        return property_exists($this, 'connectionsToTransact')
-            ? $this->connectionsToTransact : [null];
     }
 }
