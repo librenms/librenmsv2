@@ -20,7 +20,7 @@ checks:
     javascript: true 
 
 tools:
-    php_messk_detector: true
+    php_mess_detector: true
     php_code_sniffer: true
     sensiolabs_security_checker: true
     php_pdepend: true
