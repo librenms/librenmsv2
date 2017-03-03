@@ -2,6 +2,11 @@
 
 namespace App\Api\Controllers;
 
+use App\Models\Device;
+use App\Models\General\Eventlog;
+use App\Models\General\IPv4;
+use App\Models\General\Syslog;
+use App\Models\Port;
 use DB;
 
 class ApiController extends Controller
@@ -11,17 +16,23 @@ class ApiController extends Controller
      */
     public function getInfo()
     {
-        $versions              = array();
-        $versions['git']       = `git rev-parse --short HEAD`;
-        $versions['db_schema'] = DB::select('SELECT `version` FROM `dbSchema` LIMIT 1')[0]->version;
-        $versions['php']       = phpversion();
-        $versions['db_driver'] = strtoupper(DB::connection()->getDriverName());
-        if ($versions['db_driver'] == 'SQLITE') {
-            $versions['db_version'] = DB::select('SELECT sqlite_version() AS version')[0]->version;
+        $git = `git rev-parse --short HEAD`;
+
+        $schema = DB::table('dbSchema')->select('version')->pluck('version')->last();
+        $migration = DB::table('migrations')->select('migration')->pluck('migration')->last();
+        $db_schema = $schema ?: $migration;
+
+        $php = phpversion();
+
+        $db_driver = strtoupper(DB::connection()->getDriverName());
+
+        if ($db_driver == 'SQLITE') {
+            $db_version = collect(DB::select('SELECT sqlite_version() AS version'))->pluck('version')->first();
         } else {
-            $versions['db_version'] = DB::select('SELECT version() AS version')[0]->version;
+            $db_version = collect(DB::select('SELECT version() AS version'))->pluck('version')->first();
         }
-        return $versions;
+
+        return compact('git', 'db_schema', 'php', 'db_driver', 'db_version');
     }
 
     /**
@@ -29,28 +40,30 @@ class ApiController extends Controller
      */
     public function getStats()
     {
-        $stats               = array();
-        $stats['devices']    = \App\Models\Device::all()->count();
-        $stats['ports']      = \App\Models\Port::all()->count();
-        $stats['syslog']     = \App\Models\General\Syslog::all()->count();
-        $stats['eventlog']   = \App\Models\General\Eventlog::all()->count();
-        $stats['apps']       = DB::table('applications')->count();
-        $stats['services']   = DB::table('services')->count();
-        $stats['storage']    = DB::table('storage')->count();
-        $stats['diskio']     = DB::table('ucd_diskio')->count();
-        $stats['processors'] = DB::table('processors')->count();
-        $stats['memory']     = DB::table('mempools')->count();
-        $stats['sensors']    = DB::table('sensors')->count();
-        $stats['toner']      = DB::table('toner')->count();
-        $stats['hrmib']      = DB::table('hrDevice')->count();
-        $stats['entmib']     = DB::table('entPhysical')->count();
-        $stats['ipv4_addr']  = DB::table('ipv4_addresses')->count();
-        $stats['ipv4_net']   = DB::table('ipv4_networks')->count();
-        $stats['ipv6_addr']  = DB::table('ipv6_addresses')->count();
-        $stats['ipv6_net']   = DB::table('ipv6_networks')->count();
-        $stats['pw']         = DB::table('pseudowires')->count();
-        $stats['vrf']        = DB::table('vrfs')->count();
-        $stats['vlans']      = DB::table('vlans')->count();
+        $stats = [
+            'devices'    => Device::count(),
+            'ports'      => Port::count(),
+            'syslog'     => Syslog::count(),
+            'eventlog'   => Eventlog::count(),
+            'apps'       => DB::table('applications')->count(),
+            'services'   => DB::table('services')->count(),
+            'storage'    => DB::table('storage')->count(),
+            'diskio'     => DB::table('ucd_diskio')->count(),
+            'processors' => DB::table('processors')->count(),
+            'memory'     => DB::table('mempools')->count(),
+            'sensors'    => DB::table('sensors')->count(),
+            'toner'      => DB::table('toner')->count(),
+            'hrmib'      => DB::table('hrDevice')->count(),
+            'entmib'     => DB::table('entPhysical')->count(),
+            'ipv4_addr'  => IPv4::count(),
+            'ipv4_net'   => DB::table('ipv4_networks')->count(),
+            'ipv6_addr'  => DB::table('ipv6_addresses')->count(),
+            'ipv6_net'   => DB::table('ipv6_networks')->count(),
+            'pw'         => DB::table('pseudowires')->count(),
+            'vrf'        => DB::table('vrfs')->count(),
+            'vlans'      => DB::table('vlans')->count(),
+        ];
+
         return $stats;
     }
 }

@@ -38,15 +38,15 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'realname'  => $faker->name,
         'email'     => $faker->email,
         'password'  => str_random(10),
-//        'twofactor' => $faker->randomElement([0, $faker->sha256()]),
-//        'remember_token' => str_random(10),
     ];
 });
 
 $factory->state(User::class, 'admin', function (Faker\Generator $faker) {
-    return [
-        'level' => 10,
-    ];
+    return ['level' => 10];
+});
+
+$factory->state(User::class, 'globalread', function (Faker\Generator $faker) {
+    return ['level' => 5];
 });
 
 $factory->define(Dashboard::class, function (Faker\Generator $faker) {

@@ -11,25 +11,23 @@ class ListDeviceTest extends BrowserKitTestCase
     /**
      * Make sure we see a list of devices
      *
-    **/
+     **/
 
     public function testListingDevices()
     {
-        $this->seed();
-        $user = factory(User::class)->create([
-            'level' => 10,
-        ]);
-        $this->actingAs($user)
-             ->visit('/devices');
+        $device = factory(Device::class)->create();
+        $restricted_device = factory(Device::class)->create();
 
-        $user = factory(User::class)->create([
-            'level' => 1,
-        ]);
+        $admin_user = factory(User::class)->states(['admin'])->create();
+        $this->actingAs($admin_user)
+            ->visit('/devices');
+        //FIXME
 
-        $device = Device::where('hostname', 'restrictedhost')->first();
-        $user->devices()->attach($device);
+        $normal_user = factory(User::class)->create();
+        $normal_user->devices()->save($restricted_device);
 
-        $this->actingAs($user)
-             ->visit('/devices');
+        $this->actingAs($normal_user)
+            ->visit('/devices');
+        //FIXME
     }
 }

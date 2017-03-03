@@ -30,9 +30,7 @@ class UserPreferencesPageTest extends BrowserKitTestCase
      */
     public function testCanSeeDevicePermissionsAdmin()
     {
-        $user = factory(User::class)->create([
-            'level' => 10,
-        ]);
+        $user = factory(User::class)->states(['admin'])->create();
         $this->actingAs($user)
              ->visit('/preferences')
              ->see('Device / Port permissions')
@@ -46,9 +44,7 @@ class UserPreferencesPageTest extends BrowserKitTestCase
      */
     public function testCanSeeDevicePermissionsRead()
     {
-        $user = factory(User::class)->create([
-            'level' => 5,
-        ]);
+        $user = factory(User::class)->states(['globalread'])->create();
         $this->actingAs($user)
              ->visit('/preferences')
              ->see('Device / Port permissions')
@@ -62,17 +58,15 @@ class UserPreferencesPageTest extends BrowserKitTestCase
      */
     public function testCanSeeDevicePermissionsNormal()
     {
-        $this->seed();
-        $user = factory(User::class)->create([
-            'level' => 1,
-        ]);
+        $user = factory(User::class)->create();
 
-        $device = Device::where('hostname', 'restrictedhost')->first();
-        $user->devices()->attach($device);
+        $device = factory(Device::class)->create();
+        $user->devices()->save($device);
 
         $this->actingAs($user)
              ->visit('/preferences')
              ->see('Device / Port permissions')
              ->see('Show devices');
+        // FIXME
     }
 }
