@@ -11,6 +11,7 @@ return [
         'vendor'          => 'Vendor',
         'platform'        => 'Platform',
         'uptime_location' => 'Uptime/Location',
+        'notes'           => 'Notes',
     ],
     'groups' => [
         'title'          => 'Device Groups',
