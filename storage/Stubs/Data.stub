@@ -1,0 +1,64 @@
+<?php
+/**
+ * GraphDummy.php
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package    LibreNMS
+ * @link       http://librenms.org
+ * @copyright  2016 Paul Heinrichs
+ * @author     Paul Heinrichs <neil@lathwood.co.uk>
+ */
+
+namespace App\Graphs;
+
+use App\Data\RRD;
+use App\Graphs\Graph;
+
+class GraphDummy extends Graph
+{
+    /**
+    * Get Headers for Graph
+    *
+    * @return array
+    **/
+    protected function getHeaders()
+    {
+        $headers = [];
+
+        return $headers;
+    }
+
+    /**
+    *
+    * @return $defs
+    **/
+    protected function getRRDGraphDefinition()
+    {
+        $rrd_file = RRD::getFileName($this->device,'graph-data');
+
+        return $defs
+    }
+
+    /**
+    *
+    * @return $defs
+    **/
+    protected function getRRDXportDefinition()
+    {
+        $rrd_file = RRD::getFileName($this->device,'graph-data');
+
+        return $defs;
+    }
+}
