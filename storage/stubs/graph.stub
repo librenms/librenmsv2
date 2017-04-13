@@ -17,8 +17,8 @@
  *
  * @package    LibreNMS
  * @link       http://librenms.org
- * @copyright  2016 Paul Heinrichs
- * @author     Paul Heinrichs <neil@lathwood.co.uk>
+ * @copyright  2017 Paul Heinrichs
+ * @author     Paul Heinrichs <pheinrichs@gmail.com>
  */
 
 namespace App\Graphs;
@@ -48,7 +48,6 @@ class GraphDummy extends Graph
     {
         $rrd_file = RRD::getFileName($this->device,'graph-data');
 
-        return $defs
     }
 
     /**
@@ -59,6 +58,5 @@ class GraphDummy extends Graph
     {
         $rrd_file = RRD::getFileName($this->device,'graph-data');
 
-        return $defs;
     }
 }

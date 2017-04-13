@@ -20,7 +20,7 @@ class AddGraph extends Command
      *
      * @var string
      */
-    protected $description = 'Generate new graph template';
+    protected $description = 'Generate new graph template class to help speed up building new graphs';
 
     /**
      * Create a new command instance.
@@ -39,11 +39,23 @@ class AddGraph extends Command
      */
     public function handle()
     {
-        // dd($this->argument('namespace'));
-        $contents = File::get(storage_path('Stubs/Data.stub'));
-        $contents = str_replace('GraphDummy', $this->argument('filename'), $contents);
+        $filename = $this->argument('filename');
+        $contents = File::get(storage_path('stubs/graph.stub'));
         $contents = str_replace('namespace App\Graphs;', "namespace App\Graphs\\".$this->argument('namespace').";", $contents);
-        dd($contents);
-        return $stub;
+        $contents = str_replace('GraphDummy', $this->argument('filename'), $contents);
+        $filepath =  base_path('app/Graphs/') . str_replace('\\','/',$this->argument('namespace'));
+
+        if (!file_exists($filepath)) {
+            File::makeDirectory($filepath,0755,true);
+        }
+        if (file_exists($filepath.'/'.ucfirst($this->argument('filename')).'.php')) {
+            if (!$this->confirm("$filename alredy exists in $filepath, do you want to overwrite it?")) {
+                $this->error('Exiting...');
+                exit;
+            }
+        }
+        File::put($filepath.'/'.ucfirst($this->argument('filename')).'.php',$contents,'private');
+
+        $this->info("Created file $filename in $filepath ");
     }
 }
