@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use File;
+
 class AddGraph extends Command
 {
     /**
@@ -43,10 +44,10 @@ class AddGraph extends Command
         $contents = File::get(storage_path('stubs/graph.stub'));
         $contents = str_replace('namespace App\Graphs;', "namespace App\Graphs\\".$this->argument('namespace').";", $contents);
         $contents = str_replace('GraphDummy', $this->argument('filename'), $contents);
-        $filepath =  base_path('app/Graphs/') . str_replace('\\','/',$this->argument('namespace'));
+        $filepath = base_path('app/Graphs/') . str_replace('\\','/', $this->argument('namespace'));
 
         if (!file_exists($filepath)) {
-            File::makeDirectory($filepath,0755,true);
+            File::makeDirectory($filepath, 0755, true);
         }
         if (file_exists($filepath.'/'.ucfirst($this->argument('filename')).'.php')) {
             if (!$this->confirm("$filename alredy exists in $filepath, do you want to overwrite it?")) {
@@ -54,8 +55,8 @@ class AddGraph extends Command
                 exit;
             }
         }
-        File::put($filepath.'/'.ucfirst($this->argument('filename')).'.php',$contents,'private');
+        File::put($filepath.'/'.ucfirst($this->argument('filename')).'.php', $contents, 'private');
 
-        $this->info("Created file $filename in $filepath ");
+        $this->info("Created file $filename in $filepath");
     }
 }
