@@ -11,6 +11,8 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
         <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
+        <!-- Laravel Mix compiled css -->
+        <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
         <!-- Ionicons -->
@@ -86,6 +88,12 @@
         <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{{ url('js/bootstrap.min.js') }}"></script>
+
+        <!-- Laravel Mix compiled js -->
+        <script src="{{ mix('/js/manifest.js') }}"></script>
+        <script src="{{ mix('/js/vendor.js') }}"></script>
+        <script src="{{ mix('/js/app.js') }}"></script>
+
         @yield('pagejs')
         <!-- FastClick -->
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
