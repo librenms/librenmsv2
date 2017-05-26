@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-stack-item" :data-gs-width="widget.width" :data-gs-height="widget.height">
+    <div class="grid-stack-item" :data-gs-width="widget.size_x" :data-gs-height="widget.size_y">
         <div class="grid-stack-item-content box box-primary box-solid">
             <div class="box-header with-border draggable"><h3 class="box-title"> {{ widget.title }} </h3>
                 <div class="box-tools pull-right">
@@ -8,7 +8,7 @@
                 <button type="button" class="btn btn-box-tool"><i class="fa fa-trash"></i></button>
                 </div></div>
             <div class="box-body">
-                {{ widget.text }}
+                {{ widget.widget_id }}
             </div>
         </div>
     </div>

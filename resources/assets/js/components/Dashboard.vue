@@ -26,12 +26,22 @@
         },
         data() {
             return {
-                widgetsList: [
-                    {text: 'Vegetables', width: '2', height: '2', title: 'one'},
-                    {text: 'Cheese', width: '2', height: '4', title: 'two'},
-                    {text: 'Whatever else humans are supposed to eat', width: '4', height: '2', title: 'three'}
-                ]
+                dashboardId: 33,
+                widgetsList: [],
+                errors: []
             };
+        },
+        mounted() {
+            window.axios.get('api/dashboard/' + this.dashboardId)
+                .then(response => {
+                    // JSON responses are automatically parsed.
+                    console.log(response.data)
+                    this.widgetsList = response.data.widgets
+                })
+                .catch(e => {
+                    this.errors.push(e)
+                })
+
         }
     }
 </script>

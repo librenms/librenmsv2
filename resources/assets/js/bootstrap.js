@@ -40,8 +40,19 @@ let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    // TODO: populate JWT Token
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbGlicmVubXN2Mi5sb2NhbC9hcGkvYXV0aCIsImlhdCI6MTQ5NTgzMjQ1NCwiZXhwIjoxNDk1ODM2MDU0LCJuYmYiOjE0OTU4MzI0NTQsImp0aSI6IkFaanNoMzBaeDF6VmtuYkMiLCJzdWIiOjIsImFwcCI6IkxpYnJlTk1TIiwidXNlcm5hbWUiOiJtdXJyYW50In0.9_NvmGhX0WQEXwhYHLi-S8vISiRMXi3Az0yDVtyJC98';
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+
+let jwt = document.head.querySelector('meta[name="jwt-token"]');
+
+if (jwt) {
+
+} else {
+    console.error('JWT Token not found');
 }
 
 /**

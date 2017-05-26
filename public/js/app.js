@@ -126,8 +126,21 @@ $(function () {
     },
     data: function data() {
         return {
-            widgetsList: [{ text: 'Vegetables', width: '2', height: '2', title: 'one' }, { text: 'Cheese', width: '2', height: '4', title: 'two' }, { text: 'Whatever else humans are supposed to eat', width: '4', height: '2', title: 'three' }]
+            dashboardId: 33,
+            widgetsList: [],
+            errors: []
         };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        window.axios.get('api/dashboard/' + this.dashboardId).then(function (response) {
+            // JSON responses are automatically parsed.
+            console.log(response.data);
+            _this.widgetsList = response.data.widgets;
+        }).catch(function (e) {
+            _this.errors.push(e);
+        });
     }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
@@ -243,8 +256,16 @@ var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  // TODO: populate JWT Token
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbGlicmVubXN2Mi5sb2NhbC9hcGkvYXV0aCIsImlhdCI6MTQ5NTgzMjQ1NCwiZXhwIjoxNDk1ODM2MDU0LCJuYmYiOjE0OTU4MzI0NTQsImp0aSI6IkFaanNoMzBaeDF6VmtuYkMiLCJzdWIiOjIsImFwcCI6IkxpYnJlTk1TIiwidXNlcm5hbWUiOiJtdXJyYW50In0.9_NvmGhX0WQEXwhYHLi-S8vISiRMXi3Az0yDVtyJC98';
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+var jwt = document.head.querySelector('meta[name="jwt-token"]');
+
+if (jwt) {} else {
+  console.error('JWT Token not found');
 }
 
 /**
@@ -438,8 +459,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "grid-stack-item",
     attrs: {
-      "data-gs-width": _vm.widget.width,
-      "data-gs-height": _vm.widget.height
+      "data-gs-width": _vm.widget.size_x,
+      "data-gs-height": _vm.widget.size_y
     }
   }, [_c('div', {
     staticClass: "grid-stack-item-content box box-primary box-solid"
@@ -449,7 +470,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box-title"
   }, [_vm._v(" " + _vm._s(_vm.widget.title) + " ")]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
     staticClass: "box-body"
-  }, [_vm._v("\n            " + _vm._s(_vm.widget.text) + "\n        ")])])])
+  }, [_vm._v("\n            " + _vm._s(_vm.widget.widget_id) + "\n        ")])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-tools pull-right"
