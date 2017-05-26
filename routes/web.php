@@ -18,7 +18,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     // test vue.js route
     Route::get('/vue', function () {
-        return view('vue');
+        return view('vue', ['widgets' => Auth::user()->widgets->all()]);
+    });
+    Route::get('/dash', function () {
+        return view('dashboard', ['widgets' => Auth::user()->widgets->all()]);
     });
 
     Route::get('/', 'HomeController@redirect')->name('home');

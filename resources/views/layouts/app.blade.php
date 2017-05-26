@@ -10,8 +10,9 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
+        {{--<link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">--}}
         <!-- Laravel Mix compiled css -->
+        <link rel="stylesheet" href="{{ mix('/css/vendor.css') }}">
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
@@ -81,13 +82,6 @@
         @if (Auth::guest())
             @yield('content')
         @endif
-
-        <!-- jQuery 2.1.4 -->
-        <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
-
-        <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
-        <!-- Bootstrap 3.3.5 -->
-        <script src="{{ url('js/bootstrap.min.js') }}"></script>
 
         <!-- Laravel Mix compiled js -->
         <script src="{{ mix('/js/manifest.js') }}"></script>

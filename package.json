@@ -16,6 +16,7 @@
     "jquery": "^3.1.1",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
+    "gridstack": "^0.3.0",
     "vue": "^2.1.10"
   }
 }

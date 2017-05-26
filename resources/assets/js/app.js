@@ -13,8 +13,12 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+window.Gridstack = require('gridstack');
+window.$ = $.extend(require('jquery-ui'));
 
-const app = new Vue({
-    el: '#app'
-});
+Vue.component('example', require('./components/Example.vue'));
+Vue.component('dashboard-widget', require('./components/DashboardWidget.vue'));
+
+// const app = new Vue({
+//     el: '#app'
+// });
