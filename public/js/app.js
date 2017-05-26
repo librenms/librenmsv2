@@ -1,6 +1,6 @@
 webpackJsonp([1],{
 
-/***/ 34:
+/***/ 11:
 /***/ (function(module, exports) {
 
 module.exports = function normalizeComponent (
@@ -64,7 +64,7 @@ module.exports = function normalizeComponent (
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(58);
+__webpack_require__(59);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -72,15 +72,15 @@ __webpack_require__(58);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-window.Gridstack = __webpack_require__(6);
-__webpack_require__(13); // for draggable, etc
+window.Gridstack = __webpack_require__(5);
+__webpack_require__(14); // for draggable, etc
 
-Vue.component('example', __webpack_require__(62));
-Vue.component('dashboard-widget', __webpack_require__(61));
+Vue.component('example', __webpack_require__(64));
+Vue.component('dashboard', __webpack_require__(62));
 
-// const app = new Vue({
-//     el: '#app'
-// });
+var app = new Vue({
+  el: '#app'
+});
 
 /***/ }),
 
@@ -92,6 +92,49 @@ Vue.component('dashboard-widget', __webpack_require__(61));
 /***/ }),
 
 /***/ 56:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DashboardWidget_vue__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DashboardWidget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DashboardWidget_vue__);
+//
+//
+//
+//
+//
+//
+
+$(function () {
+    var options = {
+        cellHeight: 80,
+        verticalMargin: 10,
+        draggable: {
+            handle: '.draggable',
+            scroll: true,
+            appendTo: 'body'
+        }
+    };
+    $('.grid-stack').gridstack(options);
+});
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        'dashboard-widget': __WEBPACK_IMPORTED_MODULE_0__DashboardWidget_vue___default.a
+    },
+    data: function data() {
+        return {
+            widgetsList: [{ text: 'Vegetables', width: '2', height: '2', title: 'one' }, { text: 'Cheese', width: '2', height: '4', title: 'two' }, { text: 'Whatever else humans are supposed to eat', width: '4', height: '2', title: 'three' }]
+        };
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+
+/***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -119,7 +162,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -155,10 +198,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 58:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-window._ = __webpack_require__(5);
+window._ = __webpack_require__(9);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -169,7 +212,7 @@ window._ = __webpack_require__(5);
 try {
   window.$ = window.jQuery = __webpack_require__(0);
 
-  __webpack_require__(12);
+  __webpack_require__(13);
 } catch (e) {}
 
 /**
@@ -178,7 +221,7 @@ try {
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(21);
+window.Vue = __webpack_require__(22);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -186,7 +229,7 @@ window.Vue = __webpack_require__(21);
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(11);
+window.axios = __webpack_require__(12);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -221,14 +264,49 @@ if (token) {
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(34)(
+var Component = __webpack_require__(11)(
   /* script */
   __webpack_require__(56),
   /* template */
-  __webpack_require__(64),
+  __webpack_require__(65),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/murrant/projects/librenmsv2/resources/assets/js/components/Dashboard.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Dashboard.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5a65f450", Component.options)
+  } else {
+    hotAPI.reload("data-v-5a65f450", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 63:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(11)(
+  /* script */
+  __webpack_require__(57),
+  /* template */
+  __webpack_require__(67),
   /* scopeId */
   null,
   /* cssModules */
@@ -256,14 +334,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 62:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(34)(
+var Component = __webpack_require__(11)(
   /* script */
-  __webpack_require__(57),
+  __webpack_require__(58),
   /* template */
-  __webpack_require__(63),
+  __webpack_require__(66),
   /* scopeId */
   null,
   /* cssModules */
@@ -291,7 +369,31 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 63:
+/***/ 65:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "grid-stack"
+  }, _vm._l((_vm.widgetsList), function(widget) {
+    return _c('dashboard-widget', {
+      attrs: {
+        "widget": widget
+      }
+    })
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5a65f450", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 66:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -329,7 +431,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 64:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -377,7 +479,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 66:
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(36);
@@ -386,4 +488,4 @@ module.exports = __webpack_require__(37);
 
 /***/ })
 
-},[66]);
+},[69]);
