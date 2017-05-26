@@ -9,13 +9,10 @@
         </title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 -->
-        {{--<link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">--}}
+
         <!-- Laravel Mix compiled css -->
-        <link rel="stylesheet" href="{{ mix('/css/vendor.css') }}">
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
+
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
     @yield('pagecss')

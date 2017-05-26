@@ -14,7 +14,7 @@ require('./bootstrap');
  */
 
 window.Gridstack = require('gridstack');
-window.$ = $.extend(require('jquery-ui'));
+require('gridstack/src/gridstack.jQueryUI.js'); // for draggable, etc
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('dashboard-widget', require('./components/DashboardWidget.vue'));

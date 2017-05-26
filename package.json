@@ -17,6 +17,7 @@
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
     "gridstack": "^0.3.0",
-    "vue": "^2.1.10"
+    "vue": "^2.1.10",
+    "font-awesome": "^4.7.0"
   }
 }
