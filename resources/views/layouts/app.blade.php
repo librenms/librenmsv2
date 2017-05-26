@@ -11,7 +11,7 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
         <!-- Laravel Mix compiled css -->
-        <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
@@ -81,9 +81,9 @@
         @endif
 
         <!-- Laravel Mix compiled js -->
-        <script src="{{ mix('/js/manifest.js') }}"></script>
-        <script src="{{ mix('/js/vendor.js') }}"></script>
-        <script src="{{ mix('/js/app.js') }}"></script>
+        <script src="{{ mix('js/manifest.js') }}"></script>
+        <script src="{{ mix('js/vendor.js') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
 
         @yield('pagejs')
         <!-- FastClick -->

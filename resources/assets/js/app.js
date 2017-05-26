@@ -17,8 +17,8 @@ window.Gridstack = require('gridstack');
 require('gridstack/src/gridstack.jQueryUI.js'); // for draggable, etc
 
 Vue.component('example', require('./components/Example.vue'));
-Vue.component('dashboard-widget', require('./components/DashboardWidget.vue'));
+Vue.component('dashboard', require('./components/Dashboard.vue'));
 
-// const app = new Vue({
-//     el: '#app'
-// });
+const app = new Vue({
+    el: '#app',
+});
