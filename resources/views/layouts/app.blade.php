@@ -4,6 +4,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        @if(Auth::check())
+            <meta name="jwt-token" content="{{ JWTAuth::fromUser(Auth::user()) }}" />
+        @endif
         <title>
             LibreNMS - @yield('title')
         </title>

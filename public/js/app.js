@@ -104,6 +104,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 $(function () {
     var options = {
@@ -126,21 +147,60 @@ $(function () {
     },
     data: function data() {
         return {
-            dashboardId: 33,
-            widgetsList: [],
+            selected: 0,
+            dashboards: [],
+            widgets: [],
             errors: []
         };
     },
     mounted: function mounted() {
         var _this = this;
 
-        window.axios.get('api/dashboard/' + this.dashboardId).then(function (response) {
-            // JSON responses are automatically parsed.
-            console.log(response.data);
-            _this.widgetsList = response.data.widgets;
+        window.axios.get('api/dashboard').then(function (response) {
+            _this.dashboards = response.data.dashboards;
+            for (var id in _this.dashboards) {
+                _this.selected = id;
+                break;
+            }
         }).catch(function (e) {
             _this.errors.push(e);
         });
+    },
+
+    watch: {
+        'selected': function selected() {
+            var _this2 = this;
+
+            if (this.selected === 0 || !(this.selected in this.dashboards)) {
+                return;
+            }
+
+            // changing dashboards, remove all nodes from gridstack, but don't let it update the dom
+            var grid = $('.grid-stack').data('gridstack');
+            if (grid) {
+                grid.removeAll(false);
+            }
+
+            // TODO is caching necessary?
+            if (this.dashboards[this.selected].hasOwnProperty('widgets')) {
+                this.widgets = this.dashboards[this.selected].widgets;
+            } else {
+                window.axios.get('api/dashboard/' + this.selected).then(function (response) {
+                    _this2.dashboards[_this2.selected].widgets = response.data.widgets;
+                    _this2.widgets = response.data.widgets;
+                }).catch(function (e) {
+                    _this2.errors.push(e);
+                });
+            }
+        }
+    },
+    methods: {
+        removeWidget: function removeWidget(id) {
+            console.log('removing ' + id);
+            this.widgets = $.grep(this.widgets, function (widget) {
+                return widget.user_widget_id !== id;
+            });
+        }
     }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
@@ -152,6 +212,12 @@ $(function () {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -170,8 +236,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['widget']
+    props: ['widget'],
+    methods: {
+        removeWidget: function removeWidget() {
+            var grid = $('.grid-stack').data('gridstack');
+            grid.removeWidget($('#user_widget_' + this.widget.user_widget_id), false);
+            this.$emit('remove');
+        }
+    },
+    mounted: function mounted() {
+        // if gridstack is already running, notify it of the new widget
+        var grid = $('.grid-stack').data('gridstack');
+        if (grid) {
+            grid.makeWidget('#user_widget_' + this.widget.user_widget_id);
+        }
+    }
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 
@@ -224,7 +305,6 @@ window._ = __webpack_require__(9);
 
 try {
   window.$ = window.jQuery = __webpack_require__(0);
-
   __webpack_require__(13);
 } catch (e) {}
 
@@ -243,7 +323,6 @@ window.Vue = __webpack_require__(22);
  */
 
 window.axios = __webpack_require__(12);
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
@@ -253,19 +332,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
-
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-  // TODO: populate JWT Token
-  window.axios.defaults.headers.common['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbGlicmVubXN2Mi5sb2NhbC9hcGkvYXV0aCIsImlhdCI6MTQ5NTgzMjQ1NCwiZXhwIjoxNDk1ODM2MDU0LCJuYmYiOjE0OTU4MzI0NTQsImp0aSI6IkFaanNoMzBaeDF6VmtuYkMiLCJzdWIiOjIsImFwcCI6IkxpYnJlTk1TIiwidXNlcm5hbWUiOiJtdXJyYW50In0.9_NvmGhX0WQEXwhYHLi-S8vISiRMXi3Az0yDVtyJC98';
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 var jwt = document.head.querySelector('meta[name="jwt-token"]');
-
-if (jwt) {} else {
-  console.error('JWT Token not found');
+if (jwt) {
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt.content;
 }
 
 /**
@@ -394,16 +469,63 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  return _c('div', [_c('form', {
+    staticClass: "form-inline"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selected),
+      expression: "selected"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selected = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.dashboards), function(dashboard) {
+    return _c('option', {
+      domProps: {
+        "value": dashboard.dashboard_id
+      }
+    }, [_vm._v("\n                    " + _vm._s(dashboard.dashboard_name) + "\n                ")])
+  }))]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
     staticClass: "grid-stack"
-  }, _vm._l((_vm.widgetsList), function(widget) {
+  }, _vm._l((_vm.widgets), function(widget) {
     return _c('dashboard-widget', {
+      key: widget.user_widget_id,
       attrs: {
         "widget": widget
+      },
+      on: {
+        "remove": function($event) {
+          _vm.removeWidget(widget.user_widget_id)
+        }
       }
     })
-  }))
-},staticRenderFns: []}
+  }))])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-group"
+  }, [_c('a', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "href": "#",
+      "data-toggle": "control-sidebar"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-gears"
+  })])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -459,8 +581,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "grid-stack-item",
     attrs: {
+      "id": 'user_widget_' + _vm.widget.user_widget_id,
+      "data-gs-id": _vm.widget.user_widget_id,
       "data-gs-width": _vm.widget.size_x,
-      "data-gs-height": _vm.widget.size_y
+      "data-gs-height": _vm.widget.size_y,
+      "data-gs-x": _vm.widget.col,
+      "data-gs-y": _vm.widget.row
     }
   }, [_c('div', {
     staticClass: "grid-stack-item-content box box-primary box-solid"
@@ -468,27 +594,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box-header with-border draggable"
   }, [_c('h3', {
     staticClass: "box-title"
-  }, [_vm._v(" " + _vm._s(_vm.widget.title) + " ")]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
+  }, [_vm._v(" " + _vm._s(_vm.widget.title) + " ")]), _vm._v(" "), _c('div', {
+    staticClass: "box-tools pull-right"
+  }, [_vm._m(0), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-box-tool",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.removeWidget
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-trash"
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "box-body"
   }, [_vm._v("\n            " + _vm._s(_vm.widget.widget_id) + "\n        ")])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "box-tools pull-right"
-  }, [_c('button', {
+  return _c('button', {
     staticClass: "btn btn-box-tool",
     attrs: {
       "type": "button"
     }
   }, [_c('i', {
     staticClass: "fa fa-wrench"
-  })]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-box-tool",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-trash"
-  })])])
+  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {

@@ -5,7 +5,7 @@
     <div id="app"><!-- include this in app layout? -->
         {{--<example></example>--}}
 
-        <h2>Gridstack.js and Vue.js</h2>
+        {{--<h2>Gridstack.js and Vue.js</h2>--}}
         <dashboard></dashboard>
     </div>
 

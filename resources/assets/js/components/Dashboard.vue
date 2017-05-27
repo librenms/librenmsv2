@@ -1,6 +1,27 @@
 <template>
-    <div class="grid-stack">
-        <dashboard-widget v-for="widget in widgetsList" v-bind:widget="widget"></dashboard-widget>
+    <div>
+        <form class="form-inline">
+            <div class="form-group">
+                <select class="form-control" v-model="selected">
+                    <option v-for="dashboard in dashboards" v-bind:value="dashboard.dashboard_id">
+                        {{ dashboard.dashboard_name }}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <a href="#" data-toggle="control-sidebar" class="btn btn-primary"><i class="fa fa-gears"></i></a>
+            </div>
+        </form>
+        <br />
+
+        <div class="grid-stack">
+            <dashboard-widget
+                    v-for="widget in widgets"
+                    v-on:remove="removeWidget(widget.user_widget_id)"
+                    v-bind:key="widget.user_widget_id"
+                    v-bind:widget="widget">
+            </dashboard-widget>
+        </div>
     </div>
 </template>
 
@@ -26,22 +47,59 @@
         },
         data() {
             return {
-                dashboardId: 33,
-                widgetsList: [],
+                selected: 0,
+                dashboards: [],
+                widgets: [],
                 errors: []
             };
         },
         mounted() {
-            window.axios.get('api/dashboard/' + this.dashboardId)
+            window.axios.get('api/dashboard')
                 .then(response => {
-                    // JSON responses are automatically parsed.
-                    console.log(response.data)
-                    this.widgetsList = response.data.widgets
+                    this.dashboards = response.data.dashboards;
+                    for (let id in this.dashboards) {
+                        this.selected = id;
+                        break;
+                    }
                 })
                 .catch(e => {
                     this.errors.push(e)
-                })
+                });
+        },
+        watch: {
+            'selected': function () {
+                if (this.selected === 0 || !(this.selected in this.dashboards)) {
+                    return;
+                }
 
+                // changing dashboards, remove all nodes from gridstack, but don't let it update the dom
+                let grid = $('.grid-stack').data('gridstack');
+                if (grid) {
+                    grid.removeAll(false);
+                }
+
+                // TODO is caching necessary?
+                if (this.dashboards[this.selected].hasOwnProperty('widgets')) {
+                    this.widgets = this.dashboards[this.selected].widgets;
+                } else {
+                    window.axios.get('api/dashboard/' + this.selected)
+                        .then(response => {
+                            this.dashboards[this.selected].widgets = response.data.widgets;
+                            this.widgets = response.data.widgets;
+                        })
+                        .catch(e => {
+                            this.errors.push(e)
+                        });
+                }
+            }
+        },
+        methods: {
+            removeWidget(id) {
+                console.log('removing '+id);
+                this.widgets = $.grep(this.widgets, function(widget) {
+                    return widget.user_widget_id !== id;
+                })
+            }
         }
     }
 </script>
