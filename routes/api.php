@@ -27,6 +27,7 @@ ApiRoute::version('v1', function (Router $api) {
 
         // Overview section
         $api->delete('dashboard/{dashboard_id}/clear', 'App\Api\Controllers\DashboardController@clear');
+        $api->resource('widget-data', 'App\Api\Controllers\WidgetDataController');
         $api->resource('dashboard', 'App\Api\Controllers\DashboardController', ['parameters' => ['dashboard' => 'dashboard_id']]);
         $api->resource('widget', 'App\Api\Controllers\WidgetController', ['paramaters' => ['widget' => 'widget_id']]);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');

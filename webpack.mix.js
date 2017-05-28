@@ -11,6 +11,8 @@ const {mix} = require('laravel-mix');
  |
  */
 
+mix.browserSync('librenmsv2.local');
+
 mix.webpackConfig({
     resolve: {
         modules: [
