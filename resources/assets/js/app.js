@@ -18,7 +18,6 @@ require('gridstack/src/gridstack.jQueryUI.js'); // for draggable, etc
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('dashboard', require('./components/Dashboard.vue'));
-Vue.component('availability-map', require('./components/widgets/AvailabilityMap.vue'));
 
 const app = new Vue({
     el: '#app',

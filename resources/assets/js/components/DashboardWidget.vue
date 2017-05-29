@@ -14,14 +14,19 @@
                 <button type="button" class="btn btn-box-tool" @click="removeWidget"><i class="fa fa-trash"></i></button>
                 </div></div>
             <div class="box-body">
-                {{ widget.widget_id }}
+                <availability-map v-if="widget.widget_id == 1"></availability-map>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import AvailabilityMap from './widgets/AvailabilityMap.vue'
+
     export default {
+        components: {
+            'availability-map': AvailabilityMap
+        },
         props: ['widget'],
         methods: {
             removeWidget() {
