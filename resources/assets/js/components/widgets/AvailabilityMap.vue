@@ -51,18 +51,29 @@
                 devices: [],
                 settings: {
                     tile_width: 10
-                }
+                },
+                interval: null
             }
         },
         mounted() {
-            window.axios.get('api/widget-data/' + this.widget_id)
-                .then(response => {
-                    this.counts = response.data.counts;
-                    this.devices = response.data.devices;
-                    this.uptime_warning = response.data.uptime_warning;
-                });
+            this.loadData();
+
+            this.interval = setInterval(function () {
+                this.loadData();
+            }.bind(this), 300000);
+        },
+        beforeDestroy() {
+            clearInterval(this.interval);
         },
         methods: {
+            loadData() {
+                window.axios.get('api/widget-data/' + this.widget_id)
+                    .then(response => {
+                        this.counts = response.data.counts;
+                        this.devices = response.data.devices;
+                        this.uptime_warning = response.data.uptime_warning;
+                    });
+            },
             checkUptime(uptime) {
                 return uptime < this.uptime_warning && uptime != 0
             },
@@ -116,5 +127,3 @@
     }
 
 </style>
-
-hhhhhmmhj;i;p[8p0
