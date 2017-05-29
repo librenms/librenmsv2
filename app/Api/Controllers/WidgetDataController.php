@@ -25,10 +25,8 @@
 
 namespace App\Api\Controllers;
 
-use App\Models\Device;
-use App\Models\User;
+use App\Data\WidgetDataFactory;
 use Illuminate\Http\Request;
-use Settings;
 
 class WidgetDataController extends Controller
 {
@@ -68,17 +66,11 @@ class WidgetDataController extends Controller
      *
      * @param Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function show(Request $request, $id)
     {
-        switch ($id) {
-            case 1:
-                return $this->availabilityMap($request);
-
-            default:
-                return [];
-        }
+        return WidgetDataFactory::createById($id)->get($request);
     }
 
     /**
@@ -113,29 +105,5 @@ class WidgetDataController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-
-    private function availabilityMap(Request $request)
-    {
-        $uptime = Settings::get('uptime_warning', 84600);
-        if ($request->user()->hasGlobalRead()) {
-            $devices = Device::where('ignore', '=', 0)->get();
-        } else {
-            $devices = User::find($request->user()->user_id)->devices()->where('ignore', '=', 0)->get();
-        }
-        $counts = ['warn' => 0, 'up' => 0, 'down' => 0];
-        foreach ($devices as $device) {
-            if ($device->status == 1) {
-                if (($device->uptime < $uptime) && ($device->uptime != '0')) {
-                    $counts['warn']++;
-                } else {
-                    $counts['up']++;
-                }
-            } else {
-                $counts['down']++;
-            }
-        }
-        return compact(['devices', 'counts']);
     }
 }

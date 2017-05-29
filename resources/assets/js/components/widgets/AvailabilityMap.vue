@@ -47,6 +47,7 @@
             return {
                 widget_id: 1,
                 counts: {up: '', down: '', warn: ''},
+                uptime_warning: 86400,
                 devices: [],
                 settings: {
                     tile_width: 10
@@ -58,11 +59,12 @@
                 .then(response => {
                     this.counts = response.data.counts;
                     this.devices = response.data.devices;
+                    this.uptime_warning = response.data.uptime_warning;
                 });
         },
         methods: {
             checkUptime(uptime) {
-                return uptime < 86400 && uptime != 0
+                return uptime < this.uptime_warning && uptime != 0
             },
             secondsToString(seconds) {
                 let output = [];
@@ -91,6 +93,7 @@
             getClass(device) {
                 if (device.status) {
                     if (this.checkUptime(device.uptime)) {
+
                         return 'btn-warning'
                     } else {
                         return 'btn-success'
@@ -113,3 +116,5 @@
     }
 
 </style>
+
+hhhhhmmhj;i;p[8p0
