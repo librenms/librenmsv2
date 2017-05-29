@@ -41,7 +41,12 @@ class DeviceDataTable extends BaseDataTable
             ->editColumn('status_reason', 'datatables.device.status-reason')
             ->editColumn('vendor', 'datatables.device.icon')
             ->editColumn('hostname', 'datatables.device.hostname')
-            ->editColumn('resources', 'datatables.device.resources')
+            ->editColumn('resources', function (Device $device) {
+                $portCount = $device->getPortCount();
+                $sensorCount = $device->getSensorCount();
+
+                return view('datatables.device.resources', compact('portCount', 'sensorCount'));
+            })
             ->editColumn('hardware', '{{ $hardware }}<br />{{ $features }}')
             ->editColumn('os', '{{ ucfirst($os) }}<br />{{ $version }}')
             ->editColumn('location', '{{ Util::formatUptime($uptime) }}<br />{{ $location }}')

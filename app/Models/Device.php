@@ -110,7 +110,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isUp()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDown()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isIgnored()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Device notIgnored()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isNotIgnored()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Device isDisabled()
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DeviceGroup[] $groups
@@ -145,7 +145,6 @@ class Device extends Model
      * @var array
      */
     protected $fillable = ['hostname', 'ip', 'status', 'status_reason'];
-    protected $appends = ['portCount', 'sensorCount'];
 
     /**
      * Initialize this class
@@ -206,12 +205,12 @@ class Device extends Model
     }
 
     // ---- Accessors/Mutators ----
-    public function getPortCountAttribute()
+    public function getPortCount()
     {
         return is_null($this->portCountRelation) ? 0 : $this->portCountRelation->count;
     }
 
-    public function getSensorCountAttribute()
+    public function getSensorCount()
     {
         return is_null($this->sensorCountRelation) ? 0 : $this->sensorCountRelation->count;
     }
@@ -265,7 +264,7 @@ class Device extends Model
         ]);
     }
 
-    public function scopeNotIgnored($query)
+    public function scopeIsNotIgnored($query)
     {
         return $query->where([
             ['ignore', '=', 0]
