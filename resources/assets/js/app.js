@@ -13,11 +13,10 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-window.Gridstack = require('gridstack');
-require('gridstack/src/gridstack.jQueryUI.js'); // for draggable, etc
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('dashboard', require('./components/Dashboard.vue'));
+Vue.component('animated-integer', require('./components/AnimatedInteger.vue'));
 
 const app = new Vue({
     el: '#app',

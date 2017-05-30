@@ -26,18 +26,8 @@
 </template>
 
 <script>
-    $(function () {
-        var options = {
-            cellHeight: 80,
-            verticalMargin: 10,
-            draggable: {
-                handle: '.draggable',
-                scroll: true,
-                appendTo: 'body'
-            },
-        };
-        $('.grid-stack').gridstack(options);
-    });
+    window.Gridstack = require('gridstack');
+    require('gridstack/src/gridstack.jQueryUI.js'); // for draggable, etc
 
     import DashboardWidget from './DashboardWidget.vue'
 
@@ -65,6 +55,16 @@
                 .catch(e => {
                     this.errors.push(e)
                 });
+
+            $('.grid-stack').gridstack({
+                cellHeight: 80,
+                verticalMargin: 10,
+                draggable: {
+                    handle: '.draggable',
+                    scroll: true,
+                    appendTo: 'body'
+                },
+            });
         },
         watch: {
             'selected': function () {
@@ -78,19 +78,13 @@
                     grid.removeAll(false);
                 }
 
-                // TODO is caching necessary?
-                if (this.dashboards[this.selected].hasOwnProperty('widgets')) {
-                    this.widgets = this.dashboards[this.selected].widgets;
-                } else {
-                    window.axios.get('api/dashboard/' + this.selected)
-                        .then(response => {
-                            this.dashboards[this.selected].widgets = response.data.widgets;
-                            this.widgets = response.data.widgets;
-                        })
-                        .catch(e => {
-                            this.errors.push(e)
-                        });
-                }
+                window.axios.get('api/dashboard/' + this.selected)
+                    .then(response => {
+                        this.widgets = response.data.widgets;
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    });
             }
         },
         methods: {

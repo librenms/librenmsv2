@@ -10,3 +10,29 @@ $fa-font-path: "../../../node_modules/font-awesome/fonts" !default;
 
 // GridStack
 @import 'node_modules/gridstack/src/gridstack';
+
+// vue.js transitions definitions (probably should put in dedicated file and import or extract a component)
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
+
+.list-complete-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.list-complete-enter, .list-complete-leave-to
+  /* .list-complete-leave-active for <2.1.8 */
+{
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-complete-leave-active {
+  position: absolute;
+}

@@ -14,7 +14,7 @@
                 <button type="button" class="btn btn-box-tool" @click="removeWidget"><i class="fa fa-trash"></i></button>
                 </div></div>
             <div class="box-body">
-                <availability-map v-if="widget.widget_id == 1"></availability-map>
+                <availability-map v-if="widget.widget_id == 1" v-bind:settings="widget.settings"></availability-map>
             </div>
         </div>
     </div>

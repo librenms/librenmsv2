@@ -24,34 +24,42 @@
 
 <template>
     <div>
-        <h5 style="text-align:center; margin-top: 0;">
-            <span data-toggle="tooltip" class="badge bg-green" v-bind:title="counts.up + ' Devices up'"><i class="fa fa-check"></i> {{ counts.up }}</span>
-            <span data-toggle="tooltip" class="badge bg-yellow" v-bind:title="counts.warn + ' Recently rebooted'"><i
-                    class="fa fa-exclamation-triangle"></i> {{ counts.warn }}</span>
-            <span data-toggle="tooltip" class="badge bg-red" v-bind:title="counts.down + ' Devices down'"><i class="fa fa-exclamation-circle"></i> {{ counts.down }}</span>
+        <transition name="fade">
+            <h5 class="counts" v-if="loaded">
+            <span data-toggle="tooltip" class="badge bg-green" v-bind:title="counts.up + ' Devices up'">
+                <i class="fa fa-check"></i> <animated-integer v-bind:value="counts.up"></animated-integer>
+            </span>
+                <span data-toggle="tooltip" class="badge bg-yellow" v-bind:title="counts.warn + ' Recently rebooted'">
+                <i class="fa fa-exclamation-triangle"></i> <animated-integer v-bind:value="counts.warn"></animated-integer>
+            </span>
+                <span data-toggle="tooltip" class="badge bg-red" v-bind:title="counts.down + ' Devices down'">
+                <i class="fa fa-exclamation-circle"></i> <animated-integer v-bind:value="counts.down"></animated-integer>
+            </span>
         </h5>
+        </transition>
 
-        <a role="button"
-           v-for="device in devices"
-           v-bind:href="'devices/' + device.device_id"
-           class="btn btn-xs"
-           v-bind:class="getClass(device)"
-           v-bind:title="device.hostname + ' ' + secondsToString(device.uptime)"
-        ></a>
+        <transition-group name="list-complete" tag="a">
+            <a role="button"
+               v-for="device in devices"
+               v-bind:key="device.device_id"
+               v-bind:href="'devices/' + device.device_id"
+               class="device-badge list-complete-item btn btn-xs"
+               v-bind:class="getClass(device)"
+               v-bind:title="device.hostname + ' ' + secondsToString(device.uptime)"
+            ></a>
+        </transition-group>
     </div>
 </template>
 
 <script>
     export default {
+        props: ['settings'],
         data() {
             return {
                 widget_id: 1,
-                counts: {up: '', down: '', warn: ''},
+                loaded: false,
                 uptime_warning: 86400,
                 devices: [],
-                settings: {
-                    tile_width: 10
-                },
                 interval: null
             }
         },
@@ -65,13 +73,31 @@
         beforeDestroy() {
             clearInterval(this.interval);
         },
+        computed: {
+            counts: function () {
+                console.log(this);
+                let counts = {up: 0, down: 0, warn: 0};
+                this.devices.forEach(function (device) {
+                    if (device.status) {
+                        if (this.checkUptime(device.uptime)) {
+                            counts.warn++
+                        } else {
+                            counts.up++
+                        }
+                    } else {
+                        counts.down++
+                    }
+                }.bind(this));
+                return counts;
+            }
+        },
         methods: {
             loadData() {
                 window.axios.get('api/widget-data/' + this.widget_id)
                     .then(response => {
-                        this.counts = response.data.counts;
                         this.devices = response.data.devices;
                         this.uptime_warning = response.data.uptime_warning;
+                        this.loaded = true;
                     });
             },
             checkUptime(uptime) {
@@ -118,7 +144,12 @@
 </script>
 
 <style scoped>
-    a {
+    .counts {
+        text-align: center;
+        margin-top: 0;
+    }
+
+    .device-badge {
         min-height: 15px;
         min-width: 15px;
         border-radius: 2px;

@@ -57,7 +57,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'jquery-ui/ui/widgets/resizable',
         'gridstack/src/gridstack.jQueryUI.js',
         'gridstack',
-        'bootstrap-sass'
+        // 'bootstrap-sass' // leave in app.js to resolve load order issue
     ]);
 
 if (mix.config.inProduction) {
