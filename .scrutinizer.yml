@@ -43,6 +43,9 @@ build:
 
     dependencies:
         override:
+            - 'nvm install 7'
+            - 'npm install'
+            - 'npm run production'
             - 'composer install --no-interaction'
             - 'cp .env.example .env'
             - 'php artisan key:generate'
