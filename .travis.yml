@@ -44,4 +44,4 @@ before_script:
 
 script:
   - vendor/bin/phpunit
-  - vendor/bin/phpcs -n -p --colors --extensions=php --standard=PSR2 --ignore=/vendor,/storage,/database,/public,/bootstrap/cache,/_ide_helper.php ./
+  - vendor/bin/phpcs -n -p --colors --extensions=php --standard=PSR2 --ignore=/vendor,/node_modules,/storage,/database,/public,/bootstrap/cache,/_ide_helper.php ./

@@ -32,7 +32,7 @@ use Settings;
 
 class AvailabilityMap implements WidgetDataInterface
 {
-    function get(Request $request)
+    public function get(Request $request)
     {
         $user = $request->user();
         $uptime_warning = Settings::get('uptime_warning', 84600);

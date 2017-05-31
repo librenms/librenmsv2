@@ -29,5 +29,12 @@ use Illuminate\Http\Request;
 
 interface WidgetDataInterface
 {
-    function get(Request $request);
+    /**
+     * Get the data for this widget type. Id should be defined in the request as
+     * well as any custom variables needed for that widget
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function get(Request $request);
 }

@@ -30,7 +30,7 @@ use Illuminate\Http\Request;
 
 class NullWidget implements WidgetDataInterface
 {
-    function get(Request $request)
+    public function get(Request $request)
     {
         return [];
     }
