@@ -1,4 +1,5 @@
 dist: trusty
+sudo: required # mysql socket bug in container based trusty image
 
 language: php
 
@@ -23,12 +24,13 @@ cache:
   directories:
     - vendor
     - $HOME/.cache/composer
-#    - node_modules
+    - node_modules
 
 before_install:
   # Disable xdebug (hhvm doesn't support xdebug)
   - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-rm xdebug.ini; fi
   - mysql -e 'CREATE DATABASE phpunit_librenms;'
+  - mysql -e 'GRANT ALL ON phpunit_librenms.* TO 'travis'@'localhost';'
   - nvm install 7
 
 install:

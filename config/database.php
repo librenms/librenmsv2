@@ -49,7 +49,7 @@ return [
             'driver'    => 'mysql',
             'host'      => env('PHPUNIT_DB_HOST', '127.0.0.1'),
             'database'  => env('PHPUNIT_DB_DATABASE', 'phpunit_librenms'),
-            'username'  => env('PHPUNIT_DB_USERNAME', 'root'), // maybe try to drop this to travis user
+            'username'  => env('PHPUNIT_DB_USERNAME', 'travis'),
             'password'  => env('PHPUNIT_DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
