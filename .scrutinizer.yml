@@ -45,6 +45,7 @@ build:
         override:
             - 'nvm install 7'
             - 'npm install'
+            - 'npm rebuild node-sass'
             - 'npm run production'
             - 'composer install --no-interaction'
             - 'cp .env.example .env'

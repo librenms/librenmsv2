@@ -32,12 +32,6 @@ mix.webpackConfig({
 // compile sass resources from app.scss
 mix.sass('resources/assets/sass/app.scss', 'public/css');
 
-// use this to combine multiple css files
-// mix.styles([
-//     'public/css/app.css',
-//     'node_modules/gridstack/dist/gridstack.css'
-// ], 'public/css/all.css');
-
 // compile js resources from app.js (which imports bootstrap.js)
 mix.js('resources/assets/js/app.js', 'public/js')
     .extract([ // improve caching and reduce recompilation
