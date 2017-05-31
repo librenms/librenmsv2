@@ -5,10 +5,8 @@ language: php
 php:
   - 5.6
   - 7.0
+  - 7.1
   - hhvm
-
-node_js:
-  - 7
 
 matrix:
   fast_finish: true
@@ -31,8 +29,7 @@ before_install:
   # Disable xdebug (hhvm doesn't support xdebug)
   - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-rm xdebug.ini; fi
   - mysql -e 'CREATE DATABASE phpunit_librenms;'
-  - nvm install node
-  - nvm use node
+  - nvm install 7
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist
@@ -41,7 +38,7 @@ install:
 before_script:
   - cp .env.example .env
   - php artisan key:generate
-  - node run production
+  - npm run production
 
 script:
   - vendor/bin/phpunit
