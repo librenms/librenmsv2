@@ -75,7 +75,6 @@
         },
         computed: {
             counts: function () {
-                console.log(this);
                 let counts = {up: 0, down: 0, warn: 0};
                 this.devices.forEach(function (device) {
                     if (device.status) {
