@@ -20,7 +20,7 @@ cache:
   directories:
     - vendor
     - $HOME/.cache/composer
-    - node_modules
+#    - node_modules
 
 before_install:
   # Disable xdebug (hhvm doesn't support xdebug)
