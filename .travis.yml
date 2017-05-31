@@ -20,6 +20,7 @@ cache:
   directories:
     - vendor
     - $HOME/.cache/composer
+    - node_modules
 
 before_install:
   # Disable xdebug (hhvm doesn't support xdebug)
@@ -28,10 +29,12 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --prefer-dist
+  - travis_retry npm install
 
 before_script:
   - cp .env.example .env
   - php artisan key:generate
+  - node run production
 
 script:
   - vendor/bin/phpunit
