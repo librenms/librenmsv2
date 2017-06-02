@@ -76,17 +76,19 @@
         computed: {
             counts: function () {
                 let counts = {up: 0, down: 0, warn: 0};
-                this.devices.forEach(function (device) {
-                    if (device.status) {
-                        if (this.checkUptime(device.uptime)) {
-                            counts.warn++
+                for (let id in this.devices) {
+                    if (this.devices.hasOwnProperty(id)) {
+                        if (this.devices[id].status) {
+                            if (this.checkUptime(this.devices[id].uptime)) {
+                                counts.warn++
+                            } else {
+                                counts.up++
+                            }
                         } else {
-                            counts.up++
+                            counts.down++
                         }
-                    } else {
-                        counts.down++
                     }
-                }.bind(this));
+                }
                 return counts;
             }
         },
@@ -97,6 +99,12 @@
                         this.devices = response.data.devices;
                         this.uptime_warning = response.data.uptime_warning;
                         this.loaded = true;
+
+                        Echo.channel('devices')
+                            .listen('DeviceUpdated', (e) => {
+                                let id = e.device.device_id;
+                                this.devices[id] = e.device;
+                            });
                     });
             },
             checkUptime(uptime) {

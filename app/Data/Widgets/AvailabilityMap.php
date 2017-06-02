@@ -42,21 +42,8 @@ class AvailabilityMap implements WidgetDataInterface
         } else {
             $deviceQuery = $user->devices()->isNotIgnored();
         }
-        $devices = $deviceQuery->get(['device_id', 'hostname', 'status', 'uptime']);
+        $devices = $deviceQuery->get(['device_id', 'hostname', 'status', 'uptime'])->keyBy('device_id');
 
-        $counts = $devices->reduce(function ($result, $device) use ($uptime_warning) {
-            if ($device->status == 1) {
-                if (($device->uptime < $uptime_warning) && ($device->uptime != '0')) {
-                    $result['warn']++;
-                } else {
-                    $result['up']++;
-                }
-            } else {
-                $result['down']++;
-            }
-            return $result;
-        }, ['warn' => 0, 'up' => 0, 'down' => 0]);
-
-        return compact(['devices', 'counts', 'uptime_warning']);
+        return compact(['devices', 'uptime_warning']);
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\DeviceCreated;
+use App\Events\DeviceDeleted;
+use App\Events\DeviceUpdated;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -146,6 +149,12 @@ class Device extends Model
      */
     protected $fillable = ['hostname', 'ip', 'status', 'status_reason'];
 
+    protected $events = [
+        'created' => DeviceCreated::class,
+        'updated' => DeviceUpdated::class,
+        'deleted' => DeviceDeleted::class,
+    ];
+
     /**
      * Initialize this class
      */
@@ -222,6 +231,7 @@ class Device extends Model
         }
         return asset('images/os/generic.svg');
     }
+
     public function getIpAttribute($ip)
     {
         if (empty($ip)) {
