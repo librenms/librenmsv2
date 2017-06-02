@@ -69,9 +69,12 @@
             this.interval = setInterval(function () {
                 this.loadData();
             }.bind(this), 300000);
+
+            this.startListening();
         },
         beforeDestroy() {
             clearInterval(this.interval);
+            Echo.leave('devices');
         },
         computed: {
             counts: function () {
@@ -93,18 +96,24 @@
             }
         },
         methods: {
+            startListening() {
+                Echo.private('devices')
+                    .listen('DeviceUpdated', (e) => {
+                        this.devices[e.device.device_id] = e.device;
+                    })
+                    .listen('DeviceDeleted', (e) => {
+                        delete this.devices[e.device.device_id];
+                    })
+                    .listen('DeviceCreated', (e) => {
+                        this.devices[e.device.device_id] = e.device;
+                    });
+            },
             loadData() {
                 window.axios.get('api/widget-data/' + this.widget_id)
                     .then(response => {
                         this.devices = response.data.devices;
                         this.uptime_warning = response.data.uptime_warning;
                         this.loaded = true;
-
-                        Echo.channel('devices')
-                            .listen('DeviceUpdated', (e) => {
-                                let id = e.device.device_id;
-                                this.devices[id] = e.device;
-                            });
                     });
             },
             checkUptime(uptime) {

@@ -36,7 +36,7 @@ class UpdateDevice extends Command
      *
      * @var string
      */
-    protected $signature = 'device:update {--list} {--id=} {--status=} {--uptime}';
+    protected $signature = 'device:update {--list} {--id=} {--status=} {--uptime=}';
 
     /**
      * The console command description.
