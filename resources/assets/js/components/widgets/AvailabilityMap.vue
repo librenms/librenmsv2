@@ -99,13 +99,13 @@
             startListening() {
                 Echo.private('devices')
                     .listen('DeviceUpdated', (e) => {
-                        this.devices[e.device.device_id] = e.device;
-                    })
-                    .listen('DeviceDeleted', (e) => {
-                        delete this.devices[e.device.device_id];
+                        Vue.set(this.devices, e.device.device_id, e.device);
                     })
                     .listen('DeviceCreated', (e) => {
-                        this.devices[e.device.device_id] = e.device;
+                        Vue.set(this.devices, e.device.device_id, e.device);
+                    })
+                    .listen('DeviceDeleted', (e) => {
+                        Vue.delete(this.devices, e.device.device_id);
                     });
             },
             loadData() {

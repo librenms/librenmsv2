@@ -150,9 +150,9 @@ class Device extends Model
     protected $fillable = ['hostname', 'ip', 'status', 'status_reason'];
 
     protected $events = [
-        'created' => DeviceCreated::class,
-        'updated' => DeviceUpdated::class,
-        'deleted' => DeviceDeleted::class,
+        'created'  => DeviceCreated::class,
+        'deleting' => DeviceDeleted::class,
+        'updated'  => DeviceUpdated::class,
     ];
 
     /**

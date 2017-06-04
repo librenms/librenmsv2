@@ -36,7 +36,7 @@ class UpdateDevice extends Command
      *
      * @var string
      */
-    protected $signature = 'device:update {--list} {--id=} {--status=} {--uptime=}';
+    protected $signature = 'device:update {--list} {--id=} {--status=} {--uptime=} {--pop} {--push} {--delete=}';
 
     /**
      * The console command description.
@@ -52,21 +52,40 @@ class UpdateDevice extends Command
      */
     public function handle()
     {
+        $delete = $this->option('delete');
+        if ($this->option('pop') || $delete) {
+            if ($delete) {
+                $device = Device::find($delete);
+            } else {
+                $device = Device::orderBy('device_id', 'desc')->first();
+            }
+
+            $device->delete();
+            return;
+        }
+
         if ($this->option('list') || is_null($this->option())) {
             event(new ListDevices());
             echo "Sending Device List Event\n";
         } else {
             // Fire off an event, just randomly grabbing the first user for now
-            if ($this->option('id') !== null) {
-                if ($this->option('id') == 'all') {
-                    $devices = Device::all();
-                } else {
-                    $devices = [Device::find($this->option('id'))];
-                }
-            } else {
+            $id = $this->option('id');
+
+            if ($id == 'all') {
+                $this->info('all');
+                $devices = Device::all();
+            } elseif ($this->option('push')) {
+                $this->info('push');
+                $devices = [new Device(['hostname' => 'Mockery'])];
+            } elseif ($id === null) {
+                $this->info('first');
                 $devices = [Device::first()];
+            } else {
+                $this->info('findOrNew');
+                $devices = [Device::findOrNew($id)];
             }
 
+            /** @var Device $device */
             foreach ($devices as $device) {
                 if ($this->option('status') !== null) {
                     $device->status = $this->option('status');
@@ -77,6 +96,11 @@ class UpdateDevice extends Command
                 }
 
                 $device->save();
+
+                if (empty($device->hostname) || $device->hostname == 'Mockery') {
+                    $device->hostname = 'Mockery'.$device->device_id;
+                    $device->save();
+                }
             }
         }
     }
