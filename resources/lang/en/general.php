@@ -24,7 +24,7 @@ return [
         'address'      => 'Address',
         'mac_address'  => 'MAC Address',
         'port_descr'   => 'Description',
-        'status'       => 'Status',
+        'status'       => '',
         'unauthorized' => 'Unauthorized',
         'delete'       => [
             'title'   => 'Confirm Delete',

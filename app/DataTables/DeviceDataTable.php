@@ -71,7 +71,6 @@ class DeviceDataTable extends BaseDataTable
             'status'    => [
                 'title' => trans('general.text.status'),
                 'data'  => 'status_reason',
-                'width' => '40px',
             ],
             'vendor'         => [
                 'title'      => trans('devices.text.vendor'),

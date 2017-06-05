@@ -28,9 +28,11 @@ div.device-icon img {
 }
 
 .device-status {
+    width:10px;
+    height:50px;
+    border-radius: 1px;
     display: block;
-    font-size: medium;
-    margin: 0 3px;
+    margin: 0 0 0 0;
 }
 
 #toast-container {

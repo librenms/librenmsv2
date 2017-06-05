@@ -1,5 +1,9 @@
-@if($status == 0)
-    <span data-toggle="tooltip" title="down" class="device-status label label-danger">{{ $status_reason }}</span>
-@else
-    <span data-toggle="tooltip" title="up" class="device-status label label-success">up</span>
+@if($disabled == 1)
+    <div class="device-status" title="Disabled" style="background:grey;"></div>
+@elseif($ignore == 1)
+    <div class="device-status" title="Ignored" style="background:yellow;"></div>
+@elseif($status == 0)
+    <div class="device-status" title="Down" style="background:red;"></div>
+@elseif($status == 1)
+    <div class="device-status" title="Up" style="background:green;"></div>
 @endif
