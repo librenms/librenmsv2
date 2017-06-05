@@ -66,6 +66,7 @@
         mounted() {
             this.loadData();
 
+            // TODO something smarter?
             this.interval = setInterval(function () {
                 this.loadData();
             }.bind(this), 300000);
@@ -109,10 +110,14 @@
                     });
             },
             loadData() {
-                window.axios.get('api/widget-data/' + this.widget_id)
+                window.axios.get('api/settings/uptime_warning')
                     .then(response => {
-                        this.devices = response.data.devices;
-                        this.uptime_warning = response.data.uptime_warning;
+                        this.uptime_warning = response.data;
+                    });
+
+                window.axios.get('api/devices?fields=device_id,hostname,status,uptime')
+                    .then(response => {
+                        this.devices = _.keyBy(response.data.devices, d => d.device_id);
                         this.loaded = true;
                     });
             },

@@ -36,7 +36,7 @@ class UpdateDevice extends Command
      *
      * @var string
      */
-    protected $signature = 'device:update {--list} {--id=} {--status=} {--uptime=} {--pop} {--push} {--delete=}';
+    protected $signature = 'device:update {--id=} {--status=} {--uptime=} {--pop} {--push} {--delete=}';
 
     /**
      * The console command description.
@@ -64,43 +64,38 @@ class UpdateDevice extends Command
             return;
         }
 
-        if ($this->option('list') || is_null($this->option())) {
-            event(new ListDevices());
-            echo "Sending Device List Event\n";
-        } else {
-            // Fire off an event, just randomly grabbing the first user for now
-            $id = $this->option('id');
+        // Fire off an event, just randomly grabbing the first user for now
+        $id = $this->option('id');
 
-            if ($id == 'all') {
-                $this->info('all');
-                $devices = Device::all();
-            } elseif ($this->option('push')) {
-                $this->info('push');
-                $devices = [new Device(['hostname' => 'Mockery'])];
-            } elseif ($id === null) {
-                $this->info('first');
-                $devices = [Device::first()];
-            } else {
-                $this->info('findOrNew');
-                $devices = [Device::findOrNew($id)];
+        if ($id == 'all') {
+            $this->info('all');
+            $devices = Device::all();
+        } elseif ($this->option('push')) {
+            $this->info('push');
+            $devices = [new Device(['hostname' => 'Mockery'])];
+        } elseif ($id === null) {
+            $this->info('first');
+            $devices = [Device::first()];
+        } else {
+            $this->info('findOrNew');
+            $devices = [Device::findOrNew($id)];
+        }
+
+        /** @var Device $device */
+        foreach ($devices as $device) {
+            if ($this->option('status') !== null) {
+                $device->status = $this->option('status');
             }
 
-            /** @var Device $device */
-            foreach ($devices as $device) {
-                if ($this->option('status') !== null) {
-                    $device->status = $this->option('status');
-                }
+            if ($this->option('uptime') !== null) {
+                $device->uptime = $this->option('uptime');
+            }
 
-                if ($this->option('uptime') !== null) {
-                    $device->uptime = $this->option('uptime');
-                }
+            $device->save();
 
+            if (empty($device->hostname) || $device->hostname == 'Mockery') {
+                $device->hostname = 'Mockery'.$device->device_id;
                 $device->save();
-
-                if (empty($device->hostname) || $device->hostname == 'Mockery') {
-                    $device->hostname = 'Mockery'.$device->device_id;
-                    $device->save();
-                }
             }
         }
     }

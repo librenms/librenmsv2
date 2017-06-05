@@ -15,18 +15,25 @@ class DeviceController extends Controller
     /**
      * Display a listing of all authorized devices
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index(Request $request)
     {
-        // fetch devices from the database
-        $per_page = $request->per_page ?: 25;
         if ($request->user()->hasGlobalRead()) {
-            $devices = Device::paginate($per_page);
+            $devices = Device::query();
         } else {
-            $devices = User::find($request->user()->user_id)->devices()->paginate($per_page);
+            $devices = $request->user()->devices();
         }
-        return $devices;
+
+        $fields = isset($request->fields) ? explode(',', $request->fields) : ['*'];
+
+        // paginate if requested (is this needed/documented?)
+        if (isset($request->per_page)) {
+            return $devices->paginate($request->per_page, $fields);
+        }
+
+        return $devices->get($fields);
     }
 
     /**

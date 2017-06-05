@@ -1,8 +1,8 @@
 <?php
 /**
- * WidgetDataController.php
+ * SettingsController.php
  *
- * Provides data for widgets
+ * -Description-
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,19 +25,23 @@
 
 namespace App\Api\Controllers;
 
-use App\Data\WidgetDataFactory;
+use App\Http\Controllers\Controller;
+use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
+use Settings;
 
-class WidgetDataController extends Controller
+class SettingsController extends Controller
 {
+    use Helpers;
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return Settings::all();
     }
 
     /**
@@ -58,19 +62,24 @@ class WidgetDataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // TODO move to validation
+        if (!$request->user()->isAdmin()) {
+            return $this->response->errorForbidden('Only Admins can change settings');
+        }
+
+        Settings::set($request->setting, $request->value);
+        return $this->response->accepted();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Request $request
      * @param  int $id
-     * @return array
+     * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        return WidgetDataFactory::createById($id)->get($request);
+        return Settings::get($id);
     }
 
     /**
@@ -93,17 +102,32 @@ class WidgetDataController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!$request->user()->isAdmin()) {
+            return $this->response->errorForbidden('Only Admins can change settings');
+        }
+
+        if (!isset($request->value)) {
+            return $this->response->errorBadRequest('Missing value');
+        }
+
+        Settings::set($id, $request->value);
+        return $this->response->accepted();
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if (!$request->user()->isAdmin()) {
+            return $this->response->errorForbidden('Only Admins can change settings');
+        }
+
+        Settings::forget($id);
+        return $this->response->accepted();
     }
 }
