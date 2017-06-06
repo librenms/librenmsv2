@@ -34,6 +34,10 @@ div.device-icon img {
     margin: 0;
 }
 
+.device-count-badge {
+    border-radius: 2px;
+}
+
 #toast-container {
     margin-top: 50px;
 }
