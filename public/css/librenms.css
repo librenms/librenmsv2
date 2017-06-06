@@ -30,9 +30,8 @@ div.device-icon img {
 .device-status {
     width:10px;
     height:50px;
-    border-radius: 1px;
     display: block;
-    margin: 0 0 0 0;
+    margin: 0;
 }
 
 #toast-container {
