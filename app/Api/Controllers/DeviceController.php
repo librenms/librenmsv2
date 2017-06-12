@@ -6,17 +6,26 @@ use App\Models\Device;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * Device resource representation.
+ *
+ * @Resource("Device", uri="/api/devices")
+ */
 class DeviceController extends Controller
 {
-    public function __construct()
-    {
-    }
-
     /**
-     * Display a listing of all authorized devices
+     * Get a list of all devices
      *
-     * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @Get("/")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request("/"),
+     *      @Response(200, body={"devices":{{"id":34,"os":"linux","icon":"https://hostname/images/os/linux.svg","status":1,"uptime":423452},{"id":38,"os":"ios","icon":"https://hostname/images/os/cisco.svg","status":0,"uptime":452}}})
+     * })
+     * @Parameters({
+     *      @Parameter("fields", type="sting", required=false, description="Comma separated list of fields to return"),
+     *      @Parameter("per_page", type="integer", required=false, description="Pagination per-page count")
+     * })
      */
     public function index(Request $request)
     {
@@ -37,19 +46,9 @@ class DeviceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -58,10 +57,17 @@ class DeviceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Fetch a device
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @Get("/{id}")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request("/34"),
+     *      @Response(200, body={"device":{"id":34,"os":"linux","icon":"https://hostname/images/os/linux.svg","status":1,"uptime":423452}})
+     * })
+     * @Parameters({
+     *      @Parameter("id", type="integer", required=true, description="The id of the device to show")
+     * })
      */
     public function show(Request $request, $id)
     {
@@ -80,21 +86,10 @@ class DeviceController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -105,7 +100,7 @@ class DeviceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -118,6 +118,7 @@
                 window.axios.get('api/devices?fields=device_id,hostname,status,uptime')
                     .then(response => {
                         this.devices = _.keyBy(response.data.devices, d => d.device_id);
+                        console.log(response);
                         this.loaded = true;
                     });
             },

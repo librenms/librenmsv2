@@ -30,14 +30,24 @@ use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 use Settings;
 
+/**
+ * Settings resource representation.
+ *
+ * @Resource("Settings", uri="/api/settings")
+ */
 class SettingsController extends Controller
 {
     use Helpers;
 
     /**
-     * Display a listing of the resource.
+     * List all settings
      *
-     * @return array|\Illuminate\Http\Response
+     * @Get("/")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request("/"),
+     *      @Response(200, body={"multi":{"dimensional","json"},"array":"values"})
+     * })
      */
     public function index()
     {
@@ -45,20 +55,18 @@ class SettingsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Save a setting or array of settings
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @Post("/{setting}")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request({"setting":"snmp.community", "value":{"public","private"}}),
+     *      @Response(200)
+     * })
+     * @Parameters({
+     *      @Parameter("setting", type="string", required=true, description="The setting path, separated by periods"),
+     *      @Parameter("value", type="string", required=true, description="The value to set")
+     * })
      */
     public function store(Request $request)
     {
@@ -72,25 +80,21 @@ class SettingsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve a setting
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @Get("/{setting}")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request("/snmp.community"),
+     *      @Response(200, body={"public","private"})
+     * })
+     * @Parameters({
+     *      @Parameter("setting", type="string", required=true, description="The setting path, separated by periods")
+     * })
      */
     public function show($id)
     {
         return Settings::get($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -115,11 +119,17 @@ class SettingsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Unset a setting
      *
-     * @param Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @Delete("/{setting}")
+     * @Versions({"v1"})
+     * @Transaction({
+     *      @Request("/snmp.community"),
+     *      @Response(200)
+     * })
+     * @Parameters({
+     *      @Parameter("setting", type="string", required=true, description="The setting path, separated by periods")
+     * })
      */
     public function destroy(Request $request, $id)
     {

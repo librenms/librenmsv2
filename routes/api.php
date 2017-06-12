@@ -19,7 +19,7 @@ ApiRoute::version('v1', function (Router $api) {
     $api->group(['middleware' => 'api.auth', 'providers' => ['basic', 'jwt']], function (Router $api) {
         $api->resource('devices', 'App\Api\Controllers\DeviceController');
         $api->resource('ports', 'App\Api\Controllers\PortController', ['except' => ['create', 'store', 'destroy']]);
-        $api->resource('settings', 'App\Api\Controllers\SettingsController');
+        $api->resource('settings', 'App\Api\Controllers\SettingsController', ['except' => ['update']]);
         $api->get('notifications/{type?}', 'App\Api\Controllers\NotificationController@index');
         $api->patch('notifications/{id}/{action}', ['as' => 'api.notifications.update', 'uses' => 'App\Api\Controllers\NotificationController@update']);
         $api->put('notifications', ['as' => 'api.notifications.create', 'uses' => 'App\Api\Controllers\NotificationController@create']);
@@ -28,7 +28,6 @@ ApiRoute::version('v1', function (Router $api) {
 
         // Overview section
         $api->delete('dashboard/{dashboard_id}/clear', 'App\Api\Controllers\DashboardController@clear');
-        $api->resource('widget-data', 'App\Api\Controllers\WidgetDataController');
         $api->resource('dashboard', 'App\Api\Controllers\DashboardController', ['parameters' => ['dashboard' => 'dashboard_id']]);
         $api->resource('widget', 'App\Api\Controllers\WidgetController', ['paramaters' => ['widget' => 'widget_id']]);
         $api->resource('eventlog', 'App\Api\Controllers\General\EventlogController');

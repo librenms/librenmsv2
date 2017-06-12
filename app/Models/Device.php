@@ -155,6 +155,8 @@ class Device extends Model
         'updated'  => DeviceUpdated::class,
     ];
 
+    protected $hidden = ['pivot'];
+
     /**
      * Initialize this class
      */
