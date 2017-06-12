@@ -24,7 +24,7 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $dashboards = Dashboard::allAvailable($request->user())->get();
+        $dashboards = Dashboard::allAvailable($request->user())->get()->keyBy('dashboard_id');
         return $dashboards;
     }
 

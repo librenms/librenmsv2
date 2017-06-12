@@ -15,6 +15,15 @@ Auth::routes();
 
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
+
+    // test vue.js route
+    Route::get('/vue', function () {
+        return view('vue', ['widgets' => Auth::user()->widgets->all()]);
+    });
+    Route::get('/dash', function () {
+        return view('dashboard', ['widgets' => Auth::user()->widgets->all()]);
+    });
+
     Route::get('/', 'HomeController@redirect')->name('home');
     Route::resource('dashboard', 'HomeController', ['parameters' => ['dashboard' => 'dashboard_id']]);
     Route::resource('eventlog', 'General\EventlogController');

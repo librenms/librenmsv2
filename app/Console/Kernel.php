@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\AddUser::class,
         Commands\DeleteUser::class,
         Commands\MigrateSettings::class,
+        Commands\UpdateDevice::class,
     ];
 
     /**

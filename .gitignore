@@ -8,6 +8,14 @@
 !/.php_cs
 !/.github/
 
+# Generated files #
+###################
+/public/css/app.css
+/public/js/manifest.js
+/public/js/vendor.js
+/public/js/app.js
+/public/mix-manifest.json
+
 # Others #
 ##########
 /node_modules

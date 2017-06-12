@@ -15,7 +15,8 @@
         "laravelcollective/html": "5.4.*",
         "yajra/laravel-datatables-oracle": "~7.0",
         "predis/predis": "^1.1",
-      "yajra/laravel-datatables-buttons": "^1.0"
+      "yajra/laravel-datatables-buttons": "^1.0",
+      "pusher/pusher-php-server": "^2.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -27,7 +28,9 @@
       "squizlabs/php_codesniffer": "^2.7",
       "laravel/browser-kit-testing": "^1.0",
       "laravel/dusk": "^1.0",
-      "laravel/tinker": "^1.0"
+      "laravel/tinker": "^1.0",
+      "spatie/laravel-tinker-tools": "^1.0",
+      "barryvdh/laravel-debugbar": "^2.4"
     },
     "autoload": {
         "files": [

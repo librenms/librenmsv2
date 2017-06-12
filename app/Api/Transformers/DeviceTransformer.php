@@ -10,16 +10,18 @@ class DeviceTransformer extends Fractal\TransformerAbstract
     /**
      * Turn this item object into a generic array
      *
+     * @param Device $device
      * @return array
      */
     public function transform(Device $device)
     {
         return [
-            'id'                        => (int) $device->device_id,
-            'name'                      => $device->hostname,
-            'icon'                      => $device->icon,
-            'os'                        => $device->os,
-            'status'                    => (int) $device->status,
+            'device_id' => (int)$device->device_id,
+            'hostname'  => $device->hostname,
+            'os'        => $device->os,
+            'icon'      => $device->icon,
+            'status'    => (int)$device->status,
+            'uptime'    => (int)$device->uptime,
         ];
     }
 }

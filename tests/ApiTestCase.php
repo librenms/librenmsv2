@@ -1,8 +1,8 @@
 <?php
 /**
- * tests/api/general/DeviceApiTest.php
+ * ApiTestCase.php
  *
- * Test unit for device api
+ * -Description-
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,39 +19,36 @@
  *
  * @package    LibreNMS
  * @link       http://librenms.org
- * @copyright  2016 Neil Lathwood
- * @author     Neil Lathwood <neil@lathwood.co.uk>
+ * @copyright  2017 Tony Murray
+ * @author     Tony Murray <murraytony@gmail.com>
  */
 
-namespace Tests\Api;
+namespace Tests;
 
-use App\Models\Device;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Http\Response;
 use JWTAuth;
-use Tests\TestCase;
 
-class DeviceApiTest extends TestCase
+class ApiTestCase extends TestCase
 {
     use DatabaseTransactions;
 
     /**
-     * Test overview api
-    **/
-
-    public function testDeviceApi()
+     * Return request headers needed to interact with the API.
+     *
+     * @param User $user
+     * @return array array of headers.
+     */
+    protected function headers($user = null)
     {
-        $user = factory(User::class)->create(['level'=>10]);
-        factory(Device::class, 5)->create();
+        $headers = ['Accept' => 'application/vnd.'.env('API_VENDOR', 'librenms').'.v1+json'];
 
-        $jwt = JWTAuth::fromUser($user);
-        $count = Device::all()->count();
-        $this->headers = [
-            'HTTP_ACCEPT' => 'application/vnd.' . env('API_VENDOR', '') . '.v1+json'
-        ];
-        $this->json('GET', '/api/devices?token='.$jwt, $this->headers)
-            ->assertStatus(Response::HTTP_OK)
-            ->assertJson(['total' => $count]);
+        if (!is_null($user)) {
+            $token = JWTAuth::fromUser($user);
+            JWTAuth::setToken($token);
+            $headers['Authorization'] = 'Bearer '.$token;
+        }
+
+        return $headers;
     }
 }

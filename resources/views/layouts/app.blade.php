@@ -4,15 +4,18 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        @if(Auth::check())
+            <meta name="jwt-token" content="{{ JWTAuth::fromUser(Auth::user()) }}" />
+        @endif
         <title>
             LibreNMS - @yield('title')
         </title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}">
+
+        <!-- Laravel Mix compiled css -->
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url('css/ionicons.min.css') }}">
     @yield('pagecss')
@@ -80,12 +83,11 @@
             @yield('content')
         @endif
 
-        <!-- jQuery 2.1.4 -->
-        <script src="{{ url('js/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+        <!-- Laravel Mix compiled js -->
+        <script src="{{ mix('js/manifest.js') }}"></script>
+        <script src="{{ mix('js/vendor.js') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
 
-        <script src="{{ url('js/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
-        <!-- Bootstrap 3.3.5 -->
-        <script src="{{ url('js/bootstrap.min.js') }}"></script>
         @yield('pagejs')
         <!-- FastClick -->
         <script src="{{ url('js/plugins/fastclick/fastclick.js') }}"></script>
