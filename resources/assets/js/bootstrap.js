@@ -54,9 +54,9 @@ if (jwt) {
 
 import Echo from "laravel-echo";
 
-window.Pusher = require('pusher-js');
+window.io = require('socket.io-client');
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: '7b84995513c70699fc1d'
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':6001'
 });

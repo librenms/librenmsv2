@@ -29,9 +29,6 @@ mix.webpackConfig({
 //     jquery: ['$', 'window.jQuery']
 // });
 
-// compile sass resources from app.scss
-mix.sass('resources/assets/sass/app.scss', 'public/css');
-
 // compile js resources from app.js (which imports bootstrap.js)
 mix.js('resources/assets/js/app.js', 'public/js')
     .extract([ // improve caching and reduce recompilation
@@ -53,6 +50,9 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'gridstack',
         // 'bootstrap-sass' // leave in app.js to resolve load order issue
     ]);
+
+// compile sass resources from app.scss
+mix.sass('resources/assets/sass/app.scss', 'public/css');
 
 if (mix.config.inProduction) {
     mix.version();
