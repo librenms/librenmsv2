@@ -70,7 +70,7 @@ abstract class BaseDataTable extends DataTable
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, "All"]],
             'buttons' => [
-                'csv', 'excel', 'pdf', 'print', 'reset', 'reload',
+                'reset', 'reload',
             ],
             'autoWidth' => false,
         ];

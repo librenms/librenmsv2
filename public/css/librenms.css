@@ -28,9 +28,14 @@ div.device-icon img {
 }
 
 .device-status {
+    width:10px;
+    height:50px;
     display: block;
-    font-size: medium;
-    margin: 0 3px;
+    margin: 0;
+}
+
+.device-count-badge {
+    border-radius: 2px;
 }
 
 #toast-container {
