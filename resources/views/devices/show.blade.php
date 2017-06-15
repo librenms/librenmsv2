@@ -53,6 +53,11 @@
                             </div>
                             <strong>{{ $device->hostname }}</strong><br/>
                             <span>{{ $device->location }}</span>
+                            <hr />
+                            <h4 class="box-title">{{ trans('devices.text.notes') }}:</h4>
+                            <p class="text-muted">
+                                {{ $device->notes }}
+                            </p>
                         </div>
                     </div>
                 </div>
