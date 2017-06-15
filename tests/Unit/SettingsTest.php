@@ -25,13 +25,16 @@
  */
 namespace Tests\Unit;
 
+use App\Events\SettingDeleted;
+use App\Events\SettingUpdated;
 use App\Models\User;
 use Auth;
 use Cache;
 use Config;
+use Event;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Settings;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SettingsTest extends TestCase
 {
@@ -452,5 +455,29 @@ class SettingsTest extends TestCase
 
         Settings::set('test.type.string', "String Thing");
         $this->assertEquals("String Thing", Settings::get('test.type.string'));
+    }
+
+    public function testEventUpdatedEmitted()
+    {
+        Event::fake();
+
+        Settings::set('event.testing.create', 'yep');
+
+        Event::assertDispatched(SettingUpdated::class, function ($e) {
+            return $e->setting === 'event.testing.create' && $e->value === 'yep';
+        });
+    }
+
+    public function testEventDeletedEmitted()
+    {
+        Settings::set('event.testing.delete', 'nope');
+
+        Event::fake();
+
+        Settings::forget('event.testing.delete');
+
+        Event::assertDispatched(SettingDeleted::class, function ($e) {
+            return $e->setting === 'event.testing.delete';
+        });
     }
 }

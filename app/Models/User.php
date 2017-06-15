@@ -97,6 +97,17 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Check if this user has access to a device
+     *
+     * @param Device|int $device can be a device Model or device id
+     * @return bool
+     */
+    public function canAccessDevice($device)
+    {
+        return $this->hasGlobalRead() || $this->devices->contains($device);
+    }
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed

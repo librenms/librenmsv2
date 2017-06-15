@@ -108,6 +108,11 @@
                     .listen('DeviceDeleted', (e) => {
                         Vue.delete(this.devices, e.device.device_id);
                     });
+
+                Echo.private('settings.uptime_warning')
+                    .listen('SettingUpdated', (e) => {
+                        this.uptime_warning = e.value;
+                    });
             },
             loadData() {
                 window.axios.get('api/settings/uptime_warning')
@@ -118,7 +123,6 @@
                 window.axios.get('api/devices?fields=device_id,hostname,status,uptime')
                     .then(response => {
                         this.devices = _.keyBy(response.data.devices, d => d.device_id);
-                        console.log(response);
                         this.loaded = true;
                     });
             },

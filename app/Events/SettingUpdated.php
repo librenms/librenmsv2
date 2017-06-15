@@ -2,28 +2,29 @@
 
 namespace App\Events;
 
-use App\Models\Device;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 
-class DeviceCreated implements ShouldBroadcast
+class SettingUpdated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
-    public $device;
+    public $setting;
+    public $value;
 
     /**
      * Create a new event instance.
      *
-     * @param $device
+     * @param $setting
+     * @param $value
      */
-    public function __construct(Device $device)
+    public function __construct($setting, $value)
     {
-        $this->device = $device;
+        $this->setting = $setting;
+        $this->value = $value;
     }
 
     /**
@@ -33,6 +34,6 @@ class DeviceCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return [new PrivateChannel('devices'), new PrivateChannel('devices.'.$this->device->device_id)];
+        return [new PrivateChannel('settings'), new PrivateChannel('settings.'.$this->setting)];
     }
 }

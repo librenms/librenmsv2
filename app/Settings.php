@@ -24,6 +24,8 @@
  */
 namespace App;
 
+use App\Events\SettingDeleted;
+use App\Events\SettingUpdated;
 use App\Models\DbConfig;
 use Cache;
 use Config;
@@ -89,6 +91,7 @@ class Settings implements ConfigContract
             $this->flush($key);
             DbConfig::updateOrCreate(['config_name' => $key], ['config_value' => $value]);
             Cache::tags(self::$cache_tag)->put($key, $value, $this->cache_time);
+            broadcast(new SettingUpdated($key, $value));
         }
     }
 
@@ -204,6 +207,10 @@ class Settings implements ConfigContract
         } else {
             $this->flush(); // possible optimization: selective flush
         }
+
+        DbConfig::key($key)->get(['config_name'])->each(function ($setting) {
+            broadcast(new SettingDeleted($setting));
+        });
 
         DbConfig::key($key)->delete();
     }

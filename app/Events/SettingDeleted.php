@@ -2,28 +2,29 @@
 
 namespace App\Events;
 
-use App\Models\Device;
+use App\Models\DbConfig;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
+use Log;
 
-class DeviceCreated implements ShouldBroadcast
+class SettingDeleted implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
-    public $device;
+    public $setting;
 
     /**
      * Create a new event instance.
      *
-     * @param $device
+     * @param $setting
      */
-    public function __construct(Device $device)
+    public function __construct(DbConfig $setting)
     {
-        $this->device = $device;
+        Log::info($setting);
+        $this->setting = $setting->config_name;
     }
 
     /**
@@ -33,6 +34,6 @@ class DeviceCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return [new PrivateChannel('devices'), new PrivateChannel('devices.'.$this->device->device_id)];
+        return [new PrivateChannel('settings'), new PrivateChannel('settings.'.$this->setting)];
     }
 }

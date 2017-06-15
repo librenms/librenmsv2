@@ -11,8 +11,25 @@
 |
 */
 
-use Illuminate\Support\Facades\Broadcast;
+use App\Models\User;
 
-Broadcast::channel('devices', function ($user) {
+Broadcast::channel('devices', function (User $user) {
+    return $user->hasGlobalRead();
+});
+
+Broadcast::channel('devices.{device_id}', function (User $user, $device_id) {
+    return $user->canAccessDevice($device_id);
+});
+
+Broadcast::channel('settings', function (User $user) {
+    return $user->isAdmin();
+});
+
+Broadcast::channel('settings.{setting}', function (User $user, $setting) {
+    $private = collect(); // TODO: define list of sensitive settings
+    if ($private->contains($setting)) {
+        return $user->isAdmin();
+    }
+
     return true;
 });

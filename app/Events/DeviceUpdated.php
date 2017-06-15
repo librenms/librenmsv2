@@ -33,6 +33,6 @@ class DeviceUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('devices');
+        return [new PrivateChannel('devices'), new PrivateChannel('devices.'.$this->device->device_id)];
     }
 }
