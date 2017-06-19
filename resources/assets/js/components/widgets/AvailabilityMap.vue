@@ -40,12 +40,14 @@
 
         <transition-group name="list-complete" tag="a">
             <a role="button"
+               data-toggle="tooltip"
                v-for="device in devices"
                v-bind:key="device.device_id"
                v-bind:href="'devices/' + device.device_id"
                class="device-badge list-complete-item btn btn-xs"
                v-bind:class="getClass(device)"
                v-bind:title="device.hostname + ' ' + secondsToString(device.uptime)"
+               v-bind:style="badgeStyle"
             ></a>
         </transition-group>
     </div>
@@ -59,6 +61,7 @@
                 widget_id: 1,
                 loaded: false,
                 uptime_warning: 86400,
+                tile_width: 15,
                 devices: [],
                 interval: null
             }
@@ -78,7 +81,7 @@
             Echo.leave('devices');
         },
         computed: {
-            counts: function () {
+            counts() {
                 let counts = {up: 0, down: 0, warn: 0};
                 for (let id in this.devices) {
                     if (this.devices.hasOwnProperty(id)) {
@@ -94,6 +97,13 @@
                     }
                 }
                 return counts;
+            },
+            badgeStyle() {
+                return {
+                    'min-width': this.tile_width + 'px',
+                    'min-height': this.tile_width + 'px',
+                    'border-radius': (this.tile_width / 8) + 'px'
+                }
             }
         },
         methods: {
@@ -176,8 +186,6 @@
     }
 
     .device-badge {
-        min-height: 15px;
-        min-width: 15px;
         border-radius: 2px;
         margin: 1px;
         padding: 0;
