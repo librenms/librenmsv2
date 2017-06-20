@@ -8,8 +8,7 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "echo-server": "cross-env NODE_ENV=production node_modules/laravel-echo-server/bin/server.js start",
-    "dev-echo-server": "cross-env NODE_ENV=development node_modules/laravel-echo-server/bin/server.js start --dev"
+    "echo-server": "cross-env node echo-server.js start"
   },
   "devDependencies": {
     "axios": "^0.15.3",
@@ -22,9 +21,12 @@
     "lodash": "^4.17.4",
     "tween.js": "^16.6.0",
     "vue": "^2.1.10",
+    "vuex": "^2.3.1",
+    "vuetable-2": "^1.6.5",
     "webpack": "^2.6.1"
   },
   "dependencies": {
+    "dotenv": "^4.0.0",
     "laravel-echo-server": "^1.2.8"
   }
 }

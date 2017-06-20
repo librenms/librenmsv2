@@ -29,6 +29,7 @@ Homestead.yaml
 .env
 /logs/
 /storage/logs/
+npm-debug.log
 composer.lock
 /storage/*.sqlite
 

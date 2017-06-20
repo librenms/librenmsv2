@@ -179,7 +179,6 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
         Yajra\Datatables\ButtonsServiceProvider::class
 
     ],
